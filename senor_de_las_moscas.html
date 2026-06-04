@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El Señor de las Moscas — Guía Completa</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0e0b;
+    --surface: #1a1916;
+    --surface2: #222119;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.14);
+    --gold: #c9a84c;
+    --gold-light: #e4c97e;
+    --gold-dim: rgba(201,168,76,0.15);
+    --red: #c0392b;
+    --red-dim: rgba(192,57,43,0.15);
+    --teal: #1a8a72;
+    --teal-dim: rgba(26,138,114,0.15);
+    --blue: #2563a8;
+    --blue-dim: rgba(37,99,168,0.15);
+    --purple: #7c5cbf;
+    --purple-dim: rgba(124,92,191,0.15);
+    --amber: #d97706;
+    --amber-dim: rgba(217,119,6,0.15);
+    --text: #e8e4da;
+    --text-muted: #8a8070;
+    --text-dim: #5a5448;
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .site-header {
+    background: linear-gradient(180deg, #1a1410 0%, var(--bg) 100%);
+    border-bottom: 1px solid var(--border2);
+    padding: 56px 0 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .site-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 80% at 50% 0%, rgba(201,168,76,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    opacity: 0.8;
+  }
+  .header-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 900;
+    color: var(--gold-light);
+    line-height: 1.1;
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
+  .header-subtitle {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin-bottom: 28px;
+  }
+  .header-badges {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .badge {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid;
+    letter-spacing: 0.05em;
+  }
+  .badge-gold { border-color: rgba(201,168,76,0.4); color: var(--gold); background: var(--gold-dim); }
+  .badge-red { border-color: rgba(192,57,43,0.4); color: #e06c5c; background: var(--red-dim); }
+  .badge-teal { border-color: rgba(26,138,114,0.4); color: #4db89e; background: var(--teal-dim); }
+
+  /* NAV TABS */
+  .nav-wrapper {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(15,14,11,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-tabs {
+    display: flex;
+    overflow-x: auto;
+    gap: 0;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    scrollbar-width: none;
+  }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+  .nav-tab {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 14px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    font-family: var(--font-body);
+  }
+  .nav-tab:hover { color: var(--text); }
+  .nav-tab.active { color: var(--gold-light); border-bottom-color: var(--gold); }
+  .nav-tab .tab-icon { font-size: 15px; }
+
+  /* LAYOUT */
+  .content-area {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+  }
+  .section-panel { display: none; }
+  .section-panel.active { display: block; }
+
+  /* SECTION HEADING */
+  .section-heading {
+    font-family: var(--font-display);
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: var(--gold-light);
+    margin-bottom: 6px;
+    line-height: 1.2;
+  }
+  .section-desc {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-bottom: 32px;
+  }
+
+  /* ACCORDION */
+  .accordion { display: flex; flex-direction: column; gap: 8px; }
+  .acc-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .acc-item:hover { border-color: var(--border2); }
+  .acc-item.open { border-color: rgba(201,168,76,0.3); }
+  .acc-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 22px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-family: var(--font-body);
+    color: var(--text);
+  }
+  .acc-trigger:hover { background: rgba(255,255,255,0.02); }
+  .acc-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--gold);
+    background: var(--gold-dim);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 6px;
+    padding: 3px 8px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .acc-title { font-size: 15px; font-weight: 500; flex: 1; }
+  .acc-arrow {
+    color: var(--text-dim);
+    font-size: 18px;
+    transition: transform 0.25s;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+  .acc-item.open .acc-arrow { transform: rotate(180deg); color: var(--gold); }
+  .acc-body {
+    display: none;
+    padding: 0 22px 22px;
+    border-top: 1px solid var(--border);
+  }
+  .acc-body.open { display: block; }
+
+  /* CONTENT BLOCKS */
+  .block-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin: 18px 0 8px;
+  }
+  .block-label:first-child { margin-top: 18px; }
+  .prose { font-size: 14px; color: var(--text-muted); line-height: 1.75; }
+  .prose strong { color: var(--text); font-weight: 500; }
+
+  .pill-list { display: flex; flex-wrap: wrap; gap: 7px; }
+  .pill {
+    font-size: 12px;
+    padding: 4px 11px;
+    border-radius: 20px;
+    border: 1px solid;
+  }
+  .pill-sym { border-color: rgba(26,138,114,0.35); color: #4db89e; background: var(--teal-dim); }
+  .pill-theme { border-color: rgba(217,119,6,0.35); color: #f0a030; background: var(--amber-dim); }
+  .pill-q { border-color: rgba(37,99,168,0.35); color: #7bb3e8; background: var(--blue-dim); }
+  .pill-death { border-color: rgba(192,57,43,0.35); color: #e06c5c; background: var(--red-dim); }
+
+  .quote-block {
+    border-left: 2px solid var(--gold);
+    padding: 10px 16px;
+    margin: 6px 0;
+    background: var(--gold-dim);
+    border-radius: 0 6px 6px 0;
+    font-style: italic;
+    font-size: 13.5px;
+    color: var(--text-muted);
+    line-height: 1.65;
+  }
+  .quote-block em { color: var(--gold-light); font-style: normal; }
+
+  /* TIMELINE */
+  .timeline { position: relative; padding-left: 28px; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 8px;
+    bottom: 8px;
+    width: 1px;
+    background: linear-gradient(180deg, var(--gold) 0%, var(--border) 100%);
+  }
+  .tl-item {
+    position: relative;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+  .tl-trigger {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 0 14px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-family: var(--font-body);
+    color: var(--text);
+    position: relative;
+  }
+  .tl-dot {
+    position: absolute;
+    left: -24px;
+    top: 20px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid var(--bg);
+    flex-shrink: 0;
+    transition: transform 0.2s;
+  }
+  .tl-trigger:hover .tl-dot { transform: scale(1.3); }
+  .dot-org { background: #2563a8; }
+  .dot-break { background: #d97706; }
+  .dot-death { background: #c0392b; }
+  .dot-disc { background: #7c5cbf; }
+  .dot-rescue { background: #1a8a72; }
+
+  .tl-meta { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+  .tl-cap {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+  .tl-title { font-size: 14px; font-weight: 500; color: var(--text); }
+  .tl-preview { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+  .tl-arrow { color: var(--text-dim); font-size: 14px; transition: transform 0.2s; margin-top: 2px; flex-shrink: 0; }
+  .tl-item.open .tl-arrow { transform: rotate(180deg); color: var(--gold); }
+  .tl-item.open .tl-dot { transform: scale(1.3); }
+  .tl-body {
+    display: none;
+    padding: 4px 0 16px 0;
+    border-left: 1px dashed var(--border2);
+    margin-left: -20px;
+    padding-left: 20px;
+    margin-bottom: 4px;
+  }
+  .tl-body.open { display: block; }
+  .tl-body .prose { font-size: 13.5px; }
+  .tl-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .tl-sep { height: 1px; background: var(--border); margin: 2px 0; }
+
+  /* PERSONA GRID */
+  .persona-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+  .persona-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    transition: border-color 0.2s;
+  }
+  .persona-card:hover { border-color: var(--border2); }
+  .persona-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .persona-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .av-blue { background: var(--blue-dim); color: #7bb3e8; border: 1px solid rgba(37,99,168,0.3); }
+  .av-teal { background: var(--teal-dim); color: #4db89e; border: 1px solid rgba(26,138,114,0.3); }
+  .av-red { background: var(--red-dim); color: #e06c5c; border: 1px solid rgba(192,57,43,0.3); }
+  .av-purple { background: var(--purple-dim); color: #b09de0; border: 1px solid rgba(124,92,191,0.3); }
+  .av-amber { background: var(--amber-dim); color: #f0a030; border: 1px solid rgba(217,119,6,0.3); }
+  .av-gray { background: rgba(90,84,72,0.3); color: var(--text-muted); border: 1px solid rgba(90,84,72,0.3); }
+  .persona-name { font-size: 16px; font-weight: 500; font-family: var(--font-display); }
+  .persona-role { font-size: 12px; color: var(--text-dim); }
+  .persona-sym {
+    font-size: 12px;
+    color: #4db89e;
+    background: var(--teal-dim);
+    border: 1px solid rgba(26,138,114,0.25);
+    border-radius: 6px;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+    line-height: 1.4;
+  }
+  .persona-desc { font-size: 13px; color: var(--text-muted); line-height: 1.65; margin-bottom: 10px; }
+  .persona-quote {
+    font-style: italic;
+    font-size: 12.5px;
+    color: var(--gold);
+    border-left: 2px solid var(--gold);
+    padding-left: 10px;
+    opacity: 0.85;
+    line-height: 1.5;
+  }
+
+  /* SYMBOLS GRID */
+  .sym-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+  .sym-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    transition: border-color 0.2s;
+  }
+  .sym-card:hover { border-color: var(--border2); }
+  .sym-name { font-size: 14px; font-weight: 500; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .sym-icon {
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .sym-desc { font-size: 13px; color: var(--text-muted); line-height: 1.65; }
+
+  /* THEMES */
+  .theme-list { display: flex; flex-direction: column; gap: 10px; }
+  .theme-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .theme-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-family: var(--font-body);
+    color: var(--text);
+  }
+  .theme-trigger:hover { background: rgba(255,255,255,0.02); }
+  .theme-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .theme-title { font-size: 14px; font-weight: 500; flex: 1; }
+  .theme-arrow { color: var(--text-dim); font-size: 16px; transition: transform 0.2s; }
+  .theme-item.open .theme-arrow { transform: rotate(180deg); color: var(--gold); }
+  .theme-body {
+    display: none;
+    padding: 0 20px 16px 42px;
+    font-size: 13.5px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    border-top: 1px solid var(--border);
+  }
+  .theme-body.open { display: block; }
+
+  /* QUESTIONS */
+  .q-filters { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+  .q-filter-btn {
+    font-size: 12px;
+    padding: 5px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border2);
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-family: var(--font-body);
+    transition: all 0.15s;
+  }
+  .q-filter-btn:hover { background: var(--surface2); color: var(--text); }
+  .q-filter-btn.active { background: var(--gold-dim); border-color: rgba(201,168,76,0.4); color: var(--gold-light); }
+  .q-list { display: flex; flex-direction: column; gap: 8px; }
+  .q-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .q-item:hover { border-color: var(--border2); }
+  .q-item[data-hidden="true"] { display: none; }
+  .q-trigger {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 15px 18px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-family: var(--font-body);
+    color: var(--text);
+  }
+  .q-type-badge {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 1px;
+    letter-spacing: 0.05em;
+  }
+  .qb-mc { background: var(--blue-dim); color: #7bb3e8; border: 1px solid rgba(37,99,168,0.3); }
+  .qb-tf { background: var(--teal-dim); color: #4db89e; border: 1px solid rgba(26,138,114,0.3); }
+  .qb-dev { background: var(--amber-dim); color: #f0a030; border: 1px solid rgba(217,119,6,0.3); }
+  .q-text { font-size: 14px; font-weight: 500; flex: 1; line-height: 1.5; }
+  .q-arrow { color: var(--text-dim); font-size: 16px; transition: transform 0.2s; flex-shrink: 0; margin-top: 2px; }
+  .q-item.open .q-arrow { transform: rotate(180deg); color: var(--gold); }
+  .q-body {
+    display: none;
+    padding: 0 18px 16px 42px;
+    border-top: 1px solid var(--border);
+  }
+  .q-body.open { display: block; }
+  .q-options { margin: 12px 0 8px; }
+  .q-option {
+    font-size: 13px;
+    padding: 5px 0;
+    color: var(--text-muted);
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+  .q-option.correct { color: #4db89e; font-weight: 500; }
+  .q-option.correct::before { content: '✓'; }
+  .q-option:not(.correct)::before { content: '○'; opacity: 0.4; }
+  .q-answer-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    margin: 10px 0 6px;
+  }
+  .q-answer { font-size: 13.5px; color: var(--text-muted); line-height: 1.7; }
+  .q-answer strong { color: var(--text); font-weight: 500; }
+
+  /* CONTEXT */
+  .context-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 600px) { .context-grid { grid-template-columns: 1fr; } }
+  .context-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+  }
+  .context-card h3 {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    color: var(--gold-light);
+    margin-bottom: 10px;
+  }
+  .context-card p { font-size: 13.5px; color: var(--text-muted); line-height: 1.7; }
+  .context-card p + p { margin-top: 8px; }
+
+  /* TIP BOX */
+  .tip-box {
+    background: var(--gold-dim);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 24px;
+    font-size: 13.5px;
+    color: var(--gold-light);
+    line-height: 1.6;
+  }
+  .tip-box strong { color: var(--gold-light); }
+
+  /* LEGEND */
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+  .legend-item { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--text-muted); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    .persona-grid { grid-template-columns: 1fr; }
+    .sym-grid { grid-template-columns: 1fr; }
+    .header-title { font-size: 2rem; }
+    .nav-tab { padding: 12px 14px; font-size: 12px; }
+    .acc-trigger { padding: 15px 16px; }
+    .acc-body { padding: 0 16px 18px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-eyebrow">Guía completa para la prueba</div>
+  <h1 class="header-title">El Señor de las Moscas</h1>
+  <div class="header-subtitle">William Golding, 1954 — Premio Nobel de Literatura 1983</div>
+  <div class="header-badges">
+    <span class="badge badge-gold">12 capítulos</span>
+    <span class="badge badge-red">3 muertes</span>
+    <span class="badge badge-teal">Alegoría completa</span>
+  </div>
+</header>
+
+<nav class="nav-wrapper">
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showTab('cronologia', this)"><span class="tab-icon">📅</span> Cronología</button>
+    <button class="nav-tab" onclick="showTab('capitulos', this)"><span class="tab-icon">📖</span> Capítulos</button>
+    <button class="nav-tab" onclick="showTab('personajes', this)"><span class="tab-icon">👤</span> Personajes</button>
+    <button class="nav-tab" onclick="showTab('simbolos', this)"><span class="tab-icon">🔷</span> Símbolos</button>
+    <button class="nav-tab" onclick="showTab('temas', this)"><span class="tab-icon">💡</span> Temas</button>
+    <button class="nav-tab" onclick="showTab('preguntas', this)"><span class="tab-icon">✏️</span> Preguntas</button>
+    <button class="nav-tab" onclick="showTab('contexto', this)"><span class="tab-icon">🌍</span> Contexto</button>
+  </div>
+</nav>
+
+<main class="content-area">
+
+  <!-- ═══════════════════════════════════════════════════════
+       CRONOLOGÍA
+  ═══════════════════════════════════════════════════════ -->
+  <div id="tab-cronologia" class="section-panel active">
+    <h2 class="section-heading">Cronología del colapso</h2>
+    <p class="section-desc">Todos los eventos en orden narrativo. Despliega cada uno para ver el detalle completo.</p>
+
+    <div class="tip-box">
+      <strong>Ejercicio de prueba:</strong> Intenta ordenar los eventos sin leer los capítulos. Las marcas de color indican el tipo de evento.
+    </div>
+
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#2563a8"></div> Organización / Civilización</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#d97706"></div> Quiebre / Deterioro</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#c0392b"></div> Muerte / Violencia</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#7c5cbf"></div> Descubrimiento / Visión</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#1a8a72"></div> Rescate / Ironía final</div>
+    </div>
+
+    <div class="timeline" id="timeline-container"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       CAPÍTULOS
+  ═══════════════════════════════════════════════════════ -->
+  <div id="tab-capitulos" class="section-panel">
+    <h2 class="section-heading">Análisis capítulo por capítulo</h2>
+    <p class="section-desc">Despliega cada capítulo para ver resumen, símbolos, temas, frases clave y preguntas probables.</p>
+    <div class="accordion" id="caps-accordion"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       PERSONAJES
+  ═══════════════════════════════════════════════════════ -->
+  <div id="tab-personajes" class="section-panel">
+    <h2 class="section-heading">Ficha completa de personajes</h2>
+    <p class="section-desc">Descripción, psicología, arco narrativo, simbolismo y cita clave de cada personaje.</p>
+    <div class="persona-grid" id="personas-grid"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SÍMBOLOS
+  ═══════════════════════════════════════════════════════ -->
+  <div id="tab-simbolos" class="section-panel">
+    <h2 class="section-heading">Simbolismo y recursos literarios</h2>
+    <p class="section-desc">Los ocho símbolos centrales y los principales recursos literarios de la novela.</p>
+    <div class="sym-grid" id="sym-grid"></div>
+
+    <h3 style="font-family:var(--font-display);font-size:1.2rem;color:var(--gold-light);margin:32px 0 16px;">Recursos literarios</h3>
+    <div class="accordion" id="recursos-accordion"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       TEMAS
+  ═══════════════════════════════════════════════════════ -->
+  <div id="tab-temas" class="section-panel">
+    <h2 class="section-heading">Análisis temático</h2>
+    <p class="section-desc">Los siete temas estructurales de la novela. Despliega cada uno para el análisis completo.</p>
+    <div class="theme-list" id="theme-list"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       PREGUNTAS
+  ═══════════════════════════════════════════════════════ -->
+  <div id="tab-preguntas" class="section-panel">
+    <h2 class="section-heading">Banco de preguntas simuladas</h2>
+    <p class="section-desc">Selección múltiple, verdadero/falso y desarrollo. Toca cada pregunta para ver la respuesta.</p>
+    <div class="q-filters">
+      <button class="q-filter-btn active" onclick="filterQ('all', this)">Todas</button>
+      <button class="q-filter-btn" onclick="filterQ('mc', this)">Selección múltiple</button>
+      <button class="q-filter-btn" onclick="filterQ('tf', this)">Verdadero / Falso</button>
+      <button class="q-filter-btn" onclick="filterQ('dev', this)">Desarrollo</button>
+    </div>
+    <div class="q-list" id="q-list"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       CONTEXTO
+  ═══════════════════════════════════════════════════════ -->
+  <div id="tab-contexto" class="section-panel">
+    <h2 class="section-heading">Contexto y autor</h2>
+    <p class="section-desc">William Golding, el contexto histórico y las claves para entender por qué se escribió la novela.</p>
+    <div class="context-grid" id="context-grid"></div>
+
+    <div style="margin-top:32px;">
+      <h3 style="font-family:var(--font-display);font-size:1.2rem;color:var(--gold-light);margin-bottom:16px;">Resumen integrador final</h3>
+      <div class="acc-item" style="border-color:rgba(201,168,76,0.2);">
+        <button class="acc-trigger" onclick="toggleAcc(this)">
+          <span class="acc-num">Síntesis</span>
+          <span class="acc-title">Lectura completa del argumento y la tesis de Golding</span>
+          <span class="acc-arrow">⌄</span>
+        </button>
+        <div class="acc-body">
+          <p class="prose"><em>El Señor de las Moscas</em> es una novela sobre la imposibilidad de la inocencia y la fragilidad de la civilización. Un grupo de niños británicos, evacuados durante una guerra nuclear, queda atrapado en una isla tropical. Lo que comienza como un ejercicio de organización y esperanza de rescate se convierte, gradualmente, en tiranía, ritual violento y asesinato.</p>
+          <p class="prose" style="margin-top:10px;">La novela sigue dos movimientos paralelos y opuestos. Por un lado, el intento de Ralph de mantener el orden: la concha como símbolo democrático, el fuego como esperanza de rescate, las reglas como sustituto de las instituciones. Por el otro, la seducción de Jack: la caza, la máscara, la tribu, el miedo a la bestia como herramienta de cohesión. El segundo triunfa, no porque sea más fuerte, sino porque responde a necesidades más profundas.</p>
+          <p class="prose" style="margin-top:10px;">Los tres personajes centrales funcionan como alegorías: <strong>Piggy</strong> es la razón, indispensable, ignorada y finalmente destruida. <strong>Simon</strong> es la bondad espiritual, la única que comprende la verdad, pero asesinada antes de poder compartirla. <strong>Ralph</strong> es la voluntad de civilización, genuina pero insuficiente sin instituciones que la sostengan.</p>
+          <p class="prose" style="margin-top:10px;">El rescate final es la ironía más amarga. Llega gracias al fuego con el que Jack quería matar a Ralph, no gracias al fuego de señales de la civilización. El rescatador es un oficial naval en medio de una guerra. Los niños no escapan del mundo de la violencia: regresan a él.</p>
+          <div class="quote-block" style="margin-top:14px;">"Lloró por el fin de la inocencia, por la oscuridad del corazón del hombre, y por la caída al mar de su amigo verdadero, el inteligente Piggy." — <em>párrafo final</em></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+// ═══════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════
+
+const timelineData = [
+  { cap: 'Cap. 1', tipo: 'org', titulo: 'Los niños llegan a la isla', preview: 'Un avión de evacuación es derribado durante una guerra nuclear.', detalle: 'Ralph y Piggy se encuentran primero en la isla desierta. Ralph sopla la concha rosada que Piggy descubre y convoca a todos los sobrevivientes. Llegan niños de distintas edades, entre ellos Jack Merridew liderando un coro uniformado.' },
+  { cap: 'Cap. 1', tipo: 'org', titulo: 'Ralph es elegido jefe', preview: 'Votación democrática — Ralph gana por tener la concha.', detalle: 'Se realiza una votación para elegir jefe. Ralph gana en parte por poseer la concha, que ya funciona como símbolo de autoridad legítima. Para compensar a Jack, se le asigna el control de los cazadores.', tags: ['Inicio de la democracia', 'La concha como poder'] },
+  { cap: 'Cap. 1', tipo: 'break', titulo: 'Jack no mata al lechón', preview: 'Primera duda moral — Jack duda y jura que no volverá a fallar.', detalle: 'En la primera exploración, encuentran un lechón atrapado entre lianas. Jack saca su cuchillo pero duda en el último momento. El cerdo escapa. Jack jura que la próxima vez no dudará. Esta duda revela que la inhibición moral todavía está presente.' },
+  { cap: 'Cap. 2', tipo: 'org', titulo: 'Se establecen las primeras reglas', preview: 'Solo quien tenga la concha puede hablar.', detalle: 'Ralph convoca una asamblea y establece la regla fundamental: solo quien tenga la concha puede hablar. Piggy intenta hablar varias veces y es ignorado, estableciendo desde el inicio su marginalización social. Se decide hacer una hoguera en la montaña.' },
+  { cap: 'Cap. 2', tipo: 'break', titulo: 'El fuego se descontrola', preview: 'Sin planificación, el incendio quema parte del bosque.', detalle: 'Entusiasmados pero sin planificación alguna, los niños usan los lentes de Piggy para encender el fuego. El fuego se descontrola rápidamente y quema una sección del bosque. Primer fracaso organizativo de la isla.', tags: ['Primer símbolo dual del fuego'] },
+  { cap: 'Cap. 2', tipo: 'death', titulo: 'Primera muerte: el niño de la mancha en la cara', preview: 'El "mulberry boy" desaparece — primera consecuencia fatal.', detalle: 'El niño pequeño con una mancha en la cara que mencionó la bestia desaparece durante el incendio. Nadie lo confirma explícitamente: la narración lo sugiere con silencio. Es la primera muerte de la novela y establece que la situación es más peligrosa de lo que parece.', tags: ['Primera muerte', 'Irresponsabilidad colectiva'] },
+  { cap: 'Cap. 3', tipo: 'break', titulo: 'Conflicto abierto: Ralph vs. Jack', preview: 'Cabañas vs. caza — el primer choque de visiones.', detalle: 'Ralph quiere construir cabañas para el refugio colectivo. Jack está obsesionado con la caza y se mueve casi como un animal. Los demás no ayudan a construir. Es el primer conflicto abierto entre la civilización (refugio) y el instinto primitivo (caza). Simon se retira solo a su claro secreto.' },
+  { cap: 'Cap. 4', tipo: 'break', titulo: 'Jack se pinta la cara por primera vez', preview: 'La máscara libera a Jack de su conciencia moral.', detalle: 'Jack descubre que puede pintarse la cara con arcilla y carbón. La máscara lo libera de su identidad civilizada. Con ella, lidera una cacería exitosa: matan su primer cerdo. La narración lo indica explícitamente: "Jack se había liberado de la vergüenza y el autoconciencia."', tags: ['Símbolo central: la máscara'] },
+  { cap: 'Cap. 4', tipo: 'break', titulo: 'El barco pasa sin verlos', preview: 'La hoguera está apagada — civilización sacrificada por caza.', detalle: 'Ralph y Piggy ven un barco en el horizonte. Pero la hoguera en la montaña está apagada porque Jack llevó a todos los cazadores a la caza. El barco pasa sin verlos. Es el primer fracaso del fuego de señales y el primer momento en que la caza destruye la esperanza de rescate.', tags: ['Fuego de señales fracasa', 'Punto de quiebre'] },
+  { cap: 'Cap. 4', tipo: 'death', titulo: 'Jack golpea a Piggy y rompe sus lentes', preview: 'Primera violencia directa — la razón comienza a dañarse.', detalle: 'Jack regresa triunfante con el cerdo muerto. Cuando Ralph lo confronta por apagar la hoguera, Jack abofetea a Piggy y rompe uno de sus lentes. Es el primer acto de violencia directa. Jack no se disculpa de verdad. Los lentes rotos = la razón dañada por primera vez.', tags: ['Primera violencia directa', 'Lentes rotos = razón dañada'] },
+  { cap: 'Cap. 5', tipo: 'disc', titulo: 'Simon dice: "La bestia somos nosotros"', preview: 'La frase más importante de la novela — nadie le hace caso.', detalle: 'En la asamblea nocturna, Simon intenta articular la verdad: la bestia no es un monstruo externo sino el impulso destructivo interno de todos. No puede expresarlo bien y los demás se burlan. Jack usa el miedo para sabotear la autoridad de Ralph. La asamblea se desintegra.', tags: ['Frase clave de toda la novela', 'Nadie escucha la verdad'] },
+  { cap: 'Cap. 6', tipo: 'disc', titulo: 'Cae el paracaidista muerto', preview: 'La "bestia" del aire — en realidad la guerra humana adulta.', detalle: 'Durante una batalla aérea, un paracaidista muerto cae en la montaña. Su cuerpo, agitado por el viento, parece moverse. Samneric lo confunden con la bestia y huyen aterrorizados. Ralph organiza una expedición y sube con valor a la montaña. Todos ven la figura y confirman que la "bestia existe".', tags: ['La bestia tiene explicación humana'] },
+  { cap: 'Cap. 7', tipo: 'break', titulo: 'Ralph participa en la danza violenta', preview: 'Incluso el símbolo del orden sucumbe al instinto de manada.', detalle: 'En una cacería, Ralph golpea al jabalí por primera vez y siente un placer perturbador. Los niños recrean la caza en una danza y Robert hace de cerdo. La danza se vuelve violenta de verdad y casi hieren a Robert seriamente. Ralph también participa. Nadie escapa completamente al impulso violento.', tags: ['Ralph no es inmune', 'La violencia como placer'] },
+  { cap: 'Cap. 8', tipo: 'break', titulo: 'Jack se separa y funda su propia tribu', preview: 'Fracasa el intento de destituir a Ralph — Jack se va solo.', detalle: 'Jack convoca asamblea, ataca públicamente a Ralph llamándolo cobarde, e intenta que voten para destituirlo. Nadie vota contra Ralph. Humillado, Jack anuncia que se va. Lentamente, casi todos los cazadores lo siguen. Jack funda su tribu en el Castillo de la Roca, ofreciendo carne y fiesta.' },
+  { cap: 'Cap. 8', tipo: 'break', titulo: 'Crean el Señor de las Moscas', preview: 'La cabeza de cerda en una estaca — el ídolo del caos.', detalle: 'Los cazadores de Jack matan una cerda madre que está amamantando. La matan de manera especialmente brutal. Clavan su cabeza en una estaca como ofrenda a la bestia. Esa cabeza cubierta de moscas es el Señor de las Moscas: Beelzebub en hebreo, uno de los nombres del diablo.', tags: ['Símbolo central de la novela', 'El ídolo del caos'] },
+  { cap: 'Cap. 8', tipo: 'disc', titulo: 'Simon tiene la visión: "El mal está dentro de ti"', preview: 'La Cabeza del Cerdo le habla a Simon en su claro.', detalle: 'Simon, solo en su claro, tiene una visión alucinatoria en la que la Cabeza del Cerdo le habla. Le dice que el mal no está afuera sino dentro de cada uno. Le advierte que si intenta revelar esto, será destruido. Simon comprende la verdad completa: la bestia son ellos mismos.', tags: ['Revelación central', 'Profecía del destino de Simon'] },
+  { cap: 'Cap. 9', tipo: 'disc', titulo: 'Simon descubre la verdad sobre la bestia', preview: 'Sube a la montaña solo y descubre que es un paracaidista muerto.', detalle: 'Simon sale de su claro con la revelación. Sube a la montaña y confirma él solo la verdad: la bestia es el paracaidista muerto. Liberado y lleno de propósito, baja a decirles la verdad a los demás. Es el único que ha actuado con valor intelectual y espiritual en toda la novela.' },
+  { cap: 'Cap. 9', tipo: 'death', titulo: 'Muerte de Simon', preview: 'El grupo lo confunde con la bestia y lo mata en la oscuridad.', detalle: 'Ralph y Piggy, cediendo a la presión, van al festín de Jack. Hay tormenta. Empiezan la danza del cerdo. En la oscuridad y la lluvia, Simon aparece del bosque gritando sobre el paracaidista muerto. Los niños en éxtasis lo confunden con la bestia. Lo rodean y lo matan con palos, manos y dientes. Ralph también participa. Simon muere sin haber podido revelar la verdad. Su cuerpo es arrastrado al mar en una descripción de belleza perturbadora.', tags: ['Segunda muerte', 'La verdad silenciada', 'Punto de no retorno'] },
+  { cap: 'Cap. 10', tipo: 'break', titulo: 'Roban los lentes de Piggy', preview: 'La tribu de Jack despoja a la razón de su herramienta.', detalle: 'Ralph y Piggy minimizan su responsabilidad en la muerte de Simon. Jack gobierna en el Castillo de la Roca como dictador: hace atar y golpear a Wilfred sin razón, solo para demostrar su poder. De noche, la tribu ataca el campamento de Ralph y roba los lentes de Piggy. Sin ellos no pueden encender fuego.', tags: ['La razón queda desamparada', 'Poder sin justificación'] },
+  { cap: 'Cap. 11', tipo: 'death', titulo: 'Muerte de Piggy y destrucción de la concha', preview: 'La razón y la democracia mueren simultáneamente.', detalle: 'Ralph, Piggy y Samneric van al Castillo de la Roca a exigir los lentes y apelar a las reglas. Piggy lleva la concha: su último acto de fe en la civilización. Roger hace palanca en una gran roca desde lo alto del promontorio. La roca cae y golpea a Piggy, destruyendo la concha simultáneamente. Piggy cae cuarenta pies al mar sobre las rocas. Muere. La concha explota en mil pedazos blancos. Samneric son capturados. Jack lanza su lanza a Ralph, que huye solo.', tags: ['Tercera muerte', 'La concha destruida', 'Razón + democracia caen juntas'] },
+  { cap: 'Cap. 12', tipo: 'break', titulo: 'Jack ordena quemar la isla para cazar a Ralph', preview: 'Ralph está solo, huyendo. La isla entera prende fuego.', detalle: 'Ralph está solo, oculto en el bosque. Visita el Castillo de la Roca de noche y habla con Samneric, que le advierten que Jack planea matarlo mañana y que Roger ha afilado un palo por los dos extremos. Al día siguiente, Jack organiza una cacería total. Para sacar a Ralph del bosque, prenden fuego a la isla entera.' },
+  { cap: 'Cap. 12', tipo: 'rescue', titulo: 'El rescate más irónico de la literatura', preview: 'El fuego destructivo de Jack es lo que atrae el barco.', detalle: 'Ralph corre desesperado hacia el mar mientras el fuego lo acerca a la playa. Llega y cae al suelo frente a los pies de un oficial naval británico. El oficial llegó a la isla porque vio el humo del incendio de Jack, no el fuego de señales de Ralph. El rescatador viene en un barco de guerra. Ralph llora. Los niños también lloran. La pregunta implícita de Golding: ¿en qué se diferencia la isla del mundo adulto?', tags: ['Ironía final', 'El fuego destructivo salva', 'Barco de guerra = el adulto también destruye'] },
+];
+
+const capsData = [
+  {
+    num: 'Cap. 1', titulo: 'El sonido y la furia',
+    resumen: 'Un avión de evacuación es derribado durante una guerra nuclear. Ralph y Piggy se encuentran en la playa. Ralph sopla la concha y convoca a los sobrevivientes. Llega Jack liderando el coro. Votación: Ralph elegido jefe por tener la concha. Jack lidera a los cazadores. En la exploración, Jack duda en matar un lechón y jura que no volverá a dudar.',
+    simbolos: ['La concha: primera aparición, símbolo de orden democrático y convocatoria civilizada', 'Los lentes de Piggy: razón, ciencia, capacidad de ver con claridad', 'La isla tropical: paraíso aparente que esconde peligro'],
+    temas: ['Primer intento de civilización organizada', 'Democracia vs. autoritarismo (Ralph vs. Jack desde el inicio)', 'La duda de Jack al matar = presencia todavía de inhibición moral'],
+    quotes: ['"Somos ingleses, así que tenemos que hacer las cosas bien." — Jack', '"Él tiene la concha." — razón por la que Ralph es elegido jefe'],
+    preguntas: ['¿Cómo llegan los niños a la isla?', '¿Por qué Ralph es elegido jefe y no Jack?', '¿Qué simboliza la concha en este primer capítulo?', '¿Por qué Jack no mata al cerdo? ¿Qué representa esa duda?']
+  },
+  {
+    num: 'Cap. 2', titulo: 'Fuego en la montaña',
+    resumen: 'Ralph establece la regla de la concha: solo quien la tenga puede hablar. Piggy es ignorado repetidamente. Un niño pequeño menciona una "bestia" o "serpiente" — semilla del miedo colectivo. Los niños construyen una hoguera sin planificación; el fuego se descontrola y quema el bosque. El niño de la mancha en la cara desaparece: primera muerte implícita.',
+    simbolos: ['El fuego: esperanza de rescate pero también primer acto de destrucción — dualidad desde el inicio', 'Los lentes encendiendo el fuego: la razón puede producir salvación o caos', 'La bestia/serpiente: nace como miedo irracional, semilla de la paranoia colectiva'],
+    temas: ['El entusiasmo sin planificación lleva al desastre', 'El miedo como fuerza desestabilizadora desde el inicio', 'Primera muerte por irresponsabilidad colectiva'],
+    quotes: ['"La vida es científica, eso es lo que es." — Piggy', '"¿Y si hay una bestia?" — el niño pequeño (primera aparición del miedo)'],
+    preguntas: ['¿Qué regla fundamental establece Ralph con la concha?', '¿Qué le ocurre al niño de la mancha en la cara y cuál es su importancia narrativa?', '¿Por qué el fuego es un símbolo ambivalente desde el principio?']
+  },
+  {
+    num: 'Cap. 3', titulo: 'Cabañas en la playa',
+    resumen: 'Jack está obsesionado con la caza, moviéndose casi como un animal. Ralph y Simon intentan construir cabañas pero los demás no ayudan. Primer conflicto abierto entre Ralph (refugio) y Jack (caza). Simon se aleja solo y encuentra un claro secreto en el bosque: su espacio de paz espiritual.',
+    simbolos: ['Las cabañas: intento de mantener la civilización y el orden colectivo', 'El claro de Simon: santuario espiritual fuera del conflicto, pureza natural', 'La obsesión de Jack: primer indicio de que la caza es una regresión, no solo supervivencia'],
+    temas: ['División del trabajo vs. placer inmediato', 'La civilización requiere esfuerzo colectivo que pocos están dispuestos a hacer', 'Simon como figura espiritual contrapunto al conflicto'],
+    quotes: ['"La necesidad es una especie de atracción. Tengo que matar." — Jack (admite que la caza ya no es solo por comida)'],
+    preguntas: ['¿Cuál es el conflicto central entre Ralph y Jack en este capítulo?', '¿Qué representa el claro secreto de Simon?', '¿Qué revela Jack cuando dice que "necesita" matar?']
+  },
+  {
+    num: 'Cap. 4', titulo: 'Rostros pintados y cabello largo',
+    resumen: 'Roger arroja piedras cerca de un niño pequeño pero deliberadamente falla — aún hay un "espacio" civilizado. Jack descubre la pintura facial: la máscara lo libera de la conciencia moral. Primera cacería exitosa. El barco pasa sin verlos porque la hoguera está apagada. Jack golpea a Piggy y rompe sus lentes: primera violencia directa.',
+    simbolos: ['La máscara/pintura facial: liberación de la identidad civilizada, supresión de la conciencia moral', 'El fuego apagado: civilización sacrificada por instinto primitivo — punto de quiebre', 'Los lentes rotos: la razón dañada por la violencia por primera vez'],
+    temas: ['Desintegración de la identidad civilizada a través de la máscara', 'El instinto primitivo supera la responsabilidad colectiva', 'La violencia como performance y ritual incipiente'],
+    quotes: ['"La máscara era una cosa por sí misma, detrás de la cual Jack se ocultó, liberado de la vergüenza y el autoconciencia."', '"Matamos un cerdo. Cortamos su garganta. Derramamos su sangre." — canto de los cazadores'],
+    preguntas: ['¿Qué representa la pintura facial de Jack?', '¿Por qué es significativo que la hoguera esté apagada cuando pasa el barco?', '¿Qué simboliza que Jack rompa los lentes de Piggy?', 'Analiza la canción "Matamos un cerdo" — ¿qué revela sobre el grupo?']
+  },
+  {
+    num: 'Cap. 5', titulo: 'La bestia viene del agua',
+    resumen: 'Ralph convoca una asamblea nocturna seria para recuperar el orden. Los miedos emergen: Phil dice haber visto algo en el bosque (era Simon). Percival dice que la bestia viene del mar. Simon intenta decir que la bestia son ellos mismos — nadie le hace caso. Jack usa el miedo para sabotear la autoridad de Ralph.',
+    simbolos: ['La asamblea nocturna: civilización intentando sostenerse en la oscuridad', 'La bestia: proyección externa del mal interno — Simon lo intuye', 'La concha: empieza a perder autoridad real aunque sigue siendo el símbolo del orden'],
+    temas: ['El miedo como herramienta de desintegración social', 'Incapacidad del grupo para escuchar la verdad (Simon)', 'El liderazgo de Ralph bajo presión creciente'],
+    quotes: ['"Tal vez… la bestia somos nosotros." — Simon (la frase más importante de la novela, ignorada por todos)', '"Las reglas son lo único que tenemos." — Ralph'],
+    preguntas: ['¿Qué dice Simon sobre la bestia y por qué nadie le hace caso?', '¿Cómo usa Jack el miedo para debilitar la autoridad de Ralph?', '¿Qué revela este capítulo sobre la naturaleza humana?']
+  },
+  {
+    num: 'Cap. 6', titulo: 'La bestia viene del aire',
+    resumen: 'De noche hay una batalla aérea. Un paracaidista muerto cae en la montaña. Su cuerpo agitado por el viento parece moverse. Samneric lo confunden con la bestia y huyen. Ralph organiza la búsqueda. Jack descubre el Castillo de la Roca. Ralph sube con genuino valor a la montaña y ve la figura: la bestia "existe".',
+    simbolos: ['El paracaidista muerto: la guerra adulta que literalmente cae sobre los niños — la bestia tiene origen humano', 'El Castillo de la Roca: futura fortaleza del poder de Jack, sede de la tribu salvaje'],
+    temas: ['La guerra adulta contamina el mundo de los niños', 'El miedo se vuelve "real" cuando el grupo lo cree colectivamente', 'El valor real de Ralph vs. la bravuconería de Jack'],
+    quotes: ['"¿Lo viste? ¿Lo viste?" — Samneric (el pánico contagioso)'],
+    preguntas: ['¿Qué es realmente "la bestia" del capítulo 6?', '¿Qué simboliza el paracaidista muerto?', '¿Qué diferencia el comportamiento de Ralph y Jack ante el miedo?']
+  },
+  {
+    num: 'Cap. 7', titulo: 'Sombras y árboles altos',
+    resumen: 'Ralph siente con fuerza el peso de estar atrapado. Simon le dice misteriosamente que Ralph "llegará a casa". En la caza, Ralph golpea al jabalí y siente un placer perturbador. La danza casi hiere gravemente a Robert. Por la noche, Ralph, Jack y Roger ven la figura del paracaidista y huyen.',
+    simbolos: ['La danza del cerdo: la violencia empieza a infiltrarse incluso en Ralph, el símbolo del orden', 'La profecía de Simon: su naturaleza mística y vidente — sabe cosas que los demás no pueden ver'],
+    temas: ['Nadie escapa completamente al impulso violento — ni siquiera Ralph', 'Simon como figura profética y mística', 'El miedo confirmado acelera la desintegración del grupo'],
+    quotes: ['"Llegarás a casa." — Simon a Ralph (frase profética y misteriosa)'],
+    preguntas: ['¿Qué siente Ralph cuando golpea al cerdo? ¿Por qué es importante?', '¿Qué sugiere la frase de Simon sobre su naturaleza en la novela?']
+  },
+  {
+    num: 'Cap. 8', titulo: 'Un regalo para la oscuridad',
+    resumen: 'Jack intenta destituir a Ralph. Fracasa: nadie vota contra Ralph. Jack se va. Los cazadores lo siguen. Funda su tribu en el Castillo de la Roca. Los cazadores matan una cerda madre brutalmente y clavan su cabeza en una estaca: el Señor de las Moscas. Simon, en su claro, tiene la visión: la Cabeza le dice que el mal está dentro de todos.',
+    simbolos: ['La Cabeza del Cerdo (Señor de las Moscas): el mal innato, Beelzebub en hebreo = "señor de las moscas" = el diablo', 'Las moscas: la corrupción, la muerte, la descomposición moral', 'La cerda madre amamantando: destrucción de lo nutricio, lo materno, la vida inocente'],
+    temas: ['El mal como fuerza interna, no externa — revelación central', 'La seducción del poder primitivo (Jack como líder carismático del caos)', 'La profecía de la destrucción de Simon'],
+    quotes: ['"Soy parte de ti." — la Cabeza del Cerdo a Simon', '"Nos vamos a tener mucha diversión en esta isla." — la Cabeza'],
+    preguntas: ['¿Qué es el "Señor de las Moscas" y qué simboliza?', '¿Qué le revela la visión a Simon sobre la naturaleza de la bestia?', '¿Por qué Jack tiene éxito en atraer seguidores?']
+  },
+  {
+    num: 'Cap. 9', titulo: 'Una vista de la muerte',
+    resumen: 'Simon sube a la montaña y descubre la verdad: la bestia es el paracaidista muerto. Baja lleno de propósito. Ralph y Piggy ceden y van al festín de Jack. Hay tormenta. En la danza tribal, Simon aparece del bosque. Los niños lo confunden con la bestia y lo matan. Ralph también participa. El cuerpo de Simon es arrastrado al mar.',
+    simbolos: ['La muerte de Simon: destrucción de la bondad pura, la verdad, la inocencia espiritual', 'La tormenta: el caos de la naturaleza como reflejo del caos moral', 'El mar que recibe a Simon: la naturaleza lo acoge con dignidad — contraste con la brutalidad del asesinato'],
+    temas: ['La turba como aniquiladora de la verdad y la bondad', 'Pérdida total de la inocencia — punto de no retorno de la novela', 'El mal colectivo: incluso Ralph participa en la danza'],
+    quotes: ['[Descripción poética: el cuerpo luminoso de Simon flotando en el mar bioluminiscente]'],
+    preguntas: ['¿Quién mata a Simon y en qué circunstancias?', '¿Por qué la muerte de Simon es el punto más trágico de la novela?', '¿Qué había descubierto Simon antes de morir?', '¿Qué dice la participación de Ralph en la danza sobre él?']
+  },
+  {
+    num: 'Cap. 10', titulo: 'La concha y las gafas',
+    resumen: 'Ralph y Piggy están en shock y minimizan su responsabilidad en la muerte de Simon. Samneric también niegan lo que hicieron. Jack gobierna como dictador en el Castillo de la Roca: castiga a Wilfred sin razón para demostrar poder. De noche, la tribu ataca el campamento de Ralph y roba los lentes de Piggy.',
+    simbolos: ['El robo de los lentes: el poder irracional despoja a la razón de su herramienta — Piggy queda desamparado', 'El castigo arbitrario de Wilfred: poder puro sin justificación — obediencia por miedo'],
+    temas: ['La negación como mecanismo psicológico ante la culpa colectiva', 'El poder se consolida a través del miedo y la violencia arbitraria', 'La razón (Piggy) cada vez más vulnerable y sin defensa'],
+    quotes: ['"La bestia llegó disfrazada." — cómo justifican la muerte de Simon'],
+    preguntas: ['¿Por qué Ralph y Piggy no hablan honestamente sobre la muerte de Simon?', '¿Qué simboliza el robo de los lentes?', '¿Cómo gobierna Jack en el Castillo de la Roca?']
+  },
+  {
+    num: 'Cap. 11', titulo: 'El Castillo de la Roca',
+    resumen: 'Ralph, Piggy y Samneric van al Castillo a exigir los lentes. Piggy lleva la concha. La tribu los recibe con hostilidad. Ralph y Jack pelean. Roger hace palanca en una roca desde lo alto. La roca golpea a Piggy y destruye la concha simultáneamente. Piggy cae al mar. Samneric son capturados. Ralph huye solo.',
+    simbolos: ['Muerte de Piggy + destrucción de la concha: el fin simultáneo de la razón y la democracia en la isla', 'Roger: sadismo puro, ejecutor sin ideología — peor que Jack porque actúa por placer', 'El palo afilado por ambos extremos: amenaza explícita del destino de Ralph'],
+    temas: ['El colapso definitivo de la civilización — no hay vuelta atrás', 'La muerte de la razón (Piggy) y la democracia (concha) simultáneas', 'El sadismo como etapa final de la degradación moral'],
+    quotes: ['"¿Cuál es mejor: tener reglas y estar de acuerdo, o cazar y matar?" — Piggy, sus últimas palabras', '"La concha explotó en mil pedazos blancos."', '"Roger afiló un palo por los dos extremos." — amenaza del destino de Ralph'],
+    preguntas: ['Explica el simbolismo de que Piggy y la concha mueran simultáneamente.', '¿Qué representa Roger en la novela?', '¿Cuál es el significado de las últimas palabras de Piggy?']
+  },
+  {
+    num: 'Cap. 12', titulo: 'El clamor de los cazadores',
+    resumen: 'Ralph está solo y huye. Samneric le advierten del plan de Jack: matarlo con un palo afilado por ambos extremos. Jack prende fuego a la isla entera para sacar a Ralph. Ralph corre hasta la playa y cae ante un oficial naval que llegó al ver el humo del incendio de Jack — no el fuego de señales. Ralph llora.',
+    simbolos: ['El fuego final: destrucción total de la isla — espejo de la guerra que los adultos hacen afuera', 'El oficial naval: la "civilización" que rescata también está en guerra — ironía máxima', 'Las lágrimas de Ralph: el reconocimiento de todo lo perdido para siempre — epitafio de la novela'],
+    temas: ['El rescate es una ironía, no un triunfo — el fuego destructor salva, no el fuego civilizado', 'La pérdida de la inocencia es irreversible — el rescate no devuelve lo perdido', 'El mal no está solo en los niños: los adultos hacen lo mismo a mayor escala'],
+    quotes: ['"Lloró por el fin de la inocencia, por la oscuridad del corazón del hombre, y por la caída al mar de su amigo verdadero, el inteligente Piggy." — párrafo final, el más importante de la novela', '"¿Hay algún adulto con vosotros?" — el oficial (la pregunta que resume toda la ironía)'],
+    preguntas: ['¿Cómo es rescatado Ralph y qué ironía hay en ese rescate?', 'Explica el significado de las lágrimas finales de Ralph.', '¿Qué dice el final de la novela sobre la naturaleza humana?', '¿Por qué el oficial naval es un símbolo irónico?']
+  },
+];
+
+const personasData = [
+  {
+    nombre: 'Ralph', rol: 'Protagonista / Jefe elegido', av: 'av-blue', ini: 'R',
+    simbolo: 'La civilización, la democracia, el liderazgo responsable',
+    desc: 'Doce años, rubio, atlético, hijo de un comandante naval. Pragmático, justo, liderazgo natural democrático. Cree en el orden y las reglas. Tiene impulsos violentos que lo asustan (cap. 7). No es perfecto, pero lucha contra sus instintos. Al final llora no por él, sino por lo que se perdió.',
+    quote: '"Las reglas son lo único que tenemos."'
+  },
+  {
+    nombre: 'Piggy', rol: 'Consejero intelectual', av: 'av-teal', ini: 'P',
+    simbolo: 'La razón, la ciencia, el intelecto. Sus lentes = claridad de visión. Su muerte = el fin de la razón.',
+    desc: 'Gordo, asmático, lentes muy gruesos. El más inteligente del grupo. Racional y científico, apela siempre a la lógica. Socialmente torpe e inseguro. Su nombre real nunca se revela. Marginado desde el inicio, su influencia crece intelectualmente pero su situación empeora físicamente hasta su muerte.',
+    quote: '"¿Cuál es mejor: tener reglas y estar de acuerdo, o cazar y matar?"'
+  },
+  {
+    nombre: 'Jack Merridew', rol: 'Antagonista / Jefe tribal', av: 'av-red', ini: 'J',
+    simbolo: 'El totalitarismo, el instinto primitivo, el fascismo, el mal que seduce.',
+    desc: 'Pelirrojo, delgado, ojos claros casi sin color, facciones angulosas. Autoritario y carismático. Necesita dominar. Usa el miedo y la promesa de placer (carne, caza) para controlar. Su transformación es la más completa y aterradora de la novela: de líder del coro a dictador primitivo.',
+    quote: '"Olvídate de la bestia… únete a mi tribu y habrá carne."'
+  },
+  {
+    nombre: 'Simon', rol: 'Figura espiritual / Profeta', av: 'av-purple', ini: 'S',
+    simbolo: 'Figura crística: bondad innata, sacrificio, revelación rechazada. La intuición espiritual.',
+    desc: 'Delgado, cabello negro, ojos brillantes, frágil físicamente (se desmaya). Introvertido y espiritual. No necesita reglas para ser bueno. Tiene una comprensión intuitiva de la verdad que los demás no pueden alcanzar. Descubre que la bestia son ellos mismos y muere antes de poder comunicarlo.',
+    quote: '"Tal vez la bestia somos nosotros." / "Llegarás a casa."'
+  },
+  {
+    nombre: 'Roger', rol: 'Ejecutor de Jack', av: 'av-amber', ini: 'Rg',
+    simbolo: 'El sadismo puro. La maldad sin propósito ni ideología. El mal más profundo de todos.',
+    desc: 'Delgado, oscuro, taciturno. Más peligroso que Jack porque actúa por placer en el dolor, no por liderazgo ni poder. En el cap. 4 todavía se contiene (el espacio civilizado). Al final no se contiene en absoluto. Es él quien hace palanca en la roca que mata a Piggy.',
+    quote: '"Roger afiló un palo por los dos extremos."'
+  },
+  {
+    nombre: 'Samneric', rol: 'Gemelos / Mayoría silenciosa', av: 'av-gray', ini: 'SE',
+    simbolo: 'La mayoría que sigue al poder por presión social. El individuo disuelto en el grupo.',
+    desc: 'Gemelos inseparables que funcionan casi como una sola unidad. Representan la lealtad grupal que se rompe bajo coacción. Fieles a Ralph hasta que son capturados y forzados a unirse a Jack. Al final advierten a Ralph del plan pero no pueden salvarlo.',
+    quote: '(No tienen cita propia: representan la voz colectiva sin identidad individual definida)'
+  },
+];
+
+const simbolosData = [
+  { icon: '🐚', nombre: 'La concha', desc: 'Símbolo de democracia, orden y voz legítima. Quien la tiene habla; quien la escucha respeta las reglas. Su destrucción simultánea con la muerte de Piggy en el cap. 11 = el fin del orden democrático en la isla.' },
+  { icon: '👓', nombre: 'Los lentes de Piggy', desc: 'La razón y la claridad de visión. Cap. 2: usados para encender el fuego (razón que crea herramientas). Cap. 4: rotos por Jack (razón dañada). Cap. 10: robados (razón despojada). Cap. 11: su dueño muere (la razón no puede sostenerse sola).' },
+  { icon: '🔥', nombre: 'El fuego', desc: 'Dualidad perfecta. Fuego de señales = civilización, esperanza de rescate, conexión con el orden. Fuego destructivo = caos, guerra. Ironía final: el fuego que Jack enciende para matar a Ralph es el que atrae al barco de rescate.' },
+  { icon: '🎭', nombre: 'La pintura facial', desc: 'La máscara libera al individuo de su conciencia moral. Detrás de ella Jack puede hacer lo que sin ella no haría. Es la desindividualización — el mecanismo psicológico real por el que los humanos cometen atrocidades en grupo.' },
+  { icon: '🪲', nombre: 'El Señor de las Moscas', desc: 'La cabeza de cerda en una estaca. Beelzebub en hebreo = "señor de las moscas", nombre del diablo. Representa el mal innato. Le dice a Simon: "soy parte de ti". Las moscas = corrupción y muerte. El ídolo del caos que sustituye a las reglas.' },
+  { icon: '👹', nombre: 'La bestia', desc: 'No es un monstruo externo. Es la proyección del mal interno. Evoluciona: serpiente (cap. 2) → del agua (cap. 5) → del aire, el paracaidista (cap. 6) → la Cabeza del Cerdo (cap. 8). Simon lo comprende desde el principio.' },
+  { icon: '🪂', nombre: 'El paracaidista muerto', desc: 'La guerra adulta que literalmente cae sobre los niños. La bestia que todos temen es en realidad un producto de la violencia humana adulta. Ironía máxima: los adultos que debían protegerlos son los que crearon toda la tragedia.' },
+  { icon: '😢', nombre: 'Las lágrimas de Ralph', desc: 'El reconocimiento final e irreversible. Ralph llora por el fin de la inocencia, por la oscuridad del corazón del hombre, y por Piggy. No son lágrimas de alivio: son el epitafio de todo lo que se perdió para siempre. La frase más citada de la novela.' },
+];
+
+const recursosData = [
+  { titulo: 'Alegoría', desc: 'Toda la novela es una alegoría sobre la naturaleza humana, la civilización y la guerra. Cada personaje, cada símbolo, tiene un significado que trasciende la historia concreta de los niños en la isla.' },
+  { titulo: 'Ironía', desc: 'El rescate llega gracias al fuego destructivo de Jack, no al fuego civilizado de Ralph. El rescatador es un oficial de guerra. La "civilización" que los salva también está en guerra. La ironía es el recurso estructural más importante del final.' },
+  { titulo: 'Simbolismo cristiano', desc: 'Simon = Cristo (bondad innata, sacrificio, rechazado antes de que su mensaje llegue). El Señor de las Moscas = el diablo (Beelzebub). La isla = el Edén que se corrompe. El asesinato de Simon = la muerte del redentor antes de la redención.' },
+  { titulo: 'Prolepsis', desc: 'Frases que anticipan eventos: "Roger afiló un palo por los dos extremos" (el destino de Ralph). La duda de Jack en el cap. 1 anticipa su transformación. La frase de Simon "Llegarás a casa" anticipa el rescate.' },
+  { titulo: 'Metáfora estructural', desc: 'La isla como microcosmos del mundo adulto. Lo que ocurre en la isla es lo mismo que ocurre en la guerra que los rodea afuera: violencia, poder, destrucción. Solo que en la isla es más visible porque los actores son niños.' },
+];
+
+const temasData = [
+  { titulo: 'Civilización vs. salvajismo', color: '#c9a84c', desc: 'Es el tema estructural de la novela. Golding propone que la civilización es una capa delgada y frágil sobre el salvajismo inherente al ser humano. Los niños llegan con los valores de la sociedad británica (uno de los más "civilizados" del mundo) y en pocas semanas regresan a la violencia tribal y el asesinato. El proceso es gradual y sistemático: primero las reglas se debilitan, luego la identidad se enmascara, luego la violencia se ritualiza, luego se normaliza.' },
+  { titulo: 'El mal inherente al ser humano', color: '#c0392b', desc: 'Golding rechaza directamente la idea rousseauniana del "buen salvaje" — la idea de que los humanos son naturalmente buenos y que la sociedad los corrompe. Propone lo contrario: el mal es innato, y la civilización es lo que lo contiene. La visión de Simon con el Señor de las Moscas lo expresa directamente: "El mal está dentro de ti." La novela no dice que los humanos son irremediablemente malos — dice que son capaces de un mal terrible cuando las estructuras que los contienen desaparecen.' },
+  { titulo: 'Pérdida de la inocencia', color: '#7c5cbf', desc: 'La novela es el relato de la caída. Los niños son, al principio, asustados pero esperanzados. Al final, quien no ha muerto ha participado en asesinatos. Ralph llora al final no solo por las muertes sino por algo más abstracto e irreversible: la inocencia perdida. Ni el rescate ni el regreso al "mundo civilizado" puede devolver lo que se perdió. La inocencia no es recuperable.' },
+  { titulo: 'Poder y liderazgo', color: '#2563a8', desc: 'Ralph representa el liderazgo democrático y legítimo, basado en el bien común. Jack representa el liderazgo carismático autoritario, basado en el miedo y la recompensa inmediata. La novela muestra que el segundo tipo gana en ausencia de instituciones que sostengan al primero. El orden de Ralph exige sacrificio y pensamiento a largo plazo; el de Jack ofrece placer inmediato. Golding propone esto como una verdad sobre la naturaleza humana adulta, no solo sobre niños.' },
+  { titulo: 'El miedo como herramienta de control', color: '#d97706', desc: 'La bestia nunca existe como monstruo, pero existe como herramienta política. Jack la usa deliberadamente para mantener a su tribu unida y obediente. El miedo externo une al grupo y justifica el autoritarismo del líder. Esto no es solo literatura de aventura: Golding está describiendo el mecanismo del totalitarismo real — cómo los líderes autoritarios crean o amplifican amenazas externas para consolidar su poder.' },
+  { titulo: 'Identidad individual vs. grupal', color: '#1a8a72', desc: 'La máscara borra la identidad individual y permite la violencia colectiva. La danza transforma a niños individuales con conciencia moral en una masa sin ella. El caso más claro es la muerte de Simon: nadie, individualmente, habría matado a Simon. El grupo sí. La desindividualización es el mecanismo psicológico — estudiado hoy en psicología social — por el que los seres humanos cometen atrocidades que nunca cometerían solos.' },
+  { titulo: 'La ironía del rescate', color: '#888780', desc: 'El final es profundamente irónico. Ralph es salvado, pero no por el esfuerzo civilizador que él representó: el fuego de señales siempre fue apagado por Jack. Lo salva el fuego destructivo con el que Jack quería matarlo. El rescatador es un oficial naval en un barco de guerra. La pregunta implícita de Golding: ¿en qué se diferencia lo que hicieron los niños en la isla de lo que hacen los adultos en el mundo? La respuesta es que no se diferencian en naturaleza, solo en escala.' },
+];
+
+const preguntasData = [
+  {
+    tipo: 'mc', enunciado: '¿Qué objeto utiliza Ralph para convocar a los niños en la isla?',
+    opciones: ['Un silbato', 'Una concha marina', 'Un cuerno de animal', 'Sus propias manos'],
+    correcta: 1,
+    respuesta: 'La concha es encontrada por Piggy y soplada por Ralph en el capítulo 1. Su importancia es inmediata: convoca a todos y le da a Ralph autoridad desde el primer momento, antes incluso de la votación.'
+  },
+  {
+    tipo: 'mc', enunciado: '¿Qué simboliza la pintura facial de Jack?',
+    opciones: ['La pertenencia a un grupo deportivo', 'La defensa contra insectos', 'La liberación de la identidad civilizada y la conciencia moral', 'El miedo a la bestia'],
+    correcta: 2,
+    respuesta: 'Golding lo indica explícitamente: la máscara libera a Jack de la "vergüenza y el autoconciencia." Detrás de la máscara puede hacer lo que sin ella no haría — es la desindividualización, mecanismo psicológico real de las atrocidades colectivas.'
+  },
+  {
+    tipo: 'mc', enunciado: '¿Quién descubre la verdad sobre la bestia?',
+    opciones: ['Ralph', 'Piggy', 'Jack', 'Simon'],
+    correcta: 3,
+    respuesta: 'Simon sube solo a la montaña en el capítulo 9 y descubre que la "bestia" es el cadáver de un paracaidista muerto. Baja a contárselo a todos, pero es asesinado por el grupo antes de poder hacerlo.'
+  },
+  {
+    tipo: 'mc', enunciado: '¿Cómo muere Piggy?',
+    opciones: ['Lo mata Jack con una lanza', 'Lo ahoga la tribu en el mar', 'Una roca empujada por Roger lo golpea y cae al mar', 'Muere de un ataque de asma'],
+    correcta: 2,
+    respuesta: 'Roger hace palanca en una gran roca en el Castillo de la Roca (cap. 11). La roca cae sobre Piggy simultáneamente con la destrucción de la concha — la razón y la democracia mueren al mismo tiempo, en el mismo instante.'
+  },
+  {
+    tipo: 'mc', enunciado: '¿Por qué Ralph es elegido jefe y no Jack?',
+    opciones: ['Porque es el más grande físicamente', 'Porque tiene la concha, que le da legitimidad democrática', 'Porque los niños le tienen miedo', 'Porque conoce la isla mejor'],
+    correcta: 1,
+    respuesta: 'Ralph es elegido en parte por poseer la concha que ya funciona como símbolo de autoridad. Es una elección democrática: nadie impone a Ralph. Esta legitimidad democrática contrasta desde el inicio con el tipo de liderazgo que ejerce Jack.'
+  },
+  {
+    tipo: 'tf', enunciado: 'Ralph participa en la danza que lleva a la muerte de Simon.',
+    opciones: ['Verdadero', 'Falso'],
+    correcta: 0,
+    respuesta: 'VERDADERO. Esto es crucial: Ralph también sucumbe brevemente al instinto de manada en el capítulo 9. El símbolo de la civilización y el orden también cae, aunque sea momentáneamente. Hace la tragedia más compleja: el mal colectivo no respeta la virtud individual.'
+  },
+  {
+    tipo: 'tf', enunciado: 'El oficial naval rescata a Ralph porque vio el fuego de señales que Ralph mantenía.',
+    opciones: ['Verdadero', 'Falso'],
+    correcta: 1,
+    respuesta: 'FALSO. El oficial llega porque vio el humo del incendio que Jack provocó para cazar a Ralph. El fuego de señales civilizado nunca funcionó. Es la ironía fundamental del final: la destrucción produce el rescate — lo que quería civilizarlos no sirvió; lo que quería destruirlos sí.'
+  },
+  {
+    tipo: 'tf', enunciado: 'El nombre real de Piggy se revela en algún momento de la novela.',
+    opciones: ['Verdadero', 'Falso'],
+    correcta: 1,
+    respuesta: 'FALSO. Solo lo conocemos como "Piggy", su apodo humillante. Su nombre real nunca se revela. Esto refuerza su falta de identidad reconocida en el grupo y su marginalización permanente — ni siquiera le conceden el recurso mínimo de un nombre propio.'
+  },
+  {
+    tipo: 'tf', enunciado: 'La concha mantiene su autoridad y poder hasta el final de la novela.',
+    opciones: ['Verdadero', 'Falso'],
+    correcta: 1,
+    respuesta: 'FALSO. La concha es destruida en el capítulo 11, simultáneamente con la muerte de Piggy. Antes de su destrucción física, ya ha perdido autoridad real: la tribu de Jack no la respeta. Su destrucción física confirma lo que ya había ocurrido moralmente.'
+  },
+  {
+    tipo: 'dev', enunciado: '¿Qué es el "Señor de las Moscas" y por qué le da título a la novela?',
+    respuesta: 'El Señor de las Moscas es la cabeza de una cerda ensartada en una estaca por los cazadores de Jack como ofrenda a la bestia (cap. 8). Su nombre proviene del hebreo <strong>Beelzebub</strong>, uno de los nombres del diablo. Le da título a la novela porque representa su tema central: el mal no es una fuerza externa sino interna al ser humano. Cuando Simon tiene su visión, la Cabeza le habla y le revela que la bestia es parte de todos los niños. Las moscas que la rodean simbolizan la corrupción y la muerte moral. Es el ídolo que la tribu primitiva crea — el dios del caos que sustituye a las reglas civilizadas. Sin la comprensión de este símbolo, no se puede entender la tesis central de Golding.'
+  },
+  {
+    tipo: 'dev', enunciado: '¿Por qué la muerte de Simon es el momento más trágico de la novela?',
+    respuesta: 'Simon es el único personaje que comprende la verdad: la bestia no existe como monstruo externo, sino como el mal innato del ser humano. Muere justo cuando baja de la montaña con esa revelación, tratando de compartirla. La tragedia es múltiple: la única voz de la verdad es silenciada; el más bondadoso es destruido por la maldad que él había intentado describir; y nadie sabrá jamás lo que descubrió. Simon funciona como <strong>figura crística</strong> — muere, como Cristo, antes de que su mensaje sea escuchado. Además, Ralph también participa en la danza: ni el símbolo del orden civilizado es inocente. La pureza es destruida no por el mal sino por el éxtasis colectivo sin nombre.'
+  },
+  {
+    tipo: 'dev', enunciado: 'Explica el simbolismo de que Piggy y la concha mueran simultáneamente.',
+    respuesta: 'Piggy representa la razón, el pensamiento científico, el intelecto. La concha representa la democracia, el orden, la voz legítima. Su destrucción simultánea en el capítulo 11 es el momento más cargado de simbolismo de toda la novela: Golding está diciendo que <strong>razón y democracia son inseparables</strong> y caen juntas. Sin razón no puede haber democracia real; sin democracia, la razón queda desamparada. La roca que los destruye simultáneamente no es una coincidencia narrativa: es el diseño simbólico más preciso de la novela. El orden civilizado ha muerto en ese instante exacto.'
+  },
+  {
+    tipo: 'dev', enunciado: '¿Qué dice el final de la novela sobre la civilización adulta?',
+    respuesta: 'El final es profundamente irónico. Ralph es salvado no por el esfuerzo civilizador que representó, sino por el fuego destructivo de Jack. El rescatador es un oficial naval británico, máxima expresión de la "civilización" del mundo de 1954 — pero llega en un barco de guerra, en medio de una guerra global. La pregunta implícita de Golding: ¿en qué se diferencia la isla del mundo adulto? La respuesta es que no se diferencian en naturaleza, solo en <strong>escala y organización</strong>. Los niños no regresan a la seguridad de la civilización: regresan a otra forma de violencia, más sistematizada. El Holocausto, Hiroshima, la Segunda Guerra Mundial son la prueba de que los adultos hacen exactamente lo mismo.'
+  },
+  {
+    tipo: 'dev', enunciado: 'Analiza el simbolismo de los lentes de Piggy a lo largo de toda la novela.',
+    respuesta: 'Los lentes representan la razón, la capacidad de ver con claridad y la ciencia. Su trayectoria es el arco del deterioro de la razón en la isla. <strong>Cap. 2:</strong> usados para encender el fuego — la razón crea herramientas de salvación, pero también de destrucción. <strong>Cap. 4:</strong> Jack los rompe parcialmente al golpear a Piggy — la razón comienza a ser dañada por la violencia. <strong>Cap. 10:</strong> la tribu de Jack los roba — el poder irracional despoja a la razón de su herramienta; sin ellos Piggy no puede ver. <strong>Cap. 11:</strong> Piggy muere y la concha se destruye simultáneamente — razón y democracia caen juntas. Golding sugiere que sin la razón, el orden civilizado no puede sostenerse, y que la razón sola no puede sobrevivir sin instituciones que la protejan.'
+  },
+  {
+    tipo: 'dev', enunciado: '¿Qué revela sobre la naturaleza humana la participación de Ralph en la danza que mata a Simon?',
+    respuesta: 'Es uno de los momentos más perturbadores de la novela, precisamente porque Ralph no es Jack. Ralph representa la civilización y el orden moral. Su participación en la danza demuestra que el impulso hacia la violencia colectiva <strong>no respeta la virtud individual</strong>. El instinto de manada, el éxtasis de la danza, la oscuridad y la tormenta disuelven incluso la conciencia moral de Ralph. Golding sugiere que la capacidad para el mal no es patrimonio de los "malos" personajes: está en todos. Lo que distingue a los seres humanos no es la ausencia de esos impulsos, sino las estructuras — reglas, instituciones, identidad individual — que los contienen. Cuando esas estructuras caen, nadie es inmune.'
+  },
+];
+
+const contextData = [
+  {
+    titulo: 'William Golding (1911–1993)',
+    contenido: `Novelista británico. Combatió en la Segunda Guerra Mundial, participó en el desembarco de Normandía. La guerra transformó radicalmente su visión del ser humano. Antes de la guerra era, como muchos, optimista sobre la naturaleza humana. Después, no. Ganó el Premio Nobel de Literatura en 1983. Su tesis central: "He intentado seguir la deformidad de la maldad hasta sus fuentes en la naturaleza humana."`
+  },
+  {
+    titulo: 'Contexto histórico (1954)',
+    contenido: `La novela se publica apenas nueve años después de la Segunda Guerra Mundial, Hiroshima y Nagasaki, el Holocausto. La humanidad acababa de demostrar de manera industrial su capacidad para el mal masivo. Golding escribe en respuesta directa a eso: la novela es su diagnóstico de la especie humana después de haber visto lo que es capaz de hacer.`
+  },
+  {
+    titulo: '¿Por qué niños y no adultos?',
+    contenido: `Los niños son percibidos culturalmente como inocentes — comenzar con ellos hace la caída mucho más impactante. Si adultos hicieran lo mismo, el lector podría atribuirlo a la experiencia o el cinismo. Con niños, el mal que emerge solo puede provenir de la naturaleza humana misma. Los niños sin supervisión adulta representan la humanidad sin instituciones.`
+  },
+  {
+    titulo: 'Respuesta a "La isla de coral" (1857)',
+    contenido: `La novela de R.M. Ballantyne narra a niños británicos en una isla desierta que demuestran ingenio, valor y virtud. Golding toma exactamente el mismo escenario y demuestra lo contrario. Es una refutación deliberada: el optimismo victoriano sobre la naturaleza humana frente a la realidad que el siglo XX reveló.`
+  },
+  {
+    titulo: 'Rechazo a Rousseau',
+    contenido: `Rousseau propuso el "buen salvaje": los humanos son naturalmente buenos y es la sociedad la que los corrompe. Golding propone exactamente lo contrario: el mal es innato, y la civilización es lo que lo contiene. La novela es la demostración narrativa de esta tesis. Sin civilización, los niños no florecen — se destruyen.`
+  },
+  {
+    titulo: 'La tesis de Golding en sus propias palabras',
+    contenido: `"He intentado seguir la deformidad de la maldad hasta sus fuentes en la naturaleza humana." La novela no es pesimista sin más: Golding no dice que los humanos son irremediablemente malos. Dice que son capaces de un mal terrible cuando las estructuras que los contienen desaparecen — y que esas estructuras son más frágiles de lo que queremos creer.`
+  },
+];
+
+// ═══════════════════════════════════════
+// RENDER FUNCTIONS
+// ═══════════════════════════════════════
+
+function renderTimeline() {
+  const ct = document.getElementById('timeline-container');
+  const typeMap = { org: 'dot-org', break: 'dot-break', death: 'dot-death', disc: 'dot-disc', rescue: 'dot-rescue' };
+  ct.innerHTML = timelineData.map((ev, i) => `
+    <div class="tl-item" id="tl-${i}">
+      <div class="tl-sep"></div>
+      <button class="tl-trigger" onclick="toggleTL(${i})">
+        <div class="tl-dot ${typeMap[ev.tipo]}"></div>
+        <div class="tl-meta">
+          <span class="tl-cap">${ev.cap}</span>
+          <span class="tl-title">${ev.titulo}</span>
+          <span class="tl-preview">${ev.preview}</span>
+        </div>
+        <span class="tl-arrow">⌄</span>
+      </button>
+      <div class="tl-body" id="tl-body-${i}">
+        <p class="prose">${ev.detalle}</p>
+        ${ev.tags ? `<div class="tl-tags">${ev.tags.map(t => `<span class="pill pill-sym">${t}</span>`).join('')}</div>` : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderCaps() {
+  const el = document.getElementById('caps-accordion');
+  el.innerHTML = capsData.map((c, i) => `
+    <div class="acc-item" id="cap-item-${i}">
+      <button class="acc-trigger" onclick="toggleAccId('cap-item-${i}')">
+        <span class="acc-num">${c.num}</span>
+        <span class="acc-title">${c.titulo}</span>
+        <span class="acc-arrow">⌄</span>
+      </button>
+      <div class="acc-body">
+        <div class="block-label">Resumen</div>
+        <p class="prose">${c.resumen}</p>
+        <div class="block-label">Símbolos</div>
+        <div class="pill-list">${c.simbolos.map(s => `<span class="pill pill-sym">${s}</span>`).join('')}</div>
+        <div class="block-label">Temas</div>
+        <div class="pill-list">${c.temas.map(t => `<span class="pill pill-theme">${t}</span>`).join('')}</div>
+        <div class="block-label">Frases clave</div>
+        ${c.quotes.map(q => `<div class="quote-block">${q}</div>`).join('')}
+        <div class="block-label">Preguntas probables</div>
+        <div class="pill-list">${c.preguntas.map(p => `<span class="pill pill-q">${p}</span>`).join('')}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderPersonas() {
+  const el = document.getElementById('personas-grid');
+  el.innerHTML = personasData.map(p => `
+    <div class="persona-card">
+      <div class="persona-header">
+        <div class="persona-avatar ${p.av}">${p.ini}</div>
+        <div>
+          <div class="persona-name">${p.nombre}</div>
+          <div class="persona-role">${p.rol}</div>
+        </div>
+      </div>
+      <div class="persona-sym">🔷 ${p.simbolo}</div>
+      <p class="persona-desc">${p.desc}</p>
+      <div class="persona-quote">${p.quote}</div>
+    </div>
+  `).join('');
+}
+
+function renderSimbolos() {
+  const el = document.getElementById('sym-grid');
+  el.innerHTML = simbolosData.map(s => `
+    <div class="sym-card">
+      <div class="sym-name"><span>${s.icon}</span> ${s.nombre}</div>
+      <div class="sym-desc">${s.desc}</div>
+    </div>
+  `).join('');
+  const el2 = document.getElementById('recursos-accordion');
+  el2.innerHTML = recursosData.map((r, i) => `
+    <div class="acc-item" id="rec-item-${i}">
+      <button class="acc-trigger" onclick="toggleAccId('rec-item-${i}')">
+        <span class="acc-num">Recurso</span>
+        <span class="acc-title">${r.titulo}</span>
+        <span class="acc-arrow">⌄</span>
+      </button>
+      <div class="acc-body">
+        <p class="prose">${r.desc}</p>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderTemas() {
+  const el = document.getElementById('theme-list');
+  el.innerHTML = temasData.map((t, i) => `
+    <div class="theme-item" id="theme-${i}">
+      <button class="theme-trigger" onclick="toggleTheme(${i})">
+        <div class="theme-dot" style="background:${t.color}"></div>
+        <span class="theme-title">${t.titulo}</span>
+        <span class="theme-arrow">⌄</span>
+      </button>
+      <div class="theme-body" id="theme-body-${i}">${t.desc}</div>
+    </div>
+  `).join('');
+}
+
+function renderPreguntas() {
+  const el = document.getElementById('q-list');
+  el.innerHTML = preguntasData.map((q, i) => {
+    const badge = q.tipo === 'mc' ? 'qb-mc' : q.tipo === 'tf' ? 'qb-tf' : 'qb-dev';
+    const label = q.tipo === 'mc' ? 'Sel. múltiple' : q.tipo === 'tf' ? 'Verdad / Falso' : 'Desarrollo';
+    const optsHtml = q.opciones ? `<div class="q-options">${q.opciones.map((o, j) => `<div class="q-option ${j === q.correcta ? 'correct' : ''}">${o}</div>`).join('')}</div>` : '';
+    return `
+      <div class="q-item" id="q-item-${i}" data-tipo="${q.tipo}">
+        <button class="q-trigger" onclick="toggleQItem(${i})">
+          <span class="q-type-badge ${badge}">${label}</span>
+          <span class="q-text">${q.enunciado}</span>
+          <span class="q-arrow">⌄</span>
+        </button>
+        <div class="q-body" id="q-body-${i}">
+          ${optsHtml}
+          <div class="q-answer-label">Respuesta</div>
+          <div class="q-answer">${q.respuesta}</div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function renderContexto() {
+  const el = document.getElementById('context-grid');
+  el.innerHTML = contextData.map(c => `
+    <div class="context-card">
+      <h3>${c.titulo}</h3>
+      <p>${c.contenido}</p>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════
+// INTERACTION
+// ═══════════════════════════════════════
+
+function showTab(id, btn) {
+  document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+function toggleAcc(btn) {
+  const item = btn.closest('.acc-item');
+  const body = item.querySelector('.acc-body');
+  const arrow = btn.querySelector('.acc-arrow');
+  const isOpen = item.classList.contains('open');
+  item.classList.toggle('open', !isOpen);
+  body.classList.toggle('open', !isOpen);
+  arrow.style.transform = isOpen ? '' : 'rotate(180deg)';
+  if (!isOpen) arrow.style.color = 'var(--gold)';
+  else arrow.style.color = '';
+}
+
+function toggleAccId(id) {
+  const item = document.getElementById(id);
+  const btn = item.querySelector('.acc-trigger');
+  toggleAcc(btn);
+}
+
+function toggleTL(i) {
+  const item = document.getElementById('tl-' + i);
+  const body = document.getElementById('tl-body-' + i);
+  const arrow = item.querySelector('.tl-arrow');
+  const isOpen = item.classList.contains('open');
+  item.classList.toggle('open', !isOpen);
+  body.classList.toggle('open', !isOpen);
+  arrow.style.transform = isOpen ? '' : 'rotate(180deg)';
+}
+
+function toggleTheme(i) {
+  const item = document.getElementById('theme-' + i);
+  const body = document.getElementById('theme-body-' + i);
+  const arrow = item.querySelector('.theme-arrow');
+  const isOpen = item.classList.contains('open');
+  item.classList.toggle('open', !isOpen);
+  body.classList.toggle('open', !isOpen);
+  arrow.style.transform = isOpen ? '' : 'rotate(180deg)';
+}
+
+function toggleQItem(i) {
+  const item = document.getElementById('q-item-' + i);
+  const body = document.getElementById('q-body-' + i);
+  const arrow = item.querySelector('.q-arrow');
+  const isOpen = item.classList.contains('open');
+  item.classList.toggle('open', !isOpen);
+  body.classList.toggle('open', !isOpen);
+  arrow.style.transform = isOpen ? '' : 'rotate(180deg)';
+}
+
+function filterQ(tipo, btn) {
+  document.querySelectorAll('.q-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.q-item').forEach(item => {
+    if (tipo === 'all' || item.dataset.tipo === tipo) {
+      item.removeAttribute('data-hidden');
+      item.style.display = '';
+    } else {
+      item.setAttribute('data-hidden', 'true');
+      item.style.display = 'none';
+    }
+  });
+}
+
+// ═══════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════
+renderTimeline();
+renderCaps();
+renderPersonas();
+renderSimbolos();
+renderTemas();
+renderPreguntas();
+renderContexto();
+</script>
+</body>
+</html>

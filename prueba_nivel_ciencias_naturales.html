@@ -1,0 +1,1796 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prueba de Nivel — Ciencias Naturales</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0e12;
+    --surface: #13151e;
+    --surface2: #1a1d2a;
+    --surface3: #1f2235;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.13);
+
+    /* Ciencias — verde esmeralda */
+    --green: #10b981;
+    --green-light: #34d399;
+    --green-dim: rgba(16,185,129,0.13);
+    --green-dim2: rgba(16,185,129,0.07);
+
+    /* Física — cyan */
+    --cyan: #06b6d4;
+    --cyan-light: #22d3ee;
+    --cyan-dim: rgba(6,182,212,0.13);
+
+    /* Química — naranja ámbar */
+    --amber: #f59e0b;
+    --amber-light: #fbbf24;
+    --amber-dim: rgba(245,158,11,0.13);
+
+    /* Acentos compartidos */
+    --teal: #14b8a6;
+    --teal-dim: rgba(20,184,166,0.13);
+    --purple: #a78bfa;
+    --purple-dim: rgba(167,139,250,0.13);
+    --rose: #fb7185;
+    --rose-dim: rgba(251,113,133,0.13);
+
+    --text: #e2e8f0;
+    --text-muted: #7a8aa0;
+    --text-dim: #3d4f68;
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 72px 20px 64px;
+    text-align: center;
+    background: linear-gradient(180deg, #0d1410 0%, var(--bg) 100%);
+    border-bottom: 1px solid var(--border2);
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 80% at 20% -10%, rgba(16,185,129,0.1) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 60% at 80% 20%, rgba(6,182,212,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 50% at 50% 100%, rgba(245,158,11,0.05) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  /* Partículas flotantes decorativas */
+  .hero-particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.15;
+    animation: float linear infinite;
+  }
+  @keyframes float {
+    from { transform: translateY(100%) rotate(0deg); opacity: 0; }
+    10%  { opacity: 0.15; }
+    90%  { opacity: 0.15; }
+    to   { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+  }
+
+  .back-link {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.18s;
+    z-index: 2;
+  }
+  .back-link:hover { color: var(--green-light); }
+
+  .hero-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 18px;
+    opacity: 0.9;
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    font-weight: 900;
+    line-height: 1.1;
+    color: var(--text);
+    margin-bottom: 14px;
+    letter-spacing: -0.02em;
+    animation: fadeUp 0.5s ease both;
+  }
+  .hero-title .hl-green { color: var(--green-light); }
+  .hero-title .hl-cyan  { color: var(--cyan-light); }
+  .hero-desc {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--text-muted);
+    max-width: 580px;
+    margin: 0 auto 32px;
+    line-height: 1.65;
+    animation: fadeUp 0.5s 0.1s ease both;
+  }
+  .hero-badges {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: fadeUp 0.5s 0.2s ease both;
+  }
+  .h-badge {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    padding: 5px 13px;
+    border-radius: 20px;
+    border: 1px solid;
+    letter-spacing: 0.05em;
+  }
+  .hb-green  { border-color: rgba(16,185,129,0.4); color: var(--green-light); background: var(--green-dim); }
+  .hb-cyan   { border-color: rgba(6,182,212,0.4);  color: var(--cyan-light);  background: var(--cyan-dim); }
+  .hb-amber  { border-color: rgba(245,158,11,0.4); color: var(--amber-light); background: var(--amber-dim); }
+
+  /* ── NAV TABS ── */
+  .nav-wrapper {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(13,14,18,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-tabs {
+    display: flex;
+    overflow-x: auto;
+    gap: 0;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+    scrollbar-width: none;
+  }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+  .nav-tab {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 14px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    font-family: var(--font-body);
+  }
+  .nav-tab:hover { color: var(--text); }
+  .nav-tab.active-bio   { color: var(--green-light); border-bottom-color: var(--green); }
+  .nav-tab.active-fis   { color: var(--cyan-light);  border-bottom-color: var(--cyan); }
+  .nav-tab.active-quim  { color: var(--amber-light); border-bottom-color: var(--amber); }
+  .nav-tab.active-all   { color: var(--green-light); border-bottom-color: var(--green); }
+  .tab-icon { font-size: 15px; }
+
+  /* ── LAYOUT ── */
+  .content-area {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px 100px;
+  }
+  .section-panel { display: none; }
+  .section-panel.active { display: block; }
+
+  /* ── SECTION HEADER ── */
+  .sec-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+  }
+  .sec-title {
+    font-family: var(--font-display);
+    font-size: 1.9rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+    line-height: 1.2;
+  }
+  .sec-title.bio   { color: var(--green-light); }
+  .sec-title.fis   { color: var(--cyan-light); }
+  .sec-title.quim  { color: var(--amber-light); }
+  .sec-title.all   { color: var(--green-light); }
+  .sec-desc { color: var(--text-muted); font-size: 14px; margin-bottom: 32px; }
+
+  /* ── OA OVERVIEW ── */
+  .oa-overview {
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 40px;
+  }
+  .oa-overview.bio  { background: var(--surface); border: 1px solid rgba(16,185,129,0.2); }
+  .oa-overview.fis  { background: var(--surface); border: 1px solid rgba(6,182,212,0.2); }
+  .oa-overview.quim { background: var(--surface); border: 1px solid rgba(245,158,11,0.2); }
+  .oa-overview.all  { background: var(--surface); border: 1px solid var(--border2); }
+
+  .oa-overview-title {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .oa-overview-title.bio  { color: var(--green); }
+  .oa-overview-title.fis  { color: var(--cyan); }
+  .oa-overview-title.quim { color: var(--amber); }
+  .oa-overview-title.all  { color: var(--green); }
+
+  .oa-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+  }
+  .oa-pill {
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+  .oa-pill.bio  { background: var(--green-dim2); border: 1px solid rgba(16,185,129,0.2); }
+  .oa-pill.fis  { background: var(--cyan-dim);   border: 1px solid rgba(6,182,212,0.2); }
+  .oa-pill.quim { background: var(--amber-dim);  border: 1px solid rgba(245,158,11,0.2); }
+
+  .oa-pill-num {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .oa-pill-num.bio  { color: var(--green); }
+  .oa-pill-num.fis  { color: var(--cyan); }
+  .oa-pill-num.quim { color: var(--amber); }
+  .oa-pill-text { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+  /* ── ACCORDION ── */
+  .accordion { display: flex; flex-direction: column; gap: 8px; margin-bottom: 32px; }
+  .acc-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .acc-item.bio:hover  { border-color: rgba(16,185,129,0.3); }
+  .acc-item.fis:hover  { border-color: rgba(6,182,212,0.3); }
+  .acc-item.quim:hover { border-color: rgba(245,158,11,0.3); }
+  .acc-item.bio.open   { border-color: rgba(16,185,129,0.4); }
+  .acc-item.fis.open   { border-color: rgba(6,182,212,0.4); }
+  .acc-item.quim.open  { border-color: rgba(245,158,11,0.4); }
+
+  .acc-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 20px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .acc-icon {
+    width: 36px; height: 36px;
+    border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .acc-icon.bio  { background: var(--green-dim);  border: 1px solid rgba(16,185,129,0.25); }
+  .acc-icon.fis  { background: var(--cyan-dim);   border: 1px solid rgba(6,182,212,0.25); }
+  .acc-icon.quim { background: var(--amber-dim);  border: 1px solid rgba(245,158,11,0.25); }
+
+  .acc-heading {
+    flex: 1;
+    font-size: 14.5px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.3;
+  }
+  .acc-sub {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    margin-top: 2px;
+  }
+  .acc-arrow { color: var(--text-dim); font-size: 12px; transition: transform 0.25s; flex-shrink: 0; }
+  .acc-item.open .acc-arrow { transform: rotate(90deg); }
+  .acc-item.bio.open  .acc-arrow { color: var(--green); }
+  .acc-item.fis.open  .acc-arrow { color: var(--cyan); }
+  .acc-item.quim.open .acc-arrow { color: var(--amber); }
+
+  .acc-body { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+  .acc-item.open .acc-body { max-height: 2000px; }
+  .acc-inner { padding: 0 20px 20px; border-top: 1px solid var(--border); padding-top: 18px; }
+
+  /* ── CONTENT BLOCKS ── */
+  .def-block {
+    border-radius: 0 8px 8px 0;
+    padding: 14px 16px;
+    margin-bottom: 14px;
+  }
+  .def-block.bio  { background: var(--surface2); border-left: 3px solid var(--green); }
+  .def-block.fis  { background: var(--surface2); border-left: 3px solid var(--cyan); }
+  .def-block.quim { background: var(--surface2); border-left: 3px solid var(--amber); }
+  .def-block p { font-size: 13.5px; color: var(--text-muted); line-height: 1.7; }
+  .def-block strong.bio  { color: var(--green-light); font-weight: 500; }
+  .def-block strong.fis  { color: var(--cyan-light);  font-weight: 500; }
+  .def-block strong.quim { color: var(--amber-light); font-weight: 500; }
+  .def-block strong { color: var(--text); font-weight: 500; }
+
+  .content-title {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 10px;
+  }
+
+  .feature-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+  .feature-item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-size: 13.5px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  .feat-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 8px;
+  }
+  .feat-dot.green  { background: var(--green); }
+  .feat-dot.cyan   { background: var(--cyan); }
+  .feat-dot.amber  { background: var(--amber); }
+  .feat-dot.purple { background: var(--purple); }
+  .feat-dot.rose   { background: var(--rose); }
+  .feat-dot.teal   { background: var(--teal); }
+  .feature-item strong { color: var(--text); font-weight: 500; }
+
+  .example-box {
+    background: var(--surface3);
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-top: 12px;
+    margin-bottom: 12px;
+  }
+  .example-box .ex-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .ex-label.bio  { color: var(--green); }
+  .ex-label.fis  { color: var(--cyan); }
+  .ex-label.quim { color: var(--amber); }
+  .example-box p { font-size: 13px; color: var(--text-muted); line-height: 1.7; }
+  .example-box em { font-style: italic; }
+  .em-green  { color: var(--green-light); }
+  .em-cyan   { color: var(--cyan-light); }
+  .em-amber  { color: var(--amber-light); }
+
+  .tip-box {
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-top: 14px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .tip-box.bio   { background: var(--green-dim); border: 1px solid rgba(16,185,129,0.3); }
+  .tip-box.fis   { background: var(--cyan-dim);  border: 1px solid rgba(6,182,212,0.3); }
+  .tip-box.quim  { background: var(--amber-dim); border: 1px solid rgba(245,158,11,0.3); }
+  .tip-box.teal  { background: var(--teal-dim);  border: 1px solid rgba(20,184,166,0.3); }
+  .tip-icon { font-size: 16px; flex-shrink: 0; }
+  .tip-text { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+  .tip-text strong.bio   { color: var(--green-light); font-weight: 500; }
+  .tip-text strong.fis   { color: var(--cyan-light);  font-weight: 500; }
+  .tip-text strong.quim  { color: var(--amber-light); font-weight: 500; }
+  .tip-text strong.teal  { color: var(--teal);        font-weight: 500; }
+  .tip-text strong       { font-weight: 500; }
+
+  /* ── CARDS GRID ── */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-top: 8px;
+    margin-bottom: 14px;
+  }
+  .info-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .info-card-icon { font-size: 22px; margin-bottom: 8px; }
+  .info-card-title { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
+  .info-card-desc { font-size: 12.5px; color: var(--text-muted); line-height: 1.55; }
+
+  /* ── EVIDENCIAS TABLE ── */
+  .evidencias-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  @media (max-width: 600px) { .evidencias-grid { grid-template-columns: 1fr; } }
+  .ev-col {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+  }
+  .ev-col-header {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .ev-col-header.bio  { color: var(--green); }
+  .ev-col-header.fis  { color: var(--cyan); }
+
+  /* ── ONDAS VISUAL ── */
+  .wave-diagram {
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 16px 0;
+    text-align: center;
+  }
+  .wave-diagram svg { max-width: 100%; height: auto; }
+  .wave-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-top: 8px;
+    letter-spacing: 0.08em;
+  }
+
+  /* ── TABLA PERIÓDICA MINI ── */
+  .periodic-preview {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin: 16px 0;
+  }
+  .element-card {
+    background: var(--surface2);
+    border: 1px solid rgba(245,158,11,0.2);
+    border-radius: 8px;
+    padding: 10px 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .element-card:hover {
+    border-color: rgba(245,158,11,0.5);
+    background: var(--amber-dim);
+    transform: translateY(-2px);
+  }
+  .el-symbol {
+    font-family: var(--font-mono);
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: var(--amber-light);
+    line-height: 1;
+    margin-bottom: 2px;
+  }
+  .el-num {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--text-dim);
+    margin-bottom: 3px;
+  }
+  .el-name { font-size: 10px; color: var(--text-muted); }
+
+  /* ── ENLACES QUIZ ── */
+  .quiz-area { margin-top: 16px; }
+  .quiz-question {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 12px;
+    transition: border-color 0.2s;
+  }
+  .quiz-question.answered { border-color: rgba(16,185,129,0.3); }
+  .quiz-q-text {
+    font-size: 14px;
+    color: var(--text);
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+  .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+  .quiz-opt {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13.5px;
+    color: var(--text-muted);
+    transition: all 0.18s;
+    background: transparent;
+    text-align: left;
+    width: 100%;
+    font-family: var(--font-body);
+  }
+  .quiz-opt:hover { border-color: rgba(16,185,129,0.3); color: var(--text); background: var(--green-dim2); }
+  .quiz-opt.correct { border-color: rgba(16,185,129,0.6); background: rgba(16,185,129,0.1); color: var(--green-light); }
+  .quiz-opt.wrong   { border-color: rgba(251,113,133,0.5); background: rgba(251,113,133,0.08); color: var(--rose); }
+  .quiz-opt.disabled { pointer-events: none; }
+  .opt-letter {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    border: 1px solid var(--border2);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    flex-shrink: 0;
+    color: var(--text-dim);
+  }
+  .quiz-opt.correct .opt-letter { border-color: var(--green); background: var(--green-dim); color: var(--green-light); }
+  .quiz-opt.wrong   .opt-letter { border-color: var(--rose);  background: var(--rose-dim);  color: var(--rose); }
+  .quiz-feedback {
+    margin-top: 10px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.6;
+    display: none;
+  }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.ok  { background: rgba(16,185,129,0.1); color: var(--green-light); border: 1px solid rgba(16,185,129,0.25); }
+  .quiz-feedback.bad { background: rgba(251,113,133,0.08); color: #fca5b5; border: 1px solid rgba(251,113,133,0.2); }
+
+  .quiz-score-bar {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  .score-display {
+    font-family: var(--font-mono);
+    font-size: 2rem;
+    font-weight: 500;
+    color: var(--green-light);
+    line-height: 1;
+  }
+  .score-label { font-size: 12px; color: var(--text-muted); }
+  .score-track { flex: 1; min-width: 120px; }
+  .score-fill-bar {
+    height: 6px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 6px;
+  }
+  .score-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--green), var(--cyan));
+    transition: width 0.5s ease;
+    width: 0%;
+  }
+
+  /* ── MATERIAS OVERVIEW ── */
+  .subjects-overview {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin-bottom: 36px;
+  }
+  .sub-card {
+    border-radius: 14px;
+    padding: 22px;
+    border: 1px solid;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .sub-card.bio  { background: var(--green-dim2); border-color: rgba(16,185,129,0.25); }
+  .sub-card.fis  { background: var(--cyan-dim);   border-color: rgba(6,182,212,0.25); }
+  .sub-card.quim { background: var(--amber-dim);  border-color: rgba(245,158,11,0.25); }
+  .sub-card.bio:hover  { border-color: rgba(16,185,129,0.5); transform: translateY(-2px); }
+  .sub-card.fis:hover  { border-color: rgba(6,182,212,0.5);  transform: translateY(-2px); }
+  .sub-card.quim:hover { border-color: rgba(245,158,11,0.5); transform: translateY(-2px); }
+  .sub-card-emoji { font-size: 28px; margin-bottom: 10px; }
+  .sub-card-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .sub-card-label.bio  { color: var(--green); }
+  .sub-card-label.fis  { color: var(--cyan); }
+  .sub-card-label.quim { color: var(--amber); }
+  .sub-card-title { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+  .sub-card-topics { font-size: 12.5px; color: var(--text-muted); line-height: 1.6; }
+
+  /* ── TABLA COMPARATIVA ONDAS ── */
+  .ondas-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 14px 0;
+  }
+  .ondas-table th {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border2);
+    color: var(--text-dim);
+  }
+  .ondas-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-muted);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .ondas-table tr:last-child td { border-bottom: none; }
+  .ondas-table td:first-child { font-weight: 500; color: var(--cyan-light); font-family: var(--font-mono); font-size: 12px; }
+
+  /* ── FORMULA BOX ── */
+  .formula-box {
+    background: var(--surface3);
+    border: 1px solid rgba(6,182,212,0.25);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 12px 0;
+    text-align: center;
+  }
+  .formula-text {
+    font-family: var(--font-mono);
+    font-size: 1.2rem;
+    color: var(--cyan-light);
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+  }
+  .formula-desc { font-size: 12px; color: var(--text-dim); }
+
+  /* ── PROGRESS TRACKER ── */
+  .progress-panel {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 32px;
+  }
+  .progress-title {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 16px;
+  }
+  .progress-items { display: flex; flex-direction: column; gap: 10px; }
+  .prog-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .prog-check {
+    width: 20px; height: 20px;
+    border-radius: 5px;
+    border: 1.5px solid var(--border2);
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    transition: all 0.18s;
+  }
+  .prog-item.done .prog-check {
+    background: var(--green-dim);
+    border-color: rgba(16,185,129,0.5);
+    color: var(--green-light);
+  }
+  .prog-item.done .prog-label { text-decoration: line-through; color: var(--text-dim); }
+  .prog-label { font-size: 13.5px; color: var(--text-muted); }
+  .prog-bar-outer { flex: 1; height: 4px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden; display: none; }
+
+  /* ── FOOTER ── */
+  .footer {
+    border-top: 1px solid var(--border);
+    padding: 28px 20px;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+  }
+  .footer span { color: var(--text-muted); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .periodic-preview { grid-template-columns: repeat(3, 1fr); }
+    .evidencias-grid  { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <!-- Partículas decorativas -->
+  <div class="hero-particles">
+    <div class="particle" style="width:8px;height:8px;background:#10b981;left:10%;animation-duration:12s;animation-delay:0s;"></div>
+    <div class="particle" style="width:5px;height:5px;background:#06b6d4;left:25%;animation-duration:9s;animation-delay:2s;"></div>
+    <div class="particle" style="width:10px;height:10px;background:#f59e0b;left:45%;animation-duration:15s;animation-delay:1s;"></div>
+    <div class="particle" style="width:6px;height:6px;background:#10b981;left:65%;animation-duration:11s;animation-delay:4s;"></div>
+    <div class="particle" style="width:7px;height:7px;background:#06b6d4;left:80%;animation-duration:8s;animation-delay:3s;"></div>
+    <div class="particle" style="width:4px;height:4px;background:#f59e0b;left:90%;animation-duration:13s;animation-delay:0.5s;"></div>
+  </div>
+
+  <a href="index.html" class="back-link">← Portal de estudio</a>
+
+  <p class="hero-eyebrow">Prueba de Nivel · 12 de Junio</p>
+  <h1 class="hero-title">
+    <span class="hl-green">Ciencias</span><br>
+    <span class="hl-cyan">Naturales</span>
+  </h1>
+  <p class="hero-desc">
+    Biología, Física y Química. Todo lo que necesitas dominar para tu prueba de nivel, con esquemas interactivos, fórmulas clave y práctica.
+  </p>
+  <div class="hero-badges">
+    <span class="h-badge hb-green">🧬 Biología · OA 1 · OA 2</span>
+    <span class="h-badge hb-cyan">⚡ Física · OA 9 · OA 11</span>
+    <span class="h-badge hb-amber">⚗️ Química · OA 14</span>
+  </div>
+</header>
+
+<!-- NAV TABS -->
+<nav class="nav-wrapper">
+  <div class="nav-tabs">
+    <button class="nav-tab active-all" onclick="showTab('resumen', this, 'all')">
+      <span class="tab-icon">📋</span> Resumen OA
+    </button>
+    <button class="nav-tab" onclick="showTab('bio', this, 'bio')">
+      <span class="tab-icon">🧬</span> Biología
+    </button>
+    <button class="nav-tab" onclick="showTab('fisica', this, 'fis')">
+      <span class="tab-icon">⚡</span> Física
+    </button>
+    <button class="nav-tab" onclick="showTab('quimica', this, 'quim')">
+      <span class="tab-icon">⚗️</span> Química
+    </button>
+    <button class="nav-tab" onclick="showTab('practica', this, 'all')">
+      <span class="tab-icon">🎯</span> Práctica
+    </button>
+  </div>
+</nav>
+
+<!-- CONTENT -->
+<div class="content-area">
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- TAB 1: RESUMEN OA -->
+  <!-- ══════════════════════════════════════ -->
+  <div class="section-panel active" id="tab-resumen">
+    <div class="sec-label">Vista general</div>
+    <h2 class="sec-title all">Objetivos de Aprendizaje</h2>
+    <p class="sec-desc">Tu prueba de nivel cubre tres grandes áreas de Ciencias Naturales. Toca cada tarjeta para ir a esa sección.</p>
+
+    <div class="subjects-overview">
+      <div class="sub-card bio" onclick="showTab('bio', null, 'bio')">
+        <div class="sub-card-emoji">🧬</div>
+        <div class="sub-card-label bio">Biología</div>
+        <div class="sub-card-title">Evolución y Fósiles</div>
+        <div class="sub-card-topics">OA 1 — Fósiles: formación y tipos<br>OA 2 — Evidencias de la evolución: registro fósil, estructuras anatómicas homólogas, embriología, ADN</div>
+      </div>
+      <div class="sub-card fis" onclick="showTab('fisica', null, 'fis')">
+        <div class="sub-card-emoji">🌊</div>
+        <div class="sub-card-label fis">Física</div>
+        <div class="sub-card-title">Ondas y Fenómenos Luminosos</div>
+        <div class="sub-card-topics">OA 9 — Ondas: características, clasificación, energía<br>OA 11 — Luz: reflexión, refracción, interferencia, efecto Doppler</div>
+      </div>
+      <div class="sub-card quim" onclick="showTab('quimica', null, 'quim')">
+        <div class="sub-card-emoji">⚗️</div>
+        <div class="sub-card-label quim">Química</div>
+        <div class="sub-card-title">Tabla Periódica</div>
+        <div class="sub-card-topics">OA 14 — Tabla periódica como modelo para predecir propiedades de los elementos.<br>Contenido: Enlace Químico</div>
+      </div>
+    </div>
+
+    <!-- Progreso de estudio -->
+    <div class="progress-panel">
+      <div class="progress-title">✅ Tu progreso de estudio — marca lo que ya revisaste</div>
+      <div class="progress-items" id="progress-list">
+        <div class="prog-item" onclick="toggleProg(this)">
+          <div class="prog-check"></div>
+          <span class="prog-label">🧬 BIO — Formación de fósiles y tipos de roca</span>
+        </div>
+        <div class="prog-item" onclick="toggleProg(this)">
+          <div class="prog-check"></div>
+          <span class="prog-label">🧬 BIO — Evidencias de la evolución (OA 2)</span>
+        </div>
+        <div class="prog-item" onclick="toggleProg(this)">
+          <div class="prog-check"></div>
+          <span class="prog-label">⚡ FÍS — Características de las ondas y clasificación</span>
+        </div>
+        <div class="prog-item" onclick="toggleProg(this)">
+          <div class="prog-check"></div>
+          <span class="prog-label">⚡ FÍS — Fenómenos luminosos: reflexión y refracción</span>
+        </div>
+        <div class="prog-item" onclick="toggleProg(this)">
+          <div class="prog-check"></div>
+          <span class="prog-label">⚡ FÍS — Interferencia, efecto Doppler, óptica</span>
+        </div>
+        <div class="prog-item" onclick="toggleProg(this)">
+          <div class="prog-check"></div>
+          <span class="prog-label">⚗️ QUÍ — Tabla periódica: estructura y tendencias</span>
+        </div>
+        <div class="prog-item" onclick="toggleProg(this)">
+          <div class="prog-check"></div>
+          <span class="prog-label">⚗️ QUÍ — Enlace químico: iónico, covalente, metálico</span>
+        </div>
+        <div class="prog-item" onclick="toggleProg(this)">
+          <div class="prog-check"></div>
+          <span class="prog-label">🎯 Práctica — Preguntas de repaso</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="oa-overview all">
+      <div class="oa-overview-title all">Todos los Objetivos de Aprendizaje</div>
+      <div class="oa-grid">
+        <div class="oa-pill bio">
+          <div class="oa-pill-num bio">OA 1 · Bio</div>
+          <div class="oa-pill-text">Explicar, basándose en evidencias, que los fósiles se forman a partir de restos de animales y plantas, en rocas sedimentarias, ubicados según su antigüedad en los estratos de la Tierra.</div>
+        </div>
+        <div class="oa-pill bio">
+          <div class="oa-pill-num bio">OA 2 · Bio</div>
+          <div class="oa-pill-text">Analizar e interpretar datos para proveer evidencias que apoyen que la diversidad de organismos es el resultado de la evolución: registro fósil, estructuras homólogas, embriología y secuencias de ADN.</div>
+        </div>
+        <div class="oa-pill fis">
+          <div class="oa-pill-num fis">OA 9 · Fís</div>
+          <div class="oa-pill-text">Demostrar que las ondas transmiten energía y pueden reflejarse, refractarse y absorberse. Clasificación: mecánicas, electromagnéticas, transversales, longitudinales y superficiales.</div>
+        </div>
+        <div class="oa-pill fis">
+          <div class="oa-pill-num fis">OA 11 · Fís</div>
+          <div class="oa-pill-text">Explicar reflexión, refracción, interferencia y efecto Doppler por medio de modelos. Corpuscular y ondulatorio de la luz. Espejos, lentes, telescopios, espectro electromagnético.</div>
+        </div>
+        <div class="oa-pill quim">
+          <div class="oa-pill-num quim">OA 14 · Quím</div>
+          <div class="oa-pill-text">Usar la tabla periódica como modelo para predecir propiedades relativas de los elementos químicos basadas en los patrones de sus átomos. Enlace Químico.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- TAB 2: BIOLOGÍA -->
+  <!-- ══════════════════════════════════════ -->
+  <div class="section-panel" id="tab-bio">
+    <div class="sec-label">Biología · OA 1 &amp; OA 2</div>
+    <h2 class="sec-title bio">Evolución y Registro Fósil</h2>
+    <p class="sec-desc">Fósiles, cómo se forman, dónde se encuentran y qué evidencias prueban la evolución de las especies.</p>
+
+    <div class="accordion">
+
+      <!-- OA 1: FÓSILES -->
+      <div class="acc-item bio" id="accB1">
+        <div class="acc-header" onclick="toggleAcc('accB1')">
+          <div class="acc-icon bio">🪨</div>
+          <div>
+            <div class="acc-heading">¿Qué son los fósiles y cómo se forman? (OA 1)</div>
+            <div class="acc-sub">Definición, tipos de fosilización y rocas sedimentarias</div>
+          </div>
+          <span class="acc-arrow">▶</span>
+        </div>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <div class="def-block bio">
+              <p>Los <strong>fósiles</strong> son restos o huellas de organismos que vivieron en el pasado, preservados en rocas. La mayoría se conservan en <strong>rocas sedimentarias</strong> porque se forman por acumulación de sedimentos que entierran a los organismos antes de que se descompongan completamente.</p>
+            </div>
+            <div class="content-title">¿Cómo se forma un fósil? — paso a paso</div>
+            <div class="cards-grid">
+              <div class="info-card">
+                <div class="info-card-icon">💀</div>
+                <div class="info-card-title">1. Muerte del organismo</div>
+                <div class="info-card-desc">El animal o planta muere y sus partes blandas comienzan a descomponerse. Solo quedan partes duras (huesos, conchas, madera).</div>
+              </div>
+              <div class="info-card">
+                <div class="info-card-icon">🏜️</div>
+                <div class="info-card-title">2. Enterramiento rápido</div>
+                <div class="info-card-desc">Los restos quedan cubiertos por sedimentos (arena, lodo, limo) que los protegen del aire y de otros organismos descomponedores.</div>
+              </div>
+              <div class="info-card">
+                <div class="info-card-icon">🌊</div>
+                <div class="info-card-title">3. Sedimentación y presión</div>
+                <div class="info-card-desc">Con el tiempo, más capas de sedimentos se acumulan encima. La presión y los minerales mineralizan los huesos, formando la roca.</div>
+              </div>
+              <div class="info-card">
+                <div class="info-card-icon">⛏️</div>
+                <div class="info-card-title">4. Exposición y descubrimiento</div>
+                <div class="info-card-desc">La erosión, movimiento de placas o excavación humana expone el fósil en la superficie para su estudio.</div>
+              </div>
+            </div>
+            <div class="content-title">¿Por qué rocas SEDIMENTARIAS?</div>
+            <div class="feature-list">
+              <div class="feature-item"><span class="feat-dot green"></span><div>Las rocas sedimentarias se forman a capas (<strong>estratos</strong>). Cada estrato representa un período de tiempo diferente.</div></div>
+              <div class="feature-item"><span class="feat-dot green"></span><div>Los estratos más <strong>profundos</strong> son más antiguos; los más <strong>superficiales</strong> son más recientes.</div></div>
+              <div class="feature-item"><span class="feat-dot green"></span><div>Esto permite a los científicos estimar la <strong>antigüedad relativa</strong> de un fósil según el estrato donde se encontró.</div></div>
+            </div>
+            <div class="tip-box bio">
+              <span class="tip-icon">🧪</span>
+              <span class="tip-text"><strong class="bio">Para la prueba:</strong> Los fósiles se ubican en estratos de la Tierra — los más profundos son los más viejos. Las rocas sedimentarias son las únicas que los contienen porque se forman por acumulación y permiten la conservación de restos.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- OA 2: EVIDENCIAS EVOLUCIÓN -->
+      <div class="acc-item bio" id="accB2">
+        <div class="acc-header" onclick="toggleAcc('accB2')">
+          <div class="acc-icon bio">🔬</div>
+          <div>
+            <div class="acc-heading">Evidencias de la Evolución (OA 2)</div>
+            <div class="acc-sub">Registro fósil, estructuras homólogas, embriología y ADN</div>
+          </div>
+          <span class="acc-arrow">▶</span>
+        </div>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <div class="def-block bio">
+              <p>La <strong>teoría de la evolución</strong> propone que todas las especies descienden de ancestros comunes y cambian a lo largo del tiempo. Existen cuatro grandes tipos de evidencias que la sustentan.</p>
+            </div>
+            <div class="evidencias-grid">
+              <div class="ev-col">
+                <div class="ev-col-header bio">📖 Registro Fósil</div>
+                <div class="feature-list">
+                  <div class="feature-item"><span class="feat-dot green"></span><div>Muestra cómo las especies han <strong>cambiado</strong> a lo largo del tiempo.</div></div>
+                  <div class="feature-item"><span class="feat-dot green"></span><div>Documenta la aparición y extinción de especies.</div></div>
+                  <div class="feature-item"><span class="feat-dot green"></span><div>Permite ver la <strong>secuencia evolutiva</strong>: ej. del dinosaurio al ave.</div></div>
+                </div>
+              </div>
+              <div class="ev-col">
+                <div class="ev-col-header bio">🦴 Estructuras Homólogas</div>
+                <div class="feature-list">
+                  <div class="feature-item"><span class="feat-dot green"></span><div>Son estructuras con el <strong>mismo origen evolutivo</strong> pero diferentes funciones en distintas especies.</div></div>
+                  <div class="feature-item"><span class="feat-dot green"></span><div>Ejemplo clásico: el hueso del brazo humano, la aleta de ballena, el ala de murciélago y la pata del caballo tienen la <strong>misma estructura ósea base</strong>.</div></div>
+                  <div class="feature-item"><span class="feat-dot green"></span><div>Prueban que las especies comparten un <strong>ancestro común</strong>.</div></div>
+                </div>
+              </div>
+              <div class="ev-col">
+                <div class="ev-col-header bio">🐣 Embriología</div>
+                <div class="feature-list">
+                  <div class="feature-item"><span class="feat-dot green"></span><div>Los embriones de vertebrados muy distintos (pez, pollo, humano) son sorprendentemente <strong>similares</strong> en sus primeras etapas.</div></div>
+                  <div class="feature-item"><span class="feat-dot green"></span><div>Esto sugiere que comparten un <strong>patrón de desarrollo ancestral</strong> común.</div></div>
+                  <div class="feature-item"><span class="feat-dot green"></span><div>Las diferencias aparecen en etapas más avanzadas del desarrollo.</div></div>
+                </div>
+              </div>
+              <div class="ev-col">
+                <div class="ev-col-header bio">🧬 Secuencias de ADN</div>
+                <div class="feature-list">
+                  <div class="feature-item"><span class="feat-dot green"></span><div>Especies más emparentadas tienen secuencias de ADN <strong>más similares</strong>.</div></div>
+                  <div class="feature-item"><span class="feat-dot green"></span><div>El ADN de los humanos es un 98,7% idéntico al del chimpancé.</div></div>
+                  <div class="feature-item"><span class="feat-dot green"></span><div>Permite construir <strong>árboles filogenéticos</strong> precisos de parentesco evolutivo.</div></div>
+                </div>
+              </div>
+            </div>
+            <div class="example-box">
+              <div class="ex-label bio">Ejemplo de prueba: pregunta tipo</div>
+              <p>¿Cuál de las siguientes evidencias apoya <em class="em-green">MEJOR</em> que el ser humano y el chimpancé tienen un ancestro común reciente?</p>
+              <p style="margin-top:8px">→ La respuesta correcta sería las <strong>secuencias de ADN</strong> porque muestran similitud genética directa. Las estructuras homólogas y la embriología son también válidas pero a nivel molecular el ADN es la evidencia más precisa.</p>
+            </div>
+            <div class="tip-box bio">
+              <span class="tip-icon">🎯</span>
+              <span class="tip-text"><strong class="bio">Truco para la prueba:</strong> Memoriza las cuatro evidencias con el acrónimo <strong>R-H-E-A</strong>: <strong>R</strong>egistro fósil, <strong>H</strong>omología estructural, <strong>E</strong>mbriología, <strong>A</strong>DN.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTENIDOS CLAVE BIO -->
+      <div class="acc-item bio" id="accB3">
+        <div class="acc-header" onclick="toggleAcc('accB3')">
+          <div class="acc-icon bio">📌</div>
+          <div>
+            <div class="acc-heading">Contenidos y Conceptos Clave para la Prueba</div>
+            <div class="acc-sub">Fósiles, rocas sedimentarias, estructuras homólogas, embriología y ADN</div>
+          </div>
+          <span class="acc-arrow">▶</span>
+        </div>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <div class="content-title">Conceptos que DEBES dominar</div>
+            <div class="feature-list">
+              <div class="feature-item"><span class="feat-dot green"></span><div><strong>Estrato:</strong> capa de roca sedimentaria. Los estratos se leen como un libro: los más profundos son más antiguos.</div></div>
+              <div class="feature-item"><span class="feat-dot green"></span><div><strong>Fosilización:</strong> proceso por el cual los restos de un organismo se mineralizan y conservan en roca.</div></div>
+              <div class="feature-item"><span class="feat-dot green"></span><div><strong>Roca sedimentaria:</strong> formada por acumulación de sedimentos (arena, limo, minerales). Ejemplos: caliza, arenisca, lutita.</div></div>
+              <div class="feature-item"><span class="feat-dot purple"></span><div><strong>Estructura homóloga vs. análoga:</strong> homóloga = mismo origen, diferente función (aleta de ballena y brazo humano). Análoga = misma función, diferente origen (ala de ave y ala de insecto).</div></div>
+              <div class="feature-item"><span class="feat-dot purple"></span><div><strong>Árbol filogenético:</strong> diagrama que muestra las relaciones evolutivas entre especies.</div></div>
+              <div class="feature-item"><span class="feat-dot green"></span><div><strong>Evidencia directa vs. indirecta:</strong> los fósiles son evidencia directa del pasado; el ADN comparado es evidencia molecular.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- TAB 3: FÍSICA -->
+  <!-- ══════════════════════════════════════ -->
+  <div class="section-panel" id="tab-fisica">
+    <div class="sec-label">Física · OA 9 &amp; OA 11</div>
+    <h2 class="sec-title fis">Ondas y Fenómenos Luminosos</h2>
+    <p class="sec-desc">Las ondas transmiten energía. La luz es una onda electromagnética con propiedades y fenómenos fascinantes.</p>
+
+    <div class="accordion">
+
+      <!-- OA 9: ONDAS -->
+      <div class="acc-item fis" id="accF1">
+        <div class="acc-header" onclick="toggleAcc('accF1')">
+          <div class="acc-icon fis">🌊</div>
+          <div>
+            <div class="acc-heading">Ondas: características y clasificación (OA 9)</div>
+            <div class="acc-sub">Amplitud, frecuencia, longitud de onda, velocidad y tipos</div>
+          </div>
+          <span class="acc-arrow">▶</span>
+        </div>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <div class="def-block fis">
+              <p>Una <strong>onda</strong> es una perturbación que se propaga a través de un medio (o del vacío) transportando <strong>energía</strong> sin transportar materia. Las ondas son el mecanismo fundamental de transmisión de energía en la naturaleza.</p>
+            </div>
+
+            <!-- Diagrama visual de onda -->
+            <div class="wave-diagram">
+              <svg viewBox="0 0 500 140" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+                    <polygon points="0 0, 8 3, 0 6" fill="#7a8aa0"/>
+                  </marker>
+                </defs>
+                <!-- Eje X -->
+                <line x1="20" y1="70" x2="490" y2="70" stroke="#3d4f68" stroke-width="1" marker-end="url(#arrow)"/>
+                <!-- Onda sinusoidal -->
+                <path d="M30,70 Q80,20 130,70 Q180,120 230,70 Q280,20 330,70 Q380,120 430,70" fill="none" stroke="#06b6d4" stroke-width="2.5"/>
+                <!-- Amplitud -->
+                <line x1="80" y1="22" x2="80" y2="70" stroke="#10b981" stroke-width="1.5" stroke-dasharray="4,3"/>
+                <text x="85" y="46" fill="#10b981" font-size="11" font-family="monospace">A</text>
+                <!-- Longitud de onda -->
+                <line x1="30" y1="110" x2="230" y2="110" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arrow)" marker-start="url(#arrow)"/>
+                <text x="110" y="128" fill="#f59e0b" font-size="11" font-family="monospace">λ</text>
+                <!-- Labels -->
+                <text x="460" y="66" fill="#3d4f68" font-size="10" font-family="monospace">t / x</text>
+                <text x="22" y="18" fill="#06b6d4" font-size="10" font-family="monospace">cresta</text>
+                <text x="200" y="135" fill="#06b6d4" font-size="10" font-family="monospace">valle</text>
+              </svg>
+              <div class="wave-label">A = Amplitud &nbsp;|&nbsp; λ = Longitud de onda &nbsp;|&nbsp; Cresta y Valle</div>
+            </div>
+
+            <div class="content-title">Características de las ondas</div>
+            <div class="feature-list">
+              <div class="feature-item"><span class="feat-dot cyan"></span><div><strong>Amplitud (A):</strong> altura máxima de la onda desde el punto de equilibrio. Determina la <strong>intensidad o energía</strong> de la onda.</div></div>
+              <div class="feature-item"><span class="feat-dot cyan"></span><div><strong>Frecuencia (f):</strong> número de ciclos completos por segundo. Unidad: Hertz (Hz). A mayor frecuencia, más ciclos por segundo.</div></div>
+              <div class="feature-item"><span class="feat-dot cyan"></span><div><strong>Longitud de onda (λ):</strong> distancia entre dos puntos equivalentes consecutivos (cresta a cresta, o valle a valle).</div></div>
+              <div class="feature-item"><span class="feat-dot cyan"></span><div><strong>Velocidad de propagación (v):</strong> qué tan rápido viaja la onda a través del medio.</div></div>
+              <div class="feature-item"><span class="feat-dot purple"></span><div><strong>Período (T):</strong> tiempo que tarda en completarse un ciclo. Relación: T = 1/f</div></div>
+            </div>
+
+            <div class="formula-box">
+              <div class="formula-text">v = f · λ</div>
+              <div class="formula-desc">Velocidad = Frecuencia × Longitud de onda</div>
+            </div>
+
+            <div class="content-title">Clasificación de ondas</div>
+            <table class="ondas-table">
+              <tr>
+                <th>Tipo</th>
+                <th>Descripción</th>
+                <th>Ejemplos</th>
+              </tr>
+              <tr>
+                <td>Mecánicas</td>
+                <td>Necesitan un medio material para propagarse (sólido, líquido, gas)</td>
+                <td>Sonido, ondas de agua, ondas sísmicas</td>
+              </tr>
+              <tr>
+                <td>Electromagnéticas</td>
+                <td>No necesitan medio; se propagan en el vacío</td>
+                <td>Luz, radio, rayos X, microondas</td>
+              </tr>
+              <tr>
+                <td>Transversales</td>
+                <td>La perturbación es perpendicular a la dirección de propagación</td>
+                <td>Luz, ondas en cuerdas</td>
+              </tr>
+              <tr>
+                <td>Longitudinales</td>
+                <td>La perturbación es paralela a la dirección de propagación</td>
+                <td>Sonido, ondas sísmicas P</td>
+              </tr>
+              <tr>
+                <td>Superficiales</td>
+                <td>Se propagan en la interfaz entre dos medios</td>
+                <td>Olas del mar, ondas sísmicas superficiales</td>
+              </tr>
+            </table>
+
+            <div class="content-title">Las ondas pueden:</div>
+            <div class="cards-grid">
+              <div class="info-card">
+                <div class="info-card-icon">🪞</div>
+                <div class="info-card-title">Reflejarse</div>
+                <div class="info-card-desc">Rebotan al encontrar una superficie. Ángulo de incidencia = ángulo de reflexión.</div>
+              </div>
+              <div class="info-card">
+                <div class="info-card-icon">🔀</div>
+                <div class="info-card-title">Refractarse</div>
+                <div class="info-card-desc">Cambian de dirección al pasar de un medio a otro de diferente densidad.</div>
+              </div>
+              <div class="info-card">
+                <div class="info-card-icon">🧱</div>
+                <div class="info-card-title">Absorberse</div>
+                <div class="info-card-desc">El medio convierte la energía de la onda en calor u otra forma de energía.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- OA 11: FENÓMENOS LUMINOSOS -->
+      <div class="acc-item fis" id="accF2">
+        <div class="acc-header" onclick="toggleAcc('accF2')">
+          <div class="acc-icon fis">💡</div>
+          <div>
+            <div class="acc-heading">Fenómenos luminosos: reflexión y refracción (OA 11)</div>
+            <div class="acc-sub">Espejos, lentes, modelos corpuscular y ondulatorio</div>
+          </div>
+          <span class="acc-arrow">▶</span>
+        </div>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <div class="def-block fis">
+              <p>La luz tiene una naturaleza dual: se comporta como <strong>onda</strong> (modelo ondulatorio: explica interferencia y difracción) y como <strong>partícula</strong> (modelo corpuscular o fotón: explica el efecto fotoeléctrico). Para los fenómenos cotidianos usamos ambos modelos.</p>
+            </div>
+            <div class="content-title">Reflexión de la luz</div>
+            <div class="feature-list">
+              <div class="feature-item"><span class="feat-dot cyan"></span><div><strong>Ley de reflexión:</strong> el ángulo de incidencia (θi) es igual al ángulo de reflexión (θr), ambos medidos desde la normal.</div></div>
+              <div class="feature-item"><span class="feat-dot cyan"></span><div><strong>Espejo plano:</strong> forma imágenes virtuales, derechas y del mismo tamaño.</div></div>
+              <div class="feature-item"><span class="feat-dot cyan"></span><div><strong>Espejo cóncavo:</strong> converge la luz. Puede formar imágenes reales o virtuales según la distancia del objeto.</div></div>
+              <div class="feature-item"><span class="feat-dot cyan"></span><div><strong>Espejo convexo:</strong> diverge la luz. Siempre forma imágenes virtuales, menores y derechas. Usado en espejos retrovisores.</div></div>
+            </div>
+            <div class="content-title">Refracción de la luz</div>
+            <div class="feature-list">
+              <div class="feature-item"><span class="feat-dot purple"></span><div><strong>Refracción:</strong> cambio de dirección de la luz al pasar de un medio a otro con diferente índice de refracción.</div></div>
+              <div class="feature-item"><span class="feat-dot purple"></span><div><strong>Índice de refracción (n):</strong> mide cuánto frena un medio la luz. Agua: n≈1,33 / vidrio: n≈1,5 / vacío: n=1.</div></div>
+              <div class="feature-item"><span class="feat-dot purple"></span><div><strong>Lente convexa (convergente):</strong> concentra la luz en un punto focal. Usada en lupas, cámaras, telescopios.</div></div>
+              <div class="feature-item"><span class="feat-dot purple"></span><div><strong>Lente cóncava (divergente):</strong> dispersa la luz. Usada para corregir miopía.</div></div>
+            </div>
+            <div class="example-box">
+              <div class="ex-label fis">Ejemplo cotidiano: ¿por qué un lápiz parece doblado en agua?</div>
+              <p>Cuando la luz pasa del agua al aire <em class="em-cyan">cambia de velocidad y se dobla</em>. Tu cerebro interpreta que la luz viene en línea recta, entonces "ve" el lápiz en una posición diferente a la real. Eso es <strong>refracción</strong>.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- INTERFERENCIA Y DOPPLER -->
+      <div class="acc-item fis" id="accF3">
+        <div class="acc-header" onclick="toggleAcc('accF3')">
+          <div class="acc-icon fis">🌈</div>
+          <div>
+            <div class="acc-heading">Interferencia, Doppler y formación de colores</div>
+            <div class="acc-sub">Difracción, espectro electromagnético, colores primarios</div>
+          </div>
+          <span class="acc-arrow">▶</span>
+        </div>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <div class="content-title">Interferencia y Difracción</div>
+            <div class="feature-list">
+              <div class="feature-item"><span class="feat-dot cyan"></span><div><strong>Interferencia:</strong> cuando dos ondas se superponen. Si están "en fase", se suman (interferencia constructiva = más intensa). Si están "en desfase", se anulan (interferencia destructiva).</div></div>
+              <div class="feature-item"><span class="feat-dot cyan"></span><div><strong>Difracción:</strong> la luz se "dobla" al pasar por una rendija o un borde, formando patrones de franjas.</div></div>
+            </div>
+            <div class="content-title">Efecto Doppler</div>
+            <div class="def-block fis">
+              <p>El <strong>efecto Doppler</strong> es el cambio de frecuencia percibida de una onda cuando la fuente o el observador se mueven. Si se acercan: la frecuencia aumenta (tono más agudo). Si se alejan: la frecuencia disminuye (tono más grave).</p>
+            </div>
+            <div class="example-box">
+              <div class="ex-label fis">Ejemplo clásico</div>
+              <p>Una ambulancia que se acerca suena <em class="em-cyan">más aguda</em> y cuando se aleja suena <em class="em-cyan">más grave</em>. En astronomía, el corrimiento al rojo (redshift) usa el efecto Doppler para medir que el universo se expande.</p>
+            </div>
+            <div class="content-title">Formación de colores y espectro</div>
+            <div class="feature-list">
+              <div class="feature-item"><span class="feat-dot purple"></span><div><strong>Dispersión:</strong> un prisma separa la luz blanca en sus colores (rojo, naranja, amarillo, verde, azul, índigo, violeta) porque cada color tiene diferente longitud de onda y se refracta en distintos ángulos.</div></div>
+              <div class="feature-item"><span class="feat-dot purple"></span><div><strong>Colores primarios de la luz (aditivos):</strong> Rojo, Verde y Azul (RGB). Su combinación da blanco.</div></div>
+              <div class="feature-item"><span class="feat-dot purple"></span><div><strong>Colores primarios pigmento (sustractivos):</strong> Cian, Magenta y Amarillo. Su combinación da negro (o gris oscuro).</div></div>
+              <div class="feature-item"><span class="feat-dot cyan"></span><div><strong>Espectro electromagnético:</strong> ondas de menor a mayor frecuencia: ondas de radio → microondas → infrarrojo → <strong>luz visible</strong> → ultravioleta → rayos X → rayos gamma.</div></div>
+            </div>
+            <div class="content-title">Óptica aplicada: instrumentos</div>
+            <div class="cards-grid">
+              <div class="info-card">
+                <div class="info-card-icon">🔭</div>
+                <div class="info-card-title">Telescopio</div>
+                <div class="info-card-desc">Usa lentes o espejos para captar y ampliar luz de objetos distantes. El de Galileo usaba lentes cóncavas y convexas.</div>
+              </div>
+              <div class="info-card">
+                <div class="info-card-icon">🔎</div>
+                <div class="info-card-title">Microscopio óptico</div>
+                <div class="info-card-desc">Combina lentes convexas para ampliar objetos muy pequeños. Usa luz visible y múltiples lentes.</div>
+              </div>
+              <div class="info-card">
+                <div class="info-card-icon">🟢</div>
+                <div class="info-card-title">Prisma</div>
+                <div class="info-card-desc">Dispersa la luz blanca en el espectro visible por refracción diferenciada según longitud de onda.</div>
+              </div>
+              <div class="info-card">
+                <div class="info-card-icon">🔵</div>
+                <div class="info-card-title">Filtros de color</div>
+                <div class="info-card-desc">Dejan pasar ciertos colores y absorben otros. Un filtro azul absorbe rojo y verde, transmite azul.</div>
+              </div>
+            </div>
+            <div class="tip-box fis">
+              <span class="tip-icon">💡</span>
+              <span class="tip-text"><strong class="fis">Truco para el espectro:</strong> recuerda <strong>ROYGBIV</strong> (en inglés) o <strong>Roy G Biv</strong>: Rojo → Naranja → Amarillo → Verde → Azul → Índigo → Violeta. Mayor longitud de onda = rojo; menor = violeta.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SONIDO Y ONDAS MECÁNICAS -->
+      <div class="acc-item fis" id="accF4">
+        <div class="acc-header" onclick="toggleAcc('accF4')">
+          <div class="acc-icon fis">🔊</div>
+          <div>
+            <div class="acc-heading">El sonido y las ondas mecánicas</div>
+            <div class="acc-sub">Propagación, percepción y características del sonido</div>
+          </div>
+          <span class="acc-arrow">▶</span>
+        </div>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <div class="def-block fis">
+              <p>El <strong>sonido</strong> es una onda mecánica longitudinal que necesita un medio material para propagarse. No se transmite en el vacío. Se propaga más rápido en sólidos que en líquidos, y más rápido en líquidos que en gases.</p>
+            </div>
+            <div class="feature-list">
+              <div class="feature-item"><span class="feat-dot cyan"></span><div><strong>Velocidad del sonido en el aire:</strong> ≈ 343 m/s a 20°C. En el agua: ≈ 1480 m/s. En el acero: ≈ 5000 m/s.</div></div>
+              <div class="feature-item"><span class="feat-dot cyan"></span><div><strong>Tono (altura):</strong> determinado por la frecuencia. Más frecuencia = tono más agudo.</div></div>
+              <div class="feature-item"><span class="feat-dot cyan"></span><div><strong>Intensidad (volumen):</strong> determinada por la amplitud. Mayor amplitud = sonido más fuerte.</div></div>
+              <div class="feature-item"><span class="feat-dot purple"></span><div><strong>Timbre:</strong> calidad del sonido que permite distinguir entre distintas fuentes aunque tengan el mismo tono e intensidad.</div></div>
+            </div>
+            <div class="tip-box teal">
+              <span class="tip-icon">🎵</span>
+              <span class="tip-text"><strong class="teal">Aplicación Doppler + sonido:</strong> La sirena de la ambulancia, el radar de velocidad, los ultrasonidos médicos y el sonar submarino usan el efecto Doppler.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- TAB 4: QUÍMICA -->
+  <!-- ══════════════════════════════════════ -->
+  <div class="section-panel" id="tab-quimica">
+    <div class="sec-label">Química · OA 14</div>
+    <h2 class="sec-title quim">Tabla Periódica y Enlace Químico</h2>
+    <p class="sec-desc">La tabla periódica organiza los elementos y permite predecir sus propiedades. El enlace químico explica cómo los átomos se unen.</p>
+
+    <div class="accordion">
+
+      <!-- TABLA PERIÓDICA -->
+      <div class="acc-item quim" id="accQ1">
+        <div class="acc-header" onclick="toggleAcc('accQ1')">
+          <div class="acc-icon quim">📊</div>
+          <div>
+            <div class="acc-heading">La Tabla Periódica como modelo (OA 14)</div>
+            <div class="acc-sub">Organización, períodos, grupos y tendencias periódicas</div>
+          </div>
+          <span class="acc-arrow">▶</span>
+        </div>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <div class="def-block quim">
+              <p>La <strong>tabla periódica</strong> es un modelo que organiza los elementos químicos en orden creciente de número atómico (Z), de manera que los elementos con propiedades similares quedan en la misma columna (<strong>grupo o familia</strong>).</p>
+            </div>
+            <div class="content-title">Estructura básica</div>
+            <div class="feature-list">
+              <div class="feature-item"><span class="feat-dot amber"></span><div><strong>Períodos (filas horizontales):</strong> hay 7 períodos. El número de período indica la cantidad de capas de electrones que tiene el átomo.</div></div>
+              <div class="feature-item"><span class="feat-dot amber"></span><div><strong>Grupos (columnas verticales):</strong> hay 18 grupos. Los elementos de un mismo grupo tienen el mismo número de electrones de valencia y propiedades químicas similares.</div></div>
+              <div class="feature-item"><span class="feat-dot amber"></span><div><strong>Metales:</strong> izquierda y centro de la tabla. Buenos conductores, maleables, brillantes.</div></div>
+              <div class="feature-item"><span class="feat-dot rose"></span><div><strong>No metales:</strong> derecha de la tabla. Malos conductores. Incluye el carbono, oxígeno, nitrógeno, halógenos.</div></div>
+              <div class="feature-item"><span class="feat-dot purple"></span><div><strong>Semimetales (metaloides):</strong> frontera entre metales y no metales. Propiedades intermedias. Ejemplo: Silicio (Si).</div></div>
+              <div class="feature-item"><span class="feat-dot teal"></span><div><strong>Gases nobles:</strong> grupo 18. Extremadamente estables porque tienen la capa de valencia completa.</div></div>
+            </div>
+
+            <!-- Mini tabla de elementos interactiva -->
+            <div class="content-title">Elementos clave que debes conocer</div>
+            <div class="periodic-preview" id="periodic-preview">
+              <!-- JS los llenará -->
+            </div>
+
+            <div class="content-title">Tendencias periódicas</div>
+            <div class="cards-grid">
+              <div class="info-card">
+                <div class="info-card-icon">📏</div>
+                <div class="info-card-title">Radio atómico</div>
+                <div class="info-card-desc">↑ Aumenta al bajar en un grupo (más capas). ← Disminuye al ir a la derecha en un período (más protones atraen más los electrones).</div>
+              </div>
+              <div class="info-card">
+                <div class="info-card-icon">⚡</div>
+                <div class="info-card-title">Electronegatividad</div>
+                <div class="info-card-desc">Capacidad de atraer electrones. → Aumenta hacia la derecha y ↑ hacia arriba. El Flúor (F) es el más electronegativo.</div>
+              </div>
+              <div class="info-card">
+                <div class="info-card-icon">🔋</div>
+                <div class="info-card-title">Energía de ionización</div>
+                <div class="info-card-desc">Energía para arrancar un electrón. → Aumenta hacia la derecha; ↓ disminuye al bajar en un grupo.</div>
+              </div>
+              <div class="info-card">
+                <div class="info-card-icon">⚛️</div>
+                <div class="info-card-title">Carácter metálico</div>
+                <div class="info-card-desc">↓ Aumenta hacia abajo y ← hacia la izquierda. El cesio (Cs) y el francio (Fr) son de los más metálicos.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ENLACE QUÍMICO -->
+      <div class="acc-item quim" id="accQ2">
+        <div class="acc-header" onclick="toggleAcc('accQ2')">
+          <div class="acc-icon quim">🔗</div>
+          <div>
+            <div class="acc-heading">Enlace Químico</div>
+            <div class="acc-sub">Iónico, covalente y metálico — cómo y por qué se unen los átomos</div>
+          </div>
+          <span class="acc-arrow">▶</span>
+        </div>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <div class="def-block quim">
+              <p>Un <strong>enlace químico</strong> es la unión entre dos o más átomos para formar moléculas o compuestos. Los átomos se enlazan para alcanzar una configuración electrónica más estable (regla del octeto: 8 electrones en la capa de valencia).</p>
+            </div>
+            <div class="content-title">Tipos de enlace</div>
+
+            <div class="evidencias-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+              <div class="ev-col">
+                <div class="ev-col-header quim">⚡ Enlace Iónico</div>
+                <div class="feature-list">
+                  <div class="feature-item"><span class="feat-dot amber"></span><div>Se forma entre un <strong>metal</strong> y un <strong>no metal</strong>.</div></div>
+                  <div class="feature-item"><span class="feat-dot amber"></span><div>Un átomo cede electrones (catión +) y el otro los recibe (anión −).</div></div>
+                  <div class="feature-item"><span class="feat-dot amber"></span><div>Forman estructuras cristalinas sólidas.</div></div>
+                  <div class="feature-item"><span class="feat-dot amber"></span><div>Ejemplo: <strong>NaCl</strong> (sal de mesa). Na⁺ + Cl⁻</div></div>
+                </div>
+              </div>
+              <div class="ev-col">
+                <div class="ev-col-header fis">🤝 Enlace Covalente</div>
+                <div class="feature-list">
+                  <div class="feature-item"><span class="feat-dot cyan"></span><div>Se forma entre dos <strong>no metales</strong>.</div></div>
+                  <div class="feature-item"><span class="feat-dot cyan"></span><div>Los átomos <strong>comparten</strong> pares de electrones.</div></div>
+                  <div class="feature-item"><span class="feat-dot cyan"></span><div>Puede ser simple (1 par), doble (2 pares) o triple (3 pares).</div></div>
+                  <div class="feature-item"><span class="feat-dot cyan"></span><div>Ejemplos: <strong>H₂O</strong>, <strong>CO₂</strong>, <strong>CH₄</strong>, O₂</div></div>
+                </div>
+              </div>
+              <div class="ev-col">
+                <div class="ev-col-header bio">🔩 Enlace Metálico</div>
+                <div class="feature-list">
+                  <div class="feature-item"><span class="feat-dot green"></span><div>Se forma entre átomos de <strong>metales</strong>.</div></div>
+                  <div class="feature-item"><span class="feat-dot green"></span><div>Los electrones de valencia forman una "nube" libre que circula.</div></div>
+                  <div class="feature-item"><span class="feat-dot green"></span><div>Explica la conductividad, maleabilidad y brillo de los metales.</div></div>
+                  <div class="feature-item"><span class="feat-dot green"></span><div>Ejemplos: <strong>Cu</strong> (cobre), <strong>Fe</strong> (hierro), <strong>Al</strong> (aluminio)</div></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tip-box quim">
+              <span class="tip-icon">⚗️</span>
+              <span class="tip-text"><strong class="quim">Regla rápida para la prueba:</strong> Metal + No metal → enlace <strong>IÓNICO</strong>. No metal + No metal → enlace <strong>COVALENTE</strong>. Metal + Metal → enlace <strong>METÁLICO</strong>.</span>
+            </div>
+
+            <div class="content-title">Propiedades según el enlace</div>
+            <table class="ondas-table">
+              <tr>
+                <th>Enlace</th>
+                <th>Punto de fusión</th>
+                <th>Conductividad</th>
+                <th>Estado usual</th>
+              </tr>
+              <tr>
+                <td>Iónico</td>
+                <td>Alto</td>
+                <td>Solo en solución acuosa o fundido</td>
+                <td>Sólido cristalino</td>
+              </tr>
+              <tr>
+                <td>Covalente</td>
+                <td>Variable (bajo a alto)</td>
+                <td>Generalmente no conduce</td>
+                <td>Gas, líquido o sólido</td>
+              </tr>
+              <tr>
+                <td>Metálico</td>
+                <td>Variable (generalmente alto)</td>
+                <td>Excelente conductor en cualquier estado</td>
+                <td>Sólido (excepto mercurio)</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- PREDICCIÓN DE PROPIEDADES -->
+      <div class="acc-item quim" id="accQ3">
+        <div class="acc-header" onclick="toggleAcc('accQ3')">
+          <div class="acc-icon quim">🔮</div>
+          <div>
+            <div class="acc-heading">Predicción de propiedades con la tabla periódica</div>
+            <div class="acc-sub">Cómo usar la posición de un elemento para predecir su comportamiento</div>
+          </div>
+          <span class="acc-arrow">▶</span>
+        </div>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <div class="def-block quim">
+              <p>La <strong>posición</strong> de un elemento en la tabla periódica nos permite <strong>predecir</strong> su electronegatividad, radio atómico, tipo de enlace que forma, valencia, y si es metal o no metal, sin necesidad de memorizar cada elemento individualmente.</p>
+            </div>
+            <div class="content-title">Estrategia para preguntas de predicción</div>
+            <div class="feature-list">
+              <div class="feature-item"><span class="feat-dot amber"></span><div><strong>Paso 1:</strong> Identifica el período y el grupo del elemento. El período = capas de electrones. El grupo = electrones de valencia.</div></div>
+              <div class="feature-item"><span class="feat-dot amber"></span><div><strong>Paso 2:</strong> ¿Es metal o no metal? Los metales están a la izquierda, los no metales a la derecha.</div></div>
+              <div class="feature-item"><span class="feat-dot amber"></span><div><strong>Paso 3:</strong> ¿Qué tipo de enlace formará? Aplica la regla Metal/No metal.</div></div>
+              <div class="feature-item"><span class="feat-dot amber"></span><div><strong>Paso 4:</strong> Compara tendencias: ¿cuál es más electronegativo? ¿Cuál tiene mayor radio atómico?</div></div>
+            </div>
+            <div class="example-box">
+              <div class="ex-label quim">Ejemplo de pregunta de prueba</div>
+              <p>"El elemento X está en el período 3, grupo 1. ¿Qué tipo de enlace formará al reaccionar con el cloro (Cl)?"</p>
+              <p style="margin-top:8px">→ Grupo 1 = metal alcalino (Na). Cl = no metal (halógeno). Metal + No metal = <em class="em-amber">enlace IÓNICO</em>. Formaría NaCl.</p>
+            </div>
+            <div class="tip-box quim">
+              <span class="tip-icon">🎯</span>
+              <span class="tip-text"><strong class="quim">Familias importantes:</strong> Grupo 1 = Metales alcalinos (muy reactivos). Grupo 17 = Halógenos (reactivos, forman sales). Grupo 18 = Gases nobles (inertes, capa completa). Grupo 2 = Alcalino-térreos.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- TAB 5: PRÁCTICA -->
+  <!-- ══════════════════════════════════════ -->
+  <div class="section-panel" id="tab-practica">
+    <div class="sec-label">Práctica interactiva</div>
+    <h2 class="sec-title all">Preguntas tipo PDN</h2>
+    <p class="sec-desc">Responde y obtén feedback inmediato. Las preguntas cubren los tres temas de la prueba.</p>
+
+    <div class="quiz-score-bar">
+      <div>
+        <div class="score-display" id="score-num">0 / 8</div>
+        <div class="score-label">respuestas correctas</div>
+      </div>
+      <div class="score-track">
+        <div style="font-size:11px;color:var(--text-dim);font-family:var(--font-mono);letter-spacing:0.08em;">PUNTAJE</div>
+        <div class="score-fill-bar"><div class="score-fill" id="score-fill"></div></div>
+      </div>
+    </div>
+
+    <div class="quiz-area" id="quiz-container">
+      <!-- JS generará las preguntas -->
+    </div>
+  </div>
+
+</div><!-- end content-area -->
+
+<!-- FOOTER -->
+<footer class="footer">
+  <span>Colegio Tantauco</span> — Prueba de Nivel Ciencias Naturales &nbsp;·&nbsp; 12 de Junio · Biología · Física · Química
+</footer>
+
+<!-- TEMPORIZADOR -->
+<style>
+  #st-wrap { position:fixed; bottom:20px; right:20px; z-index:9999; font-family:var(--font-mono); user-select:none; display:flex; flex-direction:column; align-items:flex-end; gap:8px; }
+  #st-panel { background:var(--surface); border:1px solid rgba(255,255,255,0.11); border-radius:14px; padding:16px 18px 14px; width:210px; box-shadow:0 12px 40px rgba(0,0,0,0.55); transform-origin:bottom right; transform:scale(0.92) translateY(6px); opacity:0; pointer-events:none; transition:opacity 0.18s ease, transform 0.18s ease; }
+  #st-panel.open { opacity:1; transform:scale(1) translateY(0); pointer-events:all; }
+  .st-modes { display:flex; gap:5px; margin-bottom:12px; }
+  .st-mode { flex:1; padding:4px 2px; border:1px solid rgba(255,255,255,0.07); border-radius:6px; background:transparent; color:var(--text-muted); font-family:inherit; font-size:9px; letter-spacing:0.07em; cursor:pointer; transition:all 0.13s; text-align:center; }
+  .st-mode.active { border-color:rgba(16,185,129,0.4); color:var(--green); background:rgba(16,185,129,0.08); }
+  .st-time { font-size:2rem; font-weight:500; color:var(--text); letter-spacing:0.06em; text-align:center; line-height:1; margin-bottom:10px; }
+  .st-bar-wrap { height:2px; background:rgba(255,255,255,0.06); border-radius:2px; margin-bottom:12px; overflow:hidden; }
+  .st-bar { height:100%; border-radius:2px; background:linear-gradient(90deg, var(--green), var(--cyan)); transition:width 0.9s linear; }
+  .st-btns { display:flex; gap:6px; }
+  .st-btn { flex:1; padding:7px 4px; border:1px solid rgba(255,255,255,0.09); border-radius:7px; background:rgba(255,255,255,0.03); color:var(--text-muted); font-family:inherit; font-size:10px; letter-spacing:0.05em; cursor:pointer; transition:all 0.13s; }
+  .st-btn:hover { background:rgba(255,255,255,0.08); color:var(--text); }
+  .st-btn.go { background:rgba(16,185,129,0.12); border-color:rgba(16,185,129,0.35); color:var(--green); }
+  .st-btn.go:hover { background:rgba(16,185,129,0.22); }
+  .st-sessions { display:flex; align-items:center; justify-content:space-between; margin-top:10px; font-size:9px; color:var(--text-dim); letter-spacing:0.09em; }
+  .st-dots { display:flex; gap:4px; }
+  .st-dot { width:5px; height:5px; border-radius:50%; background:rgba(255,255,255,0.08); transition:background 0.2s; }
+  .st-dot.on { background:var(--green); }
+  #st-trigger { width:36px; height:36px; border-radius:50%; border:1px solid rgba(255,255,255,0.11); background:var(--surface); color:var(--text-muted); font-size:15px; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 16px rgba(0,0,0,0.4); transition:border-color 0.15s, color 0.15s; flex-shrink:0; position:relative; }
+  #st-trigger:hover, #st-trigger.open { border-color:rgba(16,185,129,0.45); color:var(--green); }
+  #st-trigger .run-dot { display:none; position:absolute; top:4px; right:4px; width:6px; height:6px; border-radius:50%; background:var(--green); animation:st-pulse 1.4s ease-in-out infinite; }
+  #st-trigger.running .run-dot { display:block; }
+  @keyframes st-pulse { 0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.6)} }
+</style>
+<div id="st-wrap">
+  <div id="st-panel">
+    <div class="st-modes">
+      <button class="st-mode active" data-m="focus">Foco</button>
+      <button class="st-mode" data-m="short">Pausa</button>
+      <button class="st-mode" data-m="long">Descanso</button>
+    </div>
+    <div class="st-time" id="st-display">25:00</div>
+    <div class="st-bar-wrap"><div class="st-bar" id="st-bar" style="width:100%"></div></div>
+    <div class="st-btns">
+      <button class="st-btn" id="st-reset" onclick="stReset()">↺</button>
+      <button class="st-btn go" id="st-toggle" onclick="stToggle()">▶ Iniciar</button>
+    </div>
+    <div class="st-sessions"><span>sesiones</span><div class="st-dots"><div class="st-dot" id="stDot0"></div><div class="st-dot" id="stDot1"></div><div class="st-dot" id="stDot2"></div><div class="st-dot" id="stDot3"></div></div></div>
+  </div>
+  <button id="st-trigger" title="Temporizador de estudio" onclick="stTrigger()">⏱<span class="run-dot"></span></button>
+</div>
+
+<script>
+// ── TABS ──
+let currentColor = 'all';
+function showTab(id, btn, color) {
+  document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach(t => {
+    t.className = 'nav-tab';
+  });
+  if (btn) {
+    btn.classList.add('active-' + color);
+  } else {
+    // Called from sub-card click — find the matching tab button
+    const tabs = document.querySelectorAll('.nav-tab');
+    const map = { bio:'bio', fisica:'fis', quimica:'quim', resumen:'all', practica:'all' };
+    tabs.forEach(t => {
+      if (t.getAttribute('onclick') && t.getAttribute('onclick').includes("'"+id+"'")) {
+        t.classList.add('active-' + color);
+      }
+    });
+  }
+  currentColor = color;
+}
+
+// ── ACCORDIONS ──
+function toggleAcc(id) {
+  const item = document.getElementById(id);
+  const isOpen = item.classList.contains('open');
+  item.classList.toggle('open', !isOpen);
+  const body = item.querySelector('.acc-body');
+  body.style.maxHeight = isOpen ? '0' : body.scrollHeight + 'px';
+  // re-expand if content changes
+  if (!isOpen) {
+    setTimeout(() => { body.style.maxHeight = '2000px'; }, 10);
+  }
+}
+
+// ── PROGRESS TRACKER ──
+function toggleProg(item) {
+  item.classList.toggle('done');
+  const check = item.querySelector('.prog-check');
+  check.textContent = item.classList.contains('done') ? '✓' : '';
+}
+
+// ── PERIODIC TABLE MINI ──
+const elements = [
+  { sym: 'H',  z: 1,  name: 'Hidrógeno' },
+  { sym: 'He', z: 2,  name: 'Helio' },
+  { sym: 'Li', z: 3,  name: 'Litio' },
+  { sym: 'C',  z: 6,  name: 'Carbono' },
+  { sym: 'N',  z: 7,  name: 'Nitrógeno' },
+  { sym: 'O',  z: 8,  name: 'Oxígeno' },
+  { sym: 'Na', z: 11, name: 'Sodio' },
+  { sym: 'Mg', z: 12, name: 'Magnesio' },
+  { sym: 'Al', z: 13, name: 'Aluminio' },
+  { sym: 'Si', z: 14, name: 'Silicio' },
+  { sym: 'Cl', z: 17, name: 'Cloro' },
+  { sym: 'Ar', z: 18, name: 'Argón' },
+  { sym: 'Ca', z: 20, name: 'Calcio' },
+  { sym: 'Fe', z: 26, name: 'Hierro' },
+  { sym: 'Cu', z: 29, name: 'Cobre' },
+  { sym: 'Au', z: 79, name: 'Oro' },
+];
+
+const pp = document.getElementById('periodic-preview');
+if (pp) {
+  elements.forEach(el => {
+    const d = document.createElement('div');
+    d.className = 'element-card';
+    d.title = el.name;
+    d.innerHTML = `<div class="el-num">${el.z}</div><div class="el-symbol">${el.sym}</div><div class="el-name">${el.name}</div>`;
+    pp.appendChild(d);
+  });
+}
+
+// ── QUIZ ──
+const questions = [
+  {
+    q: '¿En qué tipo de roca se forman principalmente los fósiles?',
+    opts: ['Roca ígnea', 'Roca metamórfica', 'Roca sedimentaria', 'Roca volcánica'],
+    ans: 2,
+    fb: 'Correcto. Los fósiles se forman en rocas SEDIMENTARIAS porque se depositan en capas (estratos) que entierran y conservan los restos de organismos.'
+  },
+  {
+    q: '¿Qué evidencia de la evolución estudia las similitudes en el desarrollo embrionario entre especies distintas?',
+    opts: ['Registro fósil', 'Estructuras homólogas', 'Embriología comparada', 'Secuencias de ADN'],
+    ans: 2,
+    fb: 'Correcto. La embriología comparada analiza que embriones de vertebrados muy distintos son sorprendentemente similares en etapas tempranas, lo que indica un ancestro común.'
+  },
+  {
+    q: 'El brazo de un humano, la aleta de una ballena y el ala de un murciélago tienen la misma estructura ósea básica. ¿Qué tipo de evidencia evolutiva representa esto?',
+    opts: ['Estructuras análogas', 'Estructuras homólogas', 'Registro fósil', 'Embriología'],
+    ans: 1,
+    fb: '¡Exacto! Son estructuras HOMÓLOGAS: mismo origen evolutivo, diferente función. Prueban que estas especies comparten un ancestro común.'
+  },
+  {
+    q: 'Una onda tiene frecuencia 200 Hz y longitud de onda 1,5 m. ¿Cuál es su velocidad de propagación?',
+    opts: ['133,3 m/s', '201,5 m/s', '300 m/s', '198,5 m/s'],
+    ans: 2,
+    fb: 'Correcto. v = f × λ = 200 Hz × 1,5 m = 300 m/s.'
+  },
+  {
+    q: '¿Cuál de los siguientes fenómenos ocurre cuando la luz pasa de un medio a otro con diferente densidad óptica y cambia de dirección?',
+    opts: ['Reflexión', 'Difracción', 'Refracción', 'Interferencia'],
+    ans: 2,
+    fb: 'Correcto. La REFRACCIÓN es el cambio de dirección de una onda al pasar de un medio a otro. Explica por qué un lápiz parece doblado en el agua.'
+  },
+  {
+    q: 'La sirena de una ambulancia parece más aguda cuando se acerca. ¿A qué fenómeno corresponde esto?',
+    opts: ['Difracción', 'Efecto Doppler', 'Interferencia constructiva', 'Refracción'],
+    ans: 1,
+    fb: '¡Exacto! El EFECTO DOPPLER: cuando la fuente se acerca, la frecuencia percibida aumenta (tono más agudo). Al alejarse, disminuye (tono más grave).'
+  },
+  {
+    q: '¿Cuál es el tipo de enlace que se forma entre el sodio (Na, metal) y el cloro (Cl, no metal) para formar NaCl?',
+    opts: ['Enlace covalente simple', 'Enlace metálico', 'Enlace iónico', 'Enlace covalente doble'],
+    ans: 2,
+    fb: 'Correcto. Metal + No metal = ENLACE IÓNICO. El Na cede un electrón (Na⁺) y el Cl lo recibe (Cl⁻), formando la sal NaCl.'
+  },
+  {
+    q: 'En la tabla periódica, a medida que avanzas hacia la derecha en un período, la electronegatividad de los elementos...',
+    opts: ['Disminuye gradualmente', 'Se mantiene igual', 'Aumenta', 'Varía sin patrón definido'],
+    ans: 2,
+    fb: 'Correcto. La electronegatividad AUMENTA hacia la derecha en un período. El flúor (F), en el extremo superior derecho, es el elemento más electronegativo de la tabla.'
+  }
+];
+
+let score = 0;
+const totalQ = questions.length;
+
+function buildQuiz() {
+  const container = document.getElementById('quiz-container');
+  questions.forEach((q, i) => {
+    const div = document.createElement('div');
+    div.className = 'quiz-question';
+    div.id = 'qblock-' + i;
+    const letters = ['A', 'B', 'C', 'D'];
+    const optsHTML = q.opts.map((o, j) =>
+      `<button class="quiz-opt" onclick="answer(${i}, ${j})" id="opt-${i}-${j}">
+        <span class="opt-letter">${letters[j]}</span>${o}
+      </button>`
+    ).join('');
+    div.innerHTML = `
+      <div class="quiz-q-text"><strong style="font-family:var(--font-mono);font-size:10px;color:var(--text-dim);letter-spacing:.1em">PREGUNTA ${i+1} / ${totalQ}</strong><br><br>${q.q}</div>
+      <div class="quiz-options">${optsHTML}</div>
+      <div class="quiz-feedback" id="fb-${i}"></div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function answer(qi, optIdx) {
+  const block = document.getElementById('qblock-' + qi);
+  if (block.classList.contains('answered')) return;
+  block.classList.add('answered');
+
+  const q = questions[qi];
+  const isCorrect = optIdx === q.ans;
+  if (isCorrect) score++;
+
+  // Style options
+  for (let j = 0; j < q.opts.length; j++) {
+    const btn = document.getElementById('opt-' + qi + '-' + j);
+    btn.classList.add('disabled');
+    if (j === q.ans)  btn.classList.add('correct');
+    if (j === optIdx && !isCorrect) btn.classList.add('wrong');
+  }
+
+  // Feedback
+  const fb = document.getElementById('fb-' + qi);
+  fb.textContent = (isCorrect ? '✓ ' : '✗ ') + q.fb;
+  fb.className = 'quiz-feedback show ' + (isCorrect ? 'ok' : 'bad');
+
+  // Score update
+  document.getElementById('score-num').textContent = score + ' / ' + totalQ;
+  document.getElementById('score-fill').style.width = (score / totalQ * 100) + '%';
+}
+
+buildQuiz();
+
+// ── TIMER ──
+(function(){
+  const CFG = { focus:25*60, short:5*60, long:15*60 };
+  let mode='focus', total=CFG.focus, left=total, running=false, iv=null, sessions=0, open=false;
+  const panel=document.getElementById('st-panel'), trigger=document.getElementById('st-trigger'),
+        disp=document.getElementById('st-display'), bar=document.getElementById('st-bar'),
+        toggleBtn=document.getElementById('st-toggle'), modeBtns=document.querySelectorAll('.st-mode');
+  function fmt(s){ return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`; }
+  function render(){ disp.textContent=fmt(left); bar.style.width=(left/total*100)+'%'; }
+  function renderDots(){ const n=sessions%4===0&&sessions>0?4:sessions%4; for(let i=0;i<4;i++) document.getElementById('stDot'+i).classList.toggle('on',i<n); }
+  modeBtns.forEach(btn=>btn.addEventListener('click',()=>{ if(running)return; mode=btn.dataset.m; total=CFG[mode]; left=total; modeBtns.forEach(b=>b.classList.toggle('active',b===btn)); render(); }));
+  window.stToggle=function(){ if(running){ clearInterval(iv);running=false;toggleBtn.textContent='▶ Iniciar';trigger.classList.remove('running'); } else { running=true;toggleBtn.textContent='⏸ Pausar';trigger.classList.add('running'); iv=setInterval(()=>{ left--;render();if(left<=0){clearInterval(iv);running=false;toggleBtn.textContent='▶ Iniciar';trigger.classList.remove('running');if(mode==='focus'){sessions++;renderDots();} try{const ac=new(window.AudioContext||window.webkitAudioContext)();[0,.18,.36].forEach(d=>{const o=ac.createOscillator(),g=ac.createGain();o.connect(g);g.connect(ac.destination);o.frequency.value=660;g.gain.setValueAtTime(.15,ac.currentTime+d);g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+d+.22);o.start(ac.currentTime+d);o.stop(ac.currentTime+d+.23);})}catch(e){}} },1000); } };
+  window.stReset=function(){ clearInterval(iv);running=false;left=total;toggleBtn.textContent='▶ Iniciar';trigger.classList.remove('running');render(); };
+  window.stTrigger=function(){ open=!open;panel.classList.toggle('open',open);trigger.classList.toggle('open',open); };
+  render(); renderDots();
+})();
+</script>
+</body>
+</html>

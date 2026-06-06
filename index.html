@@ -1436,9 +1436,9 @@ clLoad();
 
   <div id="tutor-suggestions">
     <div class="tutor-suggest-label">Preguntas sugeridas</div>
-    <button class="tutor-sq" onclick="">¿Cuál es el tema central de El Señor de las Moscas?</button>
-    <button class="tutor-sq" onclick="">¿Cómo se factoriza un trinomio cuadrado perfecto?</button>
-    <button class="tutor-sq" onclick="">¿Qué diferencia hay entre ondas mecánicas y electromagnéticas?</button>
+    <button class="tutor-sq">¿Cuál es el tema central de El Señor de las Moscas?</button>
+    <button class="tutor-sq">¿Cómo se factoriza un trinomio cuadrado perfecto?</button>
+    <button class="tutor-sq">¿Qué diferencia hay entre ondas mecánicas y electromagnéticas?</button>
   </div>
 
   <div id="tutor-input-area">
@@ -1510,14 +1510,9 @@ Reglas:
     const thinkId = appendThinking();
 
     try {
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
+      const res = await fetch('/api/tutor', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': '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',
-          'anthropic-version': '2023-06-01',
-          'anthropic-dangerous-direct-browser-access': 'true'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           model: 'claude-sonnet-4-20250514',
           max_tokens: 1000,
@@ -1608,7 +1603,6 @@ Reglas:
 })();
 </script>
 
-</body> ══ -->
 <style>
   #st-wrap {
     position: fixed;

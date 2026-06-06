@@ -1730,9 +1730,9 @@ window.addSticky = function() {
 
   <div id="tutor-suggestions">
     <div class="tutor-suggest-label">Preguntas sugeridas</div>
-    <button class="tutor-sq" onclick="">¿Cómo identifico la idea principal de un texto?</button>
-    <button class="tutor-sq" onclick="">¿Cuándo se usa "haber" y cuándo "a ver"?</button>
-    <button class="tutor-sq" onclick="">¿Cómo estructuro un párrafo de desarrollo?</button>
+    <button class="tutor-sq">¿Cómo identifico la idea principal de un texto?</button>
+    <button class="tutor-sq">¿Cuándo se usa "haber" y cuándo "a ver"?</button>
+    <button class="tutor-sq">¿Cómo estructuro un párrafo de desarrollo?</button>
   </div>
 
   <div id="tutor-input-area">
@@ -1810,14 +1810,9 @@ Reglas:
     const thinkId = appendThinking();
 
     try {
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
+      const res = await fetch('/api/tutor', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': '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',
-          'anthropic-version': '2023-06-01',
-          'anthropic-dangerous-direct-browser-access': 'true'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           model: 'claude-sonnet-4-20250514',
           max_tokens: 1000,

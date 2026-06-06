@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal de Estudio — Colegio Tantauco</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0e12;
+    --surface: #13151e;
+    --surface2: #1a1d2a;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.13);
+
+    /* Lenguaje — dorado/ámbar (match señor de las moscas) */
+    --gold: #c9a84c;
+    --gold-light: #e4c97e;
+    --gold-dim: rgba(201,168,76,0.13);
+
+    /* Matemáticas — azul (match guía matemáticas) */
+    --blue: #3b82f6;
+    --blue-bright: #60a5fa;
+    --blue-dim: rgba(59,130,246,0.13);
+
+    /* Ciencias Naturales — verde esmeralda */
+    --green: #10b981;
+    --green-light: #34d399;
+    --green-dim: rgba(16,185,129,0.13);
+
+    /* Acento general */
+    --teal: #14b8a6;
+    --teal-dim: rgba(20,184,166,0.13);
+    --purple: #a78bfa;
+    --purple-dim: rgba(167,139,250,0.13);
+
+    --text: #e2e8f0;
+    --text-muted: #7a8aa0;
+    --text-dim: #3d4f68;
+
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+  body.light-mode {
+    --bg: #f4f3ee;
+    --surface: #ffffff;
+    --surface2: #ebe9e2;
+    --border: rgba(0,0,0,0.08);
+    --border2: rgba(0,0,0,0.14);
+    --text: #1a1a2e;
+    --text-muted: #5a6070;
+    --text-dim: #9aa0b0;
+  }
+
+  /* Light mode */
+  body.light-mode {
+    --bg: #f5f4f0;
+    --surface: #ffffff;
+    --surface2: #eceae4;
+    --border: rgba(0,0,0,0.08);
+    --border2: rgba(0,0,0,0.14);
+    --text: #1a1a2e;
+    --text-muted: #5a6070;
+    --text-dim: #9aa0b0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 80px 20px 72px;
+    text-align: center;
+    background: linear-gradient(180deg, #111420 0%, var(--bg) 100%);
+    border-bottom: 1px solid var(--border2);
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 55% 70% at 30% 0%, rgba(201,168,76,0.07) 0%, transparent 65%),
+      radial-gradient(ellipse 55% 70% at 70% 0%, rgba(59,130,246,0.08) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    opacity: 0.85;
+  }
+  .hero-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .logo-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(201,168,76,0.25), rgba(59,130,246,0.25));
+    border: 1px solid var(--border2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+  }
+  .logo-text {
+    text-align: left;
+  }
+  .logo-name {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+  }
+  .logo-sub {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 5.5vw, 3.8rem);
+    font-weight: 900;
+    line-height: 1.1;
+    color: var(--text);
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+  }
+  .hero-title .hl-gold { color: var(--gold-light); }
+  .hero-title .hl-blue { color: var(--blue-bright); }
+
+  .hero-desc {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto 36px;
+    line-height: 1.65;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 28px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 0;
+  }
+  .stat-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border2);
+    background: rgba(255,255,255,0.03);
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+  .stat-pill .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .dot-gold { background: var(--gold); }
+  .dot-blue { background: var(--blue-bright); }
+  .dot-teal { background: var(--teal); }
+
+  /* ── MAIN LAYOUT ── */
+  .main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 64px 20px 100px;
+  }
+
+  /* ── SECTION HEADING ── */
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 10px;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 6px;
+    line-height: 1.2;
+  }
+  .section-desc {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-bottom: 36px;
+  }
+
+  /* ── MATERIA GRID ── */
+  .materias-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+    margin-bottom: 72px;
+  }
+
+  .materia-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: border-color 0.25s, transform 0.2s;
+    cursor: default;
+  }
+  .materia-card:hover {
+    transform: translateY(-2px);
+  }
+  .materia-card.lenguaje:hover { border-color: rgba(201,168,76,0.35); }
+  .materia-card.matematicas:hover { border-color: rgba(59,130,246,0.35); }
+  .materia-card.ciencias:hover { border-color: rgba(16,185,129,0.35); }
+
+  .card-stripe {
+    height: 4px;
+  }
+  .stripe-gold { background: linear-gradient(90deg, var(--gold), var(--gold-light)); }
+  .stripe-blue { background: linear-gradient(90deg, var(--blue), var(--blue-bright)); }
+  .stripe-green { background: linear-gradient(90deg, var(--green), var(--green-light)); }
+
+  .card-body {
+    padding: 28px 28px 24px;
+  }
+
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .card-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .icon-gold { background: var(--gold-dim); border: 1px solid rgba(201,168,76,0.25); }
+  .icon-blue { background: var(--blue-dim); border: 1px solid rgba(59,130,246,0.25); }
+  .icon-green { background: var(--green-dim); border: 1px solid rgba(16,185,129,0.25); }
+
+  .card-meta { flex: 1; }
+  .card-materia-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .label-gold { color: var(--gold); }
+  .label-blue { color: var(--blue-bright); }
+  .label-green { color: var(--green-light); }
+
+  .card-title {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+  }
+
+  .card-desc {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+
+  /* badges de uso */
+  .card-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-bottom: 22px;
+  }
+  .badge {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    padding: 4px 11px;
+    border-radius: 20px;
+    border: 1px solid;
+    letter-spacing: 0.04em;
+  }
+  .b-gold { border-color: rgba(201,168,76,0.4); color: var(--gold-light); background: var(--gold-dim); }
+  .b-blue { border-color: rgba(59,130,246,0.4); color: var(--blue-bright); background: var(--blue-dim); }
+  .b-teal { border-color: rgba(20,184,166,0.4); color: var(--teal); background: var(--teal-dim); }
+  .b-purple { border-color: rgba(167,139,250,0.4); color: var(--purple); background: var(--purple-dim); }
+  .b-green { border-color: rgba(16,185,129,0.4); color: var(--green-light); background: var(--green-dim); }
+
+  /* recursos dentro de la card */
+  .card-resources {
+    border-top: 1px solid var(--border);
+    padding-top: 18px;
+  }
+  .res-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 12px;
+  }
+  .res-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .res-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .res-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* CTA BUTTON */
+  .card-cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+  }
+  .cta-text {
+    font-size: 12px;
+    color: var(--text-dim);
+    font-family: var(--font-mono);
+    letter-spacing: 0.06em;
+  }
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    border: 1px solid;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.18s;
+  }
+  .btn-gold {
+    background: var(--gold-dim);
+    border-color: rgba(201,168,76,0.4);
+    color: var(--gold-light);
+  }
+  .btn-gold:hover {
+    background: rgba(201,168,76,0.22);
+    border-color: rgba(201,168,76,0.6);
+    color: #f0d98a;
+  }
+  .btn-blue {
+    background: var(--blue-dim);
+    border-color: rgba(59,130,246,0.4);
+    color: var(--blue-bright);
+  }
+  .btn-blue:hover {
+    background: rgba(59,130,246,0.22);
+    border-color: rgba(59,130,246,0.6);
+    color: #93c5fd;
+  }
+  .btn-green {
+    background: var(--green-dim);
+    border-color: rgba(16,185,129,0.4);
+    color: var(--green-light);
+  }
+  .btn-green:hover {
+    background: rgba(16,185,129,0.22);
+    border-color: rgba(16,185,129,0.6);
+    color: #6ee7b7;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 0 0 56px;
+  }
+
+  /* ── CÓMO USAR ── */
+  .howto-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+  }
+  .howto-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px 20px;
+  }
+  .howto-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    margin-bottom: 10px;
+  }
+  .howto-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .howto-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.65;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    border-top: 1px solid var(--border);
+    padding: 28px 20px;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+  }
+  .footer span { color: var(--text-muted); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .hero-title    { animation: fadeUp 0.5s ease both; }
+  .hero-desc     { animation: fadeUp 0.5s 0.1s ease both; }
+  .hero-stats    { animation: fadeUp 0.5s 0.2s ease both; }
+  .materias-grid { animation: fadeUp 0.5s 0.15s ease both; }
+  .howto-grid    { animation: fadeUp 0.5s 0.25s ease both; }
+
+  /* ── READ PROGRESS BAR ── */
+  #read-progress {
+    position: fixed; top: 0; left: 0;
+    height: 3px; width: 0%;
+    background: linear-gradient(90deg, var(--teal), var(--gold-light));
+    z-index: 10000; transition: width 0.1s linear;
+    border-radius: 0 2px 2px 0;
+  }
+  /* ── THEME TOGGLE ── */
+  #theme-toggle {
+    position: fixed; top: 16px; right: 16px; z-index: 9998;
+    width: 34px; height: 34px; border-radius: 50%;
+    border: 1px solid var(--border2); background: var(--surface);
+    color: var(--text-muted); font-size: 15px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3); transition: all 0.2s;
+  }
+  #theme-toggle:hover { border-color: var(--teal); color: var(--teal); }
+  /* ── QUOTE ── */
+  .hero-quote {
+    font-family: var(--font-display); font-style: italic;
+    font-size: 0.88rem; color: var(--text-dim);
+    margin-top: 16px; opacity: 0.8;
+  }
+  .hero-quote::before { content: '\201C'; }
+  .hero-quote::after  { content: '\201D'; }
+  /* ── STREAK ── */
+  .streak-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--font-mono); font-size: 11px;
+    padding: 5px 13px; border-radius: 20px;
+    border: 1px solid rgba(251,191,36,0.35);
+    background: rgba(251,191,36,0.07); color: #fbbf24;
+    margin-top: 12px; letter-spacing: 0.05em;
+  }
+  /* ── CHECKLIST ON CARDS ── */
+  .card-checklist { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
+  .cl-label { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px; }
+  .cl-items { display: flex; flex-direction: column; gap: 5px; }
+  .cl-item { display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 12.5px; color: var(--text-muted); transition: color 0.15s; user-select: none; }
+  .cl-item:hover { color: var(--text); }
+  .cl-box { width: 14px; height: 14px; border-radius: 3px; border: 1px solid var(--border2); background: transparent; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 9px; transition: all 0.15s; }
+  .cl-item.done .cl-box { background: var(--teal); border-color: var(--teal); color: #fff; }
+  .cl-item.done .cl-text { text-decoration: line-through; opacity: 0.5; }
+  .cl-progress { height: 2px; background: var(--border); border-radius: 2px; margin-top: 10px; overflow: hidden; }
+  .cl-bar { height: 100%; border-radius: 2px; background: var(--teal); transition: width 0.3s ease; }
+</style>
+</head>
+<body>
+<div id="read-progress"></div>
+<button id="theme-toggle" title="Cambiar tema" onclick="toggleTheme()">🌙</button>
+
+<!-- HERO -->
+<header class="hero">
+  <p class="hero-eyebrow">Portal de Estudio</p>
+
+  <div class="hero-logo">
+    <div class="logo-icon">🏫</div>
+    <div class="logo-text">
+      <div class="logo-name">Colegio Tantauco</div>
+      <div class="logo-sub">Recursos de Estudio</div>
+    </div>
+  </div>
+
+  <h1 class="hero-title">
+    Bienvenido a tu<br>
+    <span class="hl-gold">espacio de estudio</span>
+  </h1>
+
+  <p class="hero-desc">
+    Aquí encontrarás guías, resúmenes y materiales organizados por materia para ayudarte a preparar tus pruebas y reforzar lo aprendido en clases.
+  </p>
+
+  <div class="hero-stats">
+    <span class="stat-pill"><span class="dot dot-gold"></span>4 recursos disponibles</span>
+    <span class="stat-pill"><span class="dot dot-blue"></span>Pruebas y evaluaciones</span>
+    <span class="stat-pill"><span class="dot dot-teal"></span>Guías completas</span>
+  </div>
+  <p class="hero-quote" id="hero-quote"></p>
+  <div class="streak-badge" id="streak-badge">🔥 <span id="streak-num">0</span> días seguidos</div>
+</header>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- MATERIAS -->
+  <div class="section-label">Recursos disponibles</div>
+  <h2 class="section-title">Materias</h2>
+  <p class="section-desc">Selecciona la materia que necesitas estudiar para acceder a su guía completa.</p>
+
+  <div class="materias-grid">
+
+    <!-- LENGUAJE -->
+    <div class="materia-card lenguaje">
+      <div class="card-stripe stripe-gold"></div>
+      <div class="card-body">
+        <div class="card-top">
+          <div class="card-icon icon-gold">📖</div>
+          <div class="card-meta">
+            <div class="card-materia-label label-gold">Lenguaje y Comunicación</div>
+            <div class="card-title">El Señor de las Moscas</div>
+          </div>
+        </div>
+
+        <p class="card-desc">
+          Guía completa sobre la novela de William Golding. Incluye análisis de personajes, línea de tiempo por capítulo, símbolos y temas centrales, preguntas de práctica y contexto histórico-literario.
+        </p>
+
+        <div class="card-badges">
+          <span class="badge b-gold">Prueba de Lenguaje</span>
+          <span class="badge b-teal">Análisis literario</span>
+          <span class="badge b-purple">Comprensión lectora</span>
+        </div>
+
+        <div class="card-resources">
+          <div class="res-label">Contenidos de la guía</div>
+          <div class="res-list">
+            <div class="res-item"><span class="res-dot dot-gold"></span>Cronología capítulo a capítulo</div>
+            <div class="res-item"><span class="res-dot dot-gold"></span>Fichas de personajes y su simbolismo</div>
+            <div class="res-item"><span class="res-dot dot-gold"></span>Temas y citas clave para la prueba</div>
+            <div class="res-item"><span class="res-dot dot-gold"></span>Banco de preguntas con respuestas</div>
+            <div class="res-item"><span class="res-dot dot-gold"></span>Contexto histórico y referencias literarias</div>
+          </div>
+        </div>
+
+        <div class="card-cta">
+          <span class="cta-text">Sirve para → Prueba de Lenguaje</span>
+          <a href="senor_de_las_moscas.html" class="cta-btn btn-gold">Abrir guía →</a>
+        </div>
+        <div class="card-checklist">
+          <div class="cl-label">Mi progreso</div>
+          <div class="cl-items" id="cl-moscas">
+            <label class="cl-item" onclick="clToggle('moscas',0,this)"><span class="cl-box" id="cl-moscas-0-box"></span><span class="cl-text">Cronología capítulo a capítulo</span></label>
+            <label class="cl-item" onclick="clToggle('moscas',1,this)"><span class="cl-box" id="cl-moscas-1-box"></span><span class="cl-text">Fichas de personajes</span></label>
+            <label class="cl-item" onclick="clToggle('moscas',2,this)"><span class="cl-box" id="cl-moscas-2-box"></span><span class="cl-text">Temas y citas clave</span></label>
+            <label class="cl-item" onclick="clToggle('moscas',3,this)"><span class="cl-box" id="cl-moscas-3-box"></span><span class="cl-text">Banco de preguntas</span></label>
+          </div>
+          <div class="cl-progress"><div class="cl-bar" id="cl-moscas-bar" style="width:0%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRUEBA DE NIVEL LENGUAJE -->
+    <div class="materia-card lenguaje">
+      <div class="card-stripe stripe-gold"></div>
+      <div class="card-body">
+        <div class="card-top">
+          <div class="card-icon icon-gold">✍️</div>
+          <div class="card-meta">
+            <div class="card-materia-label label-gold">Lenguaje y Comunicación</div>
+            <div class="card-title">Prueba de Nivel</div>
+          </div>
+        </div>
+
+        <p class="card-desc">
+          Evaluación diagnóstica de Lengua y Literatura. Incluye comprensión lectora, análisis de textos, gramática y ortografía, producción escrita y ejercicios de vocabulario contextual.
+        </p>
+
+        <div class="card-badges">
+          <span class="badge b-gold">Prueba de Nivel</span>
+          <span class="badge b-teal">Comprensión lectora</span>
+          <span class="badge b-purple">Gramática y ortografía</span>
+        </div>
+
+        <div class="card-resources">
+          <div class="res-label">Contenidos de la prueba</div>
+          <div class="res-list">
+            <div class="res-item"><span class="res-dot dot-gold"></span>Comprensión de textos literarios y no literarios</div>
+            <div class="res-item"><span class="res-dot dot-gold"></span>Análisis de recursos del lenguaje</div>
+            <div class="res-item"><span class="res-dot dot-gold"></span>Ejercicios de gramática y ortografía</div>
+            <div class="res-item"><span class="res-dot dot-gold"></span>Producción y redacción de textos</div>
+            <div class="res-item"><span class="res-dot dot-gold"></span>Vocabulario en contexto</div>
+          </div>
+        </div>
+
+        <div class="card-cta">
+          <span class="cta-text">Sirve para → Prueba de Nivel</span>
+          <a href="prueba_nivel_lenguaje_2.html" class="cta-btn btn-gold">Abrir prueba →</a>
+        </div>
+        <div class="card-checklist">
+          <div class="cl-label">Mi progreso</div>
+          <div class="cl-items" id="cl-lenguaje">
+            <label class="cl-item" onclick="clToggle('lenguaje',0,this)"><span class="cl-box" id="cl-lenguaje-0-box"></span><span class="cl-text">Comprensión lectora</span></label>
+            <label class="cl-item" onclick="clToggle('lenguaje',1,this)"><span class="cl-box" id="cl-lenguaje-1-box"></span><span class="cl-text">Análisis de textos</span></label>
+            <label class="cl-item" onclick="clToggle('lenguaje',2,this)"><span class="cl-box" id="cl-lenguaje-2-box"></span><span class="cl-text">Gramática y ortografía</span></label>
+            <label class="cl-item" onclick="clToggle('lenguaje',3,this)"><span class="cl-box" id="cl-lenguaje-3-box"></span><span class="cl-text">Producción escrita</span></label>
+          </div>
+          <div class="cl-progress"><div class="cl-bar" id="cl-lenguaje-bar" style="width:0%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MATEMÁTICAS -->
+    <div class="materia-card matematicas">
+      <div class="card-stripe stripe-blue"></div>
+      <div class="card-body">
+        <div class="card-top">
+          <div class="card-icon icon-blue">📐</div>
+          <div class="card-meta">
+            <div class="card-materia-label label-blue">Matemática</div>
+            <div class="card-title">Guía Completa de Matemática</div>
+          </div>
+        </div>
+
+        <p class="card-desc">
+          Material de estudio con fórmulas, procedimientos paso a paso, ejemplos resueltos y ejercicios de práctica organizados por unidad temática para preparar tu prueba de nivel.
+        </p>
+
+        <div class="card-badges">
+          <span class="badge b-blue">Prueba de Nivel</span>
+          <span class="badge b-teal">Ejercicios prácticos</span>
+          <span class="badge b-purple">Fórmulas y teoremas</span>
+        </div>
+
+        <div class="card-resources">
+          <div class="res-label">Contenidos de la guía</div>
+          <div class="res-list">
+            <div class="res-item"><span class="res-dot dot-blue"></span>Formulario completo por unidad</div>
+            <div class="res-item"><span class="res-dot dot-blue"></span>Procedimientos paso a paso</div>
+            <div class="res-item"><span class="res-dot dot-blue"></span>Ejemplos resueltos y ejercicios</div>
+            <div class="res-item"><span class="res-dot dot-blue"></span>Banco de preguntas tipo prueba</div>
+            <div class="res-item"><span class="res-dot dot-blue"></span>Consejos para no cometer errores</div>
+          </div>
+        </div>
+
+        <div class="card-cta">
+          <span class="cta-text">Sirve para → Prueba de Nivel</span>
+          <a href="matematica_guia.html" class="cta-btn btn-blue">Abrir guía →</a>
+        </div>
+        <div class="card-checklist">
+          <div class="cl-label">Mi progreso</div>
+          <div class="cl-items" id="cl-mate">
+            <label class="cl-item" onclick="clToggle('mate',0,this)"><span class="cl-box" id="cl-mate-0-box"></span><span class="cl-text">Fracciones y potencias</span></label>
+            <label class="cl-item" onclick="clToggle('mate',1,this)"><span class="cl-box" id="cl-mate-1-box"></span><span class="cl-text">Números reales</span></label>
+            <label class="cl-item" onclick="clToggle('mate',2,this)"><span class="cl-box" id="cl-mate-2-box"></span><span class="cl-text">Productos notables</span></label>
+            <label class="cl-item" onclick="clToggle('mate',3,this)"><span class="cl-box" id="cl-mate-3-box"></span><span class="cl-text">Banco de preguntas</span></label>
+          </div>
+          <div class="cl-progress"><div class="cl-bar" id="cl-mate-bar" style="width:0%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CIENCIAS NATURALES -->
+    <div class="materia-card ciencias">
+      <div class="card-stripe stripe-green"></div>
+      <div class="card-body">
+        <div class="card-top">
+          <div class="card-icon icon-green">🧬</div>
+          <div class="card-meta">
+            <div class="card-materia-label label-green">Ciencias Naturales</div>
+            <div class="card-title">Prueba de Nivel — Ciencias</div>
+          </div>
+        </div>
+
+        <p class="card-desc">
+          Guía interactiva para la PDN del 12 de junio. Cubre Biología (fósiles y evolución), Física (ondas y fenómenos luminosos) y Química (tabla periódica y enlace químico), con preguntas de práctica y feedback inmediato.
+        </p>
+
+        <div class="card-badges">
+          <span class="badge b-green">Biología · OA 1 · OA 2</span>
+          <span class="badge b-teal">Física · OA 9 · OA 11</span>
+          <span class="badge b-purple">Química · OA 14</span>
+        </div>
+
+        <div class="card-resources">
+          <div class="res-label">Contenidos de la guía</div>
+          <div class="res-list">
+            <div class="res-item"><span class="res-dot dot-teal"></span>Fósiles: formación, estratos y rocas sedimentarias</div>
+            <div class="res-item"><span class="res-dot dot-teal"></span>Evidencias de la evolución (R-H-E-A)</div>
+            <div class="res-item"><span class="res-dot dot-teal"></span>Ondas: características, clasificación y fórmulas</div>
+            <div class="res-item"><span class="res-dot dot-teal"></span>Fenómenos luminosos: reflexión, refracción, Doppler</div>
+            <div class="res-item"><span class="res-dot dot-teal"></span>Tabla periódica y tipos de enlace químico</div>
+          </div>
+        </div>
+
+        <div class="card-cta">
+          <span class="cta-text">Sirve para → PDN 12 Junio</span>
+          <a href="prueba_nivel_ciencias_naturales.html" class="cta-btn btn-green">Abrir guía →</a>
+        </div>
+        <div class="card-checklist">
+          <div class="cl-label">Mi progreso</div>
+          <div class="cl-items" id="cl-ciencias">
+            <label class="cl-item" onclick="clToggle('ciencias',0,this)"><span class="cl-box" id="cl-ciencias-0-box"></span><span class="cl-text">Biología: evolución y fósiles</span></label>
+            <label class="cl-item" onclick="clToggle('ciencias',1,this)"><span class="cl-box" id="cl-ciencias-1-box"></span><span class="cl-text">Física: ondas</span></label>
+            <label class="cl-item" onclick="clToggle('ciencias',2,this)"><span class="cl-box" id="cl-ciencias-2-box"></span><span class="cl-text">Física: fenómenos luminosos</span></label>
+            <label class="cl-item" onclick="clToggle('ciencias',3,this)"><span class="cl-box" id="cl-ciencias-3-box"></span><span class="cl-text">Química: tabla periódica</span></label>
+          </div>
+          <div class="cl-progress"><div class="cl-bar" id="cl-ciencias-bar" style="width:0%"></div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <hr class="divider">
+
+  <!-- CÓMO USAR -->
+  <div class="section-label">¿Cómo estudiar?</div>
+  <h2 class="section-title">Consejos para usar estos materiales</h2>
+  <p class="section-desc">Saca el máximo provecho de cada guía siguiendo estos pasos.</p>
+
+  <div class="howto-grid">
+    <div class="howto-card">
+      <div class="howto-num">01 —</div>
+      <div class="howto-title">Revisa el resumen general</div>
+      <div class="howto-desc">Empieza por leer los puntos clave de cada sección antes de entrar al detalle. Así sabes qué se te puede preguntar.</div>
+    </div>
+    <div class="howto-card">
+      <div class="howto-num">02 —</div>
+      <div class="howto-title">Estudia los temas uno a uno</div>
+      <div class="howto-desc">Usa los acordeones dentro de cada guía para expandir sólo el contenido que necesitas sin perder el hilo.</div>
+    </div>
+    <div class="howto-card">
+      <div class="howto-num">03 —</div>
+      <div class="howto-title">Practica con las preguntas</div>
+      <div class="howto-desc">Cada guía tiene un banco de preguntas tipo prueba. Intenta responder primero sin ver la respuesta.</div>
+    </div>
+    <div class="howto-card">
+      <div class="howto-num">04 —</div>
+      <div class="howto-title">Repasa lo que falló</div>
+      <div class="howto-desc">Vuelve a las secciones donde te equivocaste. El repaso enfocado es más efectivo que releer todo.</div>
+    </div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <span>Colegio Tantauco</span> — Portal de Estudio &nbsp;·&nbsp; Materiales elaborados para uso educativo interno
+</footer>
+
+
+<script>
+// ══ INDEX FEATURES ══
+
+// ── QUOTES ──
+const QUOTES = [
+  "El conocimiento es el único bien que crece cuando se comparte.",
+  "Estudia no para saber más, sino para ignorar menos.",
+  "La disciplina es el puente entre metas y logros.",
+  "Cada página leída es un paso adelante.",
+  "No importa lo lento que vayas, siempre y cuando no te detengas.",
+  "El éxito es la suma de pequeños esfuerzos repetidos día a día.",
+  "Aprende como si fueras a vivir para siempre.",
+  "La educación es el arma más poderosa para cambiar el mundo.",
+];
+const quoteEl = document.getElementById('hero-quote');
+if (quoteEl) quoteEl.textContent = QUOTES[Math.floor(Math.random() * QUOTES.length)];
+
+// ── STREAK ──
+(function() {
+  const today = new Date().toDateString();
+  const stored = JSON.parse(localStorage.getItem('tantauco-streak') || '{"last":"","count":0}');
+  const yesterday = new Date(Date.now() - 86400000).toDateString();
+  let count = stored.count || 0;
+  if (stored.last === today) {
+    // already visited today, keep count
+  } else if (stored.last === yesterday) {
+    count++;
+  } else if (stored.last !== today) {
+    count = 1;
+  }
+  localStorage.setItem('tantauco-streak', JSON.stringify({ last: today, count }));
+  const el = document.getElementById('streak-num');
+  if (el) el.textContent = count;
+  const badge = document.getElementById('streak-badge');
+  if (badge) badge.title = count === 1 ? '¡Primer día!' : `${count} días consecutivos estudiando`;
+})();
+
+// ── READ PROGRESS ──
+const progressBar = document.getElementById('read-progress');
+window.addEventListener('scroll', () => {
+  const doc = document.documentElement;
+  const scrolled = doc.scrollTop / (doc.scrollHeight - doc.clientHeight);
+  if (progressBar) progressBar.style.width = (scrolled * 100) + '%';
+});
+
+// ── THEME TOGGLE ──
+function toggleTheme() {
+  const light = document.body.classList.toggle('light-mode');
+  localStorage.setItem('tantauco-theme', light ? 'light' : 'dark');
+  document.getElementById('theme-toggle').textContent = light ? '☀️' : '🌙';
+}
+(function() {
+  const t = localStorage.getItem('tantauco-theme');
+  if (t === 'light') {
+    document.body.classList.add('light-mode');
+    const btn = document.getElementById('theme-toggle');
+    if (btn) btn.textContent = '☀️';
+  }
+})();
+
+// ── CHECKLISTS ──
+const CL_CARDS = ['moscas','lenguaje','mate','ciencias'];
+const CL_COUNTS = { moscas:4, lenguaje:4, mate:4, ciencias:4 };
+
+function clLoad() {
+  CL_CARDS.forEach(card => {
+    const saved = JSON.parse(localStorage.getItem('tantauco-cl-' + card) || '[]');
+    for (let i = 0; i < CL_COUNTS[card]; i++) {
+      const item = document.querySelector(`#cl-${card} .cl-item:nth-child(${i+1})`);
+      const box  = document.getElementById(`cl-${card}-${i}-box`);
+      if (saved.includes(i)) {
+        if (item) item.classList.add('done');
+        if (box)  box.textContent = '✓';
+      }
+    }
+    clUpdateBar(card);
+  });
+}
+
+function clToggle(card, idx, label) {
+  label.classList.toggle('done');
+  const done = label.classList.contains('done');
+  const box = document.getElementById(`cl-${card}-${idx}-box`);
+  if (box) box.textContent = done ? '✓' : '';
+  const saved = JSON.parse(localStorage.getItem('tantauco-cl-' + card) || '[]');
+  const next = done ? [...new Set([...saved, idx])] : saved.filter(i => i !== idx);
+  localStorage.setItem('tantauco-cl-' + card, JSON.stringify(next));
+  clUpdateBar(card);
+}
+
+function clUpdateBar(card) {
+  const saved = JSON.parse(localStorage.getItem('tantauco-cl-' + card) || '[]');
+  const pct = (saved.length / CL_COUNTS[card]) * 100;
+  const bar = document.getElementById(`cl-${card}-bar`);
+  if (bar) bar.style.width = pct + '%';
+}
+
+clLoad();
+</script>
+
+
+<!-- ══ WIDGET FLOTANTE: TEMPORIZADOR + MÚSICA — incluir antes de </body> ══ -->
+<style>
+  #st-wrap {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    font-family: var(--font-mono, 'DM Mono', monospace);
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+  }
+
+  /* Panel desplegable */
+  #st-panel {
+    background: var(--surface, #13151e);
+    border: 1px solid rgba(255,255,255,0.11);
+    border-radius: 16px;
+    padding: 16px 18px 14px;
+    width: 234px;
+    transition: width 0.22s ease, opacity 0.18s ease, transform 0.18s ease;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+    transform-origin: bottom right;
+    transform: scale(0.92) translateY(6px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.18s ease, transform 0.18s ease;
+    overflow: hidden;
+  }
+  #st-panel.open {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    pointer-events: all;
+  }
+  #st-panel.music-mode {
+    width: 340px;
+  }
+
+  /* Tabs */
+  .st-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    padding-bottom: 10px;
+  }
+  .st-tab {
+    flex: 1;
+    padding: 5px 2px;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    background: transparent;
+    color: var(--text-muted, #7a8aa0);
+    font-family: inherit;
+    font-size: 9.5px;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: all 0.13s;
+    text-align: center;
+  }
+  .st-tab.active {
+    border-color: rgba(20,184,166,0.35);
+    color: var(--teal, #14b8a6);
+    background: rgba(20,184,166,0.08);
+  }
+  .st-tab:hover:not(.active) { border-color: rgba(255,255,255,0.12); color: var(--text, #e2e8f0); }
+
+  /* Panes */
+  .st-pane { display: none; }
+  .st-pane.active { display: block; }
+
+  /* ── TIMER ── */
+  .st-modes {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 12px;
+  }
+  .st-mode {
+    flex: 1;
+    padding: 4px 2px;
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--text-muted, #7a8aa0);
+    font-family: inherit;
+    font-size: 9px;
+    letter-spacing: 0.07em;
+    cursor: pointer;
+    transition: all 0.13s;
+    text-align: center;
+  }
+  .st-mode.active {
+    border-color: rgba(20,184,166,0.4);
+    color: var(--teal, #14b8a6);
+    background: rgba(20,184,166,0.08);
+  }
+  .st-mode:hover:not(.active) { border-color: rgba(255,255,255,0.15); color: var(--text, #e2e8f0); }
+
+  .st-time {
+    font-size: 2rem;
+    font-weight: 500;
+    color: var(--text, #e2e8f0);
+    letter-spacing: 0.06em;
+    text-align: center;
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+  .st-bar-wrap {
+    height: 2px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 2px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  .st-bar {
+    height: 100%;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--teal, #14b8a6), #22d3c8);
+    transition: width 0.9s linear;
+  }
+  .st-btns { display: flex; gap: 6px; }
+  .st-btn {
+    flex: 1;
+    padding: 7px 4px;
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 7px;
+    background: rgba(255,255,255,0.03);
+    color: var(--text-muted, #7a8aa0);
+    font-family: inherit;
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.13s;
+  }
+  .st-btn:hover { background: rgba(255,255,255,0.08); color: var(--text, #e2e8f0); }
+  .st-btn.go {
+    background: rgba(20,184,166,0.12);
+    border-color: rgba(20,184,166,0.35);
+    color: var(--teal, #14b8a6);
+  }
+  .st-btn.go:hover { background: rgba(20,184,166,0.22); }
+  .st-sessions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-size: 9px;
+    color: var(--text-dim, #3d4f68);
+    letter-spacing: 0.09em;
+  }
+  .st-dots { display: flex; gap: 4px; }
+  .st-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    transition: background 0.2s;
+  }
+  .st-dot.on { background: var(--teal, #14b8a6); }
+
+  /* ── SPOTIFY ── */
+  .sp-label {
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--text-dim, #3d4f68);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .sp-frame-wrap {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.07);
+  }
+
+  /* ── FAB (botón flotante) ── */
+  #st-trigger {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.11);
+    background: var(--surface, #13151e);
+    color: var(--text-muted, #7a8aa0);
+    font-size: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.45);
+    transition: border-color 0.15s, color 0.15s, box-shadow 0.15s;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  /* Tooltip */
+  #st-tooltip {
+    position: absolute;
+    right: 46px;
+    bottom: 50%;
+    background: var(--surface, #13151e);
+    border: 1px solid rgba(255,255,255,0.11);
+    border-radius: 10px;
+    padding: 8px 11px;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(50%) translateX(4px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.45);
+  }
+  #st-tooltip.visible {
+    opacity: 1;
+    transform: translateY(50%) translateX(0);
+  }
+  .tt-title {
+    font-family: var(--font-mono, monospace);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: var(--teal, #14b8a6);
+    margin-bottom: 2px;
+  }
+  .tt-desc {
+    font-family: var(--font-body, sans-serif);
+    font-size: 11px;
+    color: var(--text-muted, #7a8aa0);
+    line-height: 1.4;
+  }
+  /* Arrow pointing right */
+  #st-tooltip::after {
+    content: '';
+    position: absolute;
+    right: -5px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px; height: 8px;
+    background: var(--surface, #13151e);
+    border-top: 1px solid rgba(255,255,255,0.11);
+    border-right: 1px solid rgba(255,255,255,0.11);
+    transform: translateY(-50%) rotate(45deg);
+  }
+  #st-trigger:hover, #st-trigger.open {
+    border-color: rgba(20,184,166,0.45);
+    color: var(--teal, #14b8a6);
+    box-shadow: 0 4px 20px rgba(20,184,166,0.15);
+  }
+  #st-trigger .run-dot {
+    display: none;
+    position: absolute;
+    top: 4px; right: 4px;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--teal, #14b8a6);
+    animation: st-pulse 1.4s ease-in-out infinite;
+  }
+  #st-trigger.running .run-dot { display: block; }
+  @keyframes st-pulse {
+    0%,100% { opacity:1; transform:scale(1); }
+    50%      { opacity:.3; transform:scale(.6); }
+  }
+</style>
+
+<div id="st-wrap">
+  <div id="st-panel">
+    <!-- Tabs -->
+    <div class="st-tabs">
+      <button class="st-tab active" onclick="stSwitchTab('timer',this)">⏱ Temporizador</button>
+      <button class="st-tab"       onclick="stSwitchTab('music',this)">🎵 Música</button>
+    </div>
+
+    <!-- Pane: Timer -->
+    <div class="st-pane active" id="st-pane-timer">
+      <div class="st-modes">
+        <button class="st-mode active" data-m="focus">Foco</button>
+        <button class="st-mode"        data-m="short">Pausa</button>
+        <button class="st-mode"        data-m="long">Descanso</button>
+      </div>
+      <div class="st-time" id="st-display">25:00</div>
+      <div class="st-bar-wrap"><div class="st-bar" id="st-bar" style="width:100%"></div></div>
+      <div class="st-btns">
+        <button class="st-btn"    id="st-reset"  onclick="stReset()">↺</button>
+        <button class="st-btn go" id="st-toggle" onclick="stToggle()">▶ Iniciar</button>
+      </div>
+      <div class="st-sessions">
+        <span>sesiones</span>
+        <div class="st-dots">
+          <div class="st-dot" id="stDot0"></div>
+          <div class="st-dot" id="stDot1"></div>
+          <div class="st-dot" id="stDot2"></div>
+          <div class="st-dot" id="stDot3"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pane: Spotify -->
+    <div class="st-pane" id="st-pane-music">
+      <div class="sp-label">playlist para estudiar</div>
+      <div class="sp-frame-wrap">
+        <iframe style="border-radius:10px" src="https://open.spotify.com/embed/playlist/30BaDZWwIXZV14rIBqBEQZ?utm_source=generator"
+          width="100%" height="352" frameBorder="0"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAB -->
+  <button id="st-trigger" onclick="stTrigger()">
+    ⏱
+    <span class="run-dot"></span>
+    <div id="st-tooltip">
+      <div class="tt-title" id="tt-title">⏱ Temporizador</div>
+      <div class="tt-desc" id="tt-desc">Pomodoro · Foco / Pausa<br>Haz clic para abrir</div>
+    </div>
+  </button>
+</div>
+
+<script>
+(function(){
+  const CFG = { focus:25*60, short:5*60, long:15*60 };
+  let mode='focus', total=CFG.focus, left=total, running=false, iv=null, sessions=0, open=false;
+
+  const panel    = document.getElementById('st-panel');
+  const trigger  = document.getElementById('st-trigger');
+  const disp     = document.getElementById('st-display');
+  const bar      = document.getElementById('st-bar');
+  const toggleBtn= document.getElementById('st-toggle');
+  const modeBtns = document.querySelectorAll('.st-mode');
+
+  function fmt(s){ return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`; }
+  function render(){ disp.textContent=fmt(left); bar.style.width=(left/total*100)+'%'; }
+  function renderDots(){
+    const n=sessions%4===0&&sessions>0?4:sessions%4;
+    for(let i=0;i<4;i++) document.getElementById('stDot'+i).classList.toggle('on',i<n);
+  }
+
+  modeBtns.forEach(btn=>btn.addEventListener('click',()=>{
+    if(running)return;
+    mode=btn.dataset.m; total=CFG[mode]; left=total;
+    modeBtns.forEach(b=>b.classList.toggle('active',b===btn));
+    render();
+  }));
+
+  window.stToggle=function(){
+    if(running){
+      clearInterval(iv); running=false;
+      toggleBtn.textContent='▶ Iniciar';
+      trigger.classList.remove('running');
+    } else {
+      running=true;
+      toggleBtn.textContent='⏸ Pausar';
+      trigger.classList.add('running');
+      iv=setInterval(()=>{
+        left--; render();
+        if(left<=0){
+          clearInterval(iv); running=false;
+          toggleBtn.textContent='▶ Iniciar';
+          trigger.classList.remove('running');
+          if(mode==='focus'){ sessions++; renderDots(); }
+          try{
+            const ac=new(window.AudioContext||window.webkitAudioContext)();
+            [0,.18,.36].forEach(d=>{
+              const o=ac.createOscillator(), g=ac.createGain();
+              o.connect(g); g.connect(ac.destination);
+              o.frequency.value=660;
+              g.gain.setValueAtTime(.15,ac.currentTime+d);
+              g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+d+.22);
+              o.start(ac.currentTime+d); o.stop(ac.currentTime+d+.23);
+            });
+          }catch(e){}
+        }
+      },1000);
+    }
+  };
+
+  window.stReset=function(){
+    clearInterval(iv); running=false; left=total;
+    toggleBtn.textContent='▶ Iniciar';
+    trigger.classList.remove('running');
+    render();
+  };
+
+  window.stTrigger=function(){
+    open=!open;
+    panel.classList.toggle('open',open);
+    trigger.classList.toggle('open',open);
+  };
+
+  window.stSwitchTab=function(pane, btn){
+    document.querySelectorAll('.st-tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.st-pane').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('st-pane-'+pane).classList.add('active');
+    panel.classList.toggle('music-mode', pane==='music');
+    const isMusic = pane==='music';
+    trigger.childNodes[0].textContent = isMusic ? '🎵' : '⏱';
+    document.getElementById('tt-title').textContent = isMusic ? '🎵 Música' : '⏱ Temporizador';
+    document.getElementById('tt-desc').textContent  = isMusic ? 'Playlist para estudiar\nHaz clic para abrir' : 'Pomodoro · Foco / Pausa\nHaz clic para abrir';
+  };
+
+  render(); renderDots();
+
+  // ── Tooltip auto-hide ──
+  const tooltip = document.getElementById('st-tooltip');
+  let ttTimer = null;
+
+  function showTooltip() {
+    tooltip.classList.add('visible');
+    clearTimeout(ttTimer);
+    ttTimer = setTimeout(() => tooltip.classList.remove('visible'), 3000);
+  }
+
+  trigger.addEventListener('mouseenter', showTooltip);
+  trigger.addEventListener('mouseleave', () => {
+    clearTimeout(ttTimer);
+    ttTimer = setTimeout(() => tooltip.classList.remove('visible'), 300);
+  });
+  tooltip.addEventListener('mouseenter', () => clearTimeout(ttTimer));
+
+  // Show on page load briefly
+  showTooltip();
+})();
+</script>
+
+</body>
+</html>

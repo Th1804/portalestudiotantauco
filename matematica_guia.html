@@ -1,0 +1,2436 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matemática — Guía Completa</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0f1a;
+    --surface: #121828;
+    --surface2: #1a2236;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.13);
+    --blue: #3b82f6;
+    --blue-dim: rgba(59,130,246,0.13);
+    --blue-bright: #60a5fa;
+    --teal: #14b8a6;
+    --teal-dim: rgba(20,184,166,0.13);
+    --purple: #a78bfa;
+    --purple-dim: rgba(167,139,250,0.13);
+    --amber: #fbbf24;
+    --amber-dim: rgba(251,191,36,0.13);
+    --green: #34d399;
+    --green-dim: rgba(52,211,153,0.13);
+    --red: #f87171;
+    --red-dim: rgba(248,113,113,0.13);
+    --pink: #f472b6;
+    --pink-dim: rgba(244,114,182,0.13);
+    --text: #e2e8f0;
+    --text-muted: #7a8aa0;
+    --text-dim: #3d4f68;
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 15px; line-height: 1.7; min-height: 100vh; }
+
+  /* HEADER */
+  .site-header {
+    background: linear-gradient(180deg, #0d1525 0%, var(--bg) 100%);
+    border-bottom: 1px solid var(--border2);
+    padding: 56px 20px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .site-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 80% at 50% 0%, rgba(59,130,246,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; color: var(--blue-bright); text-transform: uppercase; margin-bottom: 14px; opacity: 0.9; }
+  .header-title { font-family: var(--font-display); font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 900; color: #fff; line-height: 1.1; margin-bottom: 10px; }
+  .header-title span { color: var(--blue-bright); }
+  .header-subtitle { font-family: var(--font-display); font-style: italic; font-size: 1.05rem; color: var(--text-muted); margin-bottom: 28px; }
+  .header-badges { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .badge { font-family: var(--font-mono); font-size: 11px; padding: 4px 13px; border-radius: 20px; border: 1px solid; letter-spacing: 0.04em; }
+  .b-blue { border-color: rgba(59,130,246,0.4); color: var(--blue-bright); background: var(--blue-dim); }
+  .b-teal { border-color: rgba(20,184,166,0.4); color: var(--teal); background: var(--teal-dim); }
+  .b-purple { border-color: rgba(167,139,250,0.4); color: var(--purple); background: var(--purple-dim); }
+  .b-amber { border-color: rgba(251,191,36,0.4); color: var(--amber); background: var(--amber-dim); }
+
+  /* NAV */
+  .nav-wrapper { position: sticky; top: 0; z-index: 100; background: rgba(11,15,26,0.93); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+  .nav-tabs { display: flex; overflow-x: auto; max-width: 1100px; margin: 0 auto; padding: 0 20px; scrollbar-width: none; }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+  .nav-tab { display: flex; align-items: center; gap: 7px; padding: 14px 18px; font-size: 13px; font-weight: 500; color: var(--text-muted); cursor: pointer; white-space: nowrap; border-bottom: 2px solid transparent; transition: all 0.2s; background: none; border-top: none; border-left: none; border-right: none; font-family: var(--font-body); }
+  .nav-tab:hover { color: var(--text); }
+  .nav-tab.active { color: var(--blue-bright); border-bottom-color: var(--blue); }
+
+  /* LAYOUT */
+  .content-area { max-width: 1000px; margin: 0 auto; padding: 40px 20px 100px; }
+  .section-panel { display: none; animation: fadeIn 0.2s ease; }
+  .section-panel.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  .section-heading { font-family: var(--font-display); font-size: 1.9rem; font-weight: 700; color: #fff; margin-bottom: 6px; }
+  .section-desc { color: var(--text-muted); font-size: 14px; margin-bottom: 32px; }
+
+  /* TIP BOX */
+  .tip-box { border-radius: 10px; padding: 14px 18px; margin-bottom: 24px; font-size: 13.5px; line-height: 1.6; border: 1px solid; }
+  .tip-blue { background: var(--blue-dim); border-color: rgba(59,130,246,0.25); color: var(--blue-bright); }
+  .tip-amber { background: var(--amber-dim); border-color: rgba(251,191,36,0.25); color: var(--amber); }
+  .tip-green { background: var(--green-dim); border-color: rgba(52,211,153,0.25); color: var(--green); }
+
+  /* ACCORDION */
+  .accordion { display: flex; flex-direction: column; gap: 8px; }
+  .acc-item { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: border-color 0.2s; }
+  .acc-item:hover { border-color: var(--border2); }
+  .acc-item.open { border-color: rgba(59,130,246,0.3); }
+  .acc-trigger { width: 100%; display: flex; align-items: center; gap: 14px; padding: 18px 22px; background: none; border: none; cursor: pointer; text-align: left; font-family: var(--font-body); color: var(--text); }
+  .acc-trigger:hover { background: rgba(255,255,255,0.02); }
+  .acc-label { font-family: var(--font-mono); font-size: 11px; padding: 3px 9px; border-radius: 6px; white-space: nowrap; flex-shrink: 0; }
+  .acc-title { font-size: 15px; font-weight: 500; flex: 1; }
+  .acc-arrow { color: var(--text-dim); font-size: 18px; transition: transform 0.25s; flex-shrink: 0; }
+  .acc-item.open .acc-arrow { transform: rotate(180deg); color: var(--blue-bright); }
+  .acc-body { display: none; padding: 0 22px 22px; border-top: 1px solid var(--border); }
+  .acc-item.open .acc-body { display: block; }
+
+  /* MATH CONTENT BLOCKS */
+  .block-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); margin: 18px 0 8px; }
+  .block-label:first-child { margin-top: 18px; }
+  .prose { font-size: 14px; color: var(--text-muted); line-height: 1.8; }
+  .prose strong { color: var(--text); font-weight: 500; }
+  .prose em { color: var(--blue-bright); font-style: normal; }
+
+  /* FORMULA BOX */
+  .formula-box {
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    border-left: 3px solid var(--blue);
+    border-radius: 0 10px 10px 0;
+    padding: 14px 18px;
+    margin: 10px 0;
+    font-family: var(--font-mono);
+    font-size: 15px;
+    color: #fff;
+    line-height: 1.7;
+    position: relative;
+  }
+  .formula-box .formula-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--blue-bright);
+    display: block;
+    margin-bottom: 6px;
+    font-family: var(--font-mono);
+  }
+  .formula-highlight { color: var(--blue-bright); }
+  .formula-box.green { border-left-color: var(--teal); }
+  .formula-box.green .formula-label { color: var(--teal); }
+  .formula-box.green .formula-highlight { color: var(--teal); }
+  .formula-box.purple { border-left-color: var(--purple); }
+  .formula-box.purple .formula-label { color: var(--purple); }
+  .formula-box.purple .formula-highlight { color: var(--purple); }
+  .formula-box.amber { border-left-color: var(--amber); }
+  .formula-box.amber .formula-label { color: var(--amber); }
+  .formula-box.amber .formula-highlight { color: var(--amber); }
+
+  /* EXAMPLE BOX */
+  .example-box {
+    background: rgba(52,211,153,0.05);
+    border: 1px solid rgba(52,211,153,0.2);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 10px 0;
+  }
+  .example-box .ex-label { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--green); margin-bottom: 8px; display: block; }
+  .example-box .ex-content { font-family: var(--font-mono); font-size: 14px; color: var(--text); line-height: 1.9; }
+  .example-box .ex-content .step { color: var(--text-muted); font-size: 12px; margin-left: 8px; }
+
+  /* WARNING BOX */
+  .warn-box {
+    background: rgba(248,113,113,0.07);
+    border: 1px solid rgba(248,113,113,0.2);
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin: 10px 0;
+    font-size: 13.5px;
+    color: var(--red);
+    line-height: 1.6;
+  }
+  .warn-box::before { content: '⚠ '; font-size: 13px; }
+
+  /* GRID LAYOUTS */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 10px 0; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 10px 0; }
+  @media (max-width: 640px) { .two-col, .three-col { grid-template-columns: 1fr; } }
+
+  /* CONCEPT CARD */
+  .concept-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .concept-card h4 { font-size: 13px; font-weight: 500; margin-bottom: 8px; font-family: var(--font-mono); }
+  .concept-card p { font-size: 13px; color: var(--text-muted); line-height: 1.65; }
+  .concept-card .cc-formula { font-family: var(--font-mono); font-size: 14px; color: #fff; margin-top: 8px; padding: 6px 10px; background: var(--bg); border-radius: 6px; }
+
+  /* PROPERTY LIST */
+  .prop-list { display: flex; flex-direction: column; gap: 8px; margin: 10px 0; }
+  .prop-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+  }
+  .prop-num { font-family: var(--font-mono); font-size: 11px; padding: 2px 7px; border-radius: 5px; flex-shrink: 0; margin-top: 1px; }
+  .prop-body { flex: 1; }
+  .prop-name { font-size: 13px; font-weight: 500; margin-bottom: 4px; }
+  .prop-formula { font-family: var(--font-mono); font-size: 13px; color: var(--blue-bright); }
+  .prop-example { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
+
+  /* TABLE */
+  .math-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13.5px; }
+  .math-table th { background: var(--surface2); color: var(--text-muted); font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 400; padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border2); }
+  .math-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--text-muted); vertical-align: top; }
+  .math-table td:first-child { font-family: var(--font-mono); color: var(--blue-bright); font-size: 13px; }
+  .math-table tr:last-child td { border-bottom: none; }
+  .math-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+  /* STEPS */
+  .steps { display: flex; flex-direction: column; gap: 10px; margin: 10px 0; }
+  .step-item { display: flex; gap: 14px; align-items: flex-start; }
+  .step-num { width: 26px; height: 26px; border-radius: 50%; background: var(--blue-dim); border: 1px solid rgba(59,130,246,0.3); color: var(--blue-bright); font-family: var(--font-mono); font-size: 12px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+  .step-content { flex: 1; font-size: 13.5px; color: var(--text-muted); line-height: 1.65; }
+  .step-content strong { color: var(--text); }
+  .step-content .step-formula { font-family: var(--font-mono); color: #fff; background: var(--surface2); padding: 4px 10px; border-radius: 5px; display: inline-block; margin-top: 4px; font-size: 13px; }
+
+  /* PILL */
+  .pill-list { display: flex; flex-wrap: wrap; gap: 7px; margin: 6px 0; }
+  .pill { font-size: 12px; padding: 4px 11px; border-radius: 20px; border: 1px solid; }
+  .pill-blue { border-color: rgba(59,130,246,0.3); color: var(--blue-bright); background: var(--blue-dim); }
+  .pill-teal { border-color: rgba(20,184,166,0.3); color: var(--teal); background: var(--teal-dim); }
+  .pill-purple { border-color: rgba(167,139,250,0.3); color: var(--purple); background: var(--purple-dim); }
+  .pill-amber { border-color: rgba(251,191,36,0.3); color: var(--amber); background: var(--amber-dim); }
+  .pill-red { border-color: rgba(248,113,113,0.3); color: var(--red); background: var(--red-dim); }
+
+  /* OVERVIEW CARDS */
+  .oa-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; margin-bottom: 32px; }
+  .oa-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.2s; }
+  .oa-card:hover { border-color: var(--border2); background: var(--surface2); transform: translateY(-1px); }
+  .oa-num { font-family: var(--font-mono); font-size: 11px; padding: 3px 9px; border-radius: 5px; display: inline-block; margin-bottom: 10px; }
+  .oa-title { font-size: 15px; font-weight: 500; margin-bottom: 8px; font-family: var(--font-display); }
+  .oa-topics { font-size: 12.5px; color: var(--text-muted); line-height: 1.6; }
+
+  /* GRAPH CONTAINER */
+  .graph-container {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 12px 0;
+    text-align: center;
+  }
+
+  /* INTERACTIVE CALCULATOR */
+  .calc-section { background: var(--surface); border: 1px solid var(--border2); border-radius: 14px; padding: 24px; margin: 16px 0; }
+  .calc-title { font-size: 14px; font-weight: 500; margin-bottom: 16px; color: var(--blue-bright); font-family: var(--font-mono); letter-spacing: 0.05em; }
+  .calc-row { display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; margin-bottom: 12px; }
+  .calc-field { display: flex; flex-direction: column; gap: 5px; }
+  .calc-field label { font-size: 11px; color: var(--text-muted); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.08em; }
+  .calc-field input, .calc-field select {
+    background: var(--bg);
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    width: 100px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .calc-field input:focus, .calc-field select:focus { border-color: var(--blue); }
+  .calc-field select { width: 130px; }
+  .calc-btn {
+    background: var(--blue);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 9px 20px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-bottom: 0;
+  }
+  .calc-btn:hover { background: #2563eb; }
+  .calc-result {
+    background: var(--bg);
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    padding: 16px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--green);
+    line-height: 1.8;
+    min-height: 60px;
+    white-space: pre-wrap;
+  }
+
+  /* QUIZ */
+  .quiz-item { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 10px; }
+  .quiz-q { font-size: 14px; font-weight: 500; margin-bottom: 14px; }
+  .quiz-q .q-formula { font-family: var(--font-mono); color: var(--blue-bright); font-size: 16px; display: block; margin-top: 6px; }
+  .quiz-opts { display: flex; flex-direction: column; gap: 7px; }
+  .quiz-opt {
+    padding: 10px 14px;
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: 13.5px;
+    color: var(--text-muted);
+    transition: all 0.15s;
+    background: var(--bg);
+  }
+  .quiz-opt:hover { border-color: var(--blue); color: var(--text); }
+  .quiz-opt.correct { border-color: var(--green); color: var(--green); background: var(--green-dim); }
+  .quiz-opt.wrong { border-color: var(--red); color: var(--red); background: var(--red-dim); }
+  .quiz-opt.disabled { pointer-events: none; opacity: 0.5; }
+  .quiz-feedback { margin-top: 10px; font-size: 13px; padding: 8px 12px; border-radius: 7px; display: none; }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.ok { background: var(--green-dim); color: var(--green); border: 1px solid rgba(52,211,153,0.2); }
+  .quiz-feedback.nok { background: var(--red-dim); color: var(--red); border: 1px solid rgba(248,113,113,0.2); }
+  .quiz-score { font-family: var(--font-mono); font-size: 13px; color: var(--text-muted); margin-top: 16px; padding: 10px 14px; background: var(--surface2); border-radius: 8px; display: none; }
+
+  /* NUMBER LINE SVG */
+  svg text { font-family: var(--font-mono); }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+  sup { font-size: 0.7em; vertical-align: super; }
+  sub { font-size: 0.7em; vertical-align: sub; }
+  .mono { font-family: var(--font-mono); }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-eyebrow">Guía completa de estudio — Prueba de nivel</div>
+  <h1 class="header-title"><span>Matemática</span></h1>
+  <div class="header-subtitle">Números racionales · Potencias · Álgebra · Productos notables</div>
+  <div class="header-badges">
+    <span class="badge b-blue">OA 1 · Racionales</span>
+    <span class="badge b-teal">OA 2 · Potencias</span>
+    <span class="badge b-purple">OA 3 · Productos notables</span>
+    <span class="badge b-amber">Calculadora incluida</span>
+    <span class="reading-time-badge"></span>
+  </div>
+</header>
+
+<nav class="nav-wrapper">
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showTab('resumen',this)">📋 Resumen OA</button>
+    <button class="nav-tab" onclick="showTab('racionales',this)">½ Racionales</button>
+    <button class="nav-tab" onclick="showTab('potencias',this)">⚡ Potencias</button>
+    <button class="nav-tab" onclick="showTab('exponencial',this)">📈 Crecimiento</button>
+    <button class="nav-tab" onclick="showTab('algebra',this)">🔣 Álgebra</button>
+    <button class="nav-tab" onclick="showTab('notables',this)">✨ Prod. Notables</button>
+    <button class="nav-tab" onclick="showTab('calculadora',this)">🧮 Calculadora</button>
+    <button class="nav-tab" onclick="showTab('practica',this)">✏️ Práctica</button>
+  </div>
+</nav>
+
+<main class="content-area">
+
+<!-- ═══════════════════════ RESUMEN OA ═══════════════════════ -->
+<div id="tab-resumen" class="section-panel active">
+  <h2 class="section-heading">Objetivos de Aprendizaje</h2>
+  <p class="section-desc">Toca cada objetivo para ver los temas que cubre. Usa el menú para ir directo a cada sección.</p>
+
+  <div class="oa-grid">
+    <div class="oa-card" onclick="showTab('racionales',document.querySelectorAll('.nav-tab')[1])">
+      <span class="oa-num" style="background:var(--blue-dim);color:var(--blue-bright);border:1px solid rgba(59,130,246,0.25)">OA 1</span>
+      <div class="oa-title">Números Racionales</div>
+      <div class="oa-topics">Calcular operaciones con números racionales en forma simbólica. Conversión decimal ↔ fracción. Suma, resta, multiplicación y división de racionales.</div>
+    </div>
+    <div class="oa-card" onclick="showTab('potencias',document.querySelectorAll('.nav-tab')[2])">
+      <span class="oa-num" style="background:var(--teal-dim);color:var(--teal);border:1px solid rgba(20,184,166,0.25)">OA 2</span>
+      <div class="oa-title">Potencias</div>
+      <div class="oa-topics">Potencias de base racional y exponente entero. Propiedades de las potencias. Potencias con exponente negativo y cero.</div>
+    </div>
+    <div class="oa-card" onclick="showTab('notables',document.querySelectorAll('.nav-tab')[5])">
+      <span class="oa-num" style="background:var(--purple-dim);color:var(--purple);border:1px solid rgba(167,139,250,0.25)">OA 3</span>
+      <div class="oa-title">Productos Notables</div>
+      <div class="oa-topics">Cuadrado de binomios: (a+b)² y (a−b)². Suma por diferencia: (a+b)(a−b). Binomio por término común. Multiplicación de términos algebraicos.</div>
+    </div>
+  </div>
+
+  <div class="tip-box tip-blue">
+    <strong>¿Cómo usar esta guía?</strong> Cada sección tiene la teoría explicada paso a paso, fórmulas clave, ejemplos resueltos y una calculadora interactiva. La pestaña "Práctica" tiene ejercicios con respuestas para autoevaluar.
+  </div>
+
+  <h3 style="font-family:var(--font-display);font-size:1.2rem;color:#fff;margin-bottom:16px;">Mapa de contenidos</h3>
+  <div class="accordion">
+    <div class="acc-item" id="map-1">
+      <button class="acc-trigger" onclick="toggleAcc('map-1')">
+        <span class="acc-label" style="background:var(--blue-dim);color:var(--blue-bright);border:1px solid rgba(59,130,246,0.2)">OA 1</span>
+        <span class="acc-title">Números Racionales — Todo lo que entra</span>
+        <span class="acc-arrow">⌄</span>
+      </button>
+      <div class="acc-body">
+        <div class="block-label">Contenidos</div>
+        <div class="prop-list">
+          <div class="prop-item"><span class="prop-num" style="background:var(--blue-dim);color:var(--blue-bright)">1</span><div class="prop-body"><div class="prop-name">Definición y tipos de números racionales</div><div class="prop-example">Fracciones propias, impropias, mixtas. Representación en la recta numérica.</div></div></div>
+          <div class="prop-item"><span class="prop-num" style="background:var(--blue-dim);color:var(--blue-bright)">2</span><div class="prop-body"><div class="prop-name">Conversión decimal ↔ fracción</div><div class="prop-example">Decimales finitos y periódicos. Método para convertir 0,333... a fracción.</div></div></div>
+          <div class="prop-item"><span class="prop-num" style="background:var(--blue-dim);color:var(--blue-bright)">3</span><div class="prop-body"><div class="prop-name">Operaciones: suma y resta</div><div class="prop-example">Con denominador común y con mínimo común denominador.</div></div></div>
+          <div class="prop-item"><span class="prop-num" style="background:var(--blue-dim);color:var(--blue-bright)">4</span><div class="prop-body"><div class="prop-name">Operaciones: multiplicación y división</div><div class="prop-example">Regla del producto. División como multiplicación por el inverso.</div></div></div>
+          <div class="prop-item"><span class="prop-num" style="background:var(--blue-dim);color:var(--blue-bright)">5</span><div class="prop-body"><div class="prop-name">Operaciones combinadas (jerarquía)</div><div class="prop-example">Orden correcto: paréntesis → potencias → × ÷ → + −</div></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="acc-item" id="map-2">
+      <button class="acc-trigger" onclick="toggleAcc('map-2')">
+        <span class="acc-label" style="background:var(--teal-dim);color:var(--teal);border:1px solid rgba(20,184,166,0.2)">OA 2</span>
+        <span class="acc-title">Potencias — Todo lo que entra</span>
+        <span class="acc-arrow">⌄</span>
+      </button>
+      <div class="acc-body">
+        <div class="prop-list">
+          <div class="prop-item"><span class="prop-num" style="background:var(--teal-dim);color:var(--teal)">1</span><div class="prop-body"><div class="prop-name">Definición de potencia</div><div class="prop-example">Base, exponente, potencia. Notación aⁿ.</div></div></div>
+          <div class="prop-item"><span class="prop-num" style="background:var(--teal-dim);color:var(--teal)">2</span><div class="prop-body"><div class="prop-name">Potencia de base racional</div><div class="prop-example">(p/q)ⁿ = pⁿ/qⁿ. Ejemplos con fracciones.</div></div></div>
+          <div class="prop-item"><span class="prop-num" style="background:var(--teal-dim);color:var(--teal)">3</span><div class="prop-body"><div class="prop-name">Exponente entero: positivo, negativo y cero</div><div class="prop-example">a⁰ = 1. a⁻ⁿ = 1/aⁿ.</div></div></div>
+          <div class="prop-item"><span class="prop-num" style="background:var(--teal-dim);color:var(--teal)">4</span><div class="prop-body"><div class="prop-name">7 propiedades de las potencias</div><div class="prop-example">Producto, cociente, potencia de potencia, distributivas, etc.</div></div></div>
+          <div class="prop-item"><span class="prop-num" style="background:var(--teal-dim);color:var(--teal)">5</span><div class="prop-body"><div class="prop-name">Crecimiento y decrecimiento exponencial</div><div class="prop-example">f(x) = aˣ con a > 1 (crece) o 0 < a < 1 (decrece).</div></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="acc-item" id="map-3">
+      <button class="acc-trigger" onclick="toggleAcc('map-3')">
+        <span class="acc-label" style="background:var(--purple-dim);color:var(--purple);border:1px solid rgba(167,139,250,0.2)">OA 3</span>
+        <span class="acc-title">Productos Notables — Todo lo que entra</span>
+        <span class="acc-arrow">⌄</span>
+      </button>
+      <div class="acc-body">
+        <div class="prop-list">
+          <div class="prop-item"><span class="prop-num" style="background:var(--purple-dim);color:var(--purple)">1</span><div class="prop-body"><div class="prop-name">Multiplicación de términos algebraicos</div><div class="prop-example">Coeficientes y partes literales. Regla de signos.</div></div></div>
+          <div class="prop-item"><span class="prop-num" style="background:var(--purple-dim);color:var(--purple)">2</span><div class="prop-body"><div class="prop-name">Cuadrado de binomio suma: (a+b)²</div><div class="prop-example">(a+b)² = a² + 2ab + b²</div></div></div>
+          <div class="prop-item"><span class="prop-num" style="background:var(--purple-dim);color:var(--purple)">3</span><div class="prop-body"><div class="prop-name">Cuadrado de binomio diferencia: (a−b)²</div><div class="prop-example">(a−b)² = a² − 2ab + b²</div></div></div>
+          <div class="prop-item"><span class="prop-num" style="background:var(--purple-dim);color:var(--purple)">4</span><div class="prop-body"><div class="prop-name">Suma por diferencia: (a+b)(a−b)</div><div class="prop-example">(a+b)(a−b) = a² − b²</div></div></div>
+          <div class="prop-item"><span class="prop-num" style="background:var(--purple-dim);color:var(--purple)">5</span><div class="prop-body"><div class="prop-name">Binomio por término común</div><div class="prop-example">k(a+b) = ka + kb (distributiva)</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ RACIONALES ═══════════════════════ -->
+<div id="tab-racionales" class="section-panel">
+  <h2 class="section-heading">Números Racionales</h2>
+  <p class="section-desc">Un número racional es todo número que se puede expresar como fracción p/q, donde p y q son enteros y q ≠ 0.</p>
+
+  <div class="accordion">
+
+    <div class="acc-item" id="r1">
+      <button class="acc-trigger" onclick="toggleAcc('r1')">
+        <span class="acc-label" style="background:var(--blue-dim);color:var(--blue-bright);border:1px solid rgba(59,130,246,0.2)">Concepto</span>
+        <span class="acc-title">¿Qué es un número racional?</span>
+        <span class="acc-arrow">⌄</span>
+      </button>
+      <div class="acc-body">
+        <div class="block-label">Definición</div>
+        <p class="prose">Un número racional es cualquier número que puede escribirse como una <strong>fracción p/q</strong> donde p (numerador) y q (denominador) son números enteros, y q ≠ 0.</p>
+        <div class="formula-box">
+          <span class="formula-label">Forma general</span>
+          ℚ = { p/q | p, q ∈ ℤ, q ≠ 0 }
+        </div>
+        <div class="block-label">Tipos</div>
+        <div class="three-col">
+          <div class="concept-card">
+            <h4 style="color:var(--blue-bright)">Fracción propia</h4>
+            <p>El numerador es menor que el denominador.</p>
+            <div class="cc-formula">3/4 &nbsp; 1/2 &nbsp; 7/10</div>
+          </div>
+          <div class="concept-card">
+            <h4 style="color:var(--teal)">Fracción impropia</h4>
+            <p>El numerador es mayor o igual al denominador.</p>
+            <div class="cc-formula">5/3 &nbsp; 9/4 &nbsp; 7/2</div>
+          </div>
+          <div class="concept-card">
+            <h4 style="color:var(--purple)">Número mixto</h4>
+            <p>Parte entera + fracción propia.</p>
+            <div class="cc-formula">1½ = 3/2 &nbsp; 2¾ = 11/4</div>
+          </div>
+        </div>
+        <div class="block-label">Recta numérica</div>
+        <div class="graph-container">
+          <svg viewBox="0 0 500 80" width="100%" height="80">
+            <defs><marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#3b82f6"/></marker></defs>
+            <line x1="20" y1="40" x2="480" y2="40" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr)"/>
+            <!-- ticks -->
+            <g fill="#7a8aa0" font-size="11" text-anchor="middle" font-family="DM Mono,monospace">
+              <line x1="60" y1="35" x2="60" y2="45" stroke="#3d4f68" stroke-width="1"/>
+              <text x="60" y="60">-1</text>
+              <line x1="160" y1="35" x2="160" y2="45" stroke="#3d4f68" stroke-width="1"/>
+              <text x="160" y="60">0</text>
+              <line x1="260" y1="35" x2="260" y2="45" stroke="#3d4f68" stroke-width="1"/>
+              <text x="260" y="60">1</text>
+              <line x1="360" y1="35" x2="360" y2="45" stroke="#3d4f68" stroke-width="1"/>
+              <text x="360" y="60">2</text>
+              <line x1="460" y1="35" x2="460" y2="45" stroke="#3d4f68" stroke-width="1"/>
+              <text x="460" y="60">3</text>
+            </g>
+            <!-- marked fractions -->
+            <circle cx="210" cy="40" r="5" fill="#14b8a6"/>
+            <text x="210" y="25" text-anchor="middle" fill="#14b8a6" font-size="11" font-family="DM Mono,monospace">1/2</text>
+            <circle cx="93" cy="40" r="5" fill="#a78bfa"/>
+            <text x="93" y="25" text-anchor="middle" fill="#a78bfa" font-size="11" font-family="DM Mono,monospace">-2/3</text>
+            <circle cx="327" cy="40" r="5" fill="#fbbf24"/>
+            <text x="327" y="25" text-anchor="middle" fill="#fbbf24" font-size="11" font-family="DM Mono,monospace">5/3</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc-item" id="r2">
+      <button class="acc-trigger" onclick="toggleAcc('r2')">
+        <span class="acc-label" style="background:var(--teal-dim);color:var(--teal);border:1px solid rgba(20,184,166,0.2)">Conversión</span>
+        <span class="acc-title">Decimal ↔ Fracción</span>
+        <span class="acc-arrow">⌄</span>
+      </button>
+      <div class="acc-body">
+        <div class="block-label">Decimal finito → Fracción</div>
+        <p class="prose">El denominador es una potencia de 10 según los decimales.</p>
+        <div class="example-box">
+          <span class="ex-label">Ejemplo</span>
+          <div class="ex-content">
+            0,75  → 75/100  → <strong style="color:#34d399">3/4</strong><span class="step"> (simplificar ÷25)</span><br>
+            0,125 → 125/1000 → <strong style="color:#34d399">1/8</strong><span class="step"> (simplificar ÷125)</span><br>
+            1,6   → 16/10   → <strong style="color:#34d399">8/5</strong><span class="step"> (simplificar ÷2)</span>
+          </div>
+        </div>
+        <div class="block-label">Decimal periódico puro → Fracción</div>
+        <p class="prose">Si el periodo empieza justo después de la coma:</p>
+        <div class="steps">
+          <div class="step-item"><div class="step-num">1</div><div class="step-content">Llama <strong>x</strong> al decimal: <span class="step-formula">x = 0,333...</span></div></div>
+          <div class="step-item"><div class="step-num">2</div><div class="step-content">Multiplica por 10 (1 cifra en el periodo): <span class="step-formula">10x = 3,333...</span></div></div>
+          <div class="step-item"><div class="step-num">3</div><div class="step-content">Resta ambas ecuaciones: <span class="step-formula">10x − x = 3,333... − 0,333... → 9x = 3</span></div></div>
+          <div class="step-item"><div class="step-num">4</div><div class="step-content">Despeja: <span class="step-formula">x = 3/9 = 1/3 ✓</span></div></div>
+        </div>
+        <div class="example-box" style="margin-top:10px;">
+          <span class="ex-label">Otro ejemplo: 0,272727...</span>
+          <div class="ex-content">
+            x = 0,272727...<br>
+            100x = 27,2727...<span class="step"> (periodo = 2 cifras → ×100)</span><br>
+            99x = 27  →  <strong style="color:#34d399">x = 27/99 = 3/11</strong>
+          </div>
+        </div>
+        <div class="block-label">Fracción → Decimal</div>
+        <p class="prose">Divide numerador ÷ denominador. Si la división termina → decimal finito. Si se repite → periódico.</p>
+        <div class="example-box">
+          <span class="ex-label">Ejemplos</span>
+          <div class="ex-content">
+            3/4  = 3 ÷ 4  = <strong style="color:#34d399">0,75</strong>  (finito)<br>
+            1/3  = 1 ÷ 3  = <strong style="color:#34d399">0,333...</strong>  (periódico puro)<br>
+            5/6  = 5 ÷ 6  = <strong style="color:#34d399">0,8333...</strong>  (periódico mixto)
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc-item" id="r3">
+      <button class="acc-trigger" onclick="toggleAcc('r3')">
+        <span class="acc-label" style="background:var(--blue-dim);color:var(--blue-bright);border:1px solid rgba(59,130,246,0.2)">Operaciones</span>
+        <span class="acc-title">Suma y Resta de Fracciones</span>
+        <span class="acc-arrow">⌄</span>
+      </button>
+      <div class="acc-body">
+        <div class="two-col">
+          <div>
+            <div class="block-label">Mismo denominador</div>
+            <div class="formula-box"><span class="formula-label">Fórmula</span><span class="formula-highlight">a/c ± b/c = (a ± b)/c</span></div>
+            <div class="example-box">
+              <span class="ex-label">Ejemplo</span>
+              <div class="ex-content">3/7 + 2/7 = <strong style="color:#34d399">5/7</strong><br>5/8 − 3/8 = <strong style="color:#34d399">2/8 = 1/4</strong></div>
+            </div>
+          </div>
+          <div>
+            <div class="block-label">Distinto denominador</div>
+            <div class="formula-box"><span class="formula-label">Fórmula (mcm)</span><span class="formula-highlight">a/b ± c/d = (ad ± bc)/bd</span></div>
+            <div class="example-box">
+              <span class="ex-label">Ejemplo</span>
+              <div class="ex-content">1/3 + 1/4 = 4/12 + 3/12 = <strong style="color:#34d399">7/12</strong><br>2/5 − 1/3 = 6/15 − 5/15 = <strong style="color:#34d399">1/15</strong></div>
+            </div>
+          </div>
+        </div>
+        <div class="block-label">Pasos para sumar/restar con distinto denominador</div>
+        <div class="steps">
+          <div class="step-item"><div class="step-num">1</div><div class="step-content"><strong>Encuentra el mínimo común múltiplo (mcm)</strong> de los denominadores.</div></div>
+          <div class="step-item"><div class="step-num">2</div><div class="step-content"><strong>Convierte cada fracción</strong> al denominador común multiplicando arriba y abajo.</div></div>
+          <div class="step-item"><div class="step-num">3</div><div class="step-content"><strong>Suma o resta los numeradores</strong>. El denominador no cambia.</div></div>
+          <div class="step-item"><div class="step-num">4</div><div class="step-content"><strong>Simplifica</strong> dividiendo por el MCD si es posible.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc-item" id="r4">
+      <button class="acc-trigger" onclick="toggleAcc('r4')">
+        <span class="acc-label" style="background:var(--purple-dim);color:var(--purple);border:1px solid rgba(167,139,250,0.2)">Operaciones</span>
+        <span class="acc-title">Multiplicación y División de Fracciones</span>
+        <span class="acc-arrow">⌄</span>
+      </button>
+      <div class="acc-body">
+        <div class="two-col">
+          <div>
+            <div class="formula-box purple"><span class="formula-label">Multiplicación</span><span class="formula-highlight">a/b × c/d = (a·c)/(b·d)</span></div>
+            <div class="example-box">
+              <span class="ex-label">Ejemplo</span>
+              <div class="ex-content">2/3 × 3/4 = 6/12 = <strong style="color:#34d399">1/2</strong><br>−5/6 × 3/10 = −15/60 = <strong style="color:#34d399">−1/4</strong></div>
+            </div>
+          </div>
+          <div>
+            <div class="formula-box green"><span class="formula-label">División (invertir y multiplicar)</span><span class="formula-highlight">a/b ÷ c/d = a/b × d/c</span></div>
+            <div class="example-box">
+              <span class="ex-label">Ejemplo</span>
+              <div class="ex-content">3/4 ÷ 1/2 = 3/4 × 2/1 = <strong style="color:#34d399">6/4 = 3/2</strong><br>2/5 ÷ 4/3 = 2/5 × 3/4 = <strong style="color:#34d399">6/20 = 3/10</strong></div>
+            </div>
+          </div>
+        </div>
+        <div class="warn-box">Para dividir fracciones, <strong>NUNCA</strong> dividas directamente. Siempre invierte la segunda fracción y multiplica.</div>
+        <div class="block-label">Operaciones combinadas — Jerarquía</div>
+        <div class="formula-box amber"><span class="formula-label">Orden de operaciones</span>1. ( ) Paréntesis&nbsp;&nbsp;→&nbsp;&nbsp;2. Potencias&nbsp;&nbsp;→&nbsp;&nbsp;3. × ÷&nbsp;&nbsp;→&nbsp;&nbsp;4. + −</div>
+        <div class="example-box">
+          <span class="ex-label">Ejemplo combinado</span>
+          <div class="ex-content">
+            (1/2 + 1/3) × (3/4 − 1/6)<br>
+            = (3/6 + 2/6) × (9/12 − 2/12)<span class="step"> ← paréntesis primero</span><br>
+            = 5/6 × 7/12<span class="step"> ← multiplicar</span><br>
+            = <strong style="color:#34d399">35/72</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════ POTENCIAS ═══════════════════════ -->
+<div id="tab-potencias" class="section-panel">
+  <h2 class="section-heading">Potencias</h2>
+  <p class="section-desc">Una potencia es una multiplicación repetida de un número por sí mismo.</p>
+
+  <div class="accordion">
+
+    <div class="acc-item" id="p1">
+      <button class="acc-trigger" onclick="toggleAcc('p1')">
+        <span class="acc-label" style="background:var(--teal-dim);color:var(--teal);border:1px solid rgba(20,184,166,0.2)">Concepto</span>
+        <span class="acc-title">Definición y partes de una potencia</span>
+        <span class="acc-arrow">⌄</span>
+      </button>
+      <div class="acc-body">
+        <div class="formula-box green">
+          <span class="formula-label">Estructura</span>
+          a<sup>n</sup> = a × a × a × ... × a &nbsp;(n veces)
+        </div>
+        <div class="three-col" style="margin-top:14px;">
+          <div class="concept-card"><h4 style="color:var(--teal)">Base (a)</h4><p>El número que se multiplica repetidamente. Puede ser entera, racional o decimal.</p><div class="cc-formula">En 3⁴: base = 3</div></div>
+          <div class="concept-card"><h4 style="color:var(--blue-bright)">Exponente (n)</h4><p>Indica cuántas veces se multiplica la base por sí misma.</p><div class="cc-formula">En 3⁴: expo = 4</div></div>
+          <div class="concept-card"><h4 style="color:var(--purple)">Potencia</h4><p>El resultado de la operación completa.</p><div class="cc-formula">3⁴ = 81</div></div>
+        </div>
+        <div class="block-label">Casos especiales del exponente</div>
+        <div class="prop-list">
+          <div class="prop-item">
+            <span class="prop-num" style="background:var(--teal-dim);color:var(--teal)">a⁰</span>
+            <div class="prop-body"><div class="prop-name">Exponente cero → siempre 1</div><div class="prop-formula">a⁰ = 1 &nbsp;(con a ≠ 0)</div><div class="prop-example">5⁰ = 1 &nbsp;|&nbsp; (−3)⁰ = 1 &nbsp;|&nbsp; (2/3)⁰ = 1</div></div>
+          </div>
+          <div class="prop-item">
+            <span class="prop-num" style="background:var(--teal-dim);color:var(--teal)">a¹</span>
+            <div class="prop-body"><div class="prop-name">Exponente uno → la propia base</div><div class="prop-formula">a¹ = a</div><div class="prop-example">7¹ = 7 &nbsp;|&nbsp; (−4)¹ = −4</div></div>
+          </div>
+          <div class="prop-item">
+            <span class="prop-num" style="background:var(--red-dim);color:var(--red)">a⁻ⁿ</span>
+            <div class="prop-body"><div class="prop-name">Exponente negativo → inverso de la potencia</div><div class="prop-formula">a⁻ⁿ = 1/aⁿ</div><div class="prop-example">2⁻³ = 1/8 &nbsp;|&nbsp; (1/3)⁻² = 9</div></div>
+          </div>
+        </div>
+        <div class="block-label">Base racional</div>
+        <div class="formula-box green"><span class="formula-label">Potencia de fracción</span><span class="formula-highlight">(p/q)<sup>n</sup> = p<sup>n</sup>/q<sup>n</sup></span></div>
+        <div class="example-box">
+          <span class="ex-label">Ejemplos</span>
+          <div class="ex-content">
+            (2/3)² = 2²/3² = <strong style="color:#34d399">4/9</strong><br>
+            (−1/2)³ = (−1)³/2³ = <strong style="color:#34d399">−1/8</strong><br>
+            (3/4)⁻² = (4/3)² = <strong style="color:#34d399">16/9</strong>
+          </div>
+        </div>
+        <div class="warn-box">Cuidado con el signo: (−2)² = +4 porque se eleva todo al cuadrado. Pero −2² = −4 porque el signo NO está dentro del paréntesis.</div>
+      </div>
+    </div>
+
+    <div class="acc-item" id="p2">
+      <button class="acc-trigger" onclick="toggleAcc('p2')">
+        <span class="acc-label" style="background:var(--teal-dim);color:var(--teal);border:1px solid rgba(20,184,166,0.2)">Propiedades</span>
+        <span class="acc-title">Las 7 propiedades de las potencias</span>
+        <span class="acc-arrow">⌄</span>
+      </button>
+      <div class="acc-body">
+        <div class="prop-list">
+          <div class="prop-item">
+            <span class="prop-num" style="background:var(--teal-dim);color:var(--teal)">P1</span>
+            <div class="prop-body">
+              <div class="prop-name">Producto de potencias (misma base)</div>
+              <div class="prop-formula">aᵐ · aⁿ = aᵐ⁺ⁿ</div>
+              <div class="prop-example">3² · 3⁴ = 3⁶ = 729 &nbsp;|&nbsp; x³ · x⁵ = x⁸</div>
+            </div>
+          </div>
+          <div class="prop-item">
+            <span class="prop-num" style="background:var(--teal-dim);color:var(--teal)">P2</span>
+            <div class="prop-body">
+              <div class="prop-name">Cociente de potencias (misma base)</div>
+              <div class="prop-formula">aᵐ ÷ aⁿ = aᵐ⁻ⁿ</div>
+              <div class="prop-example">2⁶ ÷ 2² = 2⁴ = 16 &nbsp;|&nbsp; x⁷/x³ = x⁴</div>
+            </div>
+          </div>
+          <div class="prop-item">
+            <span class="prop-num" style="background:var(--teal-dim);color:var(--teal)">P3</span>
+            <div class="prop-body">
+              <div class="prop-name">Potencia de potencia</div>
+              <div class="prop-formula">(aᵐ)ⁿ = aᵐ·ⁿ</div>
+              <div class="prop-example">(2³)⁴ = 2¹² &nbsp;|&nbsp; (x²)⁵ = x¹⁰</div>
+            </div>
+          </div>
+          <div class="prop-item">
+            <span class="prop-num" style="background:var(--teal-dim);color:var(--teal)">P4</span>
+            <div class="prop-body">
+              <div class="prop-name">Potencia de un producto</div>
+              <div class="prop-formula">(a · b)ⁿ = aⁿ · bⁿ</div>
+              <div class="prop-example">(2·3)⁴ = 2⁴·3⁴ = 16·81 = 1296</div>
+            </div>
+          </div>
+          <div class="prop-item">
+            <span class="prop-num" style="background:var(--teal-dim);color:var(--teal)">P5</span>
+            <div class="prop-body">
+              <div class="prop-name">Potencia de un cociente</div>
+              <div class="prop-formula">(a/b)ⁿ = aⁿ/bⁿ</div>
+              <div class="prop-example">(3/5)² = 9/25</div>
+            </div>
+          </div>
+          <div class="prop-item">
+            <span class="prop-num" style="background:var(--red-dim);color:var(--red)">P6</span>
+            <div class="prop-body">
+              <div class="prop-name">Exponente negativo</div>
+              <div class="prop-formula">a⁻ⁿ = 1/aⁿ &nbsp;y&nbsp; (a/b)⁻ⁿ = (b/a)ⁿ</div>
+              <div class="prop-example">5⁻² = 1/25 &nbsp;|&nbsp; (2/3)⁻³ = (3/2)³ = 27/8</div>
+            </div>
+          </div>
+          <div class="prop-item">
+            <span class="prop-num" style="background:var(--amber-dim);color:var(--amber)">P7</span>
+            <div class="prop-body">
+              <div class="prop-name">Exponente cero</div>
+              <div class="prop-formula">a⁰ = 1 &nbsp;(a ≠ 0)</div>
+              <div class="prop-example">100⁰ = 1 &nbsp;|&nbsp; (−7)⁰ = 1 &nbsp;|&nbsp; π⁰ = 1</div>
+            </div>
+          </div>
+        </div>
+        <div class="block-label">Tabla de potencias rápida</div>
+        <table class="math-table">
+          <thead><tr><th>Base</th><th>²</th><th>³</th><th>⁴</th><th>⁻¹</th><th>⁻²</th></tr></thead>
+          <tbody>
+            <tr><td>2</td><td>4</td><td>8</td><td>16</td><td>1/2</td><td>1/4</td></tr>
+            <tr><td>3</td><td>9</td><td>27</td><td>81</td><td>1/3</td><td>1/9</td></tr>
+            <tr><td>4</td><td>16</td><td>64</td><td>256</td><td>1/4</td><td>1/16</td></tr>
+            <tr><td>5</td><td>25</td><td>125</td><td>625</td><td>1/5</td><td>1/25</td></tr>
+            <tr><td>1/2</td><td>1/4</td><td>1/8</td><td>1/16</td><td>2</td><td>4</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════ CRECIMIENTO EXPONENCIAL ═══════════════════════ -->
+<div id="tab-exponencial" class="section-panel">
+  <h2 class="section-heading">Crecimiento y Decrecimiento Exponencial</h2>
+  <p class="section-desc">Una función exponencial crece (o decrece) multiplicándose por un factor constante en cada paso.</p>
+
+  <div class="accordion">
+    <div class="acc-item" id="e1">
+      <button class="acc-trigger" onclick="toggleAcc('e1')">
+        <span class="acc-label" style="background:var(--green-dim);color:var(--green);border:1px solid rgba(52,211,153,0.2)">Concepto</span>
+        <span class="acc-title">Función exponencial: f(x) = aˣ</span>
+        <span class="acc-arrow">⌄</span>
+      </button>
+      <div class="acc-body">
+        <div class="formula-box green"><span class="formula-label">Forma general</span><span class="formula-highlight">f(x) = a · bˣ</span>&nbsp;&nbsp; donde a = valor inicial, b = base (factor de cambio)</div>
+        <div class="two-col" style="margin-top:14px;">
+          <div class="concept-card">
+            <h4 style="color:var(--green)">📈 Crecimiento exponencial</h4>
+            <p>Si <strong>b &gt; 1</strong>, la función crece. Cada vez que x aumenta en 1, f(x) se multiplica por b.</p>
+            <div class="cc-formula">f(x) = 2ˣ → crece</div>
+          </div>
+          <div class="concept-card">
+            <h4 style="color:var(--red)">📉 Decrecimiento exponencial</h4>
+            <p>Si <strong>0 &lt; b &lt; 1</strong>, la función decrece. Cada paso multiplica por una fracción menor que 1.</p>
+            <div class="cc-formula">f(x) = (1/2)ˣ → decrece</div>
+          </div>
+        </div>
+        <div class="block-label">Tabla de valores: f(x) = 2ˣ</div>
+        <table class="math-table">
+          <thead><tr><th>x</th><th>-3</th><th>-2</th><th>-1</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th></tr></thead>
+          <tbody><tr><td>2ˣ</td><td>1/8</td><td>1/4</td><td>1/2</td><td>1</td><td>2</td><td>4</td><td>8</td><td>16</td></tr></tbody>
+        </table>
+        <div class="block-label">Visualización</div>
+        <div class="graph-container">
+          <svg viewBox="0 0 480 200" width="100%" height="200">
+            <!-- Grid -->
+            <g stroke="#1a2236" stroke-width="0.5">
+              <line x1="60" y1="0" x2="60" y2="200"/>
+              <line x1="120" y1="0" x2="120" y2="200"/>
+              <line x1="180" y1="0" x2="180" y2="200"/>
+              <line x1="240" y1="0" x2="240" y2="200"/>
+              <line x1="300" y1="0" x2="300" y2="200"/>
+              <line x1="360" y1="0" x2="360" y2="200"/>
+              <line x1="420" y1="0" x2="420" y2="200"/>
+              <line x1="0" y1="40" x2="480" y2="40"/>
+              <line x1="0" y1="80" x2="480" y2="80"/>
+              <line x1="0" y1="120" x2="480" y2="120"/>
+              <line x1="0" y1="160" x2="480" y2="160"/>
+            </g>
+            <!-- Axes -->
+            <line x1="30" y1="160" x2="460" y2="160" stroke="#3d4f68" stroke-width="1.5"/>
+            <line x1="120" y1="10" x2="120" y2="175" stroke="#3d4f68" stroke-width="1.5"/>
+            <!-- Labels x-axis -->
+            <g fill="#3d4f68" font-size="10" text-anchor="middle" font-family="DM Mono,monospace">
+              <text x="60" y="175">-1</text>
+              <text x="120" y="175">0</text>
+              <text x="180" y="175">1</text>
+              <text x="240" y="175">2</text>
+              <text x="300" y="175">3</text>
+              <text x="360" y="175">4</text>
+            </g>
+            <!-- f(x)=2^x points connected: x=-1→1/2, x=0→1, x=1→2, x=2→4, x=3→8 scaled -->
+            <!-- scale: y=160 is 0, each unit = 20px up -->
+            <polyline points="60,155 120,140 180,120 240,80 300,0" fill="none" stroke="#14b8a6" stroke-width="2.5" stroke-linecap="round"/>
+            <!-- f(x)=(1/2)^x: x=0→1, x=1→1/2, x=2→1/4 ... x=-1→2, x=-2→4 -->
+            <polyline points="0,0 60,80 120,140 180,155 240,158 300,159" fill="none" stroke="#f472b6" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="5,3"/>
+            <!-- Legend -->
+            <rect x="300" y="10" width="160" height="50" fill="#121828" rx="6" stroke="#1a2236"/>
+            <line x1="310" y1="28" x2="330" y2="28" stroke="#14b8a6" stroke-width="2"/>
+            <text x="335" y="32" fill="#14b8a6" font-size="11" font-family="DM Mono,monospace">f(x)=2ˣ (crece)</text>
+            <line x1="310" y1="48" x2="330" y2="48" stroke="#f472b6" stroke-width="2" stroke-dasharray="4,2"/>
+            <text x="335" y="52" fill="#f472b6" font-size="11" font-family="DM Mono,monospace">f(x)=(½)ˣ (dec.)</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="acc-item" id="e2">
+      <button class="acc-trigger" onclick="toggleAcc('e2')">
+        <span class="acc-label" style="background:var(--green-dim);color:var(--green);border:1px solid rgba(52,211,153,0.2)">Aplicación</span>
+        <span class="acc-title">Problemas de crecimiento exponencial en contexto</span>
+        <span class="acc-arrow">⌄</span>
+      </button>
+      <div class="acc-body">
+        <div class="block-label">Fórmula en contexto</div>
+        <div class="formula-box green"><span class="formula-label">Modelo general</span><span class="formula-highlight">f(t) = valor_inicial × factor<sup>t</sup></span></div>
+        <div class="example-box">
+          <span class="ex-label">Problema 1 — Bacterias (crecimiento)</span>
+          <div class="ex-content">
+            Una bacteria se duplica cada hora. Hay 100 al inicio. ¿Cuántas hay después de 5 horas?<br><br>
+            f(t) = 100 × 2<sup>t</sup><br>
+            f(5) = 100 × 2⁵ = 100 × 32 = <strong style="color:#34d399">3200 bacterias</strong>
+          </div>
+        </div>
+        <div class="example-box">
+          <span class="ex-label">Problema 2 — Radioactividad (decrecimiento)</span>
+          <div class="ex-content">
+            Una sustancia pierde la mitad de su masa cada año. Hay 200 g. ¿Cuánto queda en 4 años?<br><br>
+            f(t) = 200 × (1/2)<sup>t</sup><br>
+            f(4) = 200 × (1/16) = <strong style="color:#34d399">12,5 g</strong>
+          </div>
+        </div>
+        <div class="block-label">Cómo identificar si es exponencial</div>
+        <div class="prop-list">
+          <div class="prop-item"><span class="prop-num" style="background:var(--green-dim);color:var(--green)">✓</span><div class="prop-body"><div class="prop-name">La variable está en el exponente</div><div class="prop-example">f(x) = 3ˣ → exponencial &nbsp;|&nbsp; f(x) = x³ → NO es exponencial (es potencial)</div></div></div>
+          <div class="prop-item"><span class="prop-num" style="background:var(--green-dim);color:var(--green)">✓</span><div class="prop-body"><div class="prop-name">Crece/decrece multiplicándose por un factor fijo</div><div class="prop-example">Si cada paso suma → lineal. Si cada paso multiplica → exponencial.</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ ÁLGEBRA ═══════════════════════ -->
+<div id="tab-algebra" class="section-panel">
+  <h2 class="section-heading">Multiplicación de Términos Algebraicos</h2>
+  <p class="section-desc">Antes de los productos notables, domina la multiplicación entre monomios y entre monomio y polinomio.</p>
+
+  <div class="accordion">
+    <div class="acc-item" id="a1">
+      <button class="acc-trigger" onclick="toggleAcc('a1')">
+        <span class="acc-label" style="background:var(--purple-dim);color:var(--purple);border:1px solid rgba(167,139,250,0.2)">Base</span>
+        <span class="acc-title">Monomios: estructura y multiplicación</span>
+        <span class="acc-arrow">⌄</span>
+      </button>
+      <div class="acc-body">
+        <div class="three-col">
+          <div class="concept-card"><h4 style="color:var(--purple)">Coeficiente</h4><p>El número que acompaña a la parte literal.</p><div class="cc-formula">En 5x²: coef. = 5</div></div>
+          <div class="concept-card"><h4 style="color:var(--blue-bright)">Parte literal</h4><p>Las variables con sus exponentes.</p><div class="cc-formula">En 5x²: lit. = x²</div></div>
+          <div class="concept-card"><h4 style="color:var(--teal)">Grado</h4><p>La suma de los exponentes de las variables.</p><div class="cc-formula">3x²y³ → grado 5</div></div>
+        </div>
+        <div class="block-label">Multiplicar monomios</div>
+        <div class="steps">
+          <div class="step-item"><div class="step-num">1</div><div class="step-content"><strong>Multiplica los coeficientes</strong> entre sí.</div></div>
+          <div class="step-item"><div class="step-num">2</div><div class="step-content"><strong>Multiplica las partes literales</strong>: suma los exponentes de la misma variable (propiedad P1).</div></div>
+          <div class="step-item"><div class="step-num">3</div><div class="step-content"><strong>Aplica regla de signos</strong>: + × + = + &nbsp;|&nbsp; − × − = + &nbsp;|&nbsp; + × − = −</div></div>
+        </div>
+        <div class="example-box">
+          <span class="ex-label">Ejemplos</span>
+          <div class="ex-content">
+            3x² · 4x³ = (3·4) · x²⁺³ = <strong style="color:#34d399">12x⁵</strong><br>
+            −2ab² · 5a²b = (−10) · a¹⁺² · b²⁺¹ = <strong style="color:#34d399">−10a³b³</strong><br>
+            (−3x)(−4x²y) = <strong style="color:#34d399">12x³y</strong>
+          </div>
+        </div>
+        <div class="block-label">Monomio por polinomio (distributiva)</div>
+        <div class="formula-box purple"><span class="formula-label">Propiedad distributiva</span><span class="formula-highlight">k(a + b + c) = ka + kb + kc</span></div>
+        <div class="example-box">
+          <span class="ex-label">Ejemplo</span>
+          <div class="ex-content">
+            3x(2x² − 4x + 1)<br>
+            = 3x·2x² + 3x·(−4x) + 3x·1<br>
+            = <strong style="color:#34d399">6x³ − 12x² + 3x</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="acc-item" id="a2">
+      <button class="acc-trigger" onclick="toggleAcc('a2')">
+        <span class="acc-label" style="background:var(--purple-dim);color:var(--purple);border:1px solid rgba(167,139,250,0.2)">Reglas</span>
+        <span class="acc-title">Regla de signos y potencias en álgebra</span>
+        <span class="acc-arrow">⌄</span>
+      </button>
+      <div class="acc-body">
+        <div class="two-col">
+          <div>
+            <div class="block-label">Regla de signos</div>
+            <table class="math-table">
+              <thead><tr><th>×</th><th>+</th><th>−</th></tr></thead>
+              <tbody>
+                <tr><td>+</td><td style="color:#34d399">+</td><td style="color:#f87171">−</td></tr>
+                <tr><td>−</td><td style="color:#f87171">−</td><td style="color:#34d399">+</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <div class="block-label">Potencias de variables</div>
+            <table class="math-table">
+              <thead><tr><th>Operación</th><th>Resultado</th></tr></thead>
+              <tbody>
+                <tr><td>x³ · x⁴</td><td>x⁷</td></tr>
+                <tr><td>x⁶ / x²</td><td>x⁴</td></tr>
+                <tr><td>(x³)²</td><td>x⁶</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="warn-box">No se pueden sumar términos de distinto grado: 3x² + 2x ≠ 5x³. Solo se suman términos semejantes (misma variable y mismo exponente).</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ PRODUCTOS NOTABLES ═══════════════════════ -->
+<div id="tab-notables" class="section-panel">
+  <h2 class="section-heading">Productos Notables</h2>
+  <p class="section-desc">Son multiplicaciones especiales entre binomios cuyo resultado tiene una forma fija que conviene memorizar.</p>
+
+  <div class="tip-box tip-blue">
+    <strong>Truco:</strong> Los productos notables son atajos. En vez de multiplicar todo término a término, aplicas directamente la fórmula. El resultado siempre tiene la misma estructura.
+  </div>
+
+  <div class="accordion">
+
+    <div class="acc-item" id="n1">
+      <button class="acc-trigger" onclick="toggleAcc('n1')">
+        <span class="acc-label" style="background:var(--purple-dim);color:var(--purple);border:1px solid rgba(167,139,250,0.2)">P. Notable 1</span>
+        <span class="acc-title">Cuadrado de binomio suma: (a + b)²</span>
+        <span class="acc-arrow">⌄</span>
+      </button>
+      <div class="acc-body">
+        <div class="formula-box purple"><span class="formula-label">Fórmula</span><span class="formula-highlight">(a + b)² = a² + 2ab + b²</span></div>
+        <div class="block-label">¿Cómo se deduce?</div>
+        <div class="steps">
+          <div class="step-item"><div class="step-num">1</div><div class="step-content">(a + b)² = (a + b)(a + b)</div></div>
+          <div class="step-item"><div class="step-num">2</div><div class="step-content">Distributiva: = a·a + a·b + b·a + b·b</div></div>
+          <div class="step-item"><div class="step-num">3</div><div class="step-content">Simplificar: = <span class="step-formula">a² + 2ab + b²</span></div></div>
+        </div>
+        <div class="block-label">Cómo recordarlo</div>
+        <div class="graph-container" style="padding:16px;">
+          <svg viewBox="0 0 320 180" width="100%" height="180">
+            <rect x="20" y="20" width="120" height="120" fill="none" stroke="#a78bfa" stroke-width="1.5"/>
+            <rect x="140" y="20" width="60" height="120" fill="none" stroke="#a78bfa" stroke-width="1.5"/>
+            <rect x="20" y="140" width="120" height="0" fill="none"/>
+            <!-- inner rects -->
+            <rect x="20" y="20" width="120" height="120" fill="rgba(167,139,250,0.07)"/>
+            <rect x="140" y="20" width="60" height="60" fill="rgba(59,130,246,0.1)"/>
+            <rect x="140" y="80" width="60" height="60" fill="rgba(251,191,36,0.1)"/>
+            <rect x="20" y="140" width="120" height="0"/>
+            <!-- Labels -->
+            <text x="80" y="85" text-anchor="middle" fill="#a78bfa" font-size="18" font-family="DM Mono,monospace">a²</text>
+            <text x="170" y="55" text-anchor="middle" fill="#60a5fa" font-size="14" font-family="DM Mono,monospace">ab</text>
+            <text x="170" y="115" text-anchor="middle" fill="#fbbf24" font-size="14" font-family="DM Mono,monospace">ab</text>
+            <text x="80" y="170" text-anchor="middle" fill="#7a8aa0" font-size="13" font-family="DM Mono,monospace">a</text>
+            <text x="170" y="170" text-anchor="middle" fill="#7a8aa0" font-size="13" font-family="DM Mono,monospace">b</text>
+            <!-- b² missing -->
+            <text x="240" y="90" fill="#34d399" font-size="12" font-family="DM Mono,monospace">+ b²</text>
+            <text x="240" y="106" fill="#7a8aa0" font-size="10" font-family="DM Mono,monospace">(esquina)</text>
+            <text x="200" y="170" text-anchor="middle" fill="#7a8aa0" font-size="10" font-family="DM Mono,monospace">b</text>
+          </svg>
+        </div>
+        <div class="block-label">Ejemplos resueltos</div>
+        <div class="example-box">
+          <span class="ex-label">Ejemplos</span>
+          <div class="ex-content">
+            (x + 3)² = x² + 2·x·3 + 3² = <strong style="color:#34d399">x² + 6x + 9</strong><br>
+            (2a + 5)² = (2a)² + 2·2a·5 + 5² = <strong style="color:#34d399">4a² + 20a + 25</strong><br>
+            (3x + 2y)² = 9x² + 12xy + 4y² = <strong style="color:#34d399">9x² + 12xy + 4y²</strong><br>
+            (x + 1/2)² = x² + x + 1/4 = <strong style="color:#34d399">x² + x + 1/4</strong>
+          </div>
+        </div>
+        <div class="warn-box">(x + 3)² ≠ x² + 9. El término del medio <strong>2ab</strong> nunca se puede olvidar.</div>
+      </div>
+    </div>
+
+    <div class="acc-item" id="n2">
+      <button class="acc-trigger" onclick="toggleAcc('n2')">
+        <span class="acc-label" style="background:var(--red-dim);color:var(--red);border:1px solid rgba(248,113,113,0.2)">P. Notable 2</span>
+        <span class="acc-title">Cuadrado de binomio diferencia: (a − b)²</span>
+        <span class="acc-arrow">⌄</span>
+      </button>
+      <div class="acc-body">
+        <div class="formula-box" style="border-left-color:var(--red)"><span class="formula-label" style="color:var(--red)">Fórmula</span><span style="color:var(--red)">(a − b)² = a² − 2ab + b²</span></div>
+        <div class="tip-box tip-amber" style="margin-top:10px;"><strong>Diferencia clave vs. el anterior:</strong> el único cambio es el signo del término del medio: −2ab en vez de +2ab. ¡El último término b² siempre es positivo!</div>
+        <div class="example-box">
+          <span class="ex-label">Ejemplos</span>
+          <div class="ex-content">
+            (x − 4)² = x² − 2·x·4 + 4² = <strong style="color:#34d399">x² − 8x + 16</strong><br>
+            (3a − 2)² = 9a² − 12a + 4 = <strong style="color:#34d399">9a² − 12a + 4</strong><br>
+            (5x − y)² = 25x² − 10xy + y² = <strong style="color:#34d399">25x² − 10xy + y²</strong><br>
+            (1/2 − x)² = 1/4 − x + x² = <strong style="color:#34d399">x² − x + 1/4</strong>
+          </div>
+        </div>
+        <div class="block-label">Comparación visual</div>
+        <table class="math-table">
+          <thead><tr><th>Forma</th><th>Primer término</th><th>Término medio</th><th>Último término</th></tr></thead>
+          <tbody>
+            <tr><td>(a + b)²</td><td>a²</td><td style="color:#34d399">+2ab</td><td>b²</td></tr>
+            <tr><td>(a − b)²</td><td>a²</td><td style="color:#f87171">−2ab</td><td>b²</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="acc-item" id="n3">
+      <button class="acc-trigger" onclick="toggleAcc('n3')">
+        <span class="acc-label" style="background:var(--teal-dim);color:var(--teal);border:1px solid rgba(20,184,166,0.2)">P. Notable 3</span>
+        <span class="acc-title">Suma por diferencia: (a + b)(a − b)</span>
+        <span class="acc-arrow">⌄</span>
+      </button>
+      <div class="acc-body">
+        <div class="formula-box green"><span class="formula-label">Fórmula</span><span class="formula-highlight">(a + b)(a − b) = a² − b²</span></div>
+        <div class="block-label">¿Por qué desaparece el término del medio?</div>
+        <div class="steps">
+          <div class="step-item"><div class="step-num">1</div><div class="step-content">(a + b)(a − b) = a·a + a·(−b) + b·a + b·(−b)</div></div>
+          <div class="step-item"><div class="step-num">2</div><div class="step-content">= a² − ab + ab − b²</div></div>
+          <div class="step-item"><div class="step-num">3</div><div class="step-content">Los términos −ab y +ab se cancelan: <span class="step-formula">a² − b²</span></div></div>
+        </div>
+        <div class="tip-box tip-green" style="margin:10px 0;"><strong>Pista mnemotécnica:</strong> "suma por diferencia" → los términos del medio se anulan, queda <em>cuadrado del primero menos cuadrado del segundo</em>.</div>
+        <div class="example-box">
+          <span class="ex-label">Ejemplos</span>
+          <div class="ex-content">
+            (x + 5)(x − 5) = x² − 25 = <strong style="color:#34d399">x² − 25</strong><br>
+            (2a + 3)(2a − 3) = 4a² − 9 = <strong style="color:#34d399">4a² − 9</strong><br>
+            (x + y)(x − y) = <strong style="color:#34d399">x² − y²</strong><br>
+            (3x + 7)(3x − 7) = 9x² − 49 = <strong style="color:#34d399">9x² − 49</strong>
+          </div>
+        </div>
+        <div class="block-label">Aplicación: cálculo mental rápido</div>
+        <div class="example-box">
+          <span class="ex-label">Truco mental con números</span>
+          <div class="ex-content">
+            21 × 19 = (20+1)(20−1) = 20² − 1² = 400 − 1 = <strong style="color:#34d399">399</strong><br>
+            53 × 47 = (50+3)(50−3) = 2500 − 9 = <strong style="color:#34d399">2491</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc-item" id="n4">
+      <button class="acc-trigger" onclick="toggleAcc('n4')">
+        <span class="acc-label" style="background:var(--amber-dim);color:var(--amber);border:1px solid rgba(251,191,36,0.2)">P. Notable 4</span>
+        <span class="acc-title">Binomio por término común: k(a + b)</span>
+        <span class="acc-arrow">⌄</span>
+      </button>
+      <div class="acc-body">
+        <div class="formula-box amber"><span class="formula-label">Propiedad distributiva</span><span class="formula-highlight">k(a + b) = ka + kb</span></div>
+        <div class="example-box">
+          <span class="ex-label">Ejemplos numéricos</span>
+          <div class="ex-content">
+            3(x + 4) = <strong style="color:#34d399">3x + 12</strong><br>
+            −2(5a − 3) = <strong style="color:#34d399">−10a + 6</strong><br>
+            x²(x − 1) = <strong style="color:#34d399">x³ − x²</strong><br>
+            2ab(3a² + b − 4) = <strong style="color:#34d399">6a³b + 2ab² − 8ab</strong>
+          </div>
+        </div>
+        <div class="warn-box">Al multiplicar por un número negativo, todos los signos del paréntesis cambian. −2(x − 3) = −2x + 6, ¡no −2x − 6!</div>
+      </div>
+    </div>
+
+    <div class="acc-item" id="n5">
+      <button class="acc-trigger" onclick="toggleAcc('n5')">
+        <span class="acc-label" style="background:var(--blue-dim);color:var(--blue-bright);border:1px solid rgba(59,130,246,0.2)">Resumen</span>
+        <span class="acc-title">Tabla comparativa de los 3 productos notables</span>
+        <span class="acc-arrow">⌄</span>
+      </button>
+      <div class="acc-body">
+        <table class="math-table">
+          <thead><tr><th>Nombre</th><th>Forma</th><th>Resultado</th><th>Clave</th></tr></thead>
+          <tbody>
+            <tr><td>Cuadrado suma</td><td>(a + b)²</td><td>a² + 2ab + b²</td><td>3 términos, +2ab</td></tr>
+            <tr><td>Cuadrado dif.</td><td>(a − b)²</td><td>a² − 2ab + b²</td><td>3 términos, −2ab</td></tr>
+            <tr><td>Suma × dif.</td><td>(a+b)(a−b)</td><td>a² − b²</td><td>Solo 2 términos</td></tr>
+          </tbody>
+        </table>
+        <div class="block-label">Ejercicio de identificación</div>
+        <div class="example-box">
+          <span class="ex-label">¿Qué producto notable es cada uno?</span>
+          <div class="ex-content">
+            (x + 7)² → <strong style="color:#34d399">Cuadrado suma</strong> → x² + 14x + 49<br>
+            (4a − 1)(4a + 1) → <strong style="color:#34d399">Suma × diferencia</strong> → 16a² − 1<br>
+            (3x − 5)² → <strong style="color:#34d399">Cuadrado diferencia</strong> → 9x² − 30x + 25<br>
+            (y + 2)(y − 2) → <strong style="color:#34d399">Suma × diferencia</strong> → y² − 4
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════ CALCULADORA ═══════════════════════ -->
+<div id="tab-calculadora" class="section-panel">
+  <h2 class="section-heading">Calculadora Interactiva</h2>
+  <p class="section-desc">Ingresa valores y obtén el resultado paso a paso.</p>
+
+  <!-- Fracciones -->
+  <div class="calc-section">
+    <div class="calc-title">🔢 Operaciones con fracciones</div>
+    <div class="calc-row">
+      <div class="calc-field"><label>Num. 1</label><input type="number" id="f-n1" value="1"></div>
+      <div class="calc-field"><label>Den. 1</label><input type="number" id="f-d1" value="2"></div>
+      <div class="calc-field">
+        <label>Operación</label>
+        <select id="f-op">
+          <option value="+">Suma (+)</option>
+          <option value="-">Resta (−)</option>
+          <option value="*">Multiplicar (×)</option>
+          <option value="/">Dividir (÷)</option>
+        </select>
+      </div>
+      <div class="calc-field"><label>Num. 2</label><input type="number" id="f-n2" value="1"></div>
+      <div class="calc-field"><label>Den. 2</label><input type="number" id="f-d2" value="3"></div>
+      <button class="calc-btn" onclick="calcFracciones()">Calcular</button>
+    </div>
+    <div class="calc-result" id="f-result">El resultado aparecerá aquí...</div>
+  </div>
+
+  <!-- Potencias -->
+  <div class="calc-section">
+    <div class="calc-title">⚡ Potencias (base racional)</div>
+    <div class="calc-row">
+      <div class="calc-field"><label>Numerador base</label><input type="number" id="p-n" value="2"></div>
+      <div class="calc-field"><label>Denominador base</label><input type="number" id="p-d" value="3"></div>
+      <div class="calc-field"><label>Exponente</label><input type="number" id="p-e" value="2"></div>
+      <button class="calc-btn" onclick="calcPotencia()">Calcular</button>
+    </div>
+    <div class="calc-result" id="p-result">El resultado aparecerá aquí...</div>
+  </div>
+
+  <!-- Productos notables -->
+  <div class="calc-section">
+    <div class="calc-title">✨ Productos notables</div>
+    <div class="calc-row">
+      <div class="calc-field">
+        <label>Tipo</label>
+        <select id="pn-tipo" style="width:200px;">
+          <option value="suma2">(a+b)²</option>
+          <option value="dif2">(a−b)²</option>
+          <option value="sdif">(a+b)(a−b)</option>
+        </select>
+      </div>
+      <div class="calc-field"><label>Valor de a</label><input type="number" id="pn-a" value="3"></div>
+      <div class="calc-field"><label>Valor de b</label><input type="number" id="pn-b" value="4"></div>
+      <button class="calc-btn" onclick="calcNotable()">Calcular</button>
+    </div>
+    <div class="calc-result" id="pn-result">El resultado aparecerá aquí...</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ PRÁCTICA ═══════════════════════ -->
+<div id="tab-practica" class="section-panel">
+  <h2 class="section-heading">Práctica</h2>
+  <p class="section-desc">Elige la respuesta correcta. La explicación aparece al responder.</p>
+
+  <div id="quiz-container"></div>
+  <div class="quiz-score" id="quiz-score"></div>
+</div>
+
+</main>
+
+<script>
+// ═══════════════════ TAB LOGIC ═══════════════════
+function showTab(id, btn) {
+  document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  if (btn && btn.classList) btn.classList.add('active');
+}
+
+// ═══════════════════ ACCORDION ═══════════════════
+function toggleAcc(id) {
+  const item = document.getElementById(id);
+  const body = item.querySelector('.acc-body');
+  const arrow = item.querySelector('.acc-arrow');
+  const isOpen = item.classList.contains('open');
+  item.classList.toggle('open', !isOpen);
+  arrow.style.transform = isOpen ? '' : 'rotate(180deg)';
+  arrow.style.color = isOpen ? '' : '#60a5fa';
+}
+
+// ═══════════════════ MCD / MCM ═══════════════════
+function gcd(a, b) { a = Math.abs(a); b = Math.abs(b); while(b) { [a,b] = [b, a%b]; } return a; }
+function lcm(a, b) { return Math.abs(a*b)/gcd(a,b); }
+function simplify(n, d) { if(d===0) return [n,d]; const g = gcd(Math.abs(n),Math.abs(d)); if(d<0){return [-n/g,-d/g];} return [n/g,d/g]; }
+function fracStr(n,d) { const [sn,sd]=simplify(n,d); if(sd===1) return `${sn}`; return `${sn}/${sd}`; }
+
+// ═══════════════════ CALCULADORA FRACCIONES ═══════════════════
+function calcFracciones() {
+  const n1=parseInt(document.getElementById('f-n1').value)||0;
+  const d1=parseInt(document.getElementById('f-d1').value)||1;
+  const n2=parseInt(document.getElementById('f-n2').value)||0;
+  const d2=parseInt(document.getElementById('f-d2').value)||1;
+  const op=document.getElementById('f-op').value;
+  if(d1===0||d2===0){document.getElementById('f-result').textContent='El denominador no puede ser 0.';return;}
+  let rn,rd,paso1='',paso2='';
+  const opSym = {'+':'+','-':'−','*':'×','/':'÷'};
+  if(op==='+'){
+    const m=lcm(d1,d2);
+    const a=n1*(m/d1), b=n2*(m/d2);
+    rn=a+b; rd=m;
+    paso1=`MCM(${d1},${d2}) = ${m}  →  ${a}/${m} ${opSym[op]} ${b}/${m}`;
+    paso2=`= ${rn}/${rd}`;
+  } else if(op==='-'){
+    const m=lcm(d1,d2);
+    const a=n1*(m/d1), b=n2*(m/d2);
+    rn=a-b; rd=m;
+    paso1=`MCM(${d1},${d2}) = ${m}  →  ${a}/${m} − ${b}/${m}`;
+    paso2=`= ${rn}/${rd}`;
+  } else if(op==='*'){
+    rn=n1*n2; rd=d1*d2;
+    paso1=`(${n1}×${n2}) / (${d1}×${d2})`;
+    paso2=`= ${rn}/${rd}`;
+  } else {
+    rn=n1*d2; rd=d1*n2;
+    paso1=`${n1}/${d1} × ${d2}/${n2}  (inverso de la 2ª fracción)`;
+    paso2=`= ${rn}/${rd}`;
+  }
+  const [sn,sd]=simplify(rn,rd);
+  const final = sd===1?`${sn}`:`${sn}/${sd}`;
+  document.getElementById('f-result').textContent=
+    `${n1}/${d1} ${opSym[op]} ${n2}/${d2}\n\n${paso1}\n${paso2}\n\nSimplificado: ${final}`;
+}
+
+// ═══════════════════ CALCULADORA POTENCIAS ═══════════════════
+function calcPotencia() {
+  const n=parseInt(document.getElementById('p-n').value)||1;
+  const d=parseInt(document.getElementById('p-d').value)||1;
+  const e=parseInt(document.getElementById('p-e').value)||1;
+  if(d===0){document.getElementById('p-result').textContent='El denominador no puede ser 0.';return;}
+  let res='';
+  if(e===0){
+    res=`(${n}/${d})⁰ = 1\n\nCualquier número distinto de 0 elevado a 0 es 1.`;
+  } else if(e>0){
+    const rn=Math.pow(n,e), rd=Math.pow(d,e);
+    const [sn,sd]=simplify(rn,rd);
+    res=`(${n}/${d})^${e} = ${n}^${e} / ${d}^${e}\n= ${rn}/${rd}\n= ${sn}/${sd=== 1?'(entero)':sd}${sd===1?` = ${sn}`:''}`;
+  } else {
+    const ep=Math.abs(e);
+    const rn=Math.pow(d,ep), rd=Math.pow(n,ep);
+    const [sn,sd]=simplify(rn,rd);
+    res=`(${n}/${d})^(${e}) = (${d}/${n})^${ep}\n= ${d}^${ep} / ${n}^${ep}\n= ${rn}/${rd}\n= ${fracStr(rn,rd)}`;
+  }
+  document.getElementById('p-result').textContent=res;
+}
+
+// ═══════════════════ CALCULADORA NOTABLES ═══════════════════
+function calcNotable() {
+  const a=parseFloat(document.getElementById('pn-a').value)||0;
+  const b=parseFloat(document.getElementById('pn-b').value)||0;
+  const tipo=document.getElementById('pn-tipo').value;
+  let res='';
+  const sq=x=>x*x;
+  if(tipo==='suma2'){
+    const r=sq(a+b);
+    res=`(${a} + ${b})²\n\nFórmula: a² + 2ab + b²\n= ${a}² + 2·${a}·${b} + ${b}²\n= ${sq(a)} + ${2*a*b} + ${sq(b)}\n= ${r}\n\n✓ Verificación: (${a}+${b})² = ${a+b}² = ${r}`;
+  } else if(tipo==='dif2'){
+    const r=sq(a-b);
+    res=`(${a} − ${b})²\n\nFórmula: a² − 2ab + b²\n= ${a}² − 2·${a}·${b} + ${b}²\n= ${sq(a)} − ${2*a*b} + ${sq(b)}\n= ${r}\n\n✓ Verificación: (${a}−${b})² = ${a-b}² = ${r}`;
+  } else {
+    const r=sq(a)-sq(b);
+    res=`(${a} + ${b})(${a} − ${b})\n\nFórmula: a² − b²\n= ${a}² − ${b}²\n= ${sq(a)} − ${sq(b)}\n= ${r}\n\n✓ Verificación: ${a+b} × ${a-b} = ${r}`;
+  }
+  document.getElementById('pn-result').textContent=res;
+}
+
+// ═══════════════════ QUIZ ═══════════════════
+const quizData = [
+  { q:'¿Cuál es el resultado de 3/4 + 1/6?', formula:'3/4 + 1/6', opts:['11/12','4/10','5/12','7/10'], ans:0, exp:'MCM(4,6)=12. 3/4 = 9/12. 1/6 = 2/12. 9/12 + 2/12 = 11/12.' },
+  { q:'¿Cuánto es (2/3)⁻²?', formula:'(2/3)⁻²', opts:['4/9','9/4','−4/9','3/2'], ans:1, exp:'Exponente negativo: invertir la fracción. (3/2)² = 9/4.' },
+  { q:'¿Cuánto es 5⁰?', formula:'5⁰', opts:['0','5','1','−1'], ans:2, exp:'Todo número (distinto de 0) elevado a 0 es igual a 1.' },
+  { q:'Aplica el producto notable: (x + 4)²', formula:'(x + 4)²', opts:['x² + 16','x² + 4x + 16','x² + 8x + 16','x² + 8x + 8'], ans:2, exp:'(a+b)² = a² + 2ab + b². Con a=x, b=4: x² + 2·x·4 + 4² = x² + 8x + 16.' },
+  { q:'¿Cuál es el resultado de (3a − 2)(3a + 2)?', formula:'(3a − 2)(3a + 2)', opts:['9a² + 4','9a² − 4','6a² − 4','3a² − 4'], ans:1, exp:'Suma × diferencia: (a+b)(a−b) = a² − b². Con a=3a, b=2: (3a)² − 2² = 9a² − 4.' },
+  { q:'¿Cuánto es 2⁻³?', formula:'2⁻³', opts:['−8','1/6','1/8','−1/8'], ans:2, exp:'a⁻ⁿ = 1/aⁿ. 2⁻³ = 1/2³ = 1/8.' },
+  { q:'¿Cuánto es 1/2 ÷ 3/4?', formula:'1/2 ÷ 3/4', opts:['3/8','2/3','4/6','2/4'], ans:1, exp:'Invertir y multiplicar: 1/2 × 4/3 = 4/6 = 2/3.' },
+  { q:'Expande: (2x − 5)²', formula:'(2x − 5)²', opts:['4x² + 25','4x² − 25','4x² − 20x + 25','4x² − 10x + 25'], ans:2, exp:'(a−b)² = a²−2ab+b². Con a=2x, b=5: 4x² − 2·2x·5 + 25 = 4x² − 20x + 25.' },
+  { q:'¿Qué decimales son racionales?', formula:'', opts:['Solo los finitos','Solo los periódicos','Los finitos y los periódicos','Ningún decimal es racional'], ans:2, exp:'Un número racional puede expresarse como fracción. Los decimales finitos (0,5=1/2) y los periódicos (0,333...=1/3) cumplen esto.' },
+  { q:'Simplifica: x³ · x⁵ · x⁻²', formula:'x³ · x⁵ · x⁻²', opts:['x⁶','x¹⁰','x⁻³⁰','x⁸'], ans:0, exp:'Producto de potencias: sumar exponentes. 3 + 5 + (−2) = 6. Resultado: x⁶.' },
+];
+
+let answered = 0, correct = 0;
+
+function buildQuiz() {
+  const el = document.getElementById('quiz-container');
+  el.innerHTML = quizData.map((q,i)=>`
+    <div class="quiz-item" id="qi-${i}">
+      <div class="quiz-q">
+        <span>${i+1}. ${q.q}</span>
+        ${q.formula?`<span class="q-formula">${q.formula}</span>`:''}
+      </div>
+      <div class="quiz-opts">
+        ${q.opts.map((o,j)=>`<button class="quiz-opt" id="qo-${i}-${j}" onclick="answerQ(${i},${j})">${String.fromCharCode(65+j)}) ${o}</button>`).join('')}
+      </div>
+      <div class="quiz-feedback" id="qf-${i}"></div>
+    </div>
+  `).join('');
+}
+
+function answerQ(qi, sel) {
+  const q = quizData[qi];
+  const isRight = sel === q.ans;
+  // disable all opts
+  q.opts.forEach((_,j)=>{
+    const btn=document.getElementById(`qo-${qi}-${j}`);
+    btn.classList.add('disabled');
+    if(j===q.ans) btn.classList.add('correct');
+    else if(j===sel && !isRight) btn.classList.add('wrong');
+  });
+  const fb=document.getElementById(`qf-${qi}`);
+  fb.textContent = (isRight?'✓ ¡Correcto! ':'✗ Incorrecto. ') + q.exp;
+  fb.className = 'quiz-feedback show ' + (isRight?'ok':'nok');
+  if(isRight) correct++;
+  answered++;
+  const score=document.getElementById('quiz-score');
+  score.style.display='block';
+  score.textContent=`Respondidas: ${answered}/${quizData.length}  |  Correctas: ${correct}  |  Puntaje: ${Math.round(correct/answered*100)}%`;
+}
+
+buildQuiz();
+</script>
+
+
+<!-- ══ FEATURES DE SECCIÓN ══ -->
+<style>
+  /* ── READ PROGRESS ── */
+  #read-progress { position:fixed; top:0; left:0; height:3px; width:0%; background:linear-gradient(90deg,var(--teal,#14b8a6),var(--accent,#c9a84c)); z-index:10000; transition:width 0.1s linear; border-radius:0 2px 2px 0; }
+
+  /* ── LIGHT MODE ── */
+  body.light-mode { --bg:#f4f3ee!important; --surface:#ffffff!important; --surface2:#ebe9e2!important; --border:rgba(0,0,0,0.08)!important; --border2:rgba(0,0,0,0.14)!important; --text:#1a1a2e!important; --text-muted:#5a6070!important; --text-dim:#9aa0b0!important; }
+
+  /* ── READING TIME ── */
+  .reading-time-badge { display:inline-flex; align-items:center; gap:5px; font-family:var(--font-mono,monospace); font-size:10px; padding:4px 10px; border-radius:12px; border:1px solid var(--border2,rgba(255,255,255,0.13)); background:rgba(255,255,255,0.03); color:var(--text-muted,#7a8aa0); letter-spacing:0.06em; }
+  @media print { #st-wrap,#theme-toggle,#print-btn,#highlighter-bar#navmap,#sticky-area,#back-btn { display:none!important; } body { background:#fff!important; color:#000!important; } }
+
+  /* ── HIGHLIGHTER BAR ── */
+  #highlighter-bar {
+    position:fixed; bottom:70px; right:20px; z-index:9990;
+    background:var(--surface,#13151e); border:1px solid var(--border2,rgba(255,255,255,0.13));
+    border-radius:24px; padding:6px 10px; display:flex; gap:7px; align-items:center;
+    box-shadow:0 4px 20px rgba(0,0,0,0.4);
+    opacity:0; pointer-events:none; transition:opacity 0.2s;
+  }
+  #highlighter-bar.visible { opacity:1; pointer-events:all; }
+  .hl-color { width:18px; height:18px; border-radius:50%; cursor:pointer; border:2px solid transparent; transition:transform 0.15s, border-color 0.15s; }
+  .hl-color:hover { transform:scale(1.15); }
+  .hl-color.active { border-color:var(--text,#e2e8f0); }
+  .hl-erase { font-size:13px; cursor:pointer; color:var(--text-muted,#7a8aa0); padding:0 2px; transition:color 0.15s; }
+  .hl-erase:hover { color:var(--text,#e2e8f0); }
+  .hl-yellow  { background:#fbbf24; }
+  .hl-clr-green { background:#34d399; }
+  .hl-pink    { background:#f472b6; }
+  .highlighted-y { background:rgba(251,191,36,0.35); border-radius:2px; }
+  .highlighted-g { background:rgba(52,211,153,0.28); border-radius:2px; }
+  .highlighted-p { background:rgba(244,114,182,0.28); border-radius:2px; }
+  .sticky-note {
+    position:fixed; z-index:9989; width:180px;
+    background:#fef08a; color:#1a1a00;
+    border-radius:4px 4px 4px 0; padding:10px 10px 8px;
+    box-shadow:2px 4px 14px rgba(0,0,0,0.35);
+    font-family:var(--font-body,sans-serif); font-size:12.5px; line-height:1.5;
+    cursor:move; user-select:none;
+  }
+  .sticky-note textarea {
+    background:transparent; border:none; outline:none; resize:none;
+    width:100%; font:inherit; color:inherit; cursor:text; min-height:60px;
+  }
+  .sticky-close { position:absolute; top:4px; right:6px; font-size:11px; cursor:pointer; opacity:0.5; }
+  .sticky-close:hover { opacity:1; }
+
+  /* ── NAVMAP ── */
+  #navmap {
+    position:fixed; left:16px; top:50%; transform:translateY(-50%);
+    z-index:9988; display:flex; flex-direction:column; gap:6px;
+    opacity:0; pointer-events:none; transition:opacity 0.3s;
+  }
+  #navmap.visible { opacity:1; pointer-events:all; }
+  .nm-item {
+    display:flex; align-items:center; gap:7px; cursor:pointer;
+    font-family:var(--font-mono,monospace); font-size:9.5px;
+    color:var(--text-dim,#3d4f68); letter-spacing:0.05em;
+    transition:color 0.15s; white-space:nowrap;
+    max-width:0; overflow:hidden;
+  }
+  #navmap:hover .nm-item { max-width:200px; transition:max-width 0.25s ease, color 0.15s; }
+  .nm-item:hover, .nm-item.active { color:var(--teal,#14b8a6); }
+  .nm-dot { width:6px; height:6px; border-radius:50%; background:var(--border2,rgba(255,255,255,0.13)); flex-shrink:0; transition:background 0.15s; }
+  .nm-item.active .nm-dot, .nm-item:hover .nm-dot { background:var(--teal,#14b8a6); }
+
+  /* ── BACK BTN ── */
+  #back-btn { position:fixed; top:16px; left:16px; z-index:9990; display:flex; align-items:center; gap:6px; font-family:var(--font-mono,monospace); font-size:10px; letter-spacing:0.07em; padding:6px 12px; border-radius:20px; border:1px solid var(--border2,rgba(255,255,255,0.13)); background:var(--surface,#13151e); color:var(--text-muted,#7a8aa0); cursor:pointer; box-shadow:0 2px 10px rgba(0,0,0,0.3); transition:all 0.2s; text-decoration:none; }
+  #back-btn:hover { border-color:var(--teal,#14b8a6); color:var(--teal,#14b8a6); }
+  #search-toggle:hover { border-color:var(--teal,#14b8a6); color:var(--teal,#14b8a6); }
+</style>
+
+<!-- Fixed UI elements -->
+<div id="read-progress"></div>
+<a href="index.html" id="back-btn">← Inicio</a>
+<button id="theme-toggle" onclick="toggleTheme()">🌙<div class="fbt-tooltip"><div class="tt-title">🌙 Modo claro/oscuro</div><div class="tt-desc">Cambia entre tema<br>oscuro y claro</div></div></button>
+<button id="print-btn" onclick="window.print()">🖨️<div class="fbt-tooltip"><div class="tt-title">🖨️ Imprimir</div><div class="tt-desc">Imprime o guarda<br>como PDF</div></div></button>
+<button id="sticky-toggle" onclick="addSticky()">📝<div class="fbt-tooltip"><div class="tt-title">📝 Notas adhesivas</div><div class="tt-desc">Agrega notas flotantes<br>a la página</div></div></button>
+
+<!-- Highlighter bar -->
+<div id="highlighter-bar">
+  <span style="font-family:var(--font-mono,monospace);font-size:9px;color:var(--text-dim,#3d4f68);letter-spacing:.07em;">SUBRAYAR</span>
+  <div class="hl-color hl-yellow active" onclick="setHlColor('y')" title="Amarillo"></div>
+  <div class="hl-color hl-clr-green"  onclick="setHlColor('g')" title="Verde"></div>
+  <div class="hl-color hl-pink"   onclick="setHlColor('p')" title="Rosa"></div>
+  <span class="hl-erase" onclick="eraseHighlight()" title="Borrar selección">✕</span>
+</div>
+
+<!-- Nav map -->
+<nav id="navmap"></nav>
+
+<script>
+(function(){
+// ══ SHARED SECTION FEATURES ══
+const PAGE_KEY = location.pathname.split('/').pop().replace('.html','');
+
+// ── READ PROGRESS ──
+const rpBar = document.getElementById('read-progress');
+window.addEventListener('scroll', () => {
+  const d = document.documentElement;
+  rpBar.style.width = (d.scrollTop / (d.scrollHeight - d.clientHeight) * 100) + '%';
+}, { passive: true });
+
+// ── THEME ──
+window.toggleTheme = function() {
+  const light = document.body.classList.toggle('light-mode');
+  localStorage.setItem('tantauco-theme', light ? 'light' : 'dark');
+  document.getElementById('theme-toggle').textContent = light ? '☀️' : '🌙';
+};
+if (localStorage.getItem('tantauco-theme') === 'light') {
+  document.body.classList.add('light-mode');
+  document.getElementById('theme-toggle').textContent = '☀️';
+}
+
+// ── READING TIME ──
+(function() {
+  const words = document.body.innerText.trim().split(/\s+/).length;
+  const mins  = Math.max(1, Math.round(words / 200));
+  document.querySelectorAll('.reading-time-badge').forEach(el => {
+    el.textContent = '📖 ' + mins + ' min de lectura';
+  });
+})();
+
+// ── NAVMAP ──
+(function() {
+  const map  = document.getElementById('navmap');
+  const hdrs = Array.from(document.querySelectorAll('h2,h3,.sec-title,.section-title,.card-title')).filter(h => h.id || h.closest('[id]'));
+  const targets = [];
+  document.querySelectorAll('[id]').forEach(el => {
+    const tag = el.tagName;
+    if (['H2','H3','SECTION'].includes(tag) || el.classList.contains('sec-block') || el.classList.contains('section')) {
+      const txt = el.querySelector('h2,h3,.sec-title,.section-heading') || el;
+      const label = (txt.textContent || '').trim().slice(0, 28);
+      if (label.length > 2) targets.push({ el, label });
+    }
+  });
+  // fallback: grab all h2/h3 with nearby id
+  if (targets.length < 2) {
+    document.querySelectorAll('h2,h3').forEach(h => {
+      const label = h.textContent.trim().slice(0, 28);
+      if (label.length > 2) targets.push({ el: h, label });
+    });
+  }
+  const shown = targets.slice(0, 12);
+  shown.forEach(({ el, label }, i) => {
+    if (!el.id) el.id = 'nm-section-' + i;
+    const div = document.createElement('div');
+    div.className = 'nm-item';
+    div.innerHTML = `<div class="nm-dot"></div><span>${label}</span>`;
+    div.onclick = () => el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    map.appendChild(div);
+  });
+  if (shown.length > 1) map.classList.add('visible');
+
+  // Highlight active
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      const idx = shown.findIndex(s => s.el === e.target);
+      if (idx >= 0 && e.isIntersecting) {
+        map.querySelectorAll('.nm-item').forEach((it,i) => it.classList.toggle('active', i===idx));
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  shown.forEach(({ el }) => obs.observe(el));
+})();
+
+// ── SEARCH ──
+
+
+// ── HIGHLIGHTER ──
+let hlColor = 'y';
+window.setHlColor = function(c) {
+  hlColor = c;
+  document.querySelectorAll('.hl-color').forEach(el => el.classList.remove('active'));
+  document.querySelector(`.hl-${c==='y'?'yellow':c==='g'?'clr-green':'pink'}`).classList.add('active');
+};
+document.addEventListener('mouseup', () => {
+  const sel = window.getSelection();
+  if (!sel || sel.isCollapsed || !sel.toString().trim()) {
+    document.getElementById('highlighter-bar').classList.remove('visible');
+    return;
+  }
+  document.getElementById('highlighter-bar').classList.add('visible');
+});
+document.addEventListener('mousedown', e => {
+  if (!e.target.closest('#highlighter-bar')) {
+    setTimeout(() => {
+      const sel = window.getSelection();
+      if (!sel || sel.isCollapsed) document.getElementById('highlighter-bar').classList.remove('visible');
+    }, 100);
+  }
+});
+function wrapSelection(cls) {
+  const sel = window.getSelection();
+  if (!sel || sel.isCollapsed) return;
+  try {
+    const range = sel.getRangeAt(0);
+    const span  = document.createElement('span');
+    span.className = 'highlighted-' + hlColor;
+    span.dataset.hlKey = PAGE_KEY;
+    range.surroundContents(span);
+    sel.removeAllRanges();
+  } catch(e) {}
+}
+document.getElementById('highlighter-bar').addEventListener('mousedown', e => {
+  if (e.target.classList.contains('hl-color')) { e.preventDefault(); wrapSelection(); }
+});
+window.eraseHighlight = function() {
+  const sel = window.getSelection();
+  if (!sel || sel.isCollapsed) return;
+  const range = sel.getRangeAt(0);
+  const container = range.commonAncestorContainer.parentElement;
+  const hl = container.closest('.highlighted-y,.highlighted-g,.highlighted-p');
+  if (hl) { hl.outerHTML = hl.innerHTML; }
+};
+
+// ── STICKY NOTES ──
+let stickyCount = 0;
+window.addSticky = function() {
+  const note = document.createElement('div');
+  note.className = 'sticky-note';
+  const colors = ['#fef08a','#bbf7d0','#fbcfe8','#bfdbfe'];
+  note.style.background = colors[stickyCount % colors.length];
+  note.style.left = (100 + (stickyCount % 4) * 30) + 'px';
+  note.style.top  = (120 + stickyCount * 20) + 'px';
+  stickyCount++;
+  note.innerHTML = `<span class="sticky-close" onclick="this.parentElement.remove()">✕</span><textarea placeholder="Escribe tu nota…"></textarea>`;
+  document.body.appendChild(note);
+  // Drag
+  let ox=0, oy=0;
+  note.addEventListener('mousedown', e => {
+    if (e.target.tagName==='TEXTAREA'||e.target.classList.contains('sticky-close')) return;
+    ox = e.clientX - note.offsetLeft;
+    oy = e.clientY - note.offsetTop;
+    const move = ev => { note.style.left=(ev.clientX-ox)+'px'; note.style.top=(ev.clientY-oy)+'px'; };
+    const up   = () => { document.removeEventListener('mousemove',move); document.removeEventListener('mouseup',up); };
+    document.addEventListener('mousemove', move);
+    document.addEventListener('mouseup', up);
+  });
+  note.querySelector('textarea').focus();
+};
+
+
+// ── FIXED BUTTON TOOLTIPS ──
+(function() {
+  ['theme-toggle','print-btn','sticky-toggle'].forEach(id => {
+    const btn = document.getElementById(id);
+    if (!btn) return;
+    const tip = btn.querySelector('.fbt-tooltip');
+    if (!tip) return;
+    let timer = null;
+    btn.addEventListener('mouseenter', () => {
+      tip.classList.add('visible');
+      clearTimeout(timer);
+      timer = setTimeout(() => tip.classList.remove('visible'), 3000);
+    });
+    btn.addEventListener('mouseleave', () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => tip.classList.remove('visible'), 300);
+    });
+  });
+})();
+
+})();
+</script>
+
+
+<!-- ══ WIDGET FLOTANTE: TEMPORIZADOR + MÚSICA — incluir antes de <!-- ══ TUTOR IA ══ -->
+<style>
+  /* ── TUTOR DOCK BUTTON ── */
+  #tutor-fab {
+    width: 30px; height: 30px; border-radius: 50%;
+    border: 1px solid transparent; background: transparent;
+    color: var(--text-muted, #7a8aa0); font-size: 15px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s; position: relative; flex-shrink: 0;
+  }
+  #tutor-fab:hover, #tutor-fab.open {
+    border-color: rgba(59,130,246, 0.45);
+    color: var(--blue-bright, #60a5fa);
+    background: rgba(59,130,246, 0.08);
+  }
+
+  /* ── TUTOR PANEL ── */
+  #tutor-panel {
+    position: fixed; bottom: 70px; right: 20px; z-index: 9995;
+    width: 340px; max-height: 520px;
+    background: var(--surface, #13151e);
+    border: 1px solid rgba(255,255,255,0.11);
+    border-radius: 16px;
+    box-shadow: 0 16px 50px rgba(0,0,0,0.65);
+    display: flex; flex-direction: column;
+    overflow: hidden;
+    opacity: 0; pointer-events: none;
+    transform: scale(0.94) translateY(8px);
+    transform-origin: bottom right;
+    transition: opacity 0.18s ease, transform 0.18s ease;
+  }
+  #tutor-panel.open {
+    opacity: 1; pointer-events: all;
+    transform: scale(1) translateY(0);
+  }
+
+  /* Header */
+  #tutor-header {
+    padding: 12px 14px 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    display: flex; align-items: center; gap: 10px;
+    flex-shrink: 0;
+  }
+  #tutor-header-icon {
+    width: 28px; height: 28px; border-radius: 8px;
+    background: rgba(59,130,246, 0.13);
+    border: 1px solid rgba(59,130,246, 0.3);
+    display: flex; align-items: center; justify-content: center; font-size: 13px;
+  }
+  #tutor-header-info { flex: 1; }
+  #tutor-header-title {
+    font-size: 13px; font-weight: 500; color: var(--text, #e2e8f0); line-height: 1.2;
+  }
+  #tutor-header-sub {
+    font-family: var(--font-mono, monospace); font-size: 9.5px;
+    color: var(--blue-bright, #60a5fa); letter-spacing: 0.06em; opacity: 0.8;
+  }
+  #tutor-close {
+    width: 24px; height: 24px; border-radius: 6px; border: none;
+    background: rgba(255,255,255,0.05); color: var(--text-muted, #7a8aa0);
+    font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: background 0.13s;
+  }
+  #tutor-close:hover { background: rgba(255,255,255,0.1); }
+
+  /* Messages */
+  #tutor-messages {
+    flex: 1; overflow-y: auto; padding: 12px 14px; display: flex;
+    flex-direction: column; gap: 10px; min-height: 0;
+    scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.08) transparent;
+  }
+  #tutor-messages::-webkit-scrollbar { width: 3px; }
+  #tutor-messages::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+
+  .tutor-msg {
+    display: flex; gap: 8px; align-items: flex-start;
+  }
+  .tutor-msg.user { flex-direction: row-reverse; }
+  .tutor-avatar {
+    width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; font-size: 11px;
+    background: rgba(59,130,246, 0.15); border: 1px solid rgba(59,130,246, 0.25);
+    color: var(--blue-bright, #60a5fa); font-family: var(--font-mono, monospace);
+  }
+  .tutor-msg.user .tutor-avatar {
+    background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12);
+    color: var(--text-muted, #7a8aa0);
+  }
+  .tutor-bubble {
+    max-width: 82%; padding: 8px 11px; border-radius: 12px;
+    font-size: 13px; line-height: 1.55; color: var(--text, #e2e8f0);
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.07);
+  }
+  .tutor-msg.user .tutor-bubble {
+    background: rgba(59,130,246, 0.12); border-color: rgba(59,130,246, 0.22);
+    border-radius: 12px 4px 12px 12px;
+  }
+  .tutor-bubble p { margin: 0 0 6px; }
+  .tutor-bubble p:last-child { margin-bottom: 0; }
+  .tutor-bubble strong { color: var(--blue-bright, #60a5fa); font-weight: 600; }
+  .tutor-bubble em { font-style: italic; color: var(--text-muted, #7a8aa0); }
+  .tutor-bubble code {
+    font-family: var(--font-mono, monospace); font-size: 11.5px;
+    background: rgba(255,255,255,0.07); border-radius: 4px; padding: 1px 5px;
+    color: var(--text, #e2e8f0);
+  }
+  .tutor-bubble ul, .tutor-bubble ol { padding-left: 16px; margin: 4px 0; }
+  .tutor-bubble li { margin-bottom: 3px; }
+
+  /* Thinking animation */
+  .tutor-thinking { display: flex; gap: 4px; align-items: center; padding: 4px 0; }
+  .tutor-thinking span {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--blue-bright, #60a5fa); opacity: 0.4;
+    animation: tutor-bounce 1.1s ease-in-out infinite;
+  }
+  .tutor-thinking span:nth-child(2) { animation-delay: 0.15s; }
+  .tutor-thinking span:nth-child(3) { animation-delay: 0.30s; }
+  @keyframes tutor-bounce {
+    0%,80%,100% { transform: scale(0.7); opacity: 0.3; }
+    40%          { transform: scale(1);   opacity: 1; }
+  }
+
+  /* Suggested questions */
+  #tutor-suggestions {
+    padding: 6px 14px 4px;
+    display: flex; flex-direction: column; gap: 5px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+  .tutor-suggest-label {
+    font-family: var(--font-mono, monospace); font-size: 9px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-dim, #3d4f68); margin-bottom: 2px;
+  }
+  .tutor-sq {
+    padding: 6px 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.07);
+    background: rgba(255,255,255,0.02); color: var(--text-muted, #7a8aa0);
+    font-size: 11.5px; cursor: pointer; text-align: left;
+    transition: all 0.13s; line-height: 1.35;
+    font-family: var(--font-body, sans-serif);
+  }
+  .tutor-sq:hover { background: rgba(59,130,246, 0.08); border-color: rgba(59,130,246, 0.2); color: var(--text, #e2e8f0); }
+
+  /* Input area */
+  #tutor-input-area {
+    padding: 10px 12px; border-top: 1px solid rgba(255,255,255,0.07);
+    display: flex; gap: 8px; align-items: flex-end; flex-shrink: 0;
+  }
+  #tutor-input {
+    flex: 1; background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1); border-radius: 10px;
+    padding: 8px 11px; color: var(--text, #e2e8f0);
+    font-family: var(--font-body, sans-serif); font-size: 13px;
+    outline: none; resize: none; max-height: 80px; min-height: 36px;
+    line-height: 1.45; transition: border-color 0.15s;
+    scrollbar-width: none;
+  }
+  #tutor-input::-webkit-scrollbar { display: none; }
+  #tutor-input:focus { border-color: rgba(59,130,246, 0.4); }
+  #tutor-input::placeholder { color: var(--text-dim, #3d4f68); }
+  #tutor-send {
+    width: 32px; height: 32px; border-radius: 9px; border: none;
+    background: rgba(59,130,246, 0.18); color: var(--blue-bright, #60a5fa);
+    font-size: 14px; cursor: pointer; display: flex;
+    align-items: center; justify-content: center;
+    transition: background 0.15s; flex-shrink: 0;
+  }
+  #tutor-send:hover { background: rgba(59,130,246, 0.3); }
+  #tutor-send:disabled { opacity: 0.35; cursor: default; }
+</style>
+
+<!-- Tutor Panel -->
+<div id="tutor-panel">
+  <div id="tutor-header">
+    <div id="tutor-header-icon">✨</div>
+    <div id="tutor-header-info">
+      <div id="tutor-header-title">Tutor IA</div>
+      <div id="tutor-header-sub">Matemática · Guía completa</div>
+    </div>
+    <button id="tutor-close" onclick="tutorToggle()">✕</button>
+  </div>
+
+  <div id="tutor-messages"></div>
+
+  <div id="tutor-suggestions">
+    <div class="tutor-suggest-label">Preguntas sugeridas</div>
+    <button class="tutor-sq">¿Cómo sumo fracciones con distinto denominador?</button>
+    <button class="tutor-sq">Explícame el cuadrado de la suma paso a paso</button>
+    <button class="tutor-sq">¿Cuál es la diferencia entre número racional e irracional?</button>
+  </div>
+
+  <div id="tutor-input-area">
+    <textarea id="tutor-input" placeholder="Pregúntame cualquier cosa…" rows="1"></textarea>
+    <button id="tutor-send" onclick="tutorSend()" title="Enviar">↑</button>
+  </div>
+</div>
+
+<script>
+(function() {
+  const TUTOR_SYSTEM = `Eres un tutor de matemáticas para estudiantes de enseñanza media del Colegio Tantauco, Chile. Dominas los siguientes temas de la guía:
+
+1. **Fracciones**: suma/resta (mínimo común múltiplo), multiplicación, división, fracción como razón, porcentajes
+2. **Potencias y raíces**: propiedades (producto, cociente, potencia de potencia), raíz cuadrada y cúbica, notación científica
+3. **Números reales**: naturales ⊂ enteros ⊂ racionales ⊂ reales, irracionales (π, √2), recta numérica, valor absoluto
+4. **Productos notables**: (a+b)² = a²+2ab+b², (a-b)² = a²-2ab+b², (a+b)(a-b) = a²-b²
+5. **Factorización**: factor común, diferencia de cuadrados, trinomio cuadrado perfecto
+6. **Ecuaciones de primer grado**: despeje, resolución, verificación, problemas contextualizados
+7. **Geometría**: perímetro y área de triángulo, cuadrado, rectángulo, círculo; volumen de cubo, cilindro, pirámide
+
+Reglas:
+- Responde en español, tono cercano y motivador
+- Muestra los pasos numerados con claridad cuando expliques procedimientos
+- Usa ejemplos concretos con números simples
+- No resuelvas ejercicios completos: guía paso a paso y pregunta "¿qué harías aquí?"
+- Felicita cuando el estudiante entiende bien
+- Máximo 4 pasos por respuesta; si hay más, divide en partes`;
+
+  let tutorOpen = false;
+  let tutorHistory = [];
+  let tutorBusy = false;
+
+  // ── Sugerencias ──
+  document.querySelectorAll('.tutor-sq').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (tutorBusy) return;
+      tutorAsk(btn.textContent.trim());
+      document.getElementById('tutor-suggestions').style.display = 'none';
+    });
+  });
+
+  // ── Toggle ──
+  window.tutorToggle = function() {
+    tutorOpen = !tutorOpen;
+    const panel = document.getElementById('tutor-panel');
+    const fab   = document.getElementById('tutor-fab');
+    panel.classList.toggle('open', tutorOpen);
+    fab.classList.toggle('open', tutorOpen);
+    if (tutorOpen && tutorHistory.length === 0) tutorWelcome();
+    if (tutorOpen) setTimeout(() => document.getElementById('tutor-input').focus(), 120);
+  };
+
+  // ── Welcome ──
+  function tutorWelcome() {
+    appendMsg('ai', '¡Hola! Soy tu tutor de Matemáticas. Puedo explicarte fracciones, potencias, números reales, productos notables, ecuaciones y geometría. ¿Qué tema necesitas repasar?');
+  }
+
+  // ── Send ──
+  window.tutorSend = function() {
+    const inp = document.getElementById('tutor-input');
+    const text = inp.value.trim();
+    if (!text || tutorBusy) return;
+    inp.value = ''; inp.style.height = 'auto';
+    tutorAsk(text);
+  };
+
+  async function tutorAsk(text) {
+    if (tutorBusy) return;
+    document.getElementById('tutor-suggestions').style.display = 'none';
+    appendMsg('user', text);
+    tutorHistory.push({ role: 'user', content: text });
+
+    tutorBusy = true;
+    document.getElementById('tutor-send').disabled = true;
+
+    const thinkId = appendThinking();
+
+    try {
+      const res = await fetch('/api/tutor', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1000,
+          system: TUTOR_SYSTEM,
+          messages: tutorHistory
+        })
+      });
+      const data = await res.json();
+      removeThinking(thinkId);
+
+      if (data.content && data.content[0]) {
+        const reply = data.content.map(b => b.text || '').join('');
+        tutorHistory.push({ role: 'assistant', content: reply });
+        appendMsg('ai', reply);
+      } else {
+        appendMsg('ai', 'Hubo un error al conectar con el tutor. Intenta de nuevo.');
+      }
+    } catch(e) {
+      removeThinking(thinkId);
+      appendMsg('ai', 'No pude conectarme. Revisa tu conexión e intenta de nuevo.');
+    }
+
+    tutorBusy = false;
+    document.getElementById('tutor-send').disabled = false;
+  }
+
+  // ── Render helpers ──
+  function appendMsg(role, text) {
+    const msgs = document.getElementById('tutor-messages');
+    const div = document.createElement('div');
+    div.className = 'tutor-msg ' + (role === 'user' ? 'user' : 'ai');
+    const avatar = document.createElement('div');
+    avatar.className = 'tutor-avatar';
+    avatar.textContent = role === 'user' ? 'Tú' : '✨';
+    const bubble = document.createElement('div');
+    bubble.className = 'tutor-bubble';
+    bubble.innerHTML = markdownToHtml(text);
+    div.appendChild(avatar);
+    div.appendChild(bubble);
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+    return div;
+  }
+
+  function appendThinking() {
+    const msgs = document.getElementById('tutor-messages');
+    const div = document.createElement('div');
+    div.className = 'tutor-msg ai';
+    const id = 'think-' + Date.now();
+    div.id = id;
+    div.innerHTML = '<div class="tutor-avatar">✨</div><div class="tutor-bubble"><div class="tutor-thinking"><span></span><span></span><span></span></div></div>';
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+    return id;
+  }
+
+  function removeThinking(id) {
+    const el = document.getElementById(id);
+    if (el) el.remove();
+  }
+
+  // Minimal markdown parser
+  function markdownToHtml(text) {
+    return text
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+      .replace(/\*(.+?)\*/g,'<em>$1</em>')
+      .replace(/`([^`]+)`/g,'<code>$1</code>')
+      .replace(/^#{1,3}\s+(.+)$/gm,'<strong>$1</strong>')
+      .replace(/^[-•]\s+(.+)$/gm,'<li>$1</li>')
+      .replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>')
+      .replace(/\n\n+/g,'</p><p>')
+      .replace(/^(?!<[uol]|<p)(.+)$/gm,'$1')
+      .replace(/\n/g,'<br>')
+      .trim()
+      .replace(/^(?!<)/, '<p>').replace(/(?<!>)$/, '</p>');
+  }
+
+  // Auto-resize textarea
+  const inp = document.getElementById('tutor-input');
+  inp.addEventListener('input', () => {
+    inp.style.height = 'auto';
+    inp.style.height = Math.min(inp.scrollHeight, 80) + 'px';
+  });
+  inp.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); tutorSend(); }
+  });
+})();
+</script>
+
+</body> ══ -->
+<style>
+  #st-wrap {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    font-family: var(--font-mono, 'DM Mono', monospace);
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+  }
+  /* Fila de botones del dock */
+  #st-dock-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+    background: var(--surface, #13151e);
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 20px;
+    padding: 5px 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  }
+
+  /* Panel desplegable */
+  #st-panel {
+    background: var(--surface, #13151e);
+    border: 1px solid rgba(255,255,255,0.11);
+    border-radius: 16px;
+    padding: 16px 18px 14px;
+    width: 234px;
+    transition: width 0.22s ease, opacity 0.18s ease, transform 0.18s ease;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+    transform-origin: bottom right;
+    transform: scale(0.92) translateY(6px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.18s ease, transform 0.18s ease;
+    overflow: hidden;
+  }
+  #st-panel.open {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    pointer-events: all;
+  }
+  #st-panel.music-mode {
+    width: 340px;
+  }
+
+  /* Tabs */
+  .st-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    padding-bottom: 10px;
+  }
+  .st-tab {
+    flex: 1;
+    padding: 5px 2px;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    background: transparent;
+    color: var(--text-muted, #7a8aa0);
+    font-family: inherit;
+    font-size: 9.5px;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: all 0.13s;
+    text-align: center;
+  }
+  .st-tab.active {
+    border-color: rgba(20,184,166,0.35);
+    color: var(--teal, #14b8a6);
+    background: rgba(20,184,166,0.08);
+  }
+  .st-tab:hover:not(.active) { border-color: rgba(255,255,255,0.12); color: var(--text, #e2e8f0); }
+
+  /* Panes */
+  .st-pane { display: none; }
+  .st-pane.active { display: block; }
+
+  /* ── TIMER ── */
+  .st-modes {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 12px;
+  }
+  .st-mode {
+    flex: 1;
+    padding: 4px 2px;
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--text-muted, #7a8aa0);
+    font-family: inherit;
+    font-size: 9px;
+    letter-spacing: 0.07em;
+    cursor: pointer;
+    transition: all 0.13s;
+    text-align: center;
+  }
+  .st-mode.active {
+    border-color: rgba(20,184,166,0.4);
+    color: var(--teal, #14b8a6);
+    background: rgba(20,184,166,0.08);
+  }
+  .st-mode:hover:not(.active) { border-color: rgba(255,255,255,0.15); color: var(--text, #e2e8f0); }
+
+  .st-time {
+    font-size: 2rem;
+    font-weight: 500;
+    color: var(--text, #e2e8f0);
+    letter-spacing: 0.06em;
+    text-align: center;
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+  .st-bar-wrap {
+    height: 2px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 2px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  .st-bar {
+    height: 100%;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--teal, #14b8a6), #22d3c8);
+    transition: width 0.9s linear;
+  }
+  .st-btns { display: flex; gap: 6px; }
+  .st-btn {
+    flex: 1;
+    padding: 7px 4px;
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 7px;
+    background: rgba(255,255,255,0.03);
+    color: var(--text-muted, #7a8aa0);
+    font-family: inherit;
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.13s;
+  }
+  .st-btn:hover { background: rgba(255,255,255,0.08); color: var(--text, #e2e8f0); }
+  .st-btn.go {
+    background: rgba(20,184,166,0.12);
+    border-color: rgba(20,184,166,0.35);
+    color: var(--teal, #14b8a6);
+  }
+  .st-btn.go:hover { background: rgba(20,184,166,0.22); }
+  .st-sessions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-size: 9px;
+    color: var(--text-dim, #3d4f68);
+    letter-spacing: 0.09em;
+  }
+  .st-dots { display: flex; gap: 4px; }
+  .st-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    transition: background 0.2s;
+  }
+  .st-dot.on { background: var(--teal, #14b8a6); }
+
+  /* ── SPOTIFY ── */
+  .sp-label {
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--text-dim, #3d4f68);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .sp-frame-wrap {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.07);
+  }
+
+  /* ── FAB (botón flotante) ── */
+  #st-trigger {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--text-muted, #7a8aa0);
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: none;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  /* Tooltip */
+  #st-tooltip {
+    position: absolute;
+    right: 46px;
+    bottom: 50%;
+    background: var(--surface, #13151e);
+    border: 1px solid rgba(255,255,255,0.11);
+    border-radius: 10px;
+    padding: 8px 11px;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(50%) translateX(4px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.45);
+  }
+  #st-tooltip.visible {
+    opacity: 1;
+    transform: translateY(50%) translateX(0);
+  }
+  .tt-title {
+    font-family: var(--font-mono, monospace);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: var(--teal, #14b8a6);
+    margin-bottom: 2px;
+  }
+  .tt-desc {
+    font-family: var(--font-body, sans-serif);
+    font-size: 11px;
+    color: var(--text-muted, #7a8aa0);
+    line-height: 1.4;
+  }
+  /* Arrow pointing right */
+  #st-tooltip::after {
+    content: '';
+    position: absolute;
+    right: -5px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px; height: 8px;
+    background: var(--surface, #13151e);
+    border-top: 1px solid rgba(255,255,255,0.11);
+    border-right: 1px solid rgba(255,255,255,0.11);
+    transform: translateY(-50%) rotate(45deg);
+  }
+  #st-trigger:hover, #st-trigger.open {
+    border-color: rgba(20,184,166,0.45);
+    color: var(--teal, #14b8a6);
+    box-shadow: none;
+  }
+  #st-trigger .run-dot {
+    display: none;
+    position: absolute;
+    top: 4px; right: 4px;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--teal, #14b8a6);
+    animation: st-pulse 1.4s ease-in-out infinite;
+  }
+  #st-trigger.running .run-dot { display: block; }
+  @keyframes st-pulse {
+    0%,100% { opacity:1; transform:scale(1); }
+    50%      { opacity:.3; transform:scale(.6); }
+  }
+</style>
+
+<div id="st-wrap">
+  <div id="st-panel">
+    <!-- Tabs -->
+    <div class="st-tabs">
+      <button class="st-tab active" onclick="stSwitchTab('timer',this)">⏱ Temporizador</button>
+      <button class="st-tab"       onclick="stSwitchTab('music',this)">🎵 Música</button>
+    </div>
+
+    <!-- Pane: Timer -->
+    <div class="st-pane active" id="st-pane-timer">
+      <div class="st-modes">
+        <button class="st-mode active" data-m="focus">Foco</button>
+        <button class="st-mode"        data-m="short">Pausa</button>
+        <button class="st-mode"        data-m="long">Descanso</button>
+      </div>
+      <div class="st-time" id="st-display">25:00</div>
+      <div class="st-bar-wrap"><div class="st-bar" id="st-bar" style="width:100%"></div></div>
+      <div class="st-btns">
+        <button class="st-btn"    id="st-reset"  onclick="stReset()">↺</button>
+        <button class="st-btn go" id="st-toggle" onclick="stToggle()">▶ Iniciar</button>
+      </div>
+      <div class="st-sessions">
+        <span>sesiones</span>
+        <div class="st-dots">
+          <div class="st-dot" id="stDot0"></div>
+          <div class="st-dot" id="stDot1"></div>
+          <div class="st-dot" id="stDot2"></div>
+          <div class="st-dot" id="stDot3"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pane: Spotify -->
+    <div class="st-pane" id="st-pane-music">
+      <div class="sp-label">playlist para estudiar</div>
+      <div class="sp-frame-wrap">
+        <iframe style="border-radius:10px" src="https://open.spotify.com/embed/playlist/30BaDZWwIXZV14rIBqBEQZ?utm_source=generator"
+          width="100%" height="352" frameBorder="0"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAB dock row -->
+  <div id="st-dock-row">
+    <!-- Tutor IA button -->
+    <button id="tutor-fab" onclick="tutorToggle()" title="Tutor IA">✨</button>
+    <div class="dock-divider"></div>
+    <button id="st-trigger" onclick="stTrigger()">
+      ⏱
+      <span class="run-dot"></span>
+      <div id="st-tooltip">
+        <div class="tt-title" id="tt-title">⏱ Temporizador</div>
+        <div class="tt-desc" id="tt-desc">Pomodoro · Foco / Pausa<br>Haz clic para abrir</div>
+      </div>
+    </button>
+  </div>
+</div>
+
+<script>
+(function(){
+  const CFG = { focus:25*60, short:5*60, long:15*60 };
+  let mode='focus', total=CFG.focus, left=total, running=false, iv=null, sessions=0, open=false;
+
+  const panel    = document.getElementById('st-panel');
+  const trigger  = document.getElementById('st-trigger');
+  const disp     = document.getElementById('st-display');
+  const bar      = document.getElementById('st-bar');
+  const toggleBtn= document.getElementById('st-toggle');
+  const modeBtns = document.querySelectorAll('.st-mode');
+
+  function fmt(s){ return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`; }
+  function render(){ disp.textContent=fmt(left); bar.style.width=(left/total*100)+'%'; }
+  function renderDots(){
+    const n=sessions%4===0&&sessions>0?4:sessions%4;
+    for(let i=0;i<4;i++) document.getElementById('stDot'+i).classList.toggle('on',i<n);
+  }
+
+  modeBtns.forEach(btn=>btn.addEventListener('click',()=>{
+    if(running)return;
+    mode=btn.dataset.m; total=CFG[mode]; left=total;
+    modeBtns.forEach(b=>b.classList.toggle('active',b===btn));
+    render();
+  }));
+
+  window.stToggle=function(){
+    if(running){
+      clearInterval(iv); running=false;
+      toggleBtn.textContent='▶ Iniciar';
+      trigger.classList.remove('running');
+    } else {
+      running=true;
+      toggleBtn.textContent='⏸ Pausar';
+      trigger.classList.add('running');
+      iv=setInterval(()=>{
+        left--; render();
+        if(left<=0){
+          clearInterval(iv); running=false;
+          toggleBtn.textContent='▶ Iniciar';
+          trigger.classList.remove('running');
+          if(mode==='focus'){ sessions++; renderDots(); }
+          try{
+            const ac=new(window.AudioContext||window.webkitAudioContext)();
+            [0,.18,.36].forEach(d=>{
+              const o=ac.createOscillator(), g=ac.createGain();
+              o.connect(g); g.connect(ac.destination);
+              o.frequency.value=660;
+              g.gain.setValueAtTime(.15,ac.currentTime+d);
+              g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+d+.22);
+              o.start(ac.currentTime+d); o.stop(ac.currentTime+d+.23);
+            });
+          }catch(e){}
+        }
+      },1000);
+    }
+  };
+
+  window.stReset=function(){
+    clearInterval(iv); running=false; left=total;
+    toggleBtn.textContent='▶ Iniciar';
+    trigger.classList.remove('running');
+    render();
+  };
+
+  window.stTrigger=function(){
+    open=!open;
+    panel.classList.toggle('open',open);
+    trigger.classList.toggle('open',open);
+  };
+
+  window.stSwitchTab=function(pane, btn){
+    document.querySelectorAll('.st-tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.st-pane').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('st-pane-'+pane).classList.add('active');
+    panel.classList.toggle('music-mode', pane==='music');
+    const isMusic = pane==='music';
+    trigger.childNodes[0].textContent = isMusic ? '🎵' : '⏱';
+    document.getElementById('tt-title').textContent = isMusic ? '🎵 Música' : '⏱ Temporizador';
+    document.getElementById('tt-desc').textContent  = isMusic ? 'Playlist para estudiar\nHaz clic para abrir' : 'Pomodoro · Foco / Pausa\nHaz clic para abrir';
+  };
+
+  render(); renderDots();
+
+  // ── Tooltip auto-hide ──
+  const tooltip = document.getElementById('st-tooltip');
+  let ttTimer = null;
+
+  function showTooltip() {
+    tooltip.classList.add('visible');
+    clearTimeout(ttTimer);
+    ttTimer = setTimeout(() => tooltip.classList.remove('visible'), 3000);
+  }
+
+  trigger.addEventListener('mouseenter', showTooltip);
+  trigger.addEventListener('mouseleave', () => {
+    clearTimeout(ttTimer);
+    ttTimer = setTimeout(() => tooltip.classList.remove('visible'), 300);
+  });
+  tooltip.addEventListener('mouseenter', () => clearTimeout(ttTimer));
+
+  // Show on page load briefly
+  showTooltip();
+})();
+</script>
+
+</body>
+</html>

@@ -28,6 +28,12 @@
     --green-light: #34d399;
     --green-dim: rgba(16,185,129,0.13);
 
+    /* Historia — ámbar/terracota */
+    --amber: #d97706;
+    --amber-light: #f59e0b;
+    --amber-bright: #fcd34d;
+    --amber-dim: rgba(217,119,6,0.13);
+
     /* Acento general */
     --teal: #14b8a6;
     --teal-dim: rgba(20,184,166,0.13);
@@ -243,12 +249,15 @@
   .materia-card.matematicas:hover { border-color: rgba(59,130,246,0.35); }
   .materia-card.ciencias:hover { border-color: rgba(16,185,129,0.35); }
 
+  .materia-card.historia:hover { border-color: rgba(217,119,6,0.35); }
+
   .card-stripe {
     height: 4px;
   }
   .stripe-gold { background: linear-gradient(90deg, var(--gold), var(--gold-light)); }
   .stripe-blue { background: linear-gradient(90deg, var(--blue), var(--blue-bright)); }
   .stripe-green { background: linear-gradient(90deg, var(--green), var(--green-light)); }
+  .stripe-amber { background: linear-gradient(90deg, var(--amber), var(--amber-bright)); }
 
   .card-body {
     padding: 28px 28px 24px;
@@ -273,6 +282,7 @@
   .icon-gold { background: var(--gold-dim); border: 1px solid rgba(201,168,76,0.25); }
   .icon-blue { background: var(--blue-dim); border: 1px solid rgba(59,130,246,0.25); }
   .icon-green { background: var(--green-dim); border: 1px solid rgba(16,185,129,0.25); }
+  .icon-amber { background: var(--amber-dim); border: 1px solid rgba(217,119,6,0.25); }
 
   .card-meta { flex: 1; }
   .card-materia-label {
@@ -285,6 +295,7 @@
   .label-gold { color: var(--gold); }
   .label-blue { color: var(--blue-bright); }
   .label-green { color: var(--green-light); }
+  .label-amber { color: var(--amber-bright); }
 
   .card-title {
     font-family: var(--font-display);
@@ -321,6 +332,8 @@
   .b-teal { border-color: rgba(20,184,166,0.4); color: var(--teal); background: var(--teal-dim); }
   .b-purple { border-color: rgba(167,139,250,0.4); color: var(--purple); background: var(--purple-dim); }
   .b-green { border-color: rgba(16,185,129,0.4); color: var(--green-light); background: var(--green-dim); }
+  .b-amber { border-color: rgba(217,119,6,0.4); color: var(--amber-bright); background: var(--amber-dim); }
+  .b-rust { border-color: rgba(194,65,12,0.4); color: #fb923c; background: rgba(194,65,12,0.13); }
 
   /* recursos dentro de la card */
   .card-resources {
@@ -413,6 +426,17 @@
     border-color: rgba(16,185,129,0.6);
     color: #6ee7b7;
   }
+  .btn-amber {
+    background: var(--amber-dim);
+    border-color: rgba(217,119,6,0.4);
+    color: var(--amber-bright);
+  }
+  .btn-amber:hover {
+    background: rgba(217,119,6,0.22);
+    border-color: rgba(217,119,6,0.6);
+    color: #fde68a;
+  }
+  .dot-amber { background: var(--amber-bright); }
 
   /* ── DIVIDER ── */
   .divider {
@@ -713,7 +737,7 @@
   </p>
 
   <div class="hero-stats">
-    <span class="stat-pill"><span class="dot dot-gold"></span>4 recursos disponibles</span>
+    <span class="stat-pill"><span class="dot dot-gold"></span>5 recursos disponibles</span>
     <span class="stat-pill"><span class="dot dot-blue"></span>Pruebas y evaluaciones</span>
     <span class="stat-pill"><span class="dot dot-teal"></span>Guías completas</span>
   </div>
@@ -931,6 +955,56 @@
       </div>
     </div>
 
+    <!-- HISTORIA -->
+    <div class="materia-card historia">
+      <div class="card-stripe stripe-amber"></div>
+      <div class="card-body">
+        <div class="card-top">
+          <div class="card-icon icon-amber">🏛️</div>
+          <div class="card-meta">
+            <div class="card-materia-label label-amber">Historia, Geografía y Cs. Sociales</div>
+            <div class="card-title">Historia de Chile</div>
+          </div>
+        </div>
+
+        <p class="card-desc">
+          Guía completa sobre la República de Chile y el siglo XIX. Cubre los OA de la PDN del 15/06: República, economía, salitre, cuestión social y facciones políticas, con quiz interactivo y Tutor IA.
+        </p>
+
+        <div class="card-badges">
+          <span class="badge b-amber">OA 8 · República</span>
+          <span class="badge b-rust">OA 10 · Economía</span>
+          <span class="badge b-teal">OA 17–18–23</span>
+        </div>
+
+        <div class="card-resources">
+          <div class="res-label">Contenidos de la guía</div>
+          <div class="res-list">
+            <div class="res-item"><span class="res-dot dot-amber"></span>Formación de la República · Constitución 1833</div>
+            <div class="res-item"><span class="res-dot dot-amber"></span>Economía del siglo XIX: hacienda e inquilinaje</div>
+            <div class="res-item"><span class="res-dot dot-amber"></span>La era del salitre y sus transformaciones</div>
+            <div class="res-item"><span class="res-dot dot-amber"></span>La cuestión social y la lucha obrera</div>
+            <div class="res-item"><span class="res-dot dot-amber"></span>Facciones políticas: liberalismo, socialismo, anarquismo</div>
+          </div>
+        </div>
+
+        <div class="card-cta">
+          <span class="cta-text">Sirve para → PDN 15 Junio</span>
+          <a href="historia_guia.html" class="cta-btn btn-amber">Abrir guía →</a>
+        </div>
+        <div class="card-checklist">
+          <div class="cl-label">Mi progreso</div>
+          <div class="cl-items" id="cl-historia">
+            <label class="cl-item" onclick="clToggle('historia',0,this)"><span class="cl-box" id="cl-historia-0-box"></span><span class="cl-text">República y Constitución 1833</span></label>
+            <label class="cl-item" onclick="clToggle('historia',1,this)"><span class="cl-box" id="cl-historia-1-box"></span><span class="cl-text">Economía siglo XIX</span></label>
+            <label class="cl-item" onclick="clToggle('historia',2,this)"><span class="cl-box" id="cl-historia-2-box"></span><span class="cl-text">Salitre y cuestión social</span></label>
+            <label class="cl-item" onclick="clToggle('historia',3,this)"><span class="cl-box" id="cl-historia-3-box"></span><span class="cl-text">Facciones políticas</span></label>
+          </div>
+          <div class="cl-progress"><div class="cl-bar" id="cl-historia-bar" style="width:0%"></div></div>
+        </div>
+      </div>
+    </div>
+
   </div>
   <hr class="divider">
 
@@ -1112,12 +1186,22 @@ clLoad();
     { title: 'Química: tabla periódica', snippet: 'Grupos, períodos, metales, no metales y metaloides. Tendencias periódicas: electronegatividad y radio atómico. OA 14.', file: 'prueba_nivel_ciencias_naturales.html', section: '#tabla', icon: '⚗️', color: 'green', materia: 'Ciencias', tags: 'tabla periódica grupos períodos metales no metales electronegatividad radio atómico' },
     { title: 'Química: enlace químico', snippet: 'Enlace iónico, covalente y metálico. Propiedades de los compuestos según tipo de enlace.', file: 'prueba_nivel_ciencias_naturales.html', section: '#enlace', icon: '🔗', color: 'green', materia: 'Ciencias', tags: 'enlace químico iónico covalente metálico compuestos propiedades' },
     { title: 'Preguntas interactivas — Ciencias', snippet: 'Quiz con feedback inmediato. Practica Biología, Física y Química antes de la prueba.', file: 'prueba_nivel_ciencias_naturales.html', section: '#quiz', icon: '✅', color: 'green', materia: 'Ciencias', tags: 'quiz preguntas interactivas feedback práctica ciencias' },
+
+    // ─── HISTORIA ───
+    { title: 'Historia de Chile — Guía Completa', snippet: 'Guía para la PDN del 15/06. República, economía siglo XIX, salitre, cuestión social y facciones políticas.', file: 'historia_guia.html', section: '', icon: '🏛️', color: 'amber', materia: 'Historia', tags: 'historia chile guía completa república economía salitre cuestión social facciones políticas' },
+    { title: 'República de Chile · Constitución 1833', snippet: 'Formación de la República, visiones en pugna (pipiolos, pelucones), Constitución de 1833 y hegemonía conservadora. OA 8.', file: 'historia_guia.html', section: '#acc-oa8', icon: '🏛️', color: 'amber', materia: 'Historia', tags: 'república chile constitución 1833 pipiolos pelucones portales hegemonía conservadora OA8' },
+    { title: 'Economía chilena siglo XIX', snippet: 'Integración al mercado atlántico, hacienda, inquilinaje, exportaciones de plata, cobre y trigo. OA 10.', file: 'historia_guia.html', section: '#acc-oa10', icon: '⚓', color: 'amber', materia: 'Historia', tags: 'economía siglo XIX hacienda inquilinaje exportaciones plata cobre trigo mercado atlántico OA10' },
+    { title: 'La era del salitre — transformaciones', snippet: 'Riqueza salitrera, ingreso fiscal, ferrocarriles, inversión en educación y capital extranjero (John Thomas North). OA 17.', file: 'historia_guia.html', section: '#acc-oa17', icon: '⛏️', color: 'amber', materia: 'Historia', tags: 'salitre era salitrera ingreso fiscal ferrocarriles educación norte john thomas OA17' },
+    { title: 'Cuestión social — inicios siglo XX', snippet: 'Problemas sociales por industrialización, hacinamiento, lucha obrera, mancomunales, Matanza Santa María 1907, Recabarren. OA 18.', file: 'historia_guia.html', section: '#acc-oa18', icon: '✊', color: 'amber', materia: 'Historia', tags: 'cuestión social lucha obrera huelgas mancomunales santa maría iquique recabarren POS OA18' },
+    { title: 'Facciones políticas — liberalismo, socialismo, anarquismo', snippet: 'Respuestas a la cuestión social: liberalismo, socialismo, anarquismo, comunismo y socialcristianismo. OA 23.', file: 'historia_guia.html', section: '#acc-oa23', icon: '🎭', color: 'amber', materia: 'Historia', tags: 'facciones políticas liberalismo socialismo anarquismo comunismo socialcristianismo OA23' },
+    { title: 'Quiz interactivo — Historia', snippet: 'Preguntas de práctica tipo PDN sobre la República de Chile, salitre y cuestión social con feedback inmediato.', file: 'historia_guia.html', section: '#panel-interactivo', icon: '⚡', color: 'amber', materia: 'Historia', tags: 'quiz historia preguntas PDN práctica interactivo evaluación' },
   ];
 
   const COLOR = {
     gold:  { bg: 'rgba(201,168,76,0.13)', border: 'rgba(201,168,76,0.25)', text: '#e4c97e' },
     blue:  { bg: 'rgba(59,130,246,0.13)',  border: 'rgba(59,130,246,0.25)',  text: '#60a5fa' },
     green: { bg: 'rgba(16,185,129,0.13)',  border: 'rgba(16,185,129,0.25)',  text: '#34d399' },
+    amber: { bg: 'rgba(217,119,6,0.13)',   border: 'rgba(217,119,6,0.25)',   text: '#fcd34d' },
   };
 
   let active = -1;
@@ -2509,13 +2593,13 @@ onValue(ref(db, 'presence'), snap => {
 // ── LEADERBOARD ──
 function syncMyProgress() {
   if (!nick) return;
-  const cards = ['moscas','lenguaje','mate','ciencias'];
+  const cards = ['moscas','lenguaje','mate','ciencias','historia'];
   let total = 0;
   cards.forEach(c => {
     const saved = JSON.parse(localStorage.getItem('tantauco-cl-' + c) || '[]');
     total += saved.length;
   });
-  set(ref(db, 'leaderboard/' + userId), { nick, pts: total, max: 16, uid: userId });
+  set(ref(db, 'leaderboard/' + userId), { nick, pts: total, max: 20, uid: userId });
 }
 
 function renderLeaderboard(snap) {

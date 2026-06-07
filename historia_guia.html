@@ -1,0 +1,1723 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Historia — Guía Completa · Colegio Tantauco</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0a04;
+    --surface: #16110a;
+    --surface2: #1e1710;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.13);
+    --amber: #d97706;
+    --amber-light: #f59e0b;
+    --amber-bright: #fcd34d;
+    --amber-dim: rgba(217,119,6,0.13);
+    --rust: #c2410c;
+    --rust-light: #ea580c;
+    --rust-dim: rgba(194,65,12,0.13);
+    --sand: #a16207;
+    --sand-light: #ca8a04;
+    --sand-dim: rgba(161,98,7,0.13);
+    --parchment: #fef3c7;
+    --teal: #0d9488;
+    --teal-dim: rgba(13,148,136,0.13);
+    --text: #e8dcc8;
+    --text-muted: #8a7560;
+    --text-dim: #4a3d2a;
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 15px; line-height: 1.7; min-height: 100vh; }
+
+  /* HEADER */
+  .site-header {
+    background: linear-gradient(180deg, #1a0e02 0%, var(--bg) 100%);
+    border-bottom: 1px solid rgba(217,119,6,0.2);
+    padding: 56px 20px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .site-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 80% at 50% 0%, rgba(217,119,6,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .site-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(217,119,6,0.4), transparent);
+  }
+  .back-link { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); text-decoration: none; margin-bottom: 20px; letter-spacing: 0.08em; transition: color 0.2s; }
+  .back-link:hover { color: var(--amber-light); }
+  .header-eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; color: var(--amber-light); text-transform: uppercase; margin-bottom: 14px; opacity: 0.9; }
+  .header-title { font-family: var(--font-display); font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 900; color: #fff; line-height: 1.1; margin-bottom: 10px; }
+  .header-title span { color: var(--amber-bright); }
+  .header-subtitle { font-family: var(--font-display); font-style: italic; font-size: 1.05rem; color: var(--text-muted); margin-bottom: 28px; }
+  .header-badges { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .badge { font-family: var(--font-mono); font-size: 11px; padding: 4px 13px; border-radius: 20px; border: 1px solid; letter-spacing: 0.04em; }
+  .b-amber { border-color: rgba(217,119,6,0.4); color: var(--amber-bright); background: var(--amber-dim); }
+  .b-rust { border-color: rgba(194,65,12,0.4); color: #fb923c; background: var(--rust-dim); }
+  .b-sand { border-color: rgba(161,98,7,0.4); color: #fbbf24; background: var(--sand-dim); }
+  .b-teal { border-color: rgba(13,148,136,0.4); color: #2dd4bf; background: var(--teal-dim); }
+
+  /* NAV */
+  .nav-wrapper { position: sticky; top: 0; z-index: 100; background: rgba(14,10,4,0.95); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(217,119,6,0.15); }
+  .nav-tabs { display: flex; overflow-x: auto; max-width: 1100px; margin: 0 auto; padding: 0 20px; scrollbar-width: none; }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+  .nav-tab { display: flex; align-items: center; gap: 7px; padding: 14px 18px; font-size: 13px; font-weight: 500; color: var(--text-muted); cursor: pointer; white-space: nowrap; border-bottom: 2px solid transparent; transition: all 0.2s; background: none; border-top: none; border-left: none; border-right: none; font-family: var(--font-body); }
+  .nav-tab:hover { color: var(--text); }
+  .nav-tab.active { color: var(--amber-bright); border-bottom-color: var(--amber-light); }
+
+  /* LAYOUT */
+  .content-area { max-width: 1000px; margin: 0 auto; padding: 40px 20px 100px; }
+  .section-panel { display: none; animation: fadeIn 0.2s ease; }
+  .section-panel.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  .section-heading { font-family: var(--font-display); font-size: 1.9rem; font-weight: 700; color: #fff; margin-bottom: 6px; }
+  .section-desc { color: var(--text-muted); font-size: 14px; margin-bottom: 32px; }
+
+  /* TIP BOX */
+  .tip-box { border-radius: 10px; padding: 14px 18px; margin-bottom: 24px; font-size: 13.5px; line-height: 1.6; border: 1px solid; }
+  .tip-amber { background: var(--amber-dim); border-color: rgba(217,119,6,0.25); color: var(--amber-bright); }
+  .tip-rust { background: var(--rust-dim); border-color: rgba(194,65,12,0.25); color: #fb923c; }
+  .tip-teal { background: var(--teal-dim); border-color: rgba(13,148,136,0.25); color: #2dd4bf; }
+
+  /* ACCORDION */
+  .accordion { display: flex; flex-direction: column; gap: 8px; }
+  .acc-item { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: border-color 0.2s; }
+  .acc-item:hover { border-color: var(--border2); }
+  .acc-item.open { border-color: rgba(217,119,6,0.3); }
+  .acc-trigger { width: 100%; display: flex; align-items: center; gap: 14px; padding: 18px 22px; background: none; border: none; cursor: pointer; text-align: left; font-family: var(--font-body); color: var(--text); }
+  .acc-trigger:hover { background: rgba(255,255,255,0.02); }
+  .acc-label { font-family: var(--font-mono); font-size: 11px; padding: 3px 9px; border-radius: 6px; white-space: nowrap; flex-shrink: 0; }
+  .lbl-amber { background: var(--amber-dim); color: var(--amber-bright); border: 1px solid rgba(217,119,6,0.3); }
+  .lbl-rust { background: var(--rust-dim); color: #fb923c; border: 1px solid rgba(194,65,12,0.3); }
+  .lbl-sand { background: var(--sand-dim); color: #fbbf24; border: 1px solid rgba(161,98,7,0.3); }
+  .lbl-teal { background: var(--teal-dim); color: #2dd4bf; border: 1px solid rgba(13,148,136,0.3); }
+  .acc-title { font-size: 15px; font-weight: 500; flex: 1; }
+  .acc-arrow { color: var(--text-dim); font-size: 18px; transition: transform 0.25s; flex-shrink: 0; }
+  .acc-item.open .acc-arrow { transform: rotate(90deg); }
+  .acc-body { display: none; padding: 0 22px 22px; border-top: 1px solid var(--border); }
+  .acc-item.open .acc-body { display: block; padding-top: 18px; }
+
+  /* CONTENT BLOCKS */
+  .content-block { margin-bottom: 20px; }
+  .content-block h4 { font-family: var(--font-display); font-size: 1.1rem; color: var(--amber-bright); margin-bottom: 10px; }
+  .content-block p { color: var(--text-muted); font-size: 14px; line-height: 1.7; margin-bottom: 10px; }
+  .content-block ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .content-block ul li { display: flex; gap: 10px; font-size: 14px; color: var(--text-muted); }
+  .content-block ul li::before { content: '▸'; color: var(--amber-light); flex-shrink: 0; }
+
+  /* TIMELINE */
+  .timeline { position: relative; padding-left: 28px; display: flex; flex-direction: column; gap: 0; }
+  .timeline::before { content: ''; position: absolute; left: 6px; top: 8px; bottom: 8px; width: 2px; background: linear-gradient(180deg, var(--amber-light), var(--rust-light), var(--amber-light)); opacity: 0.3; }
+  .tl-item { position: relative; padding: 0 0 24px 20px; cursor: pointer; }
+  .tl-dot { position: absolute; left: -28px; top: 6px; width: 14px; height: 14px; border-radius: 50%; background: var(--amber-light); border: 2px solid var(--bg); box-shadow: 0 0 8px rgba(217,119,6,0.5); transition: all 0.2s; }
+  .tl-item:hover .tl-dot { transform: scale(1.3); box-shadow: 0 0 14px rgba(217,119,6,0.7); }
+  .tl-year { font-family: var(--font-mono); font-size: 11px; color: var(--amber-light); letter-spacing: 0.1em; margin-bottom: 4px; }
+  .tl-title { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
+  .tl-desc { font-size: 13px; color: var(--text-muted); line-height: 1.6; display: none; }
+  .tl-item.expanded .tl-desc { display: block; }
+  .tl-item.expanded .tl-dot { background: var(--rust-light); }
+
+  /* QUIZ */
+  .quiz-container { display: flex; flex-direction: column; gap: 24px; }
+  .quiz-question { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 22px; }
+  .quiz-q-num { font-family: var(--font-mono); font-size: 11px; color: var(--amber-light); letter-spacing: 0.1em; margin-bottom: 8px; }
+  .quiz-q-text { font-size: 15px; font-weight: 500; color: var(--text); margin-bottom: 16px; line-height: 1.5; }
+  .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+  .quiz-opt { width: 100%; text-align: left; padding: 11px 16px; border-radius: 8px; border: 1px solid var(--border2); background: var(--surface2); color: var(--text-muted); font-size: 14px; cursor: pointer; transition: all 0.18s; font-family: var(--font-body); }
+  .quiz-opt:hover:not(:disabled) { border-color: rgba(217,119,6,0.35); color: var(--text); background: rgba(217,119,6,0.06); }
+  .quiz-opt.correct { border-color: rgba(13,148,136,0.5); background: rgba(13,148,136,0.12); color: #2dd4bf; }
+  .quiz-opt.wrong { border-color: rgba(194,65,12,0.5); background: rgba(194,65,12,0.1); color: #fb923c; }
+  .quiz-feedback { margin-top: 12px; font-size: 13px; padding: 10px 14px; border-radius: 8px; display: none; line-height: 1.5; }
+  .quiz-feedback.show { display: block; }
+  .feedback-correct { background: rgba(13,148,136,0.1); border: 1px solid rgba(13,148,136,0.25); color: #2dd4bf; }
+  .feedback-wrong { background: rgba(194,65,12,0.1); border: 1px solid rgba(194,65,12,0.25); color: #fb923c; }
+  .quiz-score { text-align: center; padding: 24px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+  .quiz-score-num { font-family: var(--font-display); font-size: 3rem; font-weight: 900; color: var(--amber-bright); }
+  .quiz-score-label { color: var(--text-muted); font-size: 14px; margin-top: 4px; }
+  .btn-reset { margin-top: 16px; padding: 10px 24px; border-radius: 8px; border: 1px solid rgba(217,119,6,0.4); background: var(--amber-dim); color: var(--amber-bright); font-family: var(--font-body); font-size: 14px; cursor: pointer; transition: all 0.2s; }
+  .btn-reset:hover { background: rgba(217,119,6,0.2); }
+
+  /* FLASHCARDS */
+  .flashcards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+  .flashcard { height: 160px; perspective: 1000px; cursor: pointer; }
+  .flashcard-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+  .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+  .flashcard-front, .flashcard-back { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; }
+  .flashcard-front { background: var(--surface); border: 1px solid rgba(217,119,6,0.2); }
+  .flashcard-back { background: linear-gradient(135deg, rgba(217,119,6,0.15), rgba(194,65,12,0.1)); border: 1px solid rgba(217,119,6,0.35); transform: rotateY(180deg); }
+  .fc-label { font-family: var(--font-mono); font-size: 10px; color: var(--amber-light); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; }
+  .fc-term { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; color: var(--text); }
+  .fc-def { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+  .fc-hint { font-size: 11px; color: var(--text-dim); margin-top: 8px; }
+
+  /* DRAG & DROP */
+  .dnd-container { display: flex; gap: 20px; flex-wrap: wrap; }
+  .dnd-events { display: flex; flex-direction: column; gap: 8px; flex: 1; min-width: 200px; }
+  .dnd-timeline { display: flex; flex-direction: column; gap: 8px; flex: 1; min-width: 200px; }
+  .dnd-event { padding: 10px 14px; background: var(--surface); border: 1px solid var(--border2); border-radius: 8px; font-size: 13px; color: var(--text-muted); cursor: grab; transition: all 0.2s; user-select: none; }
+  .dnd-event:hover { border-color: rgba(217,119,6,0.35); color: var(--text); }
+  .dnd-event.dragging { opacity: 0.4; cursor: grabbing; }
+  .dnd-slot { padding: 10px 14px; border: 2px dashed rgba(217,119,6,0.2); border-radius: 8px; min-height: 44px; display: flex; align-items: center; gap: 10px; font-size: 13px; transition: all 0.2s; }
+  .dnd-slot-num { font-family: var(--font-mono); font-size: 11px; color: var(--amber-light); width: 20px; flex-shrink: 0; }
+  .dnd-slot.over { border-color: rgba(217,119,6,0.5); background: rgba(217,119,6,0.06); }
+  .dnd-slot.correct-slot { border-color: rgba(13,148,136,0.5); background: rgba(13,148,136,0.08); border-style: solid; }
+  .dnd-slot.wrong-slot { border-color: rgba(194,65,12,0.4); background: rgba(194,65,12,0.06); border-style: solid; }
+  .dnd-placed { font-size: 13px; color: var(--text); }
+  .btn-check { padding: 10px 22px; border-radius: 8px; border: 1px solid rgba(217,119,6,0.4); background: var(--amber-dim); color: var(--amber-bright); font-family: var(--font-body); font-size: 14px; cursor: pointer; transition: all 0.2s; margin-top: 12px; }
+  .btn-check:hover { background: rgba(217,119,6,0.2); }
+  .dnd-result { margin-top: 12px; font-size: 13px; color: var(--text-muted); }
+
+  /* LOGROS */
+  .achievements-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+  .achievement { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; display: flex; gap: 14px; align-items: flex-start; transition: all 0.2s; }
+  .achievement.unlocked { border-color: rgba(217,119,6,0.3); background: rgba(217,119,6,0.05); }
+  .achievement.locked { opacity: 0.4; filter: grayscale(1); }
+  .ach-icon { font-size: 28px; flex-shrink: 0; }
+  .ach-name { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 2px; }
+  .ach-desc { font-size: 12px; color: var(--text-muted); }
+
+  /* CONCEPT MAP */
+  .concept-map { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 28px; }
+  .cm-center { text-align: center; margin-bottom: 24px; }
+  .cm-node-main { display: inline-block; padding: 12px 24px; border-radius: 10px; font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; color: var(--amber-bright); background: rgba(217,119,6,0.15); border: 1px solid rgba(217,119,6,0.4); }
+  .cm-branches { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+  .cm-branch { background: var(--surface2); border: 1px solid var(--border2); border-radius: 10px; padding: 14px; }
+  .cm-branch-title { font-family: var(--font-mono); font-size: 11px; color: var(--amber-light); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+  .cm-branch-items { display: flex; flex-direction: column; gap: 4px; }
+  .cm-branch-item { font-size: 13px; color: var(--text-muted); padding: 3px 0; border-bottom: 1px solid var(--border); }
+  .cm-branch-item:last-child { border-bottom: none; }
+
+  /* PERSONAJES */
+  .personajes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+  .persona-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; transition: border-color 0.2s; cursor: pointer; }
+  .persona-card:hover { border-color: rgba(217,119,6,0.3); }
+  .persona-header { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 12px; }
+  .persona-avatar { width: 44px; height: 44px; border-radius: 50%; background: rgba(217,119,6,0.15); border: 1px solid rgba(217,119,6,0.3); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+  .persona-name { font-family: var(--font-display); font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+  .persona-role { font-family: var(--font-mono); font-size: 10px; color: var(--amber-light); letter-spacing: 0.08em; }
+  .persona-desc { font-size: 13px; color: var(--text-muted); line-height: 1.6; display: none; }
+  .persona-card.expanded .persona-desc { display: block; }
+
+  /* PROGRESS */
+  .progress-section { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 22px; margin-bottom: 16px; }
+  .progress-title { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+  .progress-pct { font-family: var(--font-mono); font-size: 13px; color: var(--amber-light); }
+  .progress-bar { height: 6px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--amber), var(--amber-light)); transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+
+  /* TUTOR FAB — positioned by dock */
+  #tutor-fab-old {
+    display: none;
+  }
+
+  #tutor-panel {
+    position: fixed; bottom: 72px; right: 24px; z-index: 10000;
+    width: min(400px, calc(100vw - 32px));
+    height: min(560px, calc(100vh - 120px));
+    background: #110d05;
+    border: 1px solid rgba(217,119,6,0.25);
+    border-radius: 16px;
+    display: flex; flex-direction: column;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+    transform: translateY(16px) scale(0.97);
+    opacity: 0; pointer-events: none;
+    transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  #tutor-panel.open { transform: translateY(0) scale(1); opacity: 1; pointer-events: all; }
+
+  #tutor-header { display: flex; align-items: center; gap: 12px; padding: 16px 18px; border-bottom: 1px solid rgba(217,119,6,0.15); }
+  #tutor-header-icon { width: 36px; height: 36px; border-radius: 10px; background: rgba(217,119,6,0.15); border: 1px solid rgba(217,119,6,0.3); display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; }
+  #tutor-header-info { flex: 1; }
+  #tutor-header-title { font-size: 14px; font-weight: 500; color: var(--text); }
+  #tutor-header-sub { font-family: var(--font-mono); font-size: 11px; color: var(--amber-light); }
+  #tutor-close { background: none; border: none; color: var(--text-dim); font-size: 18px; cursor: pointer; padding: 4px; }
+  #tutor-close:hover { color: var(--text-muted); }
+
+  #tutor-messages { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; scroll-behavior: smooth; }
+  #tutor-messages::-webkit-scrollbar { width: 3px; }
+  #tutor-messages::-webkit-scrollbar-thumb { background: rgba(217,119,6,0.2); border-radius: 3px; }
+
+  .tutor-msg { display: flex; gap: 10px; align-items: flex-start; }
+  .tutor-msg.user { flex-direction: row-reverse; }
+  .tutor-avatar { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-family: var(--font-mono); flex-shrink: 0; }
+  .tutor-msg.ai .tutor-avatar { background: rgba(217,119,6,0.15); border: 1px solid rgba(217,119,6,0.3); color: var(--amber-light); }
+  .tutor-msg.user .tutor-avatar { background: var(--surface2); border: 1px solid var(--border2); color: var(--text-muted); font-size: 10px; }
+  .tutor-bubble { max-width: 85%; padding: 10px 14px; border-radius: 12px; font-size: 13.5px; line-height: 1.6; }
+  .tutor-msg.ai .tutor-bubble { background: var(--surface2); border: 1px solid var(--border); color: var(--text); border-bottom-left-radius: 4px; }
+  .tutor-msg.user .tutor-bubble { background: rgba(217,119,6,0.15); border: 1px solid rgba(217,119,6,0.25); color: var(--text); border-bottom-right-radius: 4px; }
+  .tutor-bubble strong { color: var(--amber-bright); }
+  .tutor-bubble ul { padding-left: 16px; margin: 6px 0; }
+  .tutor-bubble li { margin-bottom: 3px; }
+
+  .tutor-thinking { display: flex; gap: 5px; padding: 4px 0; }
+  .tutor-thinking span { width: 7px; height: 7px; border-radius: 50%; background: var(--amber-light); opacity: 0.4; animation: blink 1.2s infinite; }
+  .tutor-thinking span:nth-child(2) { animation-delay: 0.2s; }
+  .tutor-thinking span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes blink { 0%,80%,100% { opacity: 0.4; } 40% { opacity: 1; } }
+
+  #tutor-suggestions { padding: 10px 14px; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 6px; }
+  .tutor-suggest-label { font-family: var(--font-mono); font-size: 10px; color: var(--text-dim); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 2px; }
+  .tutor-sq { background: var(--surface2); border: 1px solid var(--border2); color: var(--text-muted); font-size: 12.5px; padding: 7px 12px; border-radius: 8px; cursor: pointer; text-align: left; font-family: var(--font-body); transition: all 0.18s; }
+  .tutor-sq:hover { border-color: rgba(217,119,6,0.35); color: var(--text); }
+
+  #tutor-input-area { display: flex; gap: 8px; padding: 12px 14px; border-top: 1px solid var(--border); }
+  #tutor-input { flex: 1; background: var(--surface2); border: 1px solid var(--border2); border-radius: 10px; padding: 9px 13px; color: var(--text); font-size: 14px; font-family: var(--font-body); resize: none; max-height: 100px; overflow-y: auto; line-height: 1.5; }
+  #tutor-input::-webkit-scrollbar { display: none; }
+  #tutor-input:focus { outline: none; border-color: rgba(217,119,6,0.4); }
+  #tutor-input::placeholder { color: var(--text-dim); }
+  #tutor-send { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--amber), var(--rust)); border: none; color: #fff; font-size: 16px; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: opacity 0.2s; align-self: flex-end; }
+  #tutor-send:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  @media (max-width: 600px) {
+    .flashcards-grid { grid-template-columns: 1fr; }
+    .dnd-container { flex-direction: column; }
+    .personajes-grid { grid-template-columns: 1fr; }
+    .achievements-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <a href="index.html" class="back-link">← Portal de Estudio</a>
+  <div class="header-eyebrow">📜 Historia, Geografía y Cs. Sociales</div>
+  <h1 class="header-title">Historia <span>de Chile</span></h1>
+  <p class="header-subtitle">República, siglo XIX e inicios del XX · PDN 15/06</p>
+  <div class="header-badges">
+    <span class="badge b-amber">OA 8 · República</span>
+    <span class="badge b-rust">OA 10 · Economía</span>
+    <span class="badge b-sand">OA 17 · Salitre</span>
+    <span class="badge b-amber">OA 18 · Cuestión Social</span>
+    <span class="badge b-teal">OA 23 · Facciones</span>
+  </div>
+</header>
+
+<!-- NAV -->
+<div class="nav-wrapper">
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showSection('resumen')" id="tab-resumen">📋 Resumen OA</button>
+    <button class="nav-tab" onclick="showSection('republica')" id="tab-republica">🏛️ República</button>
+    <button class="nav-tab" onclick="showSection('economia')" id="tab-economia">⚓ Economía s.XIX</button>
+    <button class="nav-tab" onclick="showSection('salitre')" id="tab-salitre">⛏️ Salitre</button>
+    <button class="nav-tab" onclick="showSection('social')" id="tab-social">✊ Cuestión Social</button>
+    <button class="nav-tab" onclick="showSection('facciones')" id="tab-facciones">🎭 Facciones</button>
+    <button class="nav-tab" onclick="showSection('interactivo')" id="tab-interactivo">⚡ Quiz & Juegos</button>
+    <button class="nav-tab" onclick="showSection('logros')" id="tab-logros">🏆 Logros</button>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content-area">
+
+  <!-- RESUMEN OA -->
+  <div class="section-panel active" id="panel-resumen">
+    <h2 class="section-heading">Objetivos de Aprendizaje</h2>
+    <p class="section-desc">Toca cada objetivo para ver los temas que cubre. Todos entran en la PDN del 15/06.</p>
+
+    <div class="tip-amber tip-box">⚠️ <strong>PDN 15/06</strong> — Todos los OA de esta sección entran en la prueba. Prioriza OA8 y OA10 si tienes poco tiempo.</div>
+
+    <!-- MAPA CONCEPTUAL -->
+    <div class="concept-map" style="margin-bottom:28px;">
+      <div class="cm-center"><div class="cm-node-main">Chile Siglo XIX</div></div>
+      <div class="cm-branches">
+        <div class="cm-branch">
+          <div class="cm-branch-title">Política</div>
+          <div class="cm-branch-items">
+            <div class="cm-branch-item">Organización república</div>
+            <div class="cm-branch-item">Constitución 1833</div>
+            <div class="cm-branch-item">Facciones políticas</div>
+          </div>
+        </div>
+        <div class="cm-branch">
+          <div class="cm-branch-title">Economía</div>
+          <div class="cm-branch-items">
+            <div class="cm-branch-item">Integración mercado atlántico</div>
+            <div class="cm-branch-item">Exportación recursos naturales</div>
+            <div class="cm-branch-item">Hacienda e inquilinaje</div>
+          </div>
+        </div>
+        <div class="cm-branch">
+          <div class="cm-branch-title">Salitre</div>
+          <div class="cm-branch-items">
+            <div class="cm-branch-item">Ingreso fiscal</div>
+            <div class="cm-branch-item">Sectores productivos</div>
+            <div class="cm-branch-item">Infraestructura y educación</div>
+          </div>
+        </div>
+        <div class="cm-branch">
+          <div class="cm-branch-title">Social</div>
+          <div class="cm-branch-items">
+            <div class="cm-branch-item">Cuestión social</div>
+            <div class="cm-branch-item">Lucha obrera</div>
+            <div class="cm-branch-item">Ideologías políticas</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <div class="acc-item" id="acc-oa8">
+        <button class="acc-trigger" onclick="toggleAcc('oa8')">
+          <span class="acc-label lbl-amber">OA 8</span>
+          <span class="acc-title">Formación de la República de Chile (1833)</span>
+          <span class="acc-arrow">›</span>
+        </button>
+        <div class="acc-body">
+          <div class="content-block">
+            <h4>¿Qué analizar?</h4>
+            <p>La formación de la República implicó el enfrentamiento de distintas <strong>visiones sobre cómo organizar el país</strong> — principalmente entre pipiolos (liberales) y pelucones (conservadores).</p>
+          </div>
+          <div class="content-block">
+            <h4>Factores de estabilidad política (post 1833)</h4>
+            <ul>
+              <li>Constitución de 1833 con poder ejecutivo fuerte (presidente 5+5 años)</li>
+              <li>Hegemonía conservadora (pelucones) con apoyo de Iglesia y terratenientes</li>
+              <li>Sistema de portalianos que subordinó los poderes al ejecutivo</li>
+              <li>Régimen de derecho: leyes aplicadas de forma relativamente uniforme</li>
+            </ul>
+          </div>
+          <div class="content-block">
+            <h4>Visiones en pugna</h4>
+            <ul>
+              <li><strong>Pelucones:</strong> orden, jerarquía, Iglesia, centralismo</li>
+              <li><strong>Pipiolos:</strong> federalismo, libertades individuales, separación Iglesia-Estado</li>
+              <li><strong>O'higginistas:</strong> apoyo al exilio de O'Higgins</li>
+              <li><strong>Estanqueros:</strong> facción de Diego Portales</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item" id="acc-oa10">
+        <button class="acc-trigger" onclick="toggleAcc('oa10')">
+          <span class="acc-label lbl-rust">OA 10</span>
+          <span class="acc-title">Economía chilena en el siglo XIX</span>
+          <span class="acc-arrow">›</span>
+        </button>
+        <div class="acc-body">
+          <div class="content-block">
+            <h4>Inserción en el mercado internacional</h4>
+            <p>Chile se integró como <strong>proveedor de materias primas</strong> al mercado atlántico y a los mercados internacionales, exportando principalmente plata, cobre, trigo y salitre.</p>
+          </div>
+          <div class="content-block">
+            <h4>Economía tradicional rural</h4>
+            <ul>
+              <li><strong>Hacienda:</strong> gran propiedad rural que dominaba la economía agraria</li>
+              <li><strong>Inquilinaje:</strong> sistema de trabajo en que el inquilino recibía tierra y casa a cambio de trabajo y lealtad</li>
+              <li>Persistencia de esta economía a pesar de la integración exportadora</li>
+            </ul>
+          </div>
+          <div class="content-block">
+            <h4>Recursos naturales exportados</h4>
+            <ul>
+              <li>Minería de plata (Atacama) y cobre</li>
+              <li>Trigo hacia California y Australia (fiebre del oro)</li>
+              <li>Salitre tras la Guerra del Pacífico (1879)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item" id="acc-oa17">
+        <button class="acc-trigger" onclick="toggleAcc('oa17')">
+          <span class="acc-label lbl-sand">OA 17</span>
+          <span class="acc-title">Transformaciones por la riqueza del salitre</span>
+          <span class="acc-arrow">›</span>
+        </button>
+        <div class="acc-body">
+          <div class="content-block">
+            <h4>Impacto económico</h4>
+            <ul>
+              <li>Crecimiento del <strong>ingreso fiscal</strong>: el salitre financió el 50-70% del presupuesto nacional</li>
+              <li>Desarrollo de distintos <strong>sectores productivos</strong></li>
+              <li>Surgimiento de la clase media y el proletariado urbano</li>
+            </ul>
+          </div>
+          <div class="content-block">
+            <h4>Inversión pública</h4>
+            <ul>
+              <li><strong>Infraestructura:</strong> ferrocarriles, puertos, caminos</li>
+              <li><strong>Educación:</strong> expansión de escuelas primarias y liceos</li>
+              <li>Obras públicas en ciudades principales</li>
+            </ul>
+          </div>
+          <div class="content-block">
+            <h4>Contradicción salitrera</h4>
+            <p>A pesar de las ganancias, gran parte de la riqueza salitrera era controlada por capital extranjero (especialmente británico, caso John Thomas North). El Estado recibía impuestos, pero no controlaba la producción.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item" id="acc-oa18">
+        <button class="acc-trigger" onclick="toggleAcc('oa18')">
+          <span class="acc-label lbl-amber">OA 18</span>
+          <span class="acc-title">La cuestión social a inicios del siglo XX</span>
+          <span class="acc-arrow">›</span>
+        </button>
+        <div class="acc-body">
+          <div class="content-block">
+            <h4>¿Qué es la cuestión social?</h4>
+            <p>Conjunto de problemas sociales y laborales que afectaba a los sectores populares producto de la <strong>industrialización y urbanización acelerada</strong>: hacinamiento, malas condiciones laborales, bajos salarios, falta de derechos.</p>
+          </div>
+          <div class="content-block">
+            <h4>Factores que la originaron</h4>
+            <ul>
+              <li>Migración masiva del campo a la ciudad y desde el norte salitrero</li>
+              <li>Inexistencia de legislación laboral protectora</li>
+              <li>Pésimas condiciones de habitación (conventillos)</li>
+              <li>Trabajo infantil y femenino sin regulación</li>
+              <li>Epidemias (tifus, viruela) en poblaciones hacinadas</li>
+            </ul>
+          </div>
+          <div class="content-block">
+            <h4>Nuevas formas de lucha obrera</h4>
+            <ul>
+              <li>Huelgas y paros generales</li>
+              <li>Mancomunales obreras (primeras organizaciones)</li>
+              <li>Mutualidades de ayuda</li>
+              <li>Matanza de la Escuela Santa María de Iquique (1907)</li>
+            </ul>
+          </div>
+          <div class="content-block">
+            <h4>Transformación ideológica de los partidos</h4>
+            <ul>
+              <li>Surgimiento del Partido Demócrata (1887)</li>
+              <li>Formación del Partido Obrero Socialista / POS (1912, Luis Emilio Recabarren)</li>
+              <li>Creciente protagonismo de los sectores medios</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item" id="acc-oa23">
+        <button class="acc-trigger" onclick="toggleAcc('oa23')">
+          <span class="acc-label lbl-teal">OA 23</span>
+          <span class="acc-title">Respuestas políticas a la cuestión social</span>
+          <span class="acc-arrow">›</span>
+        </button>
+        <div class="acc-body">
+          <div class="content-block">
+            <h4>Facciones y sus propuestas</h4>
+            <ul>
+              <li><strong>Liberalismo:</strong> confianza en el libre mercado y libertades individuales; Estado mínimo</li>
+              <li><strong>Socialismo:</strong> propiedad colectiva de medios de producción; igualdad económica</li>
+              <li><strong>Anarquismo:</strong> abolición del Estado y la propiedad privada; acción directa</li>
+              <li><strong>Comunismo:</strong> revolución proletaria para instaurar sociedad sin clases</li>
+              <li><strong>Socialcristianismo:</strong> reforma social desde los valores católicos; Doctrina Social de la Iglesia</li>
+            </ul>
+          </div>
+          <div class="content-block">
+            <h4>Ejemplos de conflictos actuales</h4>
+            <p>El OA pide que seas capaz de <strong>ejemplificar</strong> estas respuestas en situaciones conflictivas de la actualidad: desigualdad, migración, derechos laborales, etc.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROGRESO -->
+    <div style="margin-top:32px;">
+      <h3 style="font-family:var(--font-display);font-size:1.2rem;color:#fff;margin-bottom:16px;">Tu progreso</h3>
+      <div class="progress-section">
+        <div class="progress-title">OA 8 — República <span class="progress-pct" id="pct-oa8">0%</span></div>
+        <div class="progress-bar"><div class="progress-fill" id="fill-oa8" style="width:0%"></div></div>
+      </div>
+      <div class="progress-section">
+        <div class="progress-title">OA 10 — Economía <span class="progress-pct" id="pct-oa10">0%</span></div>
+        <div class="progress-bar"><div class="progress-fill" id="fill-oa10" style="width:0%"></div></div>
+      </div>
+      <div class="progress-section">
+        <div class="progress-title">OA 17 — Salitre <span class="progress-pct" id="pct-oa17">0%</span></div>
+        <div class="progress-bar"><div class="progress-fill" id="fill-oa17" style="width:0%"></div></div>
+      </div>
+      <div class="progress-section">
+        <div class="progress-title">OA 18 — Cuestión Social <span class="progress-pct" id="pct-oa18">0%</span></div>
+        <div class="progress-bar"><div class="progress-fill" id="fill-oa18" style="width:0%"></div></div>
+      </div>
+      <div class="progress-section">
+        <div class="progress-title">OA 23 — Facciones <span class="progress-pct" id="pct-oa23">0%</span></div>
+        <div class="progress-bar"><div class="progress-fill" id="fill-oa23" style="width:0%"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REPÚBLICA -->
+  <div class="section-panel" id="panel-republica">
+    <h2 class="section-heading">La Organización de la República</h2>
+    <p class="section-desc">Chile post-independencia: cómo se formó el Estado y por qué duró tanto la Constitución de 1833.</p>
+
+    <div class="tip-box tip-rust">🏛️ <strong>Clave PDN:</strong> Explica por qué la Constitución de 1833 generó estabilidad y cuáles eran las visiones en pugna.</div>
+
+    <h3 style="font-family:var(--font-display);font-size:1.3rem;color:var(--amber-bright);margin-bottom:16px;margin-top:8px;">Línea de tiempo interactiva</h3>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:20px;">Toca cada evento para expandirlo.</p>
+
+    <div class="timeline">
+      <div class="tl-item" onclick="toggleTl(this)">
+        <div class="tl-dot"></div>
+        <div class="tl-year">1818</div>
+        <div class="tl-title">Independencia de Chile</div>
+        <div class="tl-desc">Chile declara su independencia definitiva. Comienza el período de organización política conocido como "patria vieja" y luego la "organización de la república".</div>
+      </div>
+      <div class="tl-item" onclick="toggleTl(this)">
+        <div class="tl-dot"></div>
+        <div class="tl-year">1823–1830</div>
+        <div class="tl-title">Período de inestabilidad (pipiolos vs pelucones)</div>
+        <div class="tl-desc">Etapa de ensayos constitucionales fallidos. Los pipiolos (liberales) intentan gobernar con ideas federalistas. Los pelucones (conservadores) se oponen. Gran inestabilidad política con múltiples presidentes.</div>
+      </div>
+      <div class="tl-item" onclick="toggleTl(this)">
+        <div class="tl-dot"></div>
+        <div class="tl-year">1830</div>
+        <div class="tl-title">Batalla de Lircay — Triunfo conservador</div>
+        <div class="tl-desc">Los conservadores derrotan a los pipiolos. Diego Portales asume como figura clave del gobierno. Se inicia la "República Conservadora" que durará hasta 1861.</div>
+      </div>
+      <div class="tl-item" onclick="toggleTl(this)">
+        <div class="tl-dot"></div>
+        <div class="tl-year">1833</div>
+        <div class="tl-title">Constitución de 1833 — Estabilidad política</div>
+        <div class="tl-desc">Nueva constitución con ejecutivo fuerte. El presidente puede gobernar dos períodos de 5 años (10 años). Subordina al legislativo y judicial. Genera una estabilidad de casi 90 años. La religión católica es oficial del Estado.</div>
+      </div>
+      <div class="tl-item" onclick="toggleTl(this)">
+        <div class="tl-dot"></div>
+        <div class="tl-year">1837</div>
+        <div class="tl-title">Asesinato de Diego Portales</div>
+        <div class="tl-desc">Portales es asesinado durante un motín en Quillota. A pesar de su muerte, el modelo político que construyó se mantiene durante décadas.</div>
+      </div>
+      <div class="tl-item" onclick="toggleTl(this)">
+        <div class="tl-dot"></div>
+        <div class="tl-year">1861</div>
+        <div class="tl-title">Inicio de la República Liberal</div>
+        <div class="tl-desc">Los liberales llegan al poder. Comienzan las reformas: separación Iglesia-Estado, libertad de culto, matrimonio civil, registro civil. La Constitución de 1833 permanece pero se le hacen reformas.</div>
+      </div>
+      <div class="tl-item" onclick="toggleTl(this)">
+        <div class="tl-dot"></div>
+        <div class="tl-year">1879</div>
+        <div class="tl-title">Guerra del Pacífico</div>
+        <div class="tl-desc">Chile enfrenta a Bolivia y Perú. Victoria chilena que incorpora las regiones salitreras de Tarapacá y Antofagasta. Esto transformará completamente la economía nacional.</div>
+      </div>
+    </div>
+
+    <h3 style="font-family:var(--font-display);font-size:1.3rem;color:var(--amber-bright);margin:32px 0 16px;">Personajes clave</h3>
+    <div class="personajes-grid">
+      <div class="persona-card" onclick="togglePersona(this)">
+        <div class="persona-header">
+          <div class="persona-avatar">⚔️</div>
+          <div><div class="persona-name">Diego Portales</div><div class="persona-role">Ministro · Arquitecto del orden conservador</div></div>
+        </div>
+        <div class="persona-desc">Empresario y político que sin ser presidente moldeó la República Conservadora. Creó el Estado portaliano: orden, jerarquía, impersonalidad del mando. Su legado fue la Constitución de 1833 y el modelo autoritario de gobierno que generó estabilidad.</div>
+      </div>
+      <div class="persona-card" onclick="togglePersona(this)">
+        <div class="persona-header">
+          <div class="persona-avatar">🌟</div>
+          <div><div class="persona-name">Bernardo O'Higgins</div><div class="persona-role">Director Supremo · Padre de la Patria</div></div>
+        </div>
+        <div class="persona-desc">Primer gobernante de Chile independiente. Abdicó en 1823 y vivió en el exilio en Perú. Sus seguidores (o'higginistas) formaron una de las facciones políticas de la época. Murió sin regresar a Chile.</div>
+      </div>
+      <div class="persona-card" onclick="togglePersona(this)">
+        <div class="persona-header">
+          <div class="persona-avatar">📜</div>
+          <div><div class="persona-name">Joaquín Prieto</div><div class="persona-role">Presidente 1831–1841</div></div>
+        </div>
+        <div class="persona-desc">Primer presidente bajo la Constitución de 1833. Gobernó dos períodos completos (10 años), consolidando el modelo conservador. Su gobierno fue de relativa estabilidad comparado con el caos anterior.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ECONOMÍA S.XIX -->
+  <div class="section-panel" id="panel-economia">
+    <h2 class="section-heading">Economía Chilena en el Siglo XIX</h2>
+    <p class="section-desc">Cómo Chile se insertó en los mercados internacionales y qué pasó con la economía tradicional.</p>
+
+    <div class="tip-box tip-amber">⚠️ <strong>OA 10 clave:</strong> Debes poder explicar la TENSIÓN entre integración al mercado mundial y persistencia de economía rural/hacienda.</div>
+
+    <div class="accordion" style="margin-bottom:28px;">
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggleAccGen(this)">
+          <span class="acc-label lbl-amber">Concepto</span>
+          <span class="acc-title">¿Qué es la "inserción al mercado atlántico"?</span>
+          <span class="acc-arrow">›</span>
+        </button>
+        <div class="acc-body">
+          <p style="color:var(--text-muted);font-size:14px;line-height:1.7;">Chile se convirtió en un exportador de <strong>materias primas</strong> que necesitaba Europa e industrializando. Esto significó:<br><br>
+          1. Especialización en pocos productos (minería y agro)<br>
+          2. Dependencia de los precios internacionales<br>
+          3. Llegada de capital extranjero<br>
+          4. Desarrollo desigual: norte minero vs centro agrícola</p>
+        </div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggleAccGen(this)">
+          <span class="acc-label lbl-rust">Concepto</span>
+          <span class="acc-title">La Hacienda y el Inquilinaje</span>
+          <span class="acc-arrow">›</span>
+        </button>
+        <div class="acc-body">
+          <p style="color:var(--text-muted);font-size:14px;line-height:1.7;"><strong>Hacienda:</strong> Enorme propiedad rural controlada por el hacendado (patrón). Producía para exportación (trigo) y para el mercado interno.<br><br>
+          <strong>Inquilinaje:</strong> Sistema laboral donde el inquilino (trabajador) recibía:<br>
+          • Una parcela de tierra para cultivar<br>
+          • Una vivienda en la hacienda<br>
+          • A veces animales y raciones<br><br>
+          A cambio, debía trabajar para el patrón y cumplir obligaciones militares cuando se lo pedían. Era una relación de dependencia y lealtad personal, no un contrato laboral moderno.</p>
+        </div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggleAccGen(this)">
+          <span class="acc-label lbl-sand">Producto</span>
+          <span class="acc-title">El trigo chileno y la "fiebre del oro"</span>
+          <span class="acc-arrow">›</span>
+        </button>
+        <div class="acc-body">
+          <p style="color:var(--text-muted);font-size:14px;line-height:1.7;">En 1848 se descubrió oro en California (EE.UU.) y en 1851 en Australia. Miles de personas llegaron, generando una enorme demanda de alimentos.<br><br>
+          Chile aprovechó su producción de trigo: en la década de 1850, las exportaciones de trigo se multiplicaron varias veces. Esto benefició a los hacendados del Valle Central, quienes acumularon riqueza e invirtieron en modernización agrícola.</p>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="font-family:var(--font-display);font-size:1.3rem;color:var(--amber-bright);margin-bottom:16px;">Tarjetas de estudio (flashcards)</h3>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">Toca cada tarjeta para ver la definición.</p>
+
+    <div class="flashcards-grid" id="fc-economia">
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front"><div class="fc-label">Concepto</div><div class="fc-term">Inquilinaje</div><div class="fc-hint">Toca para ver definición</div></div>
+          <div class="flashcard-back"><div class="fc-label">Definición</div><div class="fc-def">Sistema de trabajo rural donde el inquilino recibe tierra y vivienda del hacendado a cambio de trabajo y lealtad personal.</div></div>
+        </div>
+      </div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front"><div class="fc-label">Concepto</div><div class="fc-term">Hacienda</div><div class="fc-hint">Toca para ver definición</div></div>
+          <div class="flashcard-back"><div class="fc-label">Definición</div><div class="fc-def">Gran propiedad rural del Chile tradicional. Centro de la economía agraria, dominada por el hacendado o patrón.</div></div>
+        </div>
+      </div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front"><div class="fc-label">Proceso</div><div class="fc-term">Inserción al mercado atlántico</div><div class="fc-hint">Toca para ver definición</div></div>
+          <div class="flashcard-back"><div class="fc-label">Definición</div><div class="fc-def">Chile se integró como exportador de materias primas (plata, cobre, trigo, salitre) a los mercados internacionales dominados por Europa.</div></div>
+        </div>
+      </div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front"><div class="fc-label">Evento</div><div class="fc-term">Fiebre del oro californiana</div><div class="fc-hint">Toca para ver definición</div></div>
+          <div class="flashcard-back"><div class="fc-label">Significado para Chile</div><div class="fc-def">Aumentó enormemente la demanda de trigo chileno en la década de 1850, beneficiando a los hacendados del Valle Central.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SALITRE -->
+  <div class="section-panel" id="panel-salitre">
+    <h2 class="section-heading">La Era del Salitre</h2>
+    <p class="section-desc">Cómo la riqueza salitrera transformó Chile a finales del siglo XIX e inicios del XX.</p>
+
+    <div class="tip-box tip-teal">⛏️ <strong>OA 17:</strong> Conecta siempre salitre → ingreso fiscal → inversión en infraestructura y educación. Es el circuito que te preguntarán.</div>
+
+    <div class="accordion" style="margin-bottom:24px;">
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggleAccGen(this)">
+          <span class="acc-label lbl-amber">¿Qué es?</span>
+          <span class="acc-title">El salitre — nitrato de sodio</span>
+          <span class="acc-arrow">›</span>
+        </button>
+        <div class="acc-body">
+          <p style="color:var(--text-muted);font-size:14px;line-height:1.7;">El <strong>salitre (nitrato de sodio)</strong> era el fertilizante más demandado del mundo a fines del siglo XIX. Europa y EE.UU. lo necesitaban para sus campos. También se usaba en explosivos.<br><br>
+          Chile ganó las regiones salitreras de Tarapacá (de Perú) y Antofagasta (de Bolivia) tras la <strong>Guerra del Pacífico (1879-1884)</strong>. Esto convirtió a Chile en el mayor productor mundial.</p>
+        </div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggleAccGen(this)">
+          <span class="acc-label lbl-rust">Impacto</span>
+          <span class="acc-title">El Estado salitrero — inversión pública</span>
+          <span class="acc-arrow">›</span>
+        </button>
+        <div class="acc-body">
+          <div class="content-block">
+            <h4>Ingresos fiscales</h4>
+            <p style="color:var(--text-muted);font-size:14px;">El salitre aportaba entre el 50% y 70% de los ingresos del Estado chileno. Esto permitió financiar una modernización sin precedentes.</p>
+          </div>
+          <div class="content-block">
+            <h4>Infraestructura</h4>
+            <ul>
+              <li>Red ferroviaria nacional (de 2.400 km a más de 5.000 km)</li>
+              <li>Modernización de puertos (Valparaíso, Iquique)</li>
+              <li>Obras públicas urbanas (alcantarillado, pavimento)</li>
+            </ul>
+          </div>
+          <div class="content-block">
+            <h4>Educación</h4>
+            <ul>
+              <li>Expansión masiva de escuelas primarias</li>
+              <li>Creación de liceos en todo el país</li>
+              <li>Ley de Instrucción Primaria Obligatoria (1920)</li>
+              <li>Aumento de la tasa de alfabetización</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggleAccGen(this)">
+          <span class="acc-label lbl-sand">Contradicción</span>
+          <span class="acc-title">Capital extranjero y la "cuestión del salitre"</span>
+          <span class="acc-arrow">›</span>
+        </button>
+        <div class="acc-body">
+          <p style="color:var(--text-muted);font-size:14px;line-height:1.7;">La gran paradoja: aunque el salitre financiaba al Estado, <strong>la producción era controlada por capital extranjero</strong>, principalmente británico. El caso más famoso es el de <strong>John Thomas North</strong>, "El Rey del Salitre", quien controlaba compañías mineras, ferroviarias y bancos en la región.<br><br>
+          Esto generó debate político: ¿debería el Estado nacionalizar el salitre? Este conflicto fue uno de los factores de la <strong>Guerra Civil de 1891</strong>.</p>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="font-family:var(--font-display);font-size:1.3rem;color:var(--amber-bright);margin-bottom:16px;">Flashcards del salitre</h3>
+    <div class="flashcards-grid">
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front"><div class="fc-label">Personaje</div><div class="fc-term">John Thomas North</div><div class="fc-hint">Toca para ver</div></div>
+          <div class="flashcard-back"><div class="fc-label">Quién era</div><div class="fc-def">Empresario británico que controló gran parte de las salitreras chilenas. Apodado "El Rey del Salitre". Símbolo de la dependencia del capital extranjero.</div></div>
+        </div>
+      </div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front"><div class="fc-label">Evento</div><div class="fc-term">Guerra del Pacífico</div><div class="fc-hint">Toca para ver</div></div>
+          <div class="flashcard-back"><div class="fc-label">Resultado para Chile</div><div class="fc-def">1879-1884. Chile vs Bolivia y Perú. Victoria chilena: obtiene regiones salitreras de Tarapacá y Antofagasta, volviéndose potencia exportadora de salitre.</div></div>
+        </div>
+      </div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front"><div class="fc-label">Hito</div><div class="fc-term">Caída del salitre (1929)</div><div class="fc-hint">Toca para ver</div></div>
+          <div class="flashcard-back"><div class="fc-label">¿Por qué cayó?</div><div class="fc-def">Alemanes desarrollaron salitre sintético (proceso Haber-Bosch) en la Primera Guerra Mundial. Tras la crisis de 1929, la demanda colapsó y Chile entró en grave crisis económica.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CUESTIÓN SOCIAL -->
+  <div class="section-panel" id="panel-social">
+    <h2 class="section-heading">La Cuestión Social</h2>
+    <p class="section-desc">Los problemas sociales del cambio de siglo y cómo respondieron los trabajadores.</p>
+
+    <div class="tip-box tip-rust">✊ <strong>OA 18:</strong> Distingue los FACTORES que originaron la cuestión social, las NUEVAS formas de lucha obrera y la TRANSFORMACIÓN de los partidos.</div>
+
+    <div class="accordion" style="margin-bottom:28px;">
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggleAccGen(this)">
+          <span class="acc-label lbl-rust">Crisis</span>
+          <span class="acc-title">Las condiciones de vida populares</span>
+          <span class="acc-arrow">›</span>
+        </button>
+        <div class="acc-body">
+          <div class="content-block">
+            <h4>El conventillo</h4>
+            <p style="color:var(--text-muted);font-size:14px;">Vivienda colectiva hacinada donde vivían múltiples familias en piezas pequeñas. Sin agua potable, sin alcantarillado, sin ventilación. Foco de enfermedades.</p>
+          </div>
+          <div class="content-block">
+            <h4>Condiciones laborales</h4>
+            <ul>
+              <li>Jornadas de 12-14 horas diarias</li>
+              <li>Sin seguro de accidentes ni enfermedad</li>
+              <li>Pago en "fichas" (no dinero real) en las salitreras</li>
+              <li>Trabajo infantil desde los 8-10 años</li>
+              <li>Sin derecho a huelga ni organización sindical</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggleAccGen(this)">
+          <span class="acc-label lbl-amber">Evento clave</span>
+          <span class="acc-title">Matanza de la Escuela Santa María de Iquique (1907)</span>
+          <span class="acc-arrow">›</span>
+        </button>
+        <div class="acc-body">
+          <p style="color:var(--text-muted);font-size:14px;line-height:1.7;">En diciembre de 1907, miles de trabajadores salitreros y sus familias llegaron a Iquique en huelga, pidiendo mejoras laborales. Se refugiaron en la Escuela Santa María.<br><br>
+          El gobierno ordenó al Ejército disolver la concentración. Las tropas abrieron fuego. El número de muertos varía según las fuentes: entre 200 y más de 2.000 personas.<br><br>
+          <strong>Impacto:</strong> Se convirtió en símbolo de la represión del movimiento obrero y aceleró la organización sindical y política de los trabajadores.</p>
+        </div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggleAccGen(this)">
+          <span class="acc-label lbl-teal">Personaje</span>
+          <span class="acc-title">Luis Emilio Recabarren — El padre del movimiento obrero</span>
+          <span class="acc-arrow">›</span>
+        </button>
+        <div class="acc-body">
+          <p style="color:var(--text-muted);font-size:14px;line-height:1.7;">Tipógrafo y político chileno (1876-1924). Fundó el <strong>Partido Obrero Socialista (POS) en 1912</strong>, que luego se convirtió en el Partido Comunista de Chile (1922).<br><br>
+          Creó periódicos obreros ("El Despertar de los Trabajadores"), organizó sindicatos y fue pionero en la lucha por los derechos laborales. Fue elegido diputado pero el parlamento no reconoció su elección por ser obrero.</p>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="font-family:var(--font-display);font-size:1.3rem;color:var(--amber-bright);margin-bottom:16px;">Flashcards — Cuestión Social</h3>
+    <div class="flashcards-grid">
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front"><div class="fc-label">Concepto</div><div class="fc-term">Cuestión social</div><div class="fc-hint">Toca para ver</div></div>
+          <div class="flashcard-back"><div class="fc-label">Definición</div><div class="fc-def">Conjunto de problemas sociales y laborales que afectaba a los sectores populares por la industrialización: hacinamiento, malas condiciones de trabajo, falta de derechos.</div></div>
+        </div>
+      </div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front"><div class="fc-label">Organización</div><div class="fc-term">Mancomunal obrera</div><div class="fc-hint">Toca para ver</div></div>
+          <div class="flashcard-back"><div class="fc-label">Definición</div><div class="fc-def">Primera forma de organización sindical chilena. Surgió en las salitreras del norte. Agrupaba a trabajadores de distintos oficios para defender sus derechos.</div></div>
+        </div>
+      </div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front"><div class="fc-label">Sistema</div><div class="fc-term">Fichas salitreras</div><div class="fc-hint">Toca para ver</div></div>
+          <div class="flashcard-back"><div class="fc-label">¿Qué eran?</div><div class="fc-def">Sistema de pago con fichas (tokens) en vez de dinero real. Solo se podían usar en la pulpería (tienda) de la empresa minera, atando al trabajador a la deuda permanente.</div></div>
+        </div>
+      </div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front"><div class="fc-label">Partido</div><div class="fc-term">POS (1912)</div><div class="fc-hint">Toca para ver</div></div>
+          <div class="flashcard-back"><div class="fc-label">¿Qué fue?</div><div class="fc-def">Partido Obrero Socialista fundado por Recabarren en 1912. Primer partido político chileno que representaba exclusivamente a la clase trabajadora. Antecedente del PC.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FACCIONES -->
+  <div class="section-panel" id="panel-facciones">
+    <h2 class="section-heading">Facciones Políticas e Ideologías</h2>
+    <p class="section-desc">Las distintas respuestas políticas a la cuestión social y cómo se aplican a conflictos actuales.</p>
+
+    <div class="tip-box tip-amber">🎭 <strong>OA 23:</strong> Debes poder definir CADA ideología y dar ejemplos de cómo respondería a un problema social actual.</div>
+
+    <div class="personajes-grid" style="margin-bottom:28px;">
+      <div class="persona-card" onclick="togglePersona(this)">
+        <div class="persona-header">
+          <div class="persona-avatar">📊</div>
+          <div><div class="persona-name">Liberalismo</div><div class="persona-role">Libertad individual · Libre mercado</div></div>
+        </div>
+        <div class="persona-desc"><strong>Principios:</strong> Libertad económica, libre mercado, Estado mínimo. Los problemas sociales se resuelven por el mercado, no por el Estado.<br><br><strong>Frente a la cuestión social:</strong> Confiaba en que el crecimiento económico eventualmente mejoraría las condiciones. Se oponía a leyes laborales que "distorsionaran" el mercado.<br><br><strong>Hoy:</strong> Quienes apoyan privatizaciones, reducción de impuestos y mínima intervención estatal.</div>
+      </div>
+      <div class="persona-card" onclick="togglePersona(this)">
+        <div class="persona-header">
+          <div class="persona-avatar">⚒️</div>
+          <div><div class="persona-name">Socialismo</div><div class="persona-role">Igualdad · Propiedad colectiva</div></div>
+        </div>
+        <div class="persona-desc"><strong>Principios:</strong> Los medios de producción deben ser colectivos o estatales. El Estado redistribuye la riqueza. Igualdad económica sobre libertad individual.<br><br><strong>Frente a la cuestión social:</strong> Legislación laboral protectora, derecho a sindicatos, educación y salud pública gratuita.<br><br><strong>Hoy:</strong> Partidos que proponen mayor rol del Estado, impuestos progresivos, servicios públicos universales.</div>
+      </div>
+      <div class="persona-card" onclick="togglePersona(this)">
+        <div class="persona-header">
+          <div class="persona-avatar">⚫</div>
+          <div><div class="persona-name">Anarquismo</div><div class="persona-role">Sin Estado · Acción directa</div></div>
+        </div>
+        <div class="persona-desc"><strong>Principios:</strong> Abolición del Estado, la Iglesia y la propiedad privada. Sociedad organizada horizontalmente por comunidades libres.<br><br><strong>Frente a la cuestión social:</strong> Huelgas generales, boicots, acción directa. Rechazaba participar en elecciones ("colaborar con el sistema").<br><br><strong>Influencia:</strong> Fuerte en las mancomunales del norte salitrero a inicios del siglo XX.</div>
+      </div>
+      <div class="persona-card" onclick="togglePersona(this)">
+        <div class="persona-header">
+          <div class="persona-avatar">☭</div>
+          <div><div class="persona-name">Comunismo</div><div class="persona-role">Revolución proletaria · Sin clases</div></div>
+        </div>
+        <div class="persona-desc"><strong>Principios:</strong> La clase trabajadora debe tomar el poder a través de la revolución. Eliminar las clases sociales y la propiedad privada. Estado transitorio hacia sociedad comunista.<br><br><strong>En Chile:</strong> El POS de Recabarren se convirtió en el Partido Comunista (1922) tras la Revolución Rusa de 1917.<br><br><strong>Diferencia con socialismo:</strong> El comunismo busca la revolución; el socialismo acepta vías reformistas.</div>
+      </div>
+      <div class="persona-card" onclick="togglePersona(this)">
+        <div class="persona-header">
+          <div class="persona-avatar">✝️</div>
+          <div><div class="persona-name">Socialcristianismo</div><div class="persona-role">Fe y justicia social</div></div>
+        </div>
+        <div class="persona-desc"><strong>Principios:</strong> La doctrina social de la Iglesia Católica propone una "tercera vía" entre capitalismo salvaje y socialismo. Dignidad humana, bien común, solidaridad.<br><br><strong>Documentos clave:</strong> Encíclica <em>Rerum Novarum</em> (1891) del Papa León XIII: primera respuesta oficial de la Iglesia a la cuestión social.<br><br><strong>En Chile:</strong> Originó la Democracia Cristiana (DC), fundada en 1938 como Partido Conservador Social Cristiano.</div>
+      </div>
+    </div>
+
+    <div class="tip-box tip-teal" style="margin-top:0;">💡 <strong>Tip PDN:</strong> Para comparar ideologías, usa esta estructura: "El [ideología] propone [solución] porque cree que [principio], mientras que el [otra] propone [solución] porque cree que [principio]."</div>
+  </div>
+
+  <!-- INTERACTIVO -->
+  <div class="section-panel" id="panel-interactivo">
+    <h2 class="section-heading">Quiz & Juegos Interactivos</h2>
+    <p class="section-desc">Practica con preguntas tipo PDN y ordena eventos cronológicamente.</p>
+
+    <!-- QUIZ -->
+    <h3 style="font-family:var(--font-display);font-size:1.3rem;color:var(--amber-bright);margin-bottom:8px;">Quiz estilo PDN</h3>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:20px;">Preguntas de selección múltiple al nivel de la prueba.</p>
+
+    <div class="quiz-container" id="quiz-container"></div>
+    <div id="quiz-score-container" style="display:none;" class="quiz-score">
+      <div class="quiz-score-num" id="quiz-final-score">0/10</div>
+      <div class="quiz-score-label">respuestas correctas</div>
+      <button class="btn-reset" onclick="resetQuiz()">Intentar de nuevo</button>
+    </div>
+
+    <!-- DRAG AND DROP -->
+    <h3 style="font-family:var(--font-display);font-size:1.3rem;color:var(--amber-bright);margin:36px 0 8px;">Ordena los eventos</h3>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">Arrastra cada evento al slot con el número correcto en orden cronológico.</p>
+
+    <div class="dnd-container">
+      <div class="dnd-events" id="dnd-events">
+        <p style="font-family:var(--font-mono);font-size:11px;color:var(--text-dim);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;">Eventos (arrastra)</p>
+      </div>
+      <div class="dnd-timeline" id="dnd-slots">
+        <p style="font-family:var(--font-mono);font-size:11px;color:var(--text-dim);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;">Orden cronológico</p>
+      </div>
+    </div>
+    <button class="btn-check" onclick="checkDnD()">Verificar orden</button>
+    <div class="dnd-result" id="dnd-result"></div>
+  </div>
+
+  <!-- LOGROS -->
+  <div class="section-panel" id="panel-logros">
+    <h2 class="section-heading">Tus Logros</h2>
+    <p class="section-desc">Desbloquea insignias completando actividades en el portal de Historia.</p>
+
+    <div class="achievements-grid" id="achievements-grid"></div>
+  </div>
+
+</div>
+
+<!-- TUTOR PANEL -->
+<div id="tutor-panel">
+  <div id="tutor-header">
+    <div id="tutor-header-icon">🏛️</div>
+    <div id="tutor-header-info">
+      <div id="tutor-header-title">Tutor IA</div>
+      <div id="tutor-header-sub">Historia · PDN 15/06</div>
+    </div>
+    <button id="tutor-close" onclick="tutorToggle()">✕</button>
+  </div>
+  <div id="tutor-messages"></div>
+  <div id="tutor-suggestions">
+    <div class="tutor-suggest-label">Preguntas sugeridas</div>
+    <button class="tutor-sq">¿Por qué la Constitución de 1833 generó estabilidad?</button>
+    <button class="tutor-sq">Diferencia entre liberalismo y socialismo</button>
+    <button class="tutor-sq">¿Qué fue la cuestión social?</button>
+    <button class="tutor-sq">¿Cómo el salitre transformó Chile?</button>
+  </div>
+  <div id="tutor-input-area">
+    <textarea id="tutor-input" placeholder="Pregunta sobre Historia…" rows="1"></textarea>
+    <button id="tutor-send" onclick="tutorSend()" title="Enviar">↑</button>
+  </div>
+</div>
+
+<!-- DOCK: Pomodoro + Música + Tutor IA -->
+<style>
+  #st-wrap {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    font-family: var(--font-mono, 'DM Mono', monospace);
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+  }
+  #st-dock-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+    background: #1a1208;
+    border: 1px solid rgba(217,119,6,0.2);
+    border-radius: 20px;
+    padding: 5px 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  }
+  #st-panel {
+    background: #16110a;
+    border: 1px solid rgba(217,119,6,0.2);
+    border-radius: 16px;
+    padding: 16px 18px 14px;
+    width: 234px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+    transform-origin: bottom right;
+    transform: scale(0.92) translateY(6px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.18s ease, transform 0.18s ease;
+    overflow: hidden;
+  }
+  #st-panel.open { opacity: 1; transform: scale(1) translateY(0); pointer-events: all; }
+  #st-panel.music-mode { width: 340px; }
+
+  .st-tabs { display: flex; gap: 4px; margin-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,0.07); padding-bottom: 10px; }
+  .st-tab { flex: 1; padding: 5px 2px; border: 1px solid transparent; border-radius: 7px; background: transparent; color: var(--text-muted, #8a7560); font-family: inherit; font-size: 9.5px; letter-spacing: 0.06em; cursor: pointer; transition: all 0.13s; text-align: center; }
+  .st-tab.active { border-color: rgba(217,119,6,0.35); color: var(--amber-bright, #fcd34d); background: rgba(217,119,6,0.08); }
+  .st-tab:hover:not(.active) { border-color: rgba(255,255,255,0.12); color: var(--text, #e8dcc8); }
+
+  .st-pane { display: none; }
+  .st-pane.active { display: block; }
+
+  .st-modes { display: flex; gap: 5px; margin-bottom: 12px; }
+  .st-mode { flex: 1; padding: 4px 2px; border: 1px solid rgba(255,255,255,0.07); border-radius: 6px; background: transparent; color: var(--text-muted, #8a7560); font-family: inherit; font-size: 9px; letter-spacing: 0.07em; cursor: pointer; transition: all 0.13s; text-align: center; }
+  .st-mode.active { border-color: rgba(217,119,6,0.4); color: var(--amber-bright, #fcd34d); background: rgba(217,119,6,0.08); }
+  .st-mode:hover:not(.active) { border-color: rgba(255,255,255,0.15); color: var(--text, #e8dcc8); }
+
+  .st-time { font-size: 2rem; font-weight: 500; color: var(--text, #e8dcc8); letter-spacing: 0.06em; text-align: center; line-height: 1; margin-bottom: 10px; }
+  .st-bar-wrap { height: 2px; background: rgba(255,255,255,0.06); border-radius: 2px; margin-bottom: 12px; overflow: hidden; }
+  .st-bar { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--amber, #d97706), var(--amber-bright, #fcd34d)); transition: width 0.9s linear; }
+  .st-btns { display: flex; gap: 6px; }
+  .st-btn { flex: 1; padding: 7px 4px; border: 1px solid rgba(255,255,255,0.09); border-radius: 7px; background: rgba(255,255,255,0.03); color: var(--text-muted, #8a7560); font-family: inherit; font-size: 10px; letter-spacing: 0.05em; cursor: pointer; transition: all 0.13s; }
+  .st-btn:hover { background: rgba(255,255,255,0.08); color: var(--text, #e8dcc8); }
+  .st-btn.go { background: rgba(217,119,6,0.12); border-color: rgba(217,119,6,0.35); color: var(--amber-bright, #fcd34d); }
+  .st-btn.go:hover { background: rgba(217,119,6,0.22); }
+  .st-sessions { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; font-size: 9px; color: var(--text-dim, #4a3d2a); letter-spacing: 0.09em; }
+  .st-dots { display: flex; gap: 4px; }
+  .st-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.08); transition: background 0.2s; }
+  .st-dot.on { background: var(--amber-bright, #fcd34d); }
+
+  .sp-label { font-size: 9px; letter-spacing: 0.1em; color: var(--text-dim, #4a3d2a); text-transform: uppercase; margin-bottom: 10px; }
+  .sp-frame-wrap { border-radius: 10px; overflow: hidden; border: 1px solid rgba(255,255,255,0.07); }
+
+  #st-trigger {
+    width: 30px; height: 30px; border-radius: 50%;
+    border: 1px solid transparent; background: transparent;
+    color: var(--text-muted, #8a7560); font-size: 14px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+    position: relative; flex-shrink: 0;
+  }
+  #tutor-fab {
+    width: 30px; height: 30px; border-radius: 50%;
+    border: 1px solid transparent; background: transparent;
+    color: var(--text-muted, #8a7560); font-size: 16px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.15s, color 0.15s; flex-shrink: 0;
+    box-shadow: none;
+    position: static;
+    transform: none;
+  }
+  #tutor-fab:hover, #tutor-fab.open {
+    border-color: rgba(217,119,6,0.45); color: var(--amber-bright, #fcd34d);
+    transform: none; box-shadow: none;
+  }
+  .dock-divider { width: 1px; height: 18px; background: rgba(255,255,255,0.1); flex-shrink: 0; }
+
+  #st-tooltip {
+    position: absolute; right: 46px; bottom: 50%;
+    background: #16110a; border: 1px solid rgba(255,255,255,0.11);
+    border-radius: 10px; padding: 8px 11px;
+    white-space: nowrap; pointer-events: none;
+    opacity: 0; transform: translateY(50%) translateX(4px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.45);
+  }
+  #st-tooltip.visible { opacity: 1; transform: translateY(50%) translateX(0); }
+  .tt-title { font-family: var(--font-mono, monospace); font-size: 10px; font-weight: 500; letter-spacing: 0.08em; color: var(--amber-bright, #fcd34d); margin-bottom: 2px; }
+  .tt-desc { font-family: var(--font-body, sans-serif); font-size: 11px; color: var(--text-muted, #8a7560); line-height: 1.4; }
+  #st-tooltip::after { content: ''; position: absolute; right: -5px; top: 50%; width: 8px; height: 8px; background: #16110a; border-top: 1px solid rgba(255,255,255,0.11); border-right: 1px solid rgba(255,255,255,0.11); transform: translateY(-50%) rotate(45deg); }
+  #st-trigger:hover, #st-trigger.open { border-color: rgba(217,119,6,0.45); color: var(--amber-bright, #fcd34d); }
+  #st-trigger .run-dot { display: none; position: absolute; top: 4px; right: 4px; width: 6px; height: 6px; border-radius: 50%; background: var(--amber-bright, #fcd34d); animation: st-pulse 1.4s ease-in-out infinite; }
+  #st-trigger.running .run-dot { display: block; }
+  @keyframes st-pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:.3; transform:scale(.6); } }
+</style>
+
+<div id="st-wrap">
+  <div id="st-panel">
+    <div class="st-tabs">
+      <button class="st-tab active" onclick="stSwitchTab('timer',this)">⏱ Temporizador</button>
+      <button class="st-tab"       onclick="stSwitchTab('music',this)">🎵 Música</button>
+    </div>
+    <div class="st-pane active" id="st-pane-timer">
+      <div class="st-modes">
+        <button class="st-mode active" data-m="focus">Foco</button>
+        <button class="st-mode"        data-m="short">Pausa</button>
+        <button class="st-mode"        data-m="long">Descanso</button>
+      </div>
+      <div class="st-time" id="st-display">25:00</div>
+      <div class="st-bar-wrap"><div class="st-bar" id="st-bar" style="width:100%"></div></div>
+      <div class="st-btns">
+        <button class="st-btn"    id="st-reset"  onclick="stReset()">↺</button>
+        <button class="st-btn go" id="st-toggle" onclick="stToggle()">▶ Iniciar</button>
+      </div>
+      <div class="st-sessions">
+        <span>sesiones</span>
+        <div class="st-dots">
+          <div class="st-dot" id="stDot0"></div>
+          <div class="st-dot" id="stDot1"></div>
+          <div class="st-dot" id="stDot2"></div>
+          <div class="st-dot" id="stDot3"></div>
+        </div>
+      </div>
+    </div>
+    <div class="st-pane" id="st-pane-music">
+      <div class="sp-label">playlist para estudiar</div>
+      <div class="sp-frame-wrap">
+        <iframe style="border-radius:10px" src="https://open.spotify.com/embed/playlist/30BaDZWwIXZV14rIBqBEQZ?utm_source=generator"
+          width="100%" height="352" frameBorder="0"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <div id="st-dock-row">
+    <button id="tutor-fab" onclick="tutorToggle()" title="Tutor IA de Historia">🏛️</button>
+    <div class="dock-divider"></div>
+    <button id="st-trigger" onclick="stTrigger()">
+      ⏱
+      <span class="run-dot"></span>
+      <div id="st-tooltip">
+        <div class="tt-title" id="tt-title">⏱ Temporizador</div>
+        <div class="tt-desc" id="tt-desc">Pomodoro · Foco / Pausa<br>Haz clic para abrir</div>
+      </div>
+    </button>
+  </div>
+</div>
+
+<script>
+(function(){
+  const CFG = { focus:25*60, short:5*60, long:15*60 };
+  let mode='focus', total=CFG.focus, left=total, running=false, iv=null, sessions=0, stOpen=false;
+
+  const stPanel   = document.getElementById('st-panel');
+  const stTrigBtn = document.getElementById('st-trigger');
+  const disp      = document.getElementById('st-display');
+  const bar       = document.getElementById('st-bar');
+  const toggleBtn = document.getElementById('st-toggle');
+  const modeBtns  = document.querySelectorAll('.st-mode');
+
+  function fmt(s){ return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`; }
+  function render(){ disp.textContent=fmt(left); bar.style.width=(left/total*100)+'%'; }
+  function renderDots(){
+    const n=sessions%4===0&&sessions>0?4:sessions%4;
+    for(let i=0;i<4;i++) document.getElementById('stDot'+i).classList.toggle('on',i<n);
+  }
+
+  modeBtns.forEach(btn=>btn.addEventListener('click',()=>{
+    if(running)return;
+    mode=btn.dataset.m; total=CFG[mode]; left=total;
+    modeBtns.forEach(b=>b.classList.toggle('active',b===btn));
+    render();
+  }));
+
+  window.stToggle=function(){
+    if(running){
+      clearInterval(iv); running=false;
+      toggleBtn.textContent='▶ Iniciar';
+      stTrigBtn.classList.remove('running');
+    } else {
+      running=true; toggleBtn.textContent='⏸ Pausar';
+      stTrigBtn.classList.add('running');
+      iv=setInterval(()=>{
+        left--; render();
+        if(left<=0){
+          clearInterval(iv); running=false;
+          toggleBtn.textContent='▶ Iniciar';
+          stTrigBtn.classList.remove('running');
+          if(mode==='focus'){ sessions++; renderDots(); }
+          try{
+            const ac=new(window.AudioContext||window.webkitAudioContext)();
+            [0,.18,.36].forEach(d=>{
+              const o=ac.createOscillator(), g=ac.createGain();
+              o.connect(g); g.connect(ac.destination);
+              o.frequency.value=660;
+              g.gain.setValueAtTime(.15,ac.currentTime+d);
+              g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+d+.22);
+              o.start(ac.currentTime+d); o.stop(ac.currentTime+d+.23);
+            });
+          }catch(e){}
+        }
+      },1000);
+    }
+  };
+
+  window.stReset=function(){
+    clearInterval(iv); running=false; left=total;
+    toggleBtn.textContent='▶ Iniciar';
+    stTrigBtn.classList.remove('running');
+    render();
+  };
+
+  window.stTrigger=function(){
+    stOpen=!stOpen;
+    stPanel.classList.toggle('open',stOpen);
+    stTrigBtn.classList.toggle('open',stOpen);
+  };
+
+  window.stSwitchTab=function(pane, btn){
+    document.querySelectorAll('.st-tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.st-pane').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('st-pane-'+pane).classList.add('active');
+    stPanel.classList.toggle('music-mode', pane==='music');
+    const isMusic = pane==='music';
+    stTrigBtn.childNodes[0].textContent = isMusic ? '🎵' : '⏱';
+    document.getElementById('tt-title').textContent = isMusic ? '🎵 Música' : '⏱ Temporizador';
+    document.getElementById('tt-desc').textContent  = isMusic ? 'Playlist para estudiar\nHaz clic para abrir' : 'Pomodoro · Foco / Pausa\nHaz clic para abrir';
+  };
+
+  render(); renderDots();
+
+  const tooltip = document.getElementById('st-tooltip');
+  let ttTimer = null;
+  function showTooltip() {
+    tooltip.classList.add('visible');
+    clearTimeout(ttTimer);
+    ttTimer = setTimeout(() => tooltip.classList.remove('visible'), 3000);
+  }
+  stTrigBtn.addEventListener('mouseenter', showTooltip);
+  stTrigBtn.addEventListener('mouseleave', () => {
+    clearTimeout(ttTimer);
+    ttTimer = setTimeout(() => tooltip.classList.remove('visible'), 300);
+  });
+  tooltip.addEventListener('mouseenter', () => clearTimeout(ttTimer));
+  showTooltip();
+})();
+</script>
+
+<script>
+// ── SECTION NAV ──
+function showSection(id) {
+  document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  document.getElementById('tab-' + id).classList.add('active');
+  if (id === 'logros') renderAchievements();
+  trackProgress(id);
+}
+
+// ── ACCORDION ──
+function toggleAcc(id) {
+  const item = document.getElementById('acc-' + id);
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.acc-item').forEach(i => i.classList.remove('open'));
+  if (!wasOpen) item.classList.add('open');
+}
+function toggleAccGen(btn) {
+  const item = btn.closest('.acc-item');
+  item.classList.toggle('open');
+}
+
+// ── TIMELINE ──
+function toggleTl(el) {
+  el.classList.toggle('expanded');
+}
+
+// ── PERSONAS ──
+function togglePersona(card) {
+  card.classList.toggle('expanded');
+}
+
+// ── PROGRESS ──
+const progressData = { oa8: 0, oa10: 0, oa17: 0, oa18: 0, oa23: 0 };
+function trackProgress(section) {
+  const map = { republica: 'oa8', economia: 'oa10', salitre: 'oa17', social: 'oa18', facciones: 'oa23' };
+  const key = map[section];
+  if (key && progressData[key] < 100) {
+    progressData[key] = Math.min(100, progressData[key] + 35);
+    updateProgressBars();
+    saveProgress();
+  }
+}
+function updateProgressBars() {
+  for (const [key, val] of Object.entries(progressData)) {
+    const fill = document.getElementById('fill-' + key);
+    const pct = document.getElementById('pct-' + key);
+    if (fill) { fill.style.width = val + '%'; }
+    if (pct) { pct.textContent = val + '%'; }
+  }
+}
+function saveProgress() {
+  try { localStorage.setItem('historia_progress', JSON.stringify(progressData)); } catch(e) {}
+}
+function loadProgress() {
+  try {
+    const saved = localStorage.getItem('historia_progress');
+    if (saved) { Object.assign(progressData, JSON.parse(saved)); updateProgressBars(); }
+  } catch(e) {}
+}
+
+// ── QUIZ ──
+const QUIZ_DATA = [
+  { q: '¿Cuál fue el principal factor que generó estabilidad política en Chile después de 1833?', opts: ['La figura de Bernardo O\'Higgins como líder nacional', 'La Constitución de 1833 con un ejecutivo fuerte', 'El apoyo de los Estados Unidos al gobierno', 'La riqueza del salitre que financió al Estado'], correct: 1, fb: 'La Constitución de 1833 estableció un ejecutivo poderoso, con presidente por 5+5 años, que subordinó a los otros poderes del Estado. Esto creó el "Estado portaliano" de relativa estabilidad.', oa: 'OA8' },
+  { q: '¿Qué caracterizaba al sistema de inquilinaje en la hacienda chilena?', opts: ['El inquilino era propietario de la tierra que cultivaba', 'El inquilino recibía tierra y vivienda a cambio de trabajo y lealtad al hacendado', 'Era un sistema de esclavitud sin compensación alguna', 'El inquilino pagaba un arriendo en dinero al hacendado'], correct: 1, fb: 'El inquilinaje era una relación de dependencia personal: el inquilino recibía una parcela de tierra, vivienda y raciones, y a cambio debía trabajar para el patrón y cumplir otras obligaciones.', oa: 'OA10' },
+  { q: '¿Cómo se insertó Chile en el mercado internacional durante el siglo XIX?', opts: ['Exportando productos manufacturados e industriales', 'Importando recursos naturales de los países vecinos', 'Como proveedor de materias primas (minerales, trigo) a los mercados internacionales', 'Como receptor de inversión productiva para industrializar el país'], correct: 2, fb: 'Chile se especializó en exportar materias primas: plata, cobre, trigo y luego salitre. Este modelo primario-exportador lo integraba al mercado atlántico como proveedor de recursos naturales.', oa: 'OA10' },
+  { q: '¿Cuál fue el principal beneficio económico que el salitre trajo al Estado chileno?', opts: ['El Estado pasó a ser el propietario de todas las salitreras', 'El salitre aportó entre el 50-70% de los ingresos fiscales', 'Chile eliminó la deuda externa gracias al salitre', 'El salitre financió la industrialización nacional'], correct: 1, fb: 'El salitre fue la principal fuente de ingresos del Estado chileno entre 1880 y 1920, financiando infraestructura (ferrocarriles, puertos) y expansión educativa (escuelas, liceos).', oa: 'OA17' },
+  { q: '¿Qué fue la "cuestión social" en Chile a inicios del siglo XX?', opts: ['El debate sobre la separación de la Iglesia y el Estado', 'Los problemas sociales y laborales de los sectores populares por la industrialización y urbanización', 'La disputa territorial con Bolivia y Perú por las salitreras', 'El problema de la migración europea a Chile'], correct: 1, fb: 'La cuestión social fue el conjunto de problemas que vivían los trabajadores: hacinamiento en conventillos, jornadas de 12-14 horas, pago en fichas, trabajo infantil, sin derechos laborales.', oa: 'OA18' },
+  { q: '¿Qué propone el socialcristianismo frente a los problemas sociales?', opts: ['Abolir el Estado y la propiedad privada como el anarquismo', 'Una tercera vía basada en la dignidad humana y la Doctrina Social de la Iglesia', 'La revolución proletaria para eliminar las clases sociales', 'El libre mercado como solución natural a los problemas sociales'], correct: 1, fb: 'El socialcristianismo propone una "tercera vía" entre el capitalismo liberal y el socialismo marxista, basada en los valores católicos: dignidad humana, bien común y solidaridad. Fue inspirado por la encíclica Rerum Novarum (1891).', oa: 'OA23' },
+  { q: '¿Quién fundó el Partido Obrero Socialista (POS) en 1912?', opts: ['Diego Portales', 'Arturo Alessandri Palma', 'Luis Emilio Recabarren', 'Bernardo O\'Higgins'], correct: 2, fb: 'Luis Emilio Recabarren, tipógrafo y activista obrero, fundó el POS en 1912. Este partido luego se convertiría en el Partido Comunista de Chile en 1922, tras la Revolución Rusa.', oa: 'OA18' },
+  { q: '¿Cuál fue el principal propósito de la "fiebre del oro" californiana (1848) para la economía chilena?', opts: ['Chile descubrió oro en su propio territorio', 'Aumentó la demanda de trigo chileno, beneficiando a los hacendados', 'Generó migración de chilenos que volvieron con capital', 'Provocó la caída del precio del cobre chileno'], correct: 1, fb: 'La fiebre del oro llevó miles de personas a California, generando gran demanda de alimentos. Chile, principal productor de trigo del Pacífico Sur, multiplicó sus exportaciones agrícolas, enriqueciendo a los hacendados del Valle Central.', oa: 'OA10' },
+  { q: '¿Cuál fue el principal efecto de la Matanza de la Escuela Santa María de Iquique (1907)?', opts: ['El gobierno aprobó de inmediato las demandas obreras', 'Fortaleció la organización sindical y política de los trabajadores', 'Los trabajadores abandonaron toda forma de organización por temor', 'Provocó la caída del gobierno de Balmaceda'], correct: 1, fb: 'La matanza, donde murieron cientos de trabajadores y sus familias, se convirtió en un símbolo de la represión estatal y aceleró la organización del movimiento obrero, impulsando la creación de sindicatos y partidos obreros.', oa: 'OA18' },
+  { q: 'La persistencia de la hacienda y el inquilinaje en Chile durante el siglo XIX mientras se desarrollaba la economía exportadora demuestra:', opts: ['Que Chile era completamente autónomo del mercado internacional', 'Una tensión entre modernización exportadora y continuidad de la economía rural tradicional', 'Que los campesinos tenían plena libertad económica', 'Que el Estado chileno frenó activamente el desarrollo capitalista'], correct: 1, fb: 'OA10 pide reconocer esta tensión: Chile se integró al mercado mundial (exportando materias primas) mientras mantenía estructuras rurales arcaicas (hacienda/inquilinaje). No fue una modernización completa, sino un desarrollo desigual.', oa: 'OA10' },
+];
+
+let quizAnswers = new Array(QUIZ_DATA.length).fill(null);
+let quizScore = 0;
+
+function buildQuiz() {
+  const container = document.getElementById('quiz-container');
+  container.innerHTML = '';
+  QUIZ_DATA.forEach((q, qi) => {
+    const div = document.createElement('div');
+    div.className = 'quiz-question';
+    div.innerHTML = `
+      <div class="quiz-q-num">${q.oa} · Pregunta ${qi+1} de ${QUIZ_DATA.length}</div>
+      <div class="quiz-q-text">${q.q}</div>
+      <div class="quiz-options" id="opts-${qi}">
+        ${q.opts.map((opt, oi) => `<button class="quiz-opt" onclick="answerQuiz(${qi},${oi})">${opt}</button>`).join('')}
+      </div>
+      <div class="quiz-feedback" id="fb-${qi}"></div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function answerQuiz(qi, oi) {
+  if (quizAnswers[qi] !== null) return;
+  quizAnswers[qi] = oi;
+  const q = QUIZ_DATA[qi];
+  const opts = document.querySelectorAll(`#opts-${qi} .quiz-opt`);
+  opts.forEach((btn, i) => {
+    btn.disabled = true;
+    if (i === q.correct) btn.classList.add('correct');
+    else if (i === oi && oi !== q.correct) btn.classList.add('wrong');
+  });
+  const fb = document.getElementById('fb-' + qi);
+  fb.className = 'quiz-feedback show ' + (oi === q.correct ? 'feedback-correct' : 'feedback-wrong');
+  fb.textContent = (oi === q.correct ? '✓ Correcto. ' : '✗ Incorrecto. ') + q.fb;
+  if (oi === q.correct) quizScore++;
+
+  if (quizAnswers.every(a => a !== null)) {
+    setTimeout(() => {
+      document.getElementById('quiz-score-container').style.display = 'block';
+      document.getElementById('quiz-final-score').textContent = quizScore + '/' + QUIZ_DATA.length;
+      if (quizScore >= 8) unlockAchievement('quiz_master');
+      if (quizScore === QUIZ_DATA.length) unlockAchievement('perfecto');
+      progressData.oa8 = Math.min(100, progressData.oa8 + 20);
+      progressData.oa10 = Math.min(100, progressData.oa10 + 20);
+      updateProgressBars(); saveProgress();
+    }, 600);
+  }
+}
+
+function resetQuiz() {
+  quizAnswers = new Array(QUIZ_DATA.length).fill(null);
+  quizScore = 0;
+  document.getElementById('quiz-score-container').style.display = 'none';
+  buildQuiz();
+}
+
+// ── DRAG & DROP ──
+const DND_EVENTS = [
+  { text: 'Constitución de 1833', order: 3 },
+  { text: 'Guerra del Pacífico', order: 5 },
+  { text: 'Batalla de Lircay', order: 2 },
+  { text: 'Independencia de Chile', order: 1 },
+  { text: 'Fundación del POS', order: 7 },
+  { text: 'Matanza de Santa María de Iquique', order: 6 },
+  { text: 'Inicio República Liberal', order: 4 },
+];
+
+let draggedEl = null;
+const slotContents = new Array(DND_EVENTS.length + 1).fill(null);
+
+function buildDnD() {
+  const eventsEl = document.getElementById('dnd-events');
+  const slotsEl = document.getElementById('dnd-slots');
+  
+  // Remove old items (keep label)
+  while (eventsEl.children.length > 1) eventsEl.removeChild(eventsEl.lastChild);
+  while (slotsEl.children.length > 1) slotsEl.removeChild(slotsEl.lastChild);
+
+  // Shuffle
+  const shuffled = [...DND_EVENTS].sort(() => Math.random() - 0.5);
+  shuffled.forEach(ev => {
+    const el = document.createElement('div');
+    el.className = 'dnd-event';
+    el.textContent = ev.text;
+    el.draggable = true;
+    el.dataset.order = ev.order;
+    el.addEventListener('dragstart', e => {
+      draggedEl = el;
+      setTimeout(() => el.classList.add('dragging'), 0);
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    el.addEventListener('dragend', () => el.classList.remove('dragging'));
+    eventsEl.appendChild(el);
+  });
+
+  for (let i = 1; i <= DND_EVENTS.length; i++) {
+    const slot = document.createElement('div');
+    slot.className = 'dnd-slot';
+    slot.dataset.pos = i;
+    slot.innerHTML = `<span class="dnd-slot-num">${i}</span><span class="dnd-placed"></span>`;
+    slot.addEventListener('dragover', e => { e.preventDefault(); slot.classList.add('over'); });
+    slot.addEventListener('dragleave', () => slot.classList.remove('over'));
+    slot.addEventListener('drop', e => {
+      e.preventDefault();
+      slot.classList.remove('over');
+      if (!draggedEl) return;
+      const placed = slot.querySelector('.dnd-placed');
+      // If slot has content, send back to events
+      if (placed.textContent && placed.textContent !== '') {
+        const returnEl = document.createElement('div');
+        returnEl.className = 'dnd-event';
+        returnEl.textContent = placed.textContent;
+        returnEl.draggable = true;
+        returnEl.dataset.order = slot.dataset.prevOrder || '';
+        returnEl.addEventListener('dragstart', e2 => {
+          draggedEl = returnEl;
+          setTimeout(() => returnEl.classList.add('dragging'), 0);
+          e2.dataTransfer.effectAllowed = 'move';
+        });
+        returnEl.addEventListener('dragend', () => returnEl.classList.remove('dragging'));
+        document.getElementById('dnd-events').appendChild(returnEl);
+      }
+      placed.textContent = draggedEl.textContent;
+      slot.dataset.prevOrder = draggedEl.dataset.order;
+      slot.classList.remove('correct-slot','wrong-slot');
+      draggedEl.remove();
+      draggedEl = null;
+    });
+    slotsEl.appendChild(slot);
+  }
+  document.getElementById('dnd-result').textContent = '';
+}
+
+function checkDnD() {
+  const slots = document.querySelectorAll('.dnd-slot');
+  let correct = 0;
+  slots.forEach(slot => {
+    const pos = parseInt(slot.dataset.pos);
+    const placedOrder = parseInt(slot.dataset.prevOrder);
+    slot.classList.remove('correct-slot','wrong-slot');
+    if (slot.querySelector('.dnd-placed').textContent) {
+      if (placedOrder === pos) { slot.classList.add('correct-slot'); correct++; }
+      else slot.classList.add('wrong-slot');
+    }
+  });
+  const result = document.getElementById('dnd-result');
+  result.textContent = `${correct} de ${DND_EVENTS.length} en el orden correcto.`;
+  if (correct === DND_EVENTS.length) {
+    result.textContent += ' ¡Perfecto! Dominas la cronología.';
+    unlockAchievement('cronologista');
+    progressData.oa8 = Math.min(100, progressData.oa8 + 15);
+    updateProgressBars(); saveProgress();
+  }
+}
+
+// ── ACHIEVEMENTS ──
+const ACHIEVEMENTS = [
+  { id: 'primer_paso', icon: '🚀', name: 'Primer paso', desc: 'Abriste el portal de Historia' },
+  { id: 'cronologista', icon: '📅', name: 'Cronologista', desc: 'Ordenaste todos los eventos correctamente' },
+  { id: 'quiz_master', icon: '🎯', name: 'Casi perfecto', desc: 'Obtuviste 8+ en el quiz' },
+  { id: 'perfecto', icon: '🌟', name: 'Perfecto histórico', desc: 'Respondiste todas las preguntas correctamente' },
+  { id: 'explorador', icon: '🗺️', name: 'Explorador', desc: 'Visitaste todas las secciones' },
+  { id: 'flashcard_fan', icon: '🃏', name: 'Coleccionista', desc: 'Diste vuelta 8 flashcards' },
+];
+
+let unlockedAch = new Set();
+
+function unlockAchievement(id) {
+  if (unlockedAch.has(id)) return;
+  unlockedAch.add(id);
+  try { localStorage.setItem('historia_ach', JSON.stringify([...unlockedAch])); } catch(e) {}
+  showAchievementToast(id);
+  if (document.getElementById('panel-logros').classList.contains('active')) renderAchievements();
+}
+
+function showAchievementToast(id) {
+  const ach = ACHIEVEMENTS.find(a => a.id === id);
+  if (!ach) return;
+  const toast = document.createElement('div');
+  toast.style.cssText = 'position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:#16110a;border:1px solid rgba(217,119,6,0.4);border-radius:12px;padding:12px 20px;display:flex;gap:12px;align-items:center;font-size:14px;color:#e8dcc8;z-index:300;box-shadow:0 4px 20px rgba(0,0,0,0.5);animation:fadeIn 0.3s ease;';
+  toast.innerHTML = `<span style="font-size:24px">${ach.icon}</span><div><div style="font-weight:500;color:#fcd34d">¡Logro desbloqueado!</div><div style="font-size:12px;color:#8a7560">${ach.name}</div></div>`;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 3000);
+}
+
+function renderAchievements() {
+  const grid = document.getElementById('achievements-grid');
+  grid.innerHTML = '';
+  ACHIEVEMENTS.forEach(ach => {
+    const div = document.createElement('div');
+    div.className = 'achievement ' + (unlockedAch.has(ach.id) ? 'unlocked' : 'locked');
+    div.innerHTML = `<div class="ach-icon">${ach.icon}</div><div><div class="ach-name">${ach.name}</div><div class="ach-desc">${ach.desc}</div></div>`;
+    grid.appendChild(div);
+  });
+}
+
+function loadAchievements() {
+  try {
+    const saved = localStorage.getItem('historia_ach');
+    if (saved) unlockedAch = new Set(JSON.parse(saved));
+  } catch(e) {}
+}
+
+// ── FLASHCARD TRACKING ──
+let fcFlipped = 0;
+document.addEventListener('click', e => {
+  if (e.target.closest('.flashcard')) {
+    fcFlipped++;
+    if (fcFlipped >= 8) unlockAchievement('flashcard_fan');
+  }
+});
+
+// ── SECTION TRACKING FOR ACHIEVEMENTS ──
+const visitedSections = new Set();
+const originalShowSection = showSection;
+window.showSection = function(id) {
+  originalShowSection(id);
+  visitedSections.add(id);
+  const allSections = ['resumen','republica','economia','salitre','social','facciones','interactivo','logros'];
+  if (allSections.every(s => visitedSections.has(s))) unlockAchievement('explorador');
+};
+
+// ── TUTOR ──
+(function() {
+  const TUTOR_SYSTEM = `Eres un tutor especializado en Historia, Geografía y Ciencias Sociales del Colegio Tantauco, Chile. Preparas a estudiantes de enseñanza media para la PDN del 15 de junio.
+
+Los contenidos de la prueba son:
+- **OA8**: Formación de la República de Chile. Enfrentamiento de visiones (pipiolos vs pelucones). Factores de estabilidad política desde la Constitución de 1833. Diego Portales y el Estado portaliano.
+- **OA10**: Chile en el siglo XIX: inserción en el mercado atlántico. Exportación de recursos naturales (plata, cobre, trigo, salitre). Economía tradicional: hacienda e inquilinaje. Persistencia de la economía rural.
+- **OA17**: Transformaciones por la riqueza del salitre: crecimiento del ingreso fiscal, desarrollo de sectores productivos, inversión en infraestructura (ferrocarriles) y educación (escuelas, liceos).
+- **OA18**: La cuestión social a inicios del siglo XX. Factores: industrialización, urbanización, hacinamiento, condiciones laborales. Nuevas formas de lucha obrera: huelgas, mancomunales, partidos obreros. Matanza Escuela Santa María 1907. Luis Emilio Recabarren, POS (1912).
+- **OA23**: Respuestas políticas a la cuestión social: liberalismo, socialismo, anarquismo, comunismo y socialcristianismo. Diferencias entre ellas y ejemplos en situaciones actuales.
+
+Reglas:
+- Responde siempre en español, tono cercano y motivador para estudiantes de enseñanza media
+- Explica con ejemplos concretos y analogías simples
+- Usa **negrita** para conceptos clave
+- Para comparar conceptos, usa tablas o listas paralelas
+- Máximo 4 párrafos por respuesta; sé conciso pero completo
+- Nunca des las respuestas de las pruebas directamente; guía al estudiante a razonar
+- Si preguntan sobre otro tema, redirígelos amablemente a Historia
+- Cuando expliques procesos históricos, siempre menciona CAUSAS y CONSECUENCIAS`;
+
+  let tutorOpen = false;
+  let tutorHistory = [];
+  let tutorBusy = false;
+
+  document.querySelectorAll('.tutor-sq').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (tutorBusy) return;
+      tutorAsk(btn.textContent.trim());
+      document.getElementById('tutor-suggestions').style.display = 'none';
+    });
+  });
+
+  window.tutorToggle = function() {
+    tutorOpen = !tutorOpen;
+    const panel = document.getElementById('tutor-panel');
+    const fab = document.getElementById('tutor-fab');
+    panel.classList.toggle('open', tutorOpen);
+    fab.classList.toggle('open', tutorOpen);
+    if (tutorOpen && tutorHistory.length === 0) tutorWelcome();
+    if (tutorOpen) setTimeout(() => document.getElementById('tutor-input').focus(), 120);
+  };
+
+  function tutorWelcome() {
+    appendMsg('ai', '¡Hola! Soy tu tutor de Historia del Colegio Tantauco. Puedo ayudarte a preparar la **PDN del 15/06** con todos los contenidos: República de Chile, economía del siglo XIX, la era del salitre, la cuestión social y las facciones políticas. ¿Por dónde empezamos?');
+  }
+
+  window.tutorSend = function() {
+    const inp = document.getElementById('tutor-input');
+    const text = inp.value.trim();
+    if (!text || tutorBusy) return;
+    inp.value = ''; inp.style.height = 'auto';
+    tutorAsk(text);
+  };
+
+  async function tutorAsk(text) {
+    if (tutorBusy) return;
+    document.getElementById('tutor-suggestions').style.display = 'none';
+    appendMsg('user', text);
+    tutorHistory.push({ role: 'user', content: text });
+    tutorBusy = true;
+    document.getElementById('tutor-send').disabled = true;
+    const thinkId = appendThinking();
+    try {
+      const WORKER_URL = 'https://portaltantauco.enzofuentes1804.workers.dev';
+      const res = await fetch(location.hostname === 'th1804.github.io' ? WORKER_URL + '/api/tutor' : '/api/tutor', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ model: 'claude-sonnet-4-5', max_tokens: 1000, system: TUTOR_SYSTEM, messages: tutorHistory })
+      });
+      const data = await res.json();
+      removeThinking(thinkId);
+      if (data.content && data.content[0]) {
+        const reply = data.content.map(b => b.text || '').join('');
+        tutorHistory.push({ role: 'assistant', content: reply });
+        appendMsg('ai', reply);
+      } else {
+        appendMsg('ai', 'Hubo un error al conectar con el tutor. Intenta de nuevo.');
+      }
+    } catch(e) {
+      removeThinking(thinkId);
+      appendMsg('ai', 'No pude conectarme. Revisa tu conexión e intenta de nuevo.');
+    }
+    tutorBusy = false;
+    document.getElementById('tutor-send').disabled = false;
+  }
+
+  function appendMsg(role, text) {
+    const msgs = document.getElementById('tutor-messages');
+    const div = document.createElement('div');
+    div.className = 'tutor-msg ' + (role === 'user' ? 'user' : 'ai');
+    const avatar = document.createElement('div');
+    avatar.className = 'tutor-avatar';
+    avatar.textContent = role === 'user' ? 'Tú' : '🏛️';
+    const bubble = document.createElement('div');
+    bubble.className = 'tutor-bubble';
+    bubble.innerHTML = markdownToHtml(text);
+    div.appendChild(avatar);
+    div.appendChild(bubble);
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+    return div;
+  }
+
+  function appendThinking() {
+    const msgs = document.getElementById('tutor-messages');
+    const div = document.createElement('div');
+    div.className = 'tutor-msg ai';
+    const id = 'think-' + Date.now();
+    div.id = id;
+    div.innerHTML = '<div class="tutor-avatar">🏛️</div><div class="tutor-bubble"><div class="tutor-thinking"><span></span><span></span><span></span></div></div>';
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+    return id;
+  }
+
+  function removeThinking(id) {
+    const el = document.getElementById(id);
+    if (el) el.remove();
+  }
+
+  function markdownToHtml(text) {
+    return text
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+      .replace(/\*(.+?)\*/g,'<em>$1</em>')
+      .replace(/^- (.+)$/gm,'<li>$1</li>')
+      .replace(/(<li>.*<\/li>(\n|$))+/g,m=>'<ul>'+m+'</ul>')
+      .replace(/\n\n/g,'</p><p>')
+      .replace(/\n/g,'<br>')
+      .replace(/^(.)/,'<p>$1')
+      .replace(/(.)$/,'$1</p>');
+  }
+
+  document.getElementById('tutor-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); tutorSend(); }
+  });
+  document.getElementById('tutor-input').addEventListener('input', function() {
+    this.style.height = 'auto';
+    this.style.height = Math.min(this.scrollHeight, 100) + 'px';
+  });
+})();
+
+// ── INIT ──
+loadProgress();
+loadAchievements();
+buildQuiz();
+buildDnD();
+unlockAchievement('primer_paso');
+</script>
+</body>
+</html>

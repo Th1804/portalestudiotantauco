@@ -2271,7 +2271,7 @@ Reglas:
     const thinkId = appendThinking();
 
     try {
-      const res = await fetch('/api/tutor', {
+      const res = await fetch(location.hostname === 'th1804.github.io' ? 'https://portaltantauco.enzofuentes1804.workers.dev/api/tutor' : '/api/tutor', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

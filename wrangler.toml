@@ -4,7 +4,4 @@ compatibility_date = "2024-01-01"
 
 [assets]
 directory = "."
-
-[observability.logs]
-enabled = true
-invocation_logs = true
+binding = "ASSETS"

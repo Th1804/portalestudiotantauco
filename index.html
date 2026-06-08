@@ -256,6 +256,7 @@
   .materia-card.ciencias:hover { border-color: rgba(16,185,129,0.35); }
 
   .materia-card.historia:hover { border-color: rgba(124,63,0,0.35); }
+  .materia-card.ingles:hover { border-color: rgba(234,179,8,0.35); }
 
   .card-stripe {
     height: 4px;
@@ -264,6 +265,7 @@
   .stripe-blue { background: linear-gradient(90deg, var(--blue), var(--blue-bright)); }
   .stripe-green { background: linear-gradient(90deg, var(--green), var(--green-light)); }
   .stripe-amber { background: linear-gradient(90deg, var(--brown), var(--brown-bright)); }
+  .stripe-yellow { background: linear-gradient(90deg, var(--yellow), var(--yellow-bright)); }
 
   .card-body {
     padding: 28px 28px 24px;
@@ -289,6 +291,7 @@
   .icon-blue { background: var(--blue-dim); border: 1px solid rgba(59,130,246,0.25); }
   .icon-green { background: var(--green-dim); border: 1px solid rgba(16,185,129,0.25); }
   .icon-amber { background: var(--brown-dim); border: 1px solid rgba(124,63,0,0.25); }
+  .icon-yellow { background: var(--yellow-dim); border: 1px solid rgba(234,179,8,0.25); }
 
   .card-meta { flex: 1; }
   .card-materia-label {
@@ -302,6 +305,7 @@
   .label-blue { color: var(--blue-bright); }
   .label-green { color: var(--green-light); }
   .label-amber { color: var(--brown-bright); }
+  .label-yellow { color: var(--yellow-light); }
 
   .card-title {
     font-family: var(--font-display);
@@ -339,6 +343,7 @@
   .b-purple { border-color: rgba(167,139,250,0.4); color: var(--purple); background: var(--purple-dim); }
   .b-green { border-color: rgba(16,185,129,0.4); color: var(--green-light); background: var(--green-dim); }
   .b-amber { border-color: rgba(124,63,0,0.4); color: var(--brown-bright); background: var(--brown-dim); }
+  .b-yellow { border-color: rgba(234,179,8,0.4); color: var(--yellow-bright); background: var(--yellow-dim); }
   .b-rust { border-color: rgba(107,44,0,0.4); color: #c68642; background: rgba(107,44,0,0.13); }
 
   /* recursos dentro de la card */
@@ -442,7 +447,18 @@
     border-color: rgba(124,63,0,0.6);
     color: #e0b989;
   }
+  .btn-yellow {
+    background: var(--yellow-dim);
+    border-color: rgba(234,179,8,0.4);
+    color: var(--yellow-bright);
+  }
+  .btn-yellow:hover {
+    background: rgba(234,179,8,0.22);
+    border-color: rgba(234,179,8,0.6);
+    color: #fef08a;
+  }
   .dot-amber { background: var(--brown-bright); }
+  .dot-yellow { background: var(--yellow-light); }
 
   /* ── DIVIDER ── */
   .divider {
@@ -743,7 +759,7 @@
   </p>
 
   <div class="hero-stats">
-    <span class="stat-pill"><span class="dot dot-gold"></span>5 recursos disponibles</span>
+    <span class="stat-pill"><span class="dot dot-gold"></span>6 recursos disponibles</span>
     <span class="stat-pill"><span class="dot dot-blue"></span>Pruebas y evaluaciones</span>
     <span class="stat-pill"><span class="dot dot-teal"></span>Guías completas</span>
   </div>
@@ -1007,6 +1023,53 @@
             <label class="cl-item" onclick="clToggle('historia',3,this)"><span class="cl-box" id="cl-historia-3-box"></span><span class="cl-text">Facciones políticas</span></label>
           </div>
           <div class="cl-progress"><div class="cl-bar" id="cl-historia-bar" style="width:0%"></div></div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- INGLÉS -->
+    <div class="materia-card ingles">
+      <div class="card-stripe stripe-yellow"></div>
+      <div class="card-body">
+        <div class="card-top">
+          <div class="card-icon icon-yellow">🌐</div>
+          <div class="card-meta">
+            <div class="card-materia-label label-yellow">Inglés</div>
+            <div class="card-title">Guía Completa de Inglés</div>
+          </div>
+        </div>
+        <p class="card-desc">
+          Guía interactiva para la PDN de Inglés. Cubre Unit 1 (Education Rights) y Unit 2 (Climate Action) con vocabulario, comprensión lectora, gramática, juegos y Tutor IA en español.
+        </p>
+        <div class="card-badges">
+          <span class="badge b-yellow">Unit 1 · Education</span>
+          <span class="badge b-teal">Unit 2 · Climate</span>
+          <span class="badge b-purple">Reading · Grammar</span>
+        </div>
+        <div class="card-resources">
+          <div class="res-label">Contenidos de la guía</div>
+          <div class="res-list">
+            <div class="res-item"><span class="res-dot dot-yellow"></span>Unit 1 — Education Rights: vocabulario y textos</div>
+            <div class="res-item"><span class="res-dot dot-yellow"></span>Unit 2 — Climate Action: vocabulario y ejercicios</div>
+            <div class="res-item"><span class="res-dot dot-yellow"></span>Reading Comprehension: 3 pasajes tipo PDN</div>
+            <div class="res-item"><span class="res-dot dot-yellow"></span>Vocabulary &amp; Grammar: flashcards, fill in the blank, matching</div>
+            <div class="res-item"><span class="res-dot dot-yellow"></span>Games: quiz PDN, memory game y Tutor IA en español</div>
+          </div>
+        </div>
+        <div class="card-cta">
+          <span class="cta-text">Sirve para → Prueba de Inglés</span>
+          <a href="ingles_guia.html" class="cta-btn btn-yellow">Abrir guía →</a>
+        </div>
+        <div class="card-checklist">
+          <div class="cl-label">Mi progreso</div>
+          <div class="cl-items" id="cl-ingles">
+            <label class="cl-item" onclick="clToggle('ingles',0,this)"><span class="cl-box" id="cl-ingles-0-box"></span><span class="cl-text">Unit 1: Education Rights</span></label>
+            <label class="cl-item" onclick="clToggle('ingles',1,this)"><span class="cl-box" id="cl-ingles-1-box"></span><span class="cl-text">Unit 2: Climate Action</span></label>
+            <label class="cl-item" onclick="clToggle('ingles',2,this)"><span class="cl-box" id="cl-ingles-2-box"></span><span class="cl-text">Reading Comprehension</span></label>
+            <label class="cl-item" onclick="clToggle('ingles',3,this)"><span class="cl-box" id="cl-ingles-3-box"></span><span class="cl-text">Vocabulary &amp; Grammar</span></label>
+          </div>
+          <div class="cl-progress"><div class="cl-bar" id="cl-ingles-bar" style="width:0%"></div></div>
         </div>
       </div>
     </div>

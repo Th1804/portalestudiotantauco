@@ -102,7 +102,7 @@
     position: absolute;
     inset: 0;
     background:
-      radial-gradient(ellipse 55% 70% at 30% 0%, rgba(220,38,38,0.07) 0%, transparent 65%),
+      radial-gradient(ellipse 55% 70% at 30% 0%, rgba(20,184,166,0.08) 0%, transparent 65%),
       radial-gradient(ellipse 55% 70% at 70% 0%, rgba(59,130,246,0.08) 0%, transparent 65%);
     pointer-events: none;
   }
@@ -125,7 +125,7 @@
     width: 48px;
     height: 48px;
     border-radius: 12px;
-    background: linear-gradient(135deg, rgba(220,38,38,0.25), rgba(59,130,246,0.25));
+    background: linear-gradient(135deg, rgba(20,184,166,0.25), rgba(59,130,246,0.25));
     border: 1px solid var(--border2);
     display: flex;
     align-items: center;
@@ -159,7 +159,7 @@
     margin-bottom: 16px;
     letter-spacing: -0.02em;
   }
-  .hero-title .hl-gold { color: var(--red-light); }
+  .hero-title .hl-gold { color: var(--teal); }
   .hero-title .hl-blue { color: var(--blue-bright); }
 
   .hero-desc {
@@ -509,7 +509,7 @@
   #read-progress {
     position: fixed; top: 0; left: 0;
     height: 3px; width: 0%;
-    background: linear-gradient(90deg, var(--teal), var(--red-light));
+    background: linear-gradient(90deg, var(--teal), var(--purple));
     z-index: 10000; transition: width 0.1s linear;
     border-radius: 0 2px 2px 0;
   }
@@ -1576,7 +1576,7 @@ Reglas:
 
   // ── Welcome ──
   function tutorWelcome() {
-    appendMsg('ai', '¡Hola! Soy tu tutor IA del Colegio Tantauco. Puedo ayudarte con cualquier materia del portal: **El Señor de las Moscas**, **Matemáticas** o **Ciencias Naturales**. ¿Con qué necesitas ayuda hoy?');
+    appendMsg('ai', '¡Hola! Soy tu asistente IA del Colegio Tantauco 🏫\n\nPuedo ayudarte con todas las materias del portal: **Inglés** (Unit 1 & 2), **Historia** (República y siglo XIX), **Ciencias Naturales** (Biología, Física, Química), etc.\n\n¿Con qué materia necesitas ayuda hoy?');
   }
 
   // ── Send ──

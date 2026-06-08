@@ -1,0 +1,1917 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inglés — Guía Completa · Colegio Tantauco</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0a00;
+    --surface: #14100a;
+    --surface2: #1c1608;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.13);
+    --yellow: #ca8a04;
+    --yellow-light: #eab308;
+    --yellow-bright: #fde047;
+    --yellow-dim: rgba(234,179,8,0.13);
+    --red: #dc2626;
+    --red-light: #ef4444;
+    --red-dim: rgba(220,38,38,0.13);
+    --union: #e2e8f0;
+    --teal: #0d9488;
+    --teal-dim: rgba(13,148,136,0.13);
+    --text: #f0ead8;
+    --text-muted: #8a7a50;
+    --text-dim: #4a3a10;
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 15px; line-height: 1.7; min-height: 100vh; }
+
+  /* HEADER */
+  .site-header {
+    background: linear-gradient(180deg, #1a1400 0%, var(--bg) 100%);
+    border-bottom: 1px solid rgba(234,179,8,0.2);
+    padding: 56px 20px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .site-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 70% at 30% 0%, rgba(202,138,4,0.14) 0%, transparent 65%),
+      radial-gradient(ellipse 60% 70% at 70% 0%, rgba(220,38,38,0.08) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .site-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(234,179,8,0.4), rgba(220,38,38,0.3), transparent);
+  }
+  .back-link { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); text-decoration: none; margin-bottom: 20px; letter-spacing: 0.08em; transition: color 0.2s; }
+  .back-link:hover { color: var(--yellow-bright); }
+  .header-eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; color: var(--yellow-bright); text-transform: uppercase; margin-bottom: 14px; opacity: 0.9; }
+  .header-title { font-family: var(--font-display); font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 900; color: #fff; line-height: 1.1; margin-bottom: 10px; }
+  .header-title .hl-blue { color: var(--yellow-bright); }
+  .header-title .hl-red { color: #fca5a5; }
+  .header-subtitle { font-family: var(--font-display); font-style: italic; font-size: 1.05rem; color: var(--text-muted); margin-bottom: 28px; }
+  .header-badges { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .badge { font-family: var(--font-mono); font-size: 11px; padding: 4px 13px; border-radius: 20px; border: 1px solid; letter-spacing: 0.04em; }
+  .b-blue { border-color: rgba(234,179,8,0.4); color: var(--yellow-bright); background: var(--yellow-dim); }
+  .b-red { border-color: rgba(220,38,38,0.4); color: #fca5a5; background: var(--red-dim); }
+  .b-teal { border-color: rgba(13,148,136,0.4); color: #2dd4bf; background: var(--teal-dim); }
+  .b-white { border-color: rgba(255,255,255,0.2); color: #e2e8f0; background: rgba(255,255,255,0.05); }
+
+  /* NAV */
+  .nav-wrapper { position: sticky; top: 0; z-index: 100; background: rgba(13,10,0,0.95); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(234,179,8,0.15); }
+  .nav-tabs { display: flex; overflow-x: auto; max-width: 1100px; margin: 0 auto; padding: 0 20px; scrollbar-width: none; }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+  .nav-tab { display: flex; align-items: center; gap: 7px; padding: 14px 18px; font-size: 13px; font-weight: 500; color: var(--text-muted); cursor: pointer; white-space: nowrap; border-bottom: 2px solid transparent; transition: all 0.2s; background: none; border-top: none; border-left: none; border-right: none; font-family: var(--font-body); }
+  .nav-tab:hover { color: var(--text); }
+  .nav-tab.active { color: var(--yellow-bright); border-bottom-color: var(--yellow-light); }
+
+  /* LAYOUT */
+  .content-area { max-width: 1000px; margin: 0 auto; padding: 40px 20px 100px; }
+  .section-panel { display: none; animation: fadeIn 0.2s ease; }
+  .section-panel.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  .section-heading { font-family: var(--font-display); font-size: 1.9rem; font-weight: 700; color: #fff; margin-bottom: 6px; }
+  .section-desc { color: var(--text-muted); font-size: 14px; margin-bottom: 32px; }
+
+  /* TIP BOX */
+  .tip-box { border-radius: 10px; padding: 14px 18px; margin-bottom: 24px; font-size: 13.5px; line-height: 1.6; border: 1px solid; }
+  .tip-blue { background: var(--yellow-dim); border-color: rgba(234,179,8,0.25); color: var(--yellow-bright); }
+  .tip-red { background: var(--red-dim); border-color: rgba(220,38,38,0.25); color: #fca5a5; }
+  .tip-teal { background: var(--teal-dim); border-color: rgba(13,148,136,0.25); color: #2dd4bf; }
+  .tip-white { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.12); color: var(--text-muted); }
+
+  /* ACCORDION */
+  .accordion { display: flex; flex-direction: column; gap: 8px; }
+  .acc-item { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: border-color 0.2s; }
+  .acc-item:hover { border-color: var(--border2); }
+  .acc-item.open { border-color: rgba(234,179,8,0.3); }
+  .acc-trigger { width: 100%; display: flex; align-items: center; gap: 14px; padding: 18px 22px; background: none; border: none; cursor: pointer; text-align: left; font-family: var(--font-body); color: var(--text); }
+  .acc-trigger:hover { background: rgba(255,255,255,0.02); }
+  .acc-label { font-family: var(--font-mono); font-size: 11px; padding: 3px 9px; border-radius: 6px; white-space: nowrap; flex-shrink: 0; }
+  .lbl-blue { background: var(--yellow-dim); color: var(--yellow-bright); border: 1px solid rgba(234,179,8,0.3); }
+  .lbl-red { background: var(--red-dim); color: #fca5a5; border: 1px solid rgba(220,38,38,0.3); }
+  .lbl-teal { background: var(--teal-dim); color: #2dd4bf; border: 1px solid rgba(13,148,136,0.3); }
+  .lbl-white { background: rgba(255,255,255,0.06); color: #e2e8f0; border: 1px solid rgba(255,255,255,0.15); }
+  .acc-title { font-size: 15px; font-weight: 500; flex: 1; }
+  .acc-arrow { color: var(--text-dim); font-size: 18px; transition: transform 0.25s; flex-shrink: 0; }
+  .acc-item.open .acc-arrow { transform: rotate(90deg); }
+  .acc-body { display: none; padding: 0 22px 22px; border-top: 1px solid var(--border); }
+  .acc-item.open .acc-body { display: block; padding-top: 18px; }
+
+  /* CONTENT BLOCKS */
+  .content-block { margin-bottom: 20px; }
+  .content-block h4 { font-family: var(--font-display); font-size: 1.1rem; color: var(--yellow-bright); margin-bottom: 10px; }
+  .content-block p { color: var(--text-muted); font-size: 14px; line-height: 1.7; margin-bottom: 10px; }
+  .content-block ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .content-block ul li { display: flex; gap: 10px; font-size: 14px; color: var(--text-muted); }
+  .content-block ul li::before { content: '▸'; color: var(--yellow-bright); flex-shrink: 0; }
+
+  /* VOCAB CARD GRID */
+  .vocab-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-bottom: 24px; }
+  .vocab-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; transition: border-color 0.2s; }
+  .vocab-card:hover { border-color: rgba(234,179,8,0.35); }
+  .vc-en { font-family: var(--font-display); font-size: 1rem; font-weight: 700; color: var(--yellow-bright); margin-bottom: 2px; }
+  .vc-pron { font-family: var(--font-mono); font-size: 11px; color: var(--text-dim); margin-bottom: 5px; }
+  .vc-es { font-size: 13px; color: var(--text-muted); }
+  .vc-example { font-size: 12px; color: var(--text-dim); font-style: italic; margin-top: 5px; border-top: 1px solid var(--border); padding-top: 5px; }
+
+  /* FLASHCARDS */
+  .flashcards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+  .flashcard { height: 160px; perspective: 1000px; cursor: pointer; }
+  .flashcard-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+  .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+  .flashcard-front, .flashcard-back { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; }
+  .flashcard-front { background: var(--surface); border: 1px solid rgba(234,179,8,0.2); }
+  .flashcard-back { background: linear-gradient(135deg, rgba(202,138,4,0.15), rgba(13,148,136,0.1)); border: 1px solid rgba(234,179,8,0.35); transform: rotateY(180deg); }
+  .fc-label { font-family: var(--font-mono); font-size: 10px; color: var(--yellow-bright); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; }
+  .fc-term { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; color: var(--text); }
+  .fc-def { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+  .fc-hint { font-size: 11px; color: var(--text-dim); margin-top: 8px; }
+
+  /* QUIZ */
+  .quiz-container { display: flex; flex-direction: column; gap: 24px; }
+  .quiz-question { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 22px; }
+  .quiz-q-num { font-family: var(--font-mono); font-size: 11px; color: var(--yellow-bright); letter-spacing: 0.1em; margin-bottom: 8px; }
+  .quiz-q-text { font-size: 15px; font-weight: 500; color: var(--text); margin-bottom: 16px; line-height: 1.5; }
+  .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+  .quiz-opt { width: 100%; text-align: left; padding: 11px 16px; border-radius: 8px; border: 1px solid var(--border2); background: var(--surface2); color: var(--text-muted); font-size: 14px; cursor: pointer; transition: all 0.18s; font-family: var(--font-body); }
+  .quiz-opt:hover:not(:disabled) { border-color: rgba(234,179,8,0.35); color: var(--text); background: rgba(234,179,8,0.06); }
+  .quiz-opt.correct { border-color: rgba(13,148,136,0.5); background: rgba(13,148,136,0.12); color: #2dd4bf; }
+  .quiz-opt.wrong { border-color: rgba(220,38,38,0.5); background: rgba(220,38,38,0.1); color: #fca5a5; }
+  .quiz-feedback { margin-top: 12px; font-size: 13px; padding: 10px 14px; border-radius: 8px; display: none; line-height: 1.5; }
+  .quiz-feedback.show { display: block; }
+  .feedback-correct { background: rgba(13,148,136,0.1); border: 1px solid rgba(13,148,136,0.25); color: #2dd4bf; }
+  .feedback-wrong { background: rgba(220,38,38,0.1); border: 1px solid rgba(220,38,38,0.25); color: #fca5a5; }
+  .quiz-score { text-align: center; padding: 24px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+  .quiz-score-num { font-family: var(--font-display); font-size: 3rem; font-weight: 900; color: var(--yellow-bright); }
+  .quiz-score-label { color: var(--text-muted); font-size: 14px; margin-top: 4px; }
+  .btn-reset { margin-top: 16px; padding: 10px 24px; border-radius: 8px; border: 1px solid rgba(234,179,8,0.4); background: var(--yellow-dim); color: var(--yellow-bright); font-family: var(--font-body); font-size: 14px; cursor: pointer; transition: all 0.2s; }
+  .btn-reset:hover { background: rgba(234,179,8,0.2); }
+
+  /* READING PASSAGE */
+  .reading-passage { background: var(--surface); border: 1px solid rgba(234,179,8,0.2); border-radius: 12px; padding: 24px 28px; margin-bottom: 20px; position: relative; }
+  .passage-level { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--yellow-bright); margin-bottom: 12px; }
+  .passage-title { font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; color: #fff; margin-bottom: 14px; }
+  .passage-text { font-size: 14.5px; color: var(--text-muted); line-height: 1.8; }
+  .passage-text .highlight { background: rgba(234,179,8,0.15); border-bottom: 1px solid rgba(234,179,8,0.35); cursor: help; border-radius: 2px; padding: 0 2px; }
+
+  /* MATCHING EXERCISE */
+  .match-container { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .match-col-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; color: var(--text-dim); text-transform: uppercase; margin-bottom: 8px; }
+  .match-item { padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border2); background: var(--surface2); font-size: 13.5px; cursor: pointer; transition: all 0.2s; user-select: none; }
+  .match-item:hover { border-color: rgba(234,179,8,0.35); color: var(--text); }
+  .match-item.selected { border-color: var(--yellow-light); background: rgba(234,179,8,0.12); color: var(--yellow-bright); }
+  .match-item.matched { border-color: rgba(13,148,136,0.5); background: rgba(13,148,136,0.1); color: #2dd4bf; cursor: default; }
+  .match-item.wrong-match { border-color: rgba(220,38,38,0.5); background: rgba(220,38,38,0.1); color: #fca5a5; }
+
+  /* FILL IN BLANK */
+  .blank-input { background: var(--surface2); border: 1px solid var(--border2); border-radius: 6px; padding: 4px 10px; color: var(--text); font-family: var(--font-body); font-size: 14px; width: 140px; transition: border-color 0.2s; outline: none; }
+  .blank-input:focus { border-color: rgba(234,179,8,0.4); }
+  .blank-input.correct-blank { border-color: rgba(13,148,136,0.5); background: rgba(13,148,136,0.08); color: #2dd4bf; }
+  .blank-input.wrong-blank { border-color: rgba(220,38,38,0.4); background: rgba(220,38,38,0.06); color: #fca5a5; }
+
+  /* CONCEPT MAP */
+  .concept-map { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 28px; }
+  .cm-center { text-align: center; margin-bottom: 24px; }
+  .cm-node-main { display: inline-block; padding: 12px 24px; border-radius: 10px; font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; color: var(--yellow-bright); background: rgba(234,179,8,0.15); border: 1px solid rgba(234,179,8,0.4); }
+  .cm-branches { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+  .cm-branch { background: var(--surface2); border: 1px solid var(--border2); border-radius: 10px; padding: 14px; }
+  .cm-branch-title { font-family: var(--font-mono); font-size: 11px; color: var(--yellow-bright); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+  .cm-branch-items { display: flex; flex-direction: column; gap: 4px; }
+  .cm-branch-item { font-size: 13px; color: var(--text-muted); padding: 3px 0; border-bottom: 1px solid var(--border); }
+  .cm-branch-item:last-child { border-bottom: none; }
+
+  /* ACHIEVEMENTS */
+  .achievements-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+  .achievement { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; display: flex; gap: 14px; align-items: flex-start; transition: all 0.2s; }
+  .achievement.unlocked { border-color: rgba(234,179,8,0.3); background: rgba(234,179,8,0.05); }
+  .achievement.locked { opacity: 0.4; filter: grayscale(1); }
+  .ach-icon { font-size: 28px; flex-shrink: 0; }
+  .ach-name { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 2px; }
+  .ach-desc { font-size: 12px; color: var(--text-muted); }
+
+  /* PROGRESS */
+  .progress-section { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 22px; margin-bottom: 16px; }
+  .progress-title { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+  .progress-pct { font-family: var(--font-mono); font-size: 13px; color: var(--yellow-bright); }
+  .progress-bar { height: 6px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--yellow), var(--yellow-bright)); transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+
+  /* MEMORY GAME */
+  .memory-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; max-width: 480px; }
+  .mem-card { height: 80px; perspective: 600px; cursor: pointer; }
+  .mem-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.35s ease; }
+  .mem-card.flipped .mem-inner, .mem-card.matched .mem-inner { transform: rotateY(180deg); }
+  .mem-front, .mem-back { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 8px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 6px; font-size: 12.5px; }
+  .mem-front { background: var(--surface2); border: 1px solid var(--border2); color: var(--text-dim); font-size: 20px; }
+  .mem-back { background: linear-gradient(135deg, rgba(202,138,4,0.18), rgba(13,148,136,0.12)); border: 1px solid rgba(234,179,8,0.3); color: var(--text); transform: rotateY(180deg); line-height: 1.4; }
+  .mem-card.matched .mem-back { border-color: rgba(13,148,136,0.5); background: rgba(13,148,136,0.15); }
+
+  /* T/F */
+  .tf-question { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; margin-bottom: 12px; }
+  .tf-text { font-size: 14px; color: var(--text); margin-bottom: 12px; line-height: 1.6; }
+  .tf-btns { display: flex; gap: 8px; }
+  .tf-btn { padding: 7px 20px; border-radius: 7px; border: 1px solid var(--border2); background: var(--surface2); color: var(--text-muted); font-size: 13px; cursor: pointer; transition: all 0.18s; font-family: var(--font-body); }
+  .tf-btn:hover:not(:disabled) { border-color: rgba(234,179,8,0.35); color: var(--text); }
+  .tf-btn.t-btn:hover:not(:disabled) { border-color: rgba(13,148,136,0.4); color: #2dd4bf; background: rgba(13,148,136,0.08); }
+  .tf-btn.f-btn:hover:not(:disabled) { border-color: rgba(220,38,38,0.4); color: #fca5a5; background: rgba(220,38,38,0.08); }
+  .tf-btn.correct { border-color: rgba(13,148,136,0.5); background: rgba(13,148,136,0.12); color: #2dd4bf; }
+  .tf-btn.wrong { border-color: rgba(220,38,38,0.5); background: rgba(220,38,38,0.1); color: #fca5a5; }
+  .tf-result { font-size: 13px; margin-top: 8px; padding: 8px 12px; border-radius: 7px; display: none; }
+  .tf-result.show { display: block; }
+
+  /* PERSONA CARD */
+  .personas-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+  .persona-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; transition: border-color 0.2s; cursor: pointer; }
+  .persona-card:hover { border-color: rgba(234,179,8,0.3); }
+  .persona-header { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 12px; }
+  .persona-avatar { width: 44px; height: 44px; border-radius: 50%; background: rgba(234,179,8,0.15); border: 1px solid rgba(234,179,8,0.3); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+  .persona-name { font-family: var(--font-display); font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+  .persona-role { font-family: var(--font-mono); font-size: 10px; color: var(--yellow-bright); letter-spacing: 0.08em; }
+  .persona-desc { font-size: 13px; color: var(--text-muted); line-height: 1.6; display: none; }
+  .persona-card.expanded .persona-desc { display: block; }
+
+  /* SENTENCE TABLE */
+  .sentence-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+  .sentence-table th { background: rgba(234,179,8,0.1); border: 1px solid rgba(234,179,8,0.2); padding: 10px 14px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; color: var(--yellow-bright); text-align: left; }
+  .sentence-table td { border: 1px solid var(--border); padding: 9px 14px; font-size: 13.5px; color: var(--text-muted); }
+  .sentence-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .sentence-table .en { color: var(--text); }
+
+  /* PRONUNCIATION BOX */
+  .pron-box { background: var(--surface2); border: 1px solid rgba(234,179,8,0.15); border-radius: 10px; padding: 16px 20px; margin-bottom: 16px; }
+  .pron-title { font-family: var(--font-mono); font-size: 11px; color: var(--yellow-bright); letter-spacing: 0.1em; margin-bottom: 10px; text-transform: uppercase; }
+  .pron-row { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 6px; }
+  .pron-item { font-size: 14px; }
+  .pron-word { font-weight: 600; color: var(--text); }
+  .pron-ipa { font-family: var(--font-mono); font-size: 12px; color: var(--text-dim); margin: 0 6px; }
+  .pron-sound { color: var(--text-muted); font-style: italic; }
+
+  /* ERROR BOX */
+  .error-box { background: rgba(220,38,38,0.06); border: 1px solid rgba(220,38,38,0.2); border-radius: 10px; padding: 14px 18px; margin-bottom: 16px; }
+  .error-box .err-title { font-family: var(--font-mono); font-size: 11px; color: #fca5a5; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+  .error-box .err-row { display: flex; gap: 12px; font-size: 13.5px; margin-bottom: 6px; align-items: flex-start; }
+  .err-wrong { color: #fca5a5; }
+  .err-right { color: #2dd4bf; }
+
+  /* CHECKPOINT CARD */
+  .checkpoint { background: linear-gradient(135deg, rgba(202,138,4,0.1), rgba(13,148,136,0.06)); border: 1px solid rgba(234,179,8,0.25); border-radius: 14px; padding: 24px; margin-bottom: 32px; }
+  .cp-title { font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; color: var(--yellow-bright); margin-bottom: 6px; }
+  .cp-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 16px; }
+  .cp-items { display: flex; flex-direction: column; gap: 6px; }
+  .cp-item { display: flex; gap: 10px; font-size: 13.5px; color: var(--text-muted); cursor: pointer; padding: 4px 0; }
+  .cp-item input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--yellow-light); cursor: pointer; flex-shrink: 0; margin-top: 2px; }
+  .cp-item.checked { color: #2dd4bf; text-decoration: line-through; opacity: 0.7; }
+
+  /* WORD BANK */
+  .word-bank { display: flex; flex-wrap: wrap; gap: 8px; padding: 14px 16px; background: var(--surface2); border: 1px solid var(--border2); border-radius: 10px; margin-bottom: 14px; }
+  .word-chip { padding: 5px 12px; border-radius: 20px; background: var(--surface); border: 1px solid rgba(234,179,8,0.25); color: var(--yellow-bright); font-size: 12.5px; font-family: var(--font-mono); cursor: pointer; transition: all 0.18s; user-select: none; }
+  .word-chip:hover { background: rgba(234,179,8,0.1); border-color: rgba(234,179,8,0.45); }
+  .word-chip.used { opacity: 0.3; pointer-events: none; text-decoration: line-through; }
+
+  /* TUTOR PANEL */
+  #tutor-panel {
+    position: fixed; bottom: 72px; right: 24px; z-index: 10000;
+    width: min(420px, calc(100vw - 32px));
+    height: min(580px, calc(100vh - 120px));
+    background: #050d18;
+    border: 1px solid rgba(234,179,8,0.25);
+    border-radius: 16px;
+    display: flex; flex-direction: column;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+    transform: translateY(16px) scale(0.97);
+    opacity: 0; pointer-events: none;
+    transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  #tutor-panel.open { transform: translateY(0) scale(1); opacity: 1; pointer-events: all; }
+  #tutor-header { display: flex; align-items: center; gap: 12px; padding: 16px 18px; border-bottom: 1px solid rgba(234,179,8,0.15); }
+  #tutor-header-icon { width: 36px; height: 36px; border-radius: 10px; background: rgba(234,179,8,0.15); border: 1px solid rgba(234,179,8,0.3); display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; }
+  #tutor-header-info { flex: 1; }
+  #tutor-header-title { font-size: 14px; font-weight: 500; color: var(--text); }
+  #tutor-header-sub { font-family: var(--font-mono); font-size: 11px; color: var(--yellow-bright); }
+  #tutor-close { background: none; border: none; color: var(--text-dim); font-size: 18px; cursor: pointer; padding: 4px; }
+  #tutor-close:hover { color: var(--text-muted); }
+  #tutor-messages { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; scroll-behavior: smooth; }
+  #tutor-messages::-webkit-scrollbar { width: 3px; }
+  #tutor-messages::-webkit-scrollbar-thumb { background: rgba(234,179,8,0.2); border-radius: 3px; }
+  .tutor-msg { display: flex; gap: 10px; align-items: flex-start; }
+  .tutor-msg.user { flex-direction: row-reverse; }
+  .tutor-avatar { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-family: var(--font-mono); flex-shrink: 0; }
+  .tutor-msg.ai .tutor-avatar { background: rgba(234,179,8,0.15); border: 1px solid rgba(234,179,8,0.3); color: var(--yellow-bright); }
+  .tutor-msg.user .tutor-avatar { background: var(--surface2); border: 1px solid var(--border2); color: var(--text-muted); font-size: 10px; }
+  .tutor-bubble { max-width: 85%; padding: 10px 14px; border-radius: 12px; font-size: 13.5px; line-height: 1.6; }
+  .tutor-msg.ai .tutor-bubble { background: var(--surface2); border: 1px solid var(--border); color: var(--text); border-bottom-left-radius: 4px; }
+  .tutor-msg.user .tutor-bubble { background: rgba(234,179,8,0.15); border: 1px solid rgba(234,179,8,0.25); color: var(--text); border-bottom-right-radius: 4px; }
+  .tutor-bubble strong { color: var(--yellow-bright); }
+  .tutor-bubble ul { padding-left: 16px; margin: 6px 0; }
+  .tutor-bubble li { margin-bottom: 3px; }
+  .tutor-thinking { display: flex; gap: 5px; padding: 4px 0; }
+  .tutor-thinking span { width: 7px; height: 7px; border-radius: 50%; background: var(--yellow-bright); opacity: 0.4; animation: blink 1.2s infinite; }
+  .tutor-thinking span:nth-child(2) { animation-delay: 0.2s; }
+  .tutor-thinking span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes blink { 0%,80%,100% { opacity: 0.4; } 40% { opacity: 1; } }
+  #tutor-suggestions { padding: 10px 14px; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 6px; }
+  .tutor-suggest-label { font-family: var(--font-mono); font-size: 10px; color: var(--text-dim); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 2px; }
+  .tutor-sq { background: var(--surface2); border: 1px solid var(--border2); color: var(--text-muted); font-size: 12.5px; padding: 7px 12px; border-radius: 8px; cursor: pointer; text-align: left; font-family: var(--font-body); transition: all 0.18s; }
+  .tutor-sq:hover { border-color: rgba(234,179,8,0.35); color: var(--text); }
+  #tutor-input-area { display: flex; gap: 8px; padding: 12px 14px; border-top: 1px solid var(--border); }
+  #tutor-input { flex: 1; background: var(--surface2); border: 1px solid var(--border2); border-radius: 10px; padding: 9px 13px; color: var(--text); font-size: 14px; font-family: var(--font-body); resize: none; max-height: 100px; overflow-y: auto; line-height: 1.5; }
+  #tutor-input::-webkit-scrollbar { display: none; }
+  #tutor-input:focus { outline: none; border-color: rgba(234,179,8,0.4); }
+  #tutor-input::placeholder { color: var(--text-dim); }
+  #tutor-send { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--yellow), var(--yellow-light)); border: none; color: #fff; font-size: 16px; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: opacity 0.2s; align-self: flex-end; }
+  #tutor-send:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  @media (max-width: 600px) {
+    .flashcards-grid, .vocab-grid { grid-template-columns: 1fr; }
+    .match-container { grid-template-columns: 1fr; }
+    .memory-grid { grid-template-columns: repeat(3, 1fr); }
+    .achievements-grid { grid-template-columns: 1fr 1fr; }
+    .personas-grid { grid-template-columns: 1fr; }
+  }
+
+  /* UNIT BANNER */
+  .unit-banner { display: flex; align-items: center; gap: 16px; background: var(--surface); border: 1px solid rgba(234,179,8,0.2); border-radius: 14px; padding: 20px 24px; margin-bottom: 28px; }
+  .unit-icon { width: 48px; height: 48px; border-radius: 12px; background: rgba(234,179,8,0.15); border: 1px solid rgba(234,179,8,0.3); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+  .unit-info h3 { font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .unit-info p { font-size: 13px; color: var(--text-muted); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <a href="index.html" class="back-link">← Portal de Estudio</a>
+  <div class="header-eyebrow">🇬🇧 English · Inglés</div>
+  <h1 class="header-title"><span class="hl-blue">English</span> — <span class="hl-red">Guía</span> Completa</h1>
+  <p class="header-subtitle">From zero to fluency · Unit 1 & Unit 2 · PDN Prep</p>
+  <div class="header-badges">
+    <span class="badge b-blue">Unit 1 · Education Rights</span>
+    <span class="badge b-red">Unit 2 · Climate Action</span>
+    <span class="badge b-teal">Reading Comprehension</span>
+    <span class="badge b-white">Vocabulary & Grammar</span>
+  </div>
+</header>
+
+<!-- NAV -->
+<div class="nav-wrapper">
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showSection('overview')" id="tab-overview">📋 Overview</button>
+    <button class="nav-tab" onclick="showSection('unit1')" id="tab-unit1">📚 Unit 1: Education</button>
+    <button class="nav-tab" onclick="showSection('unit2')" id="tab-unit2">🌍 Unit 2: Climate</button>
+    <button class="nav-tab" onclick="showSection('vocab')" id="tab-vocab">💡 Vocabulary</button>
+    <button class="nav-tab" onclick="showSection('reading')" id="tab-reading">📖 Reading</button>
+    <button class="nav-tab" onclick="showSection('practice')" id="tab-practice">✏️ Practice</button>
+    <button class="nav-tab" onclick="showSection('games')" id="tab-games">🎮 Games</button>
+    <button class="nav-tab" onclick="showSection('logros')" id="tab-logros">🏆 Logros</button>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content-area">
+
+  <!-- ════════════════════════════ OVERVIEW ════════════════════════════ -->
+  <div class="section-panel active" id="panel-overview">
+    <h2 class="section-heading">Bienvenido/a a Inglés</h2>
+    <p class="section-desc">Esta guía cubre Unit 1 y Unit 2 desde cero. Empieza aquí para entender qué vas a aprender.</p>
+
+    <div class="tip-box tip-blue">🇬🇧 <strong>¿Por qué aprender inglés?</strong> El inglés es el idioma más hablado como lengua extranjera en el mundo. Te abrirá puertas en universidades, trabajo y viajes. ¡Y esta guía te llevará de 0 a listo/a para la prueba!</div>
+
+    <div class="concept-map">
+      <div class="cm-center"><span class="cm-node-main">📘 English Course</span></div>
+      <div class="cm-branches">
+        <div class="cm-branch">
+          <div class="cm-branch-title">Unit 1 · Education</div>
+          <div class="cm-branch-items">
+            <div class="cm-branch-item">Right to education</div>
+            <div class="cm-branch-item">School vocabulary</div>
+            <div class="cm-branch-item">Gender equality</div>
+            <div class="cm-branch-item">Main idea vs details</div>
+          </div>
+        </div>
+        <div class="cm-branch">
+          <div class="cm-branch-title">Unit 2 · Climate</div>
+          <div class="cm-branch-items">
+            <div class="cm-branch-item">Climate change</div>
+            <div class="cm-branch-item">Environmental vocab</div>
+            <div class="cm-branch-item">Funding action</div>
+            <div class="cm-branch-item">Reading strategies</div>
+          </div>
+        </div>
+        <div class="cm-branch">
+          <div class="cm-branch-title">Reading Skills</div>
+          <div class="cm-branch-items">
+            <div class="cm-branch-item">General info</div>
+            <div class="cm-branch-item">Specific details</div>
+            <div class="cm-branch-item">Inference</div>
+            <div class="cm-branch-item">Comprehension Q&A</div>
+          </div>
+        </div>
+        <div class="cm-branch">
+          <div class="cm-branch-title">Practice & Games</div>
+          <div class="cm-branch-items">
+            <div class="cm-branch-item">Multiple choice quizzes</div>
+            <div class="cm-branch-item">True / False</div>
+            <div class="cm-branch-item">Flashcards & Memory</div>
+            <div class="cm-branch-item">Vocabulary matching</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 32px;">
+      <h3 style="font-family:var(--font-display);font-size:1.3rem;color:var(--yellow-bright);margin-bottom:16px;">Objetivos de Aprendizaje</h3>
+      <div class="accordion">
+        <div class="acc-item open" id="acc-obj1">
+          <button class="acc-trigger" onclick="toggleAccGen(this)">
+            <span class="acc-label lbl-blue">Unit 1</span>
+            <span class="acc-title">Derecho a la Educación (The Right to an Education)</span>
+            <span class="acc-arrow">›</span>
+          </button>
+          <div class="acc-body">
+            <div class="content-block">
+              <ul>
+                <li>Entender qué es la educación y por qué es un derecho humano</li>
+                <li>Identificar barreras a la educación en el mundo</li>
+                <li>Manejar vocabulario de escuela e igualdad de género</li>
+                <li>Leer textos cortos y encontrar la idea principal</li>
+                <li>Distinguir información general de detalles específicos</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="acc-item" id="acc-obj2">
+          <button class="acc-trigger" onclick="toggleAccGen(this)">
+            <span class="acc-label lbl-teal">Unit 2</span>
+            <span class="acc-title">Financiando la Acción Climática (Funding Climate Action)</span>
+            <span class="acc-arrow">›</span>
+          </button>
+          <div class="acc-body">
+            <div class="content-block">
+              <ul>
+                <li>Comprender qué es el cambio climático y sus causas</li>
+                <li>Conocer vocabulario del medio ambiente en inglés</li>
+                <li>Entender qué significa "financiar" iniciativas climáticas</li>
+                <li>Aplicar estrategias de comprensión lectora</li>
+                <li>Responder preguntas de comprensión de textos</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 32px;">
+      <div class="progress-section">
+        <div class="progress-title">Unit 1 — Education <span class="progress-pct" id="pct-u1">0%</span></div>
+        <div class="progress-bar"><div class="progress-fill" id="fill-u1" style="width:0%"></div></div>
+      </div>
+      <div class="progress-section">
+        <div class="progress-title">Unit 2 — Climate <span class="progress-pct" id="pct-u2">0%</span></div>
+        <div class="progress-bar"><div class="progress-fill" id="fill-u2" style="width:0%"></div></div>
+      </div>
+      <div class="progress-section">
+        <div class="progress-title">Reading Comprehension <span class="progress-pct" id="pct-read">0%</span></div>
+        <div class="progress-bar"><div class="progress-fill" id="fill-read" style="width:0%"></div></div>
+      </div>
+      <div class="progress-section">
+        <div class="progress-title">Vocabulary <span class="progress-pct" id="pct-vocab">0%</span></div>
+        <div class="progress-bar"><div class="progress-fill" id="fill-vocab" style="width:0%"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════ UNIT 1 ════════════════════════════ -->
+  <div class="section-panel" id="panel-unit1">
+    <h2 class="section-heading">Unit 1: The Right to an Education</h2>
+    <p class="section-desc">Aprende sobre el derecho a la educación, vocabulario escolar e igualdad de género en inglés.</p>
+
+    <div class="unit-banner">
+      <div class="unit-icon">🎓</div>
+      <div class="unit-info">
+        <h3>What is education?</h3>
+        <p>Education = el proceso de aprender y adquirir conocimientos, habilidades y valores. En inglés, hablamos de <strong>education</strong> como un derecho humano fundamental.</p>
+      </div>
+    </div>
+
+    <div class="tip-box tip-blue">💡 <strong>Key concept:</strong> Article 26 of the Universal Declaration of Human Rights states: <em>"Everyone has the right to education."</em> (Artículo 26 de la Declaración Universal de Derechos Humanos dice: "Todos tienen derecho a la educación.")</div>
+
+    <div class="accordion">
+      <!-- LESSON 1 -->
+      <div class="acc-item open" id="acc-u1l1">
+        <button class="acc-trigger" onclick="toggleAccGen(this)">
+          <span class="acc-label lbl-blue">Lesson 1</span>
+          <span class="acc-title">What is Education? · ¿Qué es la educación?</span>
+          <span class="acc-arrow">›</span>
+        </button>
+        <div class="acc-body">
+          <div class="content-block">
+            <h4>Definición en inglés</h4>
+            <p><strong>Education</strong> is the process of learning and developing knowledge, skills, values, and attitudes. It can take place at school, at home, or in the community.</p>
+            <p><em>(La educación es el proceso de aprender y desarrollar conocimientos, habilidades, valores y actitudes. Puede ocurrir en la escuela, en casa o en la comunidad.)</em></p>
+          </div>
+          <div class="content-block">
+            <h4>Types of Education · Tipos de educación</h4>
+            <table class="sentence-table">
+              <tr><th>English</th><th>Español</th><th>Example sentence</th></tr>
+              <tr><td class="en">Formal education</td><td>Educación formal</td><td>"She received formal education at school." (Ella recibió educación formal en la escuela.)</td></tr>
+              <tr><td class="en">Informal education</td><td>Educación informal</td><td>"He learned cooking through informal education." (Aprendió a cocinar mediante educación informal.)</td></tr>
+              <tr><td class="en">Higher education</td><td>Educación superior</td><td>"She went to university for higher education." (Fue a la universidad para educación superior.)</td></tr>
+              <tr><td class="en">Primary education</td><td>Educación primaria</td><td>"All children should have access to primary education." (Todos los niños deben tener acceso a la educación primaria.)</td></tr>
+            </table>
+          </div>
+          <div class="pron-box">
+            <div class="pron-title">🔊 Pronunciation Tips</div>
+            <div class="pron-row">
+              <span class="pron-item"><span class="pron-word">education</span> <span class="pron-ipa">/ˌedʒuˈkeɪʃən/</span> <span class="pron-sound">= "ed-yu-KAY-shun"</span></span>
+            </div>
+            <div class="pron-row">
+              <span class="pron-item"><span class="pron-word">knowledge</span> <span class="pron-ipa">/ˈnɒlɪdʒ/</span> <span class="pron-sound">= "NOL-ij" (la K es muda)</span></span>
+            </div>
+            <div class="pron-row">
+              <span class="pron-item"><span class="pron-word">school</span> <span class="pron-ipa">/skuːl/</span> <span class="pron-sound">= "skul" (la CH no se pronuncia como en español)</span></span>
+            </div>
+          </div>
+          <div class="error-box">
+            <div class="err-title">⚠️ Common Mistakes</div>
+            <div class="err-row"><span class="err-wrong">✗ "I studied in a school of Spain"</span> <span style="color:var(--text-dim)">→</span> <span class="err-right">✓ "I studied at a school in Spain"</span></div>
+            <div class="err-row"><span class="err-wrong">✗ "Education is important for the society"</span> <span style="color:var(--text-dim)">→</span> <span class="err-right">✓ "Education is important for society"</span> <span style="color:var(--text-dim);font-size:12px">(sin "the")</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LESSON 2 -->
+      <div class="acc-item" id="acc-u1l2">
+        <button class="acc-trigger" onclick="toggleAccGen(this)">
+          <span class="acc-label lbl-blue">Lesson 2</span>
+          <span class="acc-title">Human Rights & Education · Derechos Humanos y Educación</span>
+          <span class="acc-arrow">›</span>
+        </button>
+        <div class="acc-body">
+          <div class="content-block">
+            <h4>Education as a Human Right</h4>
+            <p>Education is recognized as a <strong>fundamental human right</strong>. This means every person, regardless of their gender, nationality, or economic situation, has the right to learn.</p>
+            <p><em>(La educación es reconocida como un derecho humano fundamental. Esto significa que toda persona, sin importar su género, nacionalidad o situación económica, tiene derecho a aprender.)</em></p>
+          </div>
+          <div class="content-block">
+            <h4>Key vocabulary: Human Rights</h4>
+            <table class="sentence-table">
+              <tr><th>English</th><th>Español</th></tr>
+              <tr><td class="en">human right</td><td>derecho humano</td></tr>
+              <tr><td class="en">universal</td><td>universal</td></tr>
+              <tr><td class="en">equality</td><td>igualdad</td></tr>
+              <tr><td class="en">access</td><td>acceso</td></tr>
+              <tr><td class="en">opportunity</td><td>oportunidad</td></tr>
+              <tr><td class="en">discrimination</td><td>discriminación</td></tr>
+              <tr><td class="en">fundamental</td><td>fundamental</td></tr>
+              <tr><td class="en">declaration</td><td>declaración</td></tr>
+            </table>
+          </div>
+          <div class="content-block">
+            <h4>Useful Sentences · Oraciones útiles</h4>
+            <p>🔵 <strong>"Education is a universal right."</strong> → La educación es un derecho universal.</p>
+            <p>🔵 <strong>"Every child deserves equal access to education."</strong> → Todo niño/a merece igual acceso a la educación.</p>
+            <p>🔵 <strong>"We must fight against discrimination in schools."</strong> → Debemos luchar contra la discriminación en las escuelas.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- LESSON 3 -->
+      <div class="acc-item" id="acc-u1l3">
+        <button class="acc-trigger" onclick="toggleAccGen(this)">
+          <span class="acc-label lbl-red">Lesson 3</span>
+          <span class="acc-title">Barriers to Education · Barreras a la Educación</span>
+          <span class="acc-arrow">›</span>
+        </button>
+        <div class="acc-body">
+          <div class="content-block">
+            <h4>What stops people from going to school?</h4>
+            <p>Around the world, many children and young people cannot access education. These are called <strong>barriers to education</strong>.</p>
+          </div>
+          <div class="content-block">
+            <h4>Types of Barriers · Tipos de barreras</h4>
+            <div class="personas-grid">
+              <div class="persona-card" onclick="togglePersona(this)">
+                <div class="persona-header">
+                  <div class="persona-avatar">💰</div>
+                  <div><div class="persona-name">Economic barriers</div><div class="persona-role">Barreras económicas</div></div>
+                </div>
+                <div class="persona-desc">When families cannot afford school fees, uniforms, or materials. Many children must work instead of studying.<br><br><em>Cuando las familias no pueden pagar matrículas, uniformes o materiales. Muchos niños deben trabajar en vez de estudiar.</em></div>
+              </div>
+              <div class="persona-card" onclick="togglePersona(this)">
+                <div class="persona-header">
+                  <div class="persona-avatar">👧</div>
+                  <div><div class="persona-name">Gender barriers</div><div class="persona-role">Barreras de género</div></div>
+                </div>
+                <div class="persona-desc">In some places, girls are not allowed to go to school due to cultural or social norms.<br><br><em>En algunos lugares, a las niñas no se les permite ir a la escuela por normas culturales o sociales.</em></div>
+              </div>
+              <div class="persona-card" onclick="togglePersona(this)">
+                <div class="persona-header">
+                  <div class="persona-avatar">📍</div>
+                  <div><div class="persona-name">Geographic barriers</div><div class="persona-role">Barreras geográficas</div></div>
+                </div>
+                <div class="persona-desc">Children in remote or rural areas may have no schools nearby. Distance makes education impossible without support.<br><br><em>Los niños en zonas remotas o rurales pueden no tener escuelas cercanas.</em></div>
+              </div>
+              <div class="persona-card" onclick="togglePersona(this)">
+                <div class="persona-header">
+                  <div class="persona-avatar">⚔️</div>
+                  <div><div class="persona-name">Conflict & instability</div><div class="persona-role">Conflicto e inestabilidad</div></div>
+                </div>
+                <div class="persona-desc">Wars and conflicts destroy schools and displace families, making education very difficult or impossible.<br><br><em>Las guerras y conflictos destruyen escuelas y desplazan familias.</em></div>
+              </div>
+            </div>
+          </div>
+          <div class="tip-box tip-teal" style="margin-top: 16px;">💡 <strong>Mini summary:</strong> Barriers = things that prevent access to education. The main ones are: economic, gender-based, geographic, and conflict-related.</div>
+        </div>
+      </div>
+
+      <!-- LESSON 4 -->
+      <div class="acc-item" id="acc-u1l4">
+        <button class="acc-trigger" onclick="toggleAccGen(this)">
+          <span class="acc-label lbl-white">Lesson 4</span>
+          <span class="acc-title">Gender Equality in Education · Igualdad de Género</span>
+          <span class="acc-arrow">›</span>
+        </button>
+        <div class="acc-body">
+          <div class="content-block">
+            <h4>What is gender equality?</h4>
+            <p><strong>Gender equality</strong> means that people of all genders have the same rights, opportunities, and access — including in education. It is NOT about making men and women identical, but about giving everyone equal chances.</p>
+            <p><em>(Igualdad de género significa que personas de todos los géneros tienen los mismos derechos, oportunidades y acceso — incluyendo en educación.)</em></p>
+          </div>
+          <div class="content-block">
+            <h4>Gender Equality Vocabulary</h4>
+            <table class="sentence-table">
+              <tr><th>English</th><th>Español</th><th>Example</th></tr>
+              <tr><td class="en">gender equality</td><td>igualdad de género</td><td>"We need gender equality in schools."</td></tr>
+              <tr><td class="en">empowerment</td><td>empoderamiento</td><td>"Education leads to women's empowerment."</td></tr>
+              <tr><td class="en">stereotype</td><td>estereotipo</td><td>"We must break gender stereotypes."</td></tr>
+              <tr><td class="en">inclusion</td><td>inclusión</td><td>"Schools should promote inclusion."</td></tr>
+              <tr><td class="en">equal opportunity</td><td>igualdad de oportunidades</td><td>"Every student deserves equal opportunity."</td></tr>
+              <tr><td class="en">bias</td><td>sesgo / prejuicio</td><td>"We must avoid gender bias in education."</td></tr>
+            </table>
+          </div>
+          <div class="content-block">
+            <h4>Why does gender equality in education matter?</h4>
+            <ul>
+              <li>Girls with education earn more money and have better health</li>
+              <li>Educated women contribute more to their communities</li>
+              <li>Education reduces poverty and inequality</li>
+              <li>Every child, regardless of gender, has a right to learn</li>
+            </ul>
+          </div>
+          <div class="checkpoint">
+            <div class="cp-title">✅ Unit 1 Checkpoint</div>
+            <div class="cp-desc">Marca lo que ya entiendes:</div>
+            <div class="cp-items" id="cp-u1">
+              <label class="cp-item"><input type="checkbox" onchange="cpCheck('u1',this)"> I know what education is and why it's a human right</label>
+              <label class="cp-item"><input type="checkbox" onchange="cpCheck('u1',this)"> I can name at least 3 barriers to education</label>
+              <label class="cp-item"><input type="checkbox" onchange="cpCheck('u1',this)"> I know the vocabulary for gender equality</label>
+              <label class="cp-item"><input type="checkbox" onchange="cpCheck('u1',this)"> I can identify the main idea of a text</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════ UNIT 2 ════════════════════════════ -->
+  <div class="section-panel" id="panel-unit2">
+    <h2 class="section-heading">Unit 2: Funding Climate Action</h2>
+    <p class="section-desc">Aprende sobre el cambio climático, vocabulario ambiental y cómo se financia la acción climática.</p>
+
+    <div class="unit-banner">
+      <div class="unit-icon">🌍</div>
+      <div class="unit-info">
+        <h3>What is climate change?</h3>
+        <p><strong>Climate change</strong> refers to long-term shifts in global temperatures and weather patterns, mainly caused by human activities like burning fossil fuels.</p>
+      </div>
+    </div>
+
+    <div class="tip-box tip-teal">🌱 <strong>Remember:</strong> "Climate" (clima a largo plazo) ≠ "Weather" (tiempo atmosférico del día). Climate change = cambio en los patrones climáticos globales a largo plazo.</div>
+
+    <div class="accordion">
+      <!-- LESSON 1 -->
+      <div class="acc-item open" id="acc-u2l1">
+        <button class="acc-trigger" onclick="toggleAccGen(this)">
+          <span class="acc-label lbl-teal">Lesson 1</span>
+          <span class="acc-title">What is Climate Change? · ¿Qué es el Cambio Climático?</span>
+          <span class="acc-arrow">›</span>
+        </button>
+        <div class="acc-body">
+          <div class="content-block">
+            <h4>Definition · Definición</h4>
+            <p><strong>Climate change</strong> refers to significant, long-term changes in the global climate. It includes global warming, changes in precipitation, and more extreme weather events.</p>
+            <p><em>(Cambio climático: cambios significativos y a largo plazo en el clima global. Incluye el calentamiento global, cambios en las precipitaciones y eventos climáticos más extremos.)</em></p>
+          </div>
+          <div class="content-block">
+            <h4>Causes · Causas</h4>
+            <table class="sentence-table">
+              <tr><th>Cause (English)</th><th>Causa (Español)</th></tr>
+              <tr><td class="en">Burning fossil fuels (coal, oil, gas)</td><td>Quemar combustibles fósiles (carbón, petróleo, gas)</td></tr>
+              <tr><td class="en">Deforestation</td><td>Deforestación</td></tr>
+              <tr><td class="en">Industrial pollution</td><td>Contaminación industrial</td></tr>
+              <tr><td class="en">Agriculture emissions</td><td>Emisiones agrícolas</td></tr>
+              <tr><td class="en">Greenhouse gas emissions</td><td>Emisiones de gases de efecto invernadero</td></tr>
+            </table>
+          </div>
+          <div class="content-block">
+            <h4>Effects · Efectos</h4>
+            <ul>
+              <li><strong>Rising sea levels</strong> → Aumento del nivel del mar</li>
+              <li><strong>More extreme weather</strong> → Clima más extremo (inundaciones, sequías)</li>
+              <li><strong>Loss of biodiversity</strong> → Pérdida de biodiversidad</li>
+              <li><strong>Melting glaciers and ice caps</strong> → Derretimiento de glaciares</li>
+              <li><strong>Food and water shortages</strong> → Escasez de alimentos y agua</li>
+            </ul>
+          </div>
+          <div class="pron-box">
+            <div class="pron-title">🔊 Pronunciation Tips</div>
+            <div class="pron-row"><span class="pron-item"><span class="pron-word">climate</span> <span class="pron-ipa">/ˈklaɪmɪt/</span> <span class="pron-sound">= "KLY-mit"</span></span></div>
+            <div class="pron-row"><span class="pron-item"><span class="pron-word">environment</span> <span class="pron-ipa">/ɪnˈvaɪərənmənt/</span> <span class="pron-sound">= "in-VY-er-on-ment"</span></span></div>
+            <div class="pron-row"><span class="pron-item"><span class="pron-word">sustainable</span> <span class="pron-ipa">/səˈsteɪnəbəl/</span> <span class="pron-sound">= "suh-STAY-nuh-bul"</span></span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LESSON 2 -->
+      <div class="acc-item" id="acc-u2l2">
+        <button class="acc-trigger" onclick="toggleAccGen(this)">
+          <span class="acc-label lbl-teal">Lesson 2</span>
+          <span class="acc-title">Climate Action & Sustainability · Acción Climática</span>
+          <span class="acc-arrow">›</span>
+        </button>
+        <div class="acc-body">
+          <div class="content-block">
+            <h4>What is climate action?</h4>
+            <p><strong>Climate action</strong> refers to efforts and initiatives taken to reduce greenhouse gas emissions and help communities adapt to climate change. It includes both individual actions and large-scale policies.</p>
+            <p><em>(Acción climática: esfuerzos e iniciativas para reducir emisiones de gases de efecto invernadero y ayudar a las comunidades a adaptarse al cambio climático.)</em></p>
+          </div>
+          <div class="content-block">
+            <h4>Key vocabulary: Climate Action</h4>
+            <table class="sentence-table">
+              <tr><th>English</th><th>Español</th><th>Example sentence</th></tr>
+              <tr><td class="en">renewable energy</td><td>energía renovable</td><td>"Solar power is a type of renewable energy."</td></tr>
+              <tr><td class="en">sustainability</td><td>sostenibilidad</td><td>"We need sustainability in all sectors."</td></tr>
+              <tr><td class="en">carbon footprint</td><td>huella de carbono</td><td>"Reduce your carbon footprint by using public transport."</td></tr>
+              <tr><td class="en">net zero</td><td>cero neto / carbono neutro</td><td>"Many countries aim for net zero by 2050."</td></tr>
+              <tr><td class="en">climate fund</td><td>fondo climático</td><td>"The climate fund supports developing nations."</td></tr>
+              <tr><td class="en">green technology</td><td>tecnología verde</td><td>"Green technology can create new jobs."</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- LESSON 3 -->
+      <div class="acc-item" id="acc-u2l3">
+        <button class="acc-trigger" onclick="toggleAccGen(this)">
+          <span class="acc-label lbl-blue">Lesson 3</span>
+          <span class="acc-title">Funding Climate Initiatives · Financiando el Clima</span>
+          <span class="acc-arrow">›</span>
+        </button>
+        <div class="acc-body">
+          <div class="content-block">
+            <h4>What does "funding" mean?</h4>
+            <p><strong>To fund</strong> = financiar (dar dinero para apoyar algo). <strong>Funding</strong> = financiamiento.</p>
+            <p>Climate funding means providing money and resources to support projects that fight climate change or help communities deal with its effects.</p>
+            <p><em>(Financiamiento climático significa proveer dinero y recursos para apoyar proyectos que combaten el cambio climático o ayudan a las comunidades a enfrentar sus efectos.)</em></p>
+          </div>
+          <div class="content-block">
+            <h4>Types of Climate Funding</h4>
+            <ul>
+              <li><strong>Government investment</strong> → Inversión gubernamental en energías limpias</li>
+              <li><strong>International funds</strong> → Fondos internacionales (ej. Green Climate Fund)</li>
+              <li><strong>Private sector investment</strong> → Inversión del sector privado en tecnología verde</li>
+              <li><strong>Community-based programs</strong> → Programas comunitarios de adaptación</li>
+            </ul>
+          </div>
+          <div class="content-block">
+            <h4>Useful sentences</h4>
+            <p>🌱 <strong>"Governments must invest in renewable energy."</strong> → Los gobiernos deben invertir en energía renovable.</p>
+            <p>🌱 <strong>"We need international cooperation to fund climate action."</strong> → Necesitamos cooperación internacional para financiar la acción climática.</p>
+            <p>🌱 <strong>"Developing countries need financial support."</strong> → Los países en desarrollo necesitan apoyo financiero.</p>
+          </div>
+          <div class="checkpoint">
+            <div class="cp-title">✅ Unit 2 Checkpoint</div>
+            <div class="cp-desc">Marca lo que ya entiendes:</div>
+            <div class="cp-items" id="cp-u2">
+              <label class="cp-item"><input type="checkbox" onchange="cpCheck('u2',this)"> I can explain what climate change is in English</label>
+              <label class="cp-item"><input type="checkbox" onchange="cpCheck('u2',this)"> I know at least 5 vocabulary words related to climate</label>
+              <label class="cp-item"><input type="checkbox" onchange="cpCheck('u2',this)"> I understand what "funding climate action" means</label>
+              <label class="cp-item"><input type="checkbox" onchange="cpCheck('u2',this)"> I can identify causes and effects in a text</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════ VOCAB ════════════════════════════ -->
+  <div class="section-panel" id="panel-vocab">
+    <h2 class="section-heading">Vocabulary Hub</h2>
+    <p class="section-desc">Tarjetas de vocabulario interactivas para Unit 1 y Unit 2. Haz clic en cada tarjeta para ver la traducción.</p>
+
+    <div class="tip-box tip-blue">🃏 <strong>Tip:</strong> Click a flashcard to flip it and see the Spanish translation. Study 10 words per day for best results!</div>
+
+    <h3 style="font-family:var(--font-display);font-size:1.2rem;color:var(--yellow-bright);margin:24px 0 16px;">Unit 1 — Education Vocabulary</h3>
+    <div class="flashcards-grid" id="fc-u1"></div>
+
+    <h3 style="font-family:var(--font-display);font-size:1.2rem;color:#2dd4bf;margin:32px 0 16px;">Unit 2 — Climate Vocabulary</h3>
+    <div class="flashcards-grid" id="fc-u2"></div>
+  </div>
+
+  <!-- ════════════════════════════ READING ════════════════════════════ -->
+  <div class="section-panel" id="panel-reading">
+    <h2 class="section-heading">Reading Comprehension</h2>
+    <p class="section-desc">Textos con dificultad creciente. Practica estrategias de comprensión lectora.</p>
+
+    <div class="tip-box tip-blue">📖 <strong>Reading Strategy:</strong>
+      <strong>1)</strong> Read the whole text quickly first (general idea). <strong>2)</strong> Read again slowly for specific details. <strong>3)</strong> Answer questions based only on what the text says.</div>
+
+    <!-- PASSAGE 1 -->
+    <div class="reading-passage">
+      <div class="passage-level">🟢 Level 1 · Beginner — Unit 1</div>
+      <div class="passage-title">Every Child's Right</div>
+      <div class="passage-text">
+        Education is a <span class="highlight" title="derecho = right">right</span> for every child in the world. According to the <span class="highlight" title="Declaración de Derechos Humanos">United Nations</span>, all children should have access to free and quality education. However, many children do not go to school. Some cannot go because their families are <span class="highlight" title="pobre = poor">poor</span>. Others live far from any school. In some countries, girls are not allowed to study. We must work together to make sure every child can learn.
+      </div>
+    </div>
+    <div style="margin-bottom: 32px;">
+      <h4 style="font-family:var(--font-display);color:var(--yellow-bright);margin-bottom:12px;">Comprehension Questions — Passage 1</h4>
+      <div class="quiz-container" id="rq1-container"></div>
+    </div>
+
+    <!-- PASSAGE 2 -->
+    <div class="reading-passage">
+      <div class="passage-level">🟡 Level 2 · Intermediate — Unit 1</div>
+      <div class="passage-title">Breaking Barriers: Girls and Education</div>
+      <div class="passage-text">
+        Around the world, approximately 130 million girls are out of school. This is a significant global challenge. Many girls face multiple <span class="highlight" title="obstáculos, barreras">barriers</span> to education: poverty, child marriage, cultural norms, and lack of safe schools. Research shows that educating girls has enormous benefits. When girls are educated, they earn higher incomes, have healthier families, and contribute more to their communities. Organizations like UNESCO and UNICEF work to <span class="highlight" title="promover, impulsar">promote</span> girls' education globally. <span class="highlight" title="igualdad de género">Gender equality</span> in education is not just a human right — it is also a smart investment for every nation's development.
+      </div>
+    </div>
+    <div style="margin-bottom: 32px;">
+      <h4 style="font-family:var(--font-display);color:var(--yellow-bright);margin-bottom:12px;">Comprehension Questions — Passage 2</h4>
+      <div class="quiz-container" id="rq2-container"></div>
+    </div>
+
+    <!-- PASSAGE 3 -->
+    <div class="reading-passage">
+      <div class="passage-level">🟠 Level 3 · Intermediate — Unit 2</div>
+      <div class="passage-title">Funding the Green Revolution</div>
+      <div class="passage-text">
+        Climate change is one of the most <span class="highlight" title="urgente, apremiante">pressing</span> challenges of the 21st century. Scientists agree that we must reduce greenhouse gas emissions dramatically to avoid the worst effects of global warming. However, taking action requires enormous financial resources. The Green Climate Fund, established in 2010, was created to support developing nations in their efforts to reduce emissions and adapt to climate impacts. Developed countries promised to provide 100 billion dollars per year by 2020. While progress has been made, many experts argue that current funding levels are still insufficient. <span class="highlight" title="sostenible, que puede mantenerse a largo plazo">Sustainable</span> solutions require long-term investment in renewable energy, green infrastructure, and climate-resilient communities.
+      </div>
+    </div>
+    <div style="margin-bottom: 32px;">
+      <h4 style="font-family:var(--font-display);color:var(--yellow-bright);margin-bottom:12px;">Comprehension Questions — Passage 3</h4>
+      <div class="quiz-container" id="rq3-container"></div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════ PRACTICE ════════════════════════════ -->
+  <div class="section-panel" id="panel-practice">
+    <h2 class="section-heading">Practice Activities</h2>
+    <p class="section-desc">Fill in the blanks, True/False, and matching exercises.</p>
+
+    <!-- FILL IN BLANK -->
+    <h3 style="font-family:var(--font-display);font-size:1.3rem;color:var(--yellow-bright);margin-bottom:8px;">Fill in the Blank · Completa los espacios</h3>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">Use the words from the word bank to complete the sentences. (Usa las palabras del banco para completar las oraciones.)</p>
+
+    <div class="word-bank" id="wordbank1">
+      <span class="word-chip" data-word="education">education</span>
+      <span class="word-chip" data-word="climate">climate</span>
+      <span class="word-chip" data-word="equality">equality</span>
+      <span class="word-chip" data-word="barriers">barriers</span>
+      <span class="word-chip" data-word="renewable">renewable</span>
+      <span class="word-chip" data-word="sustainable">sustainable</span>
+    </div>
+
+    <div id="fib-container"></div>
+    <button class="btn-reset" onclick="checkFIB()" style="margin-bottom:32px;">Check Answers ✓</button>
+
+    <!-- TRUE / FALSE -->
+    <h3 style="font-family:var(--font-display);font-size:1.3rem;color:var(--yellow-bright);margin-bottom:8px;">True or False · Verdadero o Falso</h3>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">Read the statement and decide if it's TRUE or FALSE. (Lee la afirmación y decide si es VERDADERO o FALSO.)</p>
+    <div id="tf-container"></div>
+
+    <!-- MATCHING -->
+    <h3 style="font-family:var(--font-display);font-size:1.3rem;color:var(--yellow-bright);margin:32px 0 8px;">Matching · Empareja</h3>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">Click a word, then click its Spanish translation to match them. (Haz clic en una palabra, luego en su traducción.)</p>
+    <div class="match-container" id="match-left-col">
+      <div>
+        <div class="match-col-label">English</div>
+        <div id="match-en"></div>
+      </div>
+      <div>
+        <div class="match-col-label">Español</div>
+        <div id="match-es"></div>
+      </div>
+    </div>
+    <div id="match-result" style="margin-top:12px;font-size:13px;color:var(--text-muted);"></div>
+  </div>
+
+  <!-- ════════════════════════════ GAMES ════════════════════════════ -->
+  <div class="section-panel" id="panel-games">
+    <h2 class="section-heading">Games & Interactive Activities</h2>
+    <p class="section-desc">¡Aprende jugando! Usa estos juegos para practicar vocabulario de ambas unidades.</p>
+
+    <!-- QUIZ GAME -->
+    <h3 style="font-family:var(--font-display);font-size:1.3rem;color:var(--yellow-bright);margin-bottom:8px;">📝 PDN-Style Quiz</h3>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:20px;">10 preguntas tipo PDN sobre Unit 1 y Unit 2.</p>
+    <div class="quiz-container" id="pdn-quiz-container"></div>
+    <div id="pdn-score-container" style="display:none;" class="quiz-score">
+      <div class="quiz-score-num" id="pdn-final-score">0/10</div>
+      <div class="quiz-score-label">respuestas correctas</div>
+      <button class="btn-reset" onclick="resetPDNQuiz()">Try Again</button>
+    </div>
+
+    <!-- MEMORY GAME -->
+    <h3 style="font-family:var(--font-display);font-size:1.3rem;color:var(--yellow-bright);margin:40px 0 8px;">🃏 Memory Game — Vocabulary</h3>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">Find the matching pairs: English word ↔ Spanish translation. (Encuentra los pares que coinciden.)</p>
+    <div style="display:flex;gap:16px;margin-bottom:16px;align-items:center;flex-wrap:wrap;">
+      <span id="mem-moves" style="font-family:var(--font-mono);font-size:12px;color:var(--text-muted);">Moves: 0</span>
+      <span id="mem-matches" style="font-family:var(--font-mono);font-size:12px;color:var(--text-muted);">Matches: 0/8</span>
+      <button class="btn-reset" onclick="initMemory()" style="margin-top:0;padding:7px 16px;">🔄 Restart</button>
+    </div>
+    <div class="memory-grid" id="memory-grid"></div>
+    <div id="memory-win" style="display:none;text-align:center;padding:20px;margin-top:16px;background:rgba(13,148,136,0.1);border:1px solid rgba(13,148,136,0.3);border-radius:12px;color:#2dd4bf;font-family:var(--font-display);font-size:1.2rem;">🎉 Congratulations! You matched all pairs!</div>
+  </div>
+
+  <!-- ════════════════════════════ LOGROS ════════════════════════════ -->
+  <div class="section-panel" id="panel-logros">
+    <h2 class="section-heading">Your Achievements · Tus Logros</h2>
+    <p class="section-desc">Unlock badges by completing activities in the English guide.</p>
+    <div class="achievements-grid" id="achievements-grid"></div>
+  </div>
+
+</div><!-- /content-area -->
+
+<!-- TUTOR PANEL -->
+<div id="tutor-panel">
+  <div id="tutor-header">
+    <div id="tutor-header-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 36" width="24" height="14" style="display:block" aria-hidden="true"><rect width="60" height="36" fill="#012169"/><path d="M0 0l60 36M60 0L0 36" stroke="#fff" stroke-width="7.2"/><path d="M0 0l60 36M60 0L0 36" stroke="#C8102E" stroke-width="4.8"/><path d="M30 0v36M0 18h60" stroke="#fff" stroke-width="12"/><path d="M30 0v36M0 18h60" stroke="#C8102E" stroke-width="7.2"/></svg></div>
+    <div id="tutor-header-info">
+      <div id="tutor-header-title">English Tutor IA</div>
+      <div id="tutor-header-sub">Unit 1 & Unit 2 · Full Support</div>
+    </div>
+    <button id="tutor-close" onclick="tutorToggle()">✕</button>
+  </div>
+  <div id="tutor-messages"></div>
+  <div id="tutor-suggestions">
+    <div class="tutor-suggest-label">Suggested questions</div>
+    <button class="tutor-sq">What is a human right? Give examples.</button>
+    <button class="tutor-sq">Explain climate change in simple words.</button>
+    <button class="tutor-sq">What are barriers to education?</button>
+    <button class="tutor-sq">What does "gender equality" mean?</button>
+  </div>
+  <div id="tutor-input-area">
+    <textarea id="tutor-input" placeholder="Ask your English tutor anything… (in Spanish or English!)" rows="1"></textarea>
+    <button id="tutor-send" onclick="tutorSend()" title="Send">↑</button>
+  </div>
+</div>
+
+<!-- DOCK: Pomodoro + Música + Tutor IA -->
+<style>
+  #st-wrap {
+    position: fixed; bottom: 20px; right: 20px; z-index: 9999;
+    font-family: var(--font-mono, 'DM Mono', monospace);
+    user-select: none; display: flex; flex-direction: column; align-items: flex-end; gap: 8px;
+  }
+  #st-dock-row {
+    display: flex; flex-direction: row; align-items: center; gap: 6px;
+    background: #040e1c; border: 1px solid rgba(234,179,8,0.2);
+    border-radius: 20px; padding: 5px 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  }
+  #st-panel {
+    background: #060f1c; border: 1px solid rgba(234,179,8,0.2); border-radius: 16px;
+    padding: 16px 18px 14px; width: 234px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+    transform-origin: bottom right; transform: scale(0.92) translateY(6px);
+    opacity: 0; pointer-events: none; transition: opacity 0.18s ease, transform 0.18s ease; overflow: hidden;
+  }
+  #st-panel.open { opacity: 1; transform: scale(1) translateY(0); pointer-events: all; }
+  #st-panel.music-mode { width: 340px; }
+  .st-tabs { display: flex; gap: 4px; margin-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,0.07); padding-bottom: 10px; }
+  .st-tab { flex: 1; padding: 5px 2px; border: 1px solid transparent; border-radius: 7px; background: transparent; color: var(--text-muted); font-family: inherit; font-size: 9.5px; letter-spacing: 0.06em; cursor: pointer; transition: all 0.13s; text-align: center; }
+  .st-tab.active { border-color: rgba(234,179,8,0.35); color: var(--yellow-bright); background: rgba(234,179,8,0.08); }
+  .st-tab:hover:not(.active) { border-color: rgba(255,255,255,0.12); color: var(--text); }
+  .st-pane { display: none; }
+  .st-pane.active { display: block; }
+  .st-modes { display: flex; gap: 5px; margin-bottom: 12px; }
+  .st-mode { flex: 1; padding: 4px 2px; border: 1px solid rgba(255,255,255,0.07); border-radius: 6px; background: transparent; color: var(--text-muted); font-family: inherit; font-size: 9px; letter-spacing: 0.07em; cursor: pointer; transition: all 0.13s; text-align: center; }
+  .st-mode.active { border-color: rgba(234,179,8,0.4); color: var(--yellow-bright); background: rgba(234,179,8,0.08); }
+  .st-mode:hover:not(.active) { border-color: rgba(255,255,255,0.15); color: var(--text); }
+  .st-time { font-size: 2rem; font-weight: 500; color: var(--text); letter-spacing: 0.06em; text-align: center; line-height: 1; margin-bottom: 10px; }
+  .st-bar-wrap { height: 2px; background: rgba(255,255,255,0.06); border-radius: 2px; margin-bottom: 12px; overflow: hidden; }
+  .st-bar { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--yellow), var(--yellow-bright)); transition: width 0.9s linear; }
+  .st-btns { display: flex; gap: 6px; }
+  .st-btn { flex: 1; padding: 7px 4px; border: 1px solid rgba(255,255,255,0.09); border-radius: 7px; background: rgba(255,255,255,0.03); color: var(--text-muted); font-family: inherit; font-size: 10px; letter-spacing: 0.05em; cursor: pointer; transition: all 0.13s; }
+  .st-btn:hover { background: rgba(255,255,255,0.08); color: var(--text); }
+  .st-btn.go { background: rgba(234,179,8,0.12); border-color: rgba(234,179,8,0.35); color: var(--yellow-bright); }
+  .st-btn.go:hover { background: rgba(234,179,8,0.22); }
+  .st-sessions { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; font-size: 9px; color: var(--text-dim); letter-spacing: 0.09em; }
+  .st-dots { display: flex; gap: 4px; }
+  .st-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.08); transition: background 0.2s; }
+  .st-dot.on { background: var(--yellow-bright); }
+  .sp-label { font-size: 9px; letter-spacing: 0.1em; color: var(--text-dim); text-transform: uppercase; margin-bottom: 10px; }
+  .sp-frame-wrap { border-radius: 10px; overflow: hidden; border: 1px solid rgba(255,255,255,0.07); }
+  #st-trigger {
+    width: 30px; height: 30px; border-radius: 50%; border: 1px solid transparent; background: transparent;
+    color: var(--text-muted); font-size: 14px; cursor: pointer; display: flex; align-items: center;
+    justify-content: center; transition: border-color 0.15s, color 0.15s; position: relative; flex-shrink: 0;
+  }
+  #tutor-fab {
+    width: 30px; height: 30px; border-radius: 50%; border: 1px solid transparent; background: transparent;
+    color: var(--text-muted); font-size: 16px; cursor: pointer; display: flex; align-items: center;
+    justify-content: center; transition: border-color 0.15s, color 0.15s; flex-shrink: 0;
+    box-shadow: none; position: static; transform: none;
+  }
+  #tutor-fab:hover, #tutor-fab.open { border-color: rgba(234,179,8,0.45); color: var(--yellow-bright); transform: none; box-shadow: none; }
+  .dock-divider { width: 1px; height: 18px; background: rgba(255,255,255,0.1); flex-shrink: 0; }
+  #st-tooltip {
+    position: absolute; right: 46px; bottom: 50%;
+    background: #060f1c; border: 1px solid rgba(255,255,255,0.11); border-radius: 10px;
+    padding: 8px 11px; white-space: nowrap; pointer-events: none;
+    opacity: 0; transform: translateY(50%) translateX(4px); transition: opacity 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.45);
+  }
+  #st-tooltip.visible { opacity: 1; transform: translateY(50%) translateX(0); }
+  .tt-title { font-family: var(--font-mono, monospace); font-size: 10px; font-weight: 500; letter-spacing: 0.08em; color: var(--yellow-bright); margin-bottom: 2px; }
+  .tt-desc { font-family: var(--font-body, sans-serif); font-size: 11px; color: var(--text-muted); line-height: 1.4; }
+  #st-tooltip::after { content: ''; position: absolute; right: -5px; top: 50%; width: 8px; height: 8px; background: #060f1c; border-top: 1px solid rgba(255,255,255,0.11); border-right: 1px solid rgba(255,255,255,0.11); transform: translateY(-50%) rotate(45deg); }
+  #st-trigger:hover, #st-trigger.open { border-color: rgba(234,179,8,0.45); color: var(--yellow-bright); }
+  #st-trigger .run-dot { display: none; position: absolute; top: 4px; right: 4px; width: 6px; height: 6px; border-radius: 50%; background: var(--yellow-bright); animation: st-pulse 1.4s ease-in-out infinite; }
+  #st-trigger.running .run-dot { display: block; }
+  @keyframes st-pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:.3; transform:scale(.6); } }
+</style>
+
+<div id="st-wrap">
+  <div id="st-panel">
+    <div class="st-tabs">
+      <button class="st-tab active" onclick="stSwitchTab('timer',this)">⏱ Timer</button>
+      <button class="st-tab" onclick="stSwitchTab('music',this)">🎵 Music</button>
+    </div>
+    <div class="st-pane active" id="st-pane-timer">
+      <div class="st-modes">
+        <button class="st-mode active" data-m="focus">Focus</button>
+        <button class="st-mode" data-m="short">Short</button>
+        <button class="st-mode" data-m="long">Break</button>
+      </div>
+      <div class="st-time" id="st-display">25:00</div>
+      <div class="st-bar-wrap"><div class="st-bar" id="st-bar" style="width:100%"></div></div>
+      <div class="st-btns">
+        <button class="st-btn" id="st-reset" onclick="stReset()">↺</button>
+        <button class="st-btn go" id="st-toggle" onclick="stToggle()">▶ Start</button>
+      </div>
+      <div class="st-sessions">
+        <span>sessions</span>
+        <div class="st-dots">
+          <div class="st-dot" id="stDot0"></div>
+          <div class="st-dot" id="stDot1"></div>
+          <div class="st-dot" id="stDot2"></div>
+          <div class="st-dot" id="stDot3"></div>
+        </div>
+      </div>
+    </div>
+    <div class="st-pane" id="st-pane-music">
+      <div class="sp-label">study playlist</div>
+      <div class="sp-frame-wrap">
+        <iframe style="border-radius:10px" src="https://open.spotify.com/embed/playlist/30BaDZWwIXZV14rIBqBEQZ?utm_source=generator"
+          width="100%" height="352" frameBorder="0"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <div id="st-dock-row">
+    <button id="tutor-fab" onclick="tutorToggle()" title="English Tutor IA"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 36" width="20" height="12" style="display:block;border-radius:2px" aria-hidden="true"><rect width="60" height="36" fill="#012169"/><path d="M0 0l60 36M60 0L0 36" stroke="#fff" stroke-width="7.2"/><path d="M0 0l60 36M60 0L0 36" stroke="#C8102E" stroke-width="4.8"/><path d="M30 0v36M0 18h60" stroke="#fff" stroke-width="12"/><path d="M30 0v36M0 18h60" stroke="#C8102E" stroke-width="7.2"/></svg></button>
+    <div class="dock-divider"></div>
+    <button id="st-trigger" onclick="stTrigger()">
+      ⏱
+      <span class="run-dot"></span>
+      <div id="st-tooltip">
+        <div class="tt-title" id="tt-title">⏱ Timer</div>
+        <div class="tt-desc" id="tt-desc">Pomodoro · Focus / Break<br>Click to open</div>
+      </div>
+    </button>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════ POMODORO ═══════════════════════════
+(function(){
+  const CFG = { focus:25*60, short:5*60, long:15*60 };
+  let mode='focus', total=CFG.focus, left=total, running=false, iv=null, sessions=0, stOpen=false;
+  const stPanel=document.getElementById('st-panel');
+  const stTrigBtn=document.getElementById('st-trigger');
+  const disp=document.getElementById('st-display');
+  const bar=document.getElementById('st-bar');
+  const toggleBtn=document.getElementById('st-toggle');
+  const modeBtns=document.querySelectorAll('.st-mode');
+  function fmt(s){ return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`; }
+  function render(){ disp.textContent=fmt(left); bar.style.width=(left/total*100)+'%'; }
+  function renderDots(){ const n=sessions%4===0&&sessions>0?4:sessions%4; for(let i=0;i<4;i++) document.getElementById('stDot'+i).classList.toggle('on',i<n); }
+  modeBtns.forEach(btn=>btn.addEventListener('click',()=>{
+    if(running)return;
+    mode=btn.dataset.m; total=CFG[mode]; left=total;
+    modeBtns.forEach(b=>b.classList.toggle('active',b===btn));
+    render();
+  }));
+  window.stToggle=function(){
+    if(running){
+      clearInterval(iv); running=false; toggleBtn.textContent='▶ Start'; stTrigBtn.classList.remove('running');
+    } else {
+      running=true; toggleBtn.textContent='⏸ Pause'; stTrigBtn.classList.add('running');
+      iv=setInterval(()=>{
+        left--; render();
+        if(left<=0){
+          clearInterval(iv); running=false; toggleBtn.textContent='▶ Start'; stTrigBtn.classList.remove('running');
+          if(mode==='focus'){ sessions++; renderDots(); }
+          try{
+            const ac=new(window.AudioContext||window.webkitAudioContext)();
+            [0,.18,.36].forEach(d=>{
+              const o=ac.createOscillator(), g=ac.createGain();
+              o.connect(g); g.connect(ac.destination);
+              o.frequency.value=660;
+              g.gain.setValueAtTime(.15,ac.currentTime+d);
+              g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+d+.22);
+              o.start(ac.currentTime+d); o.stop(ac.currentTime+d+.23);
+            });
+          }catch(e){}
+        }
+      },1000);
+    }
+  };
+  window.stReset=function(){ clearInterval(iv); running=false; left=total; toggleBtn.textContent='▶ Start'; stTrigBtn.classList.remove('running'); render(); };
+  window.stSwitchTab=function(tab,btn){
+    document.querySelectorAll('.st-tab').forEach(t=>t.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.st-pane').forEach(p=>p.classList.remove('active'));
+    document.getElementById('st-pane-'+tab).classList.add('active');
+    stPanel.classList.toggle('music-mode', tab==='music');
+  };
+  window.stTrigger=function(){
+    stOpen=!stOpen;
+    stPanel.classList.toggle('open',stOpen);
+    stTrigBtn.classList.toggle('open',stOpen);
+  };
+  const tooltip=document.getElementById('st-tooltip');
+  const ttTitle=document.getElementById('tt-title');
+  const ttDesc=document.getElementById('tt-desc');
+  let tooltipTimer=null;
+  function showTooltip(){
+    tooltip.classList.add('visible');
+    clearTimeout(tooltipTimer);
+    tooltipTimer=setTimeout(()=>tooltip.classList.remove('visible'),3000);
+  }
+  stTrigBtn.addEventListener('mouseenter',showTooltip);
+  stTrigBtn.addEventListener('mouseleave',()=>{ clearTimeout(tooltipTimer); tooltipTimer=setTimeout(()=>tooltip.classList.remove('visible'),300); });
+  tooltip.addEventListener('mouseenter',()=>clearTimeout(tooltipTimer));
+  setTimeout(showTooltip, 1200);
+})();
+
+// ═══════════════════════════ SECTION NAV ═══════════════════════════
+function showSection(id) {
+  document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  document.getElementById('tab-' + id).classList.add('active');
+  if (id === 'logros') renderAchievements();
+  trackProgress(id);
+  visitedSections.add(id);
+  checkExplorerAch();
+}
+
+function toggleAccGen(btn) {
+  const item = btn.closest('.acc-item');
+  item.classList.toggle('open');
+}
+
+function togglePersona(card) {
+  card.classList.toggle('expanded');
+}
+
+// ═══════════════════════════ PROGRESS ═══════════════════════════
+const progressData = { u1: 0, u2: 0, read: 0, vocab: 0 };
+
+function trackProgress(section) {
+  const map = { unit1: 'u1', unit2: 'u2', reading: 'read', vocab: 'vocab' };
+  const key = map[section];
+  if (key && progressData[key] < 100) {
+    progressData[key] = Math.min(100, progressData[key] + 30);
+    updateProgressBars(); saveProgress();
+  }
+}
+function updateProgressBars() {
+  for (const [key, val] of Object.entries(progressData)) {
+    const fill = document.getElementById('fill-' + key);
+    const pct = document.getElementById('pct-' + key);
+    if (fill) fill.style.width = val + '%';
+    if (pct) pct.textContent = val + '%';
+  }
+}
+function saveProgress() {
+  try { localStorage.setItem('ingles_progress', JSON.stringify(progressData)); } catch(e) {}
+}
+function loadProgress() {
+  try {
+    const saved = localStorage.getItem('ingles_progress');
+    if (saved) { Object.assign(progressData, JSON.parse(saved)); updateProgressBars(); }
+  } catch(e) {}
+}
+
+// ═══════════════════════════ CHECKPOINT ═══════════════════════════
+function cpCheck(unit, checkbox) {
+  const label = checkbox.closest('.cp-item');
+  label.classList.toggle('checked', checkbox.checked);
+  const all = document.querySelectorAll('#cp-' + unit + ' input[type="checkbox"]');
+  const checked = [...all].filter(c => c.checked).length;
+  if (checked >= 3) {
+    progressData[unit] = Math.min(100, progressData[unit] + 25);
+    updateProgressBars(); saveProgress();
+  }
+  if (checked === all.length) unlockAchievement('checkpoint_' + unit);
+}
+
+// ═══════════════════════════ FLASHCARDS ═══════════════════════════
+const FC_U1 = [
+  { en: 'education', es: 'educación', pron: '/ˌedʒuˈkeɪʃən/' },
+  { en: 'human right', es: 'derecho humano', pron: '' },
+  { en: 'barrier', es: 'barrera / obstáculo', pron: '/ˈbæriər/' },
+  { en: 'equality', es: 'igualdad', pron: '/ɪˈkwɒlɪti/' },
+  { en: 'access', es: 'acceso', pron: '/ˈækses/' },
+  { en: 'opportunity', es: 'oportunidad', pron: '/ˌɒpəˈtjuːnɪti/' },
+  { en: 'empowerment', es: 'empoderamiento', pron: '/ɪmˈpaʊərmənt/' },
+  { en: 'discrimination', es: 'discriminación', pron: '/dɪˌskrɪmɪˈneɪʃən/' },
+  { en: 'gender equality', es: 'igualdad de género', pron: '' },
+  { en: 'stereotype', es: 'estereotipo', pron: '/ˈsteriətaɪp/' },
+  { en: 'inclusion', es: 'inclusión', pron: '/ɪnˈkluːʒən/' },
+  { en: 'knowledge', es: 'conocimiento', pron: '/ˈnɒlɪdʒ/' },
+];
+const FC_U2 = [
+  { en: 'climate change', es: 'cambio climático', pron: '/ˈklaɪmɪt tʃeɪndʒ/' },
+  { en: 'greenhouse gas', es: 'gas de efecto invernadero', pron: '' },
+  { en: 'renewable energy', es: 'energía renovable', pron: '/rɪˈnjuːəbəl ˈenədʒi/' },
+  { en: 'sustainability', es: 'sostenibilidad', pron: '/səˌsteɪnəˈbɪlɪti/' },
+  { en: 'deforestation', es: 'deforestación', pron: '/ˌdiːˌfɒrɪˈsteɪʃən/' },
+  { en: 'carbon footprint', es: 'huella de carbono', pron: '' },
+  { en: 'global warming', es: 'calentamiento global', pron: '' },
+  { en: 'funding', es: 'financiamiento', pron: '/ˈfʌndɪŋ/' },
+  { en: 'emission', es: 'emisión', pron: '/ɪˈmɪʃən/' },
+  { en: 'biodiversity', es: 'biodiversidad', pron: '/ˌbaɪəʊdaɪˈvɜːsɪti/' },
+  { en: 'adaptation', es: 'adaptación', pron: '/ˌædæpˈteɪʃən/' },
+  { en: 'net zero', es: 'carbono neutro / cero neto', pron: '' },
+];
+
+function buildFlashcards(data, containerId) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = '';
+  data.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'flashcard';
+    card.innerHTML = `<div class="flashcard-inner">
+      <div class="flashcard-front">
+        <div class="fc-label">English</div>
+        <div class="fc-term">${item.en}</div>
+        ${item.pron ? `<div class="fc-hint">${item.pron}</div>` : ''}
+        <div class="fc-hint" style="margin-top:8px">Click to flip 🔄</div>
+      </div>
+      <div class="flashcard-back">
+        <div class="fc-label">Español</div>
+        <div class="fc-def">${item.es}</div>
+      </div>
+    </div>`;
+    card.addEventListener('click', () => {
+      card.classList.toggle('flipped');
+      fcFlipped++;
+      if (fcFlipped >= 8) unlockAchievement('flashcard_fan');
+      progressData.vocab = Math.min(100, progressData.vocab + 3);
+      updateProgressBars(); saveProgress();
+    });
+    container.appendChild(card);
+  });
+}
+
+let fcFlipped = 0;
+
+// ═══════════════════════════ READING QUIZZES ═══════════════════════════
+const RQ1_DATA = [
+  { q: 'According to the text, education is a _____ for every child.', opts: ['gift', 'right', 'duty', 'subject'], correct: 1, fb: 'The text says "Education is a right for every child in the world." A right is something everyone deserves. (Derecho = right)' },
+  { q: 'Which organization is mentioned in the text?', opts: ['World Bank', 'United Nations', 'UNESCO', 'Red Cross'], correct: 1, fb: 'The text mentions "the United Nations" (ONU), which states all children should have access to education.' },
+  { q: 'What is the main idea of this text?', opts: ['Schools need more money', 'Education is a right but many children cannot access it', 'Girls should not go to school', 'The United Nations is powerful'], correct: 1, fb: 'The main idea is that education is a right, but many barriers prevent children from accessing it. The text explains reasons why children cannot attend school.' },
+];
+const RQ2_DATA = [
+  { q: 'How many girls are out of school, according to the text?', opts: ['About 50 million', 'About 100 million', 'Approximately 130 million', 'More than 200 million'], correct: 2, fb: 'The text states "approximately 130 million girls are out of school." (aproximadamente 130 millones de niñas están fuera de la escuela).' },
+  { q: 'Which of the following is NOT mentioned as a barrier in the text?', opts: ['Poverty', 'Language differences', 'Child marriage', 'Cultural norms'], correct: 1, fb: 'The text lists poverty, child marriage, cultural norms, and lack of safe schools — but not language differences. Always answer based on what the TEXT says.' },
+  { q: 'What does the text say is a benefit of educating girls?', opts: ['They can leave their country', 'They earn higher incomes', 'They become teachers only', 'They need less support'], correct: 1, fb: '"When girls are educated, they earn higher incomes, have healthier families, and contribute more to their communities." — Three benefits are mentioned.' },
+  { q: 'The word "promote" in the text most likely means:', opts: ['prevent', 'support and advance', 'criticize', 'hide'], correct: 1, fb: 'To promote = apoyar, impulsar, fomentar. UNESCO and UNICEF work to "promote" (advance/support) girls\' education globally.' },
+];
+const RQ3_DATA = [
+  { q: 'What was the Green Climate Fund established to do?', opts: ['Promote tourism in developing countries', 'Support developing nations with emissions and climate adaptation', 'Replace the United Nations', 'Fund only renewable energy in Europe'], correct: 1, fb: 'The text says the fund "was created to support developing nations in their efforts to reduce emissions and adapt to climate impacts."' },
+  { q: 'How much did developed countries promise to provide per year?', opts: ['50 billion dollars', '75 billion dollars', '100 billion dollars', '200 billion dollars'], correct: 2, fb: '"Developed countries promised to provide 100 billion dollars per year by 2020." Always look for specific numbers in the text.' },
+  { q: 'What is the author\'s opinion about current funding levels?', opts: ['They are more than enough', 'They are exactly right', 'They are still insufficient according to experts', 'The author does not give an opinion'], correct: 2, fb: '"many experts argue that current funding levels are still insufficient" — this is the expert opinion mentioned in the text. Insufficient = not enough.' },
+  { q: 'What does "pressing" most likely mean in this context?', opts: ['physical pressure', 'urgent and important', 'easy to solve', 'printed'], correct: 1, fb: '"Pressing challenges" = challenges that are urgent and demand immediate attention. Context: "one of the most pressing challenges of the 21st century."' },
+];
+
+let rqAnswers = { rq1: [], rq2: [], rq3: [] };
+
+function buildRQ(data, containerId, key) {
+  const container = document.getElementById(containerId);
+  rqAnswers[key] = new Array(data.length).fill(null);
+  data.forEach((q, qi) => {
+    const div = document.createElement('div');
+    div.className = 'quiz-question';
+    div.innerHTML = `
+      <div class="quiz-q-num">Question ${qi + 1} of ${data.length}</div>
+      <div class="quiz-q-text">${q.q}</div>
+      <div class="quiz-options" id="${key}-opts-${qi}">
+        ${q.opts.map((opt, oi) => `<button class="quiz-opt" onclick="answerRQ('${key}',${qi},${oi})">${opt}</button>`).join('')}
+      </div>
+      <div class="quiz-feedback" id="${key}-fb-${qi}"></div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function answerRQ(key, qi, oi) {
+  const dataMap = { rq1: RQ1_DATA, rq2: RQ2_DATA, rq3: RQ3_DATA };
+  const data = dataMap[key];
+  if (rqAnswers[key][qi] !== null) return;
+  rqAnswers[key][qi] = oi;
+  const q = data[qi];
+  const opts = document.querySelectorAll(`#${key}-opts-${qi} .quiz-opt`);
+  opts.forEach((btn, i) => {
+    btn.disabled = true;
+    if (i === q.correct) btn.classList.add('correct');
+    else if (i === oi && oi !== q.correct) btn.classList.add('wrong');
+  });
+  const fb = document.getElementById(`${key}-fb-${qi}`);
+  fb.className = 'quiz-feedback show ' + (oi === q.correct ? 'feedback-correct' : 'feedback-wrong');
+  fb.textContent = (oi === q.correct ? '✓ Correct! ' : '✗ Incorrect. ') + q.fb;
+  if (rqAnswers[key].every(a => a !== null)) {
+    const score = rqAnswers[key].reduce((acc, a, i) => acc + (a === data[i].correct ? 1 : 0), 0);
+    progressData.read = Math.min(100, progressData.read + 25);
+    updateProgressBars(); saveProgress();
+    if (score === data.length) unlockAchievement('perfect_reader');
+    unlockAchievement('first_reading');
+  }
+}
+
+// ═══════════════════════════ PDN QUIZ ═══════════════════════════
+const PDN_DATA = [
+  { q: 'Education is recognized as a _____ by the United Nations.', opts: ['A) hobby', 'B) human right', 'C) luxury', 'D) reward'], correct: 1, fb: 'Education is a fundamental human right according to Article 26 of the Universal Declaration of Human Rights. (Unit 1)' },
+  { q: 'Which of the following is an ECONOMIC barrier to education?', opts: ['A) A school being far from home', 'B) Cultural norms against girls studying', 'C) Families unable to pay school fees', 'D) Wars destroying schools'], correct: 2, fb: 'Economic barriers relate to money — like not being able to afford fees, uniforms or books. (Unit 1)' },
+  { q: '"Gender equality" in education means:', opts: ['A) Only girls get to study', 'B) Boys and girls study different subjects', 'C) All genders have equal access and opportunities', 'D) Schools only teach about gender'], correct: 2, fb: 'Gender equality = equal rights and opportunities for all genders, including in education. (Unit 1)' },
+  { q: 'What is the main cause of climate change, according to scientists?', opts: ['A) Natural disasters', 'B) Human activities like burning fossil fuels', 'C) Ocean tides', 'D) Animal farming only'], correct: 1, fb: 'The main driver of climate change is human activity, especially burning fossil fuels (coal, oil, gas). (Unit 2)' },
+  { q: 'Which of these is an EFFECT of climate change?', opts: ['A) Lower sea levels', 'B) More stable weather', 'C) Rising sea levels and extreme weather', 'D) Increased biodiversity'], correct: 2, fb: 'Climate change causes rising sea levels, more extreme weather events, and loss of biodiversity. (Unit 2)' },
+  { q: 'What does "to fund" mean?', opts: ['A) to forbid', 'B) to provide money to support something', 'C) to destroy', 'D) to study carefully'], correct: 1, fb: 'To fund = financiar (dar dinero para apoyar algo). The Green Climate Fund provides financial support. (Unit 2)' },
+  { q: 'The word "sustainable" in English most likely means:', opts: ['A) able to continue long-term without harming resources', 'B) expensive and modern', 'C) temporary and quick', 'D) made of plastic'], correct: 0, fb: 'Sustainable = sostenible: able to be maintained long-term without depleting natural resources. (Unit 2)' },
+  { q: 'Read: "All children deserve access to quality education regardless of their gender." What is the main idea?', opts: ['A) Only boys need education', 'B) Education quality depends on gender', 'C) Education should be equal for all genders', 'D) Girls are better students'], correct: 2, fb: 'The key words are "all children" and "regardless of gender" — meaning education must be equal for everyone. (Unit 1 — Main Idea)' },
+  { q: 'Which reading strategy helps you find SPECIFIC details?', opts: ['A) Reading only the first sentence', 'B) Scanning for key words and numbers', 'C) Guessing from the title only', 'D) Ignoring difficult words'], correct: 1, fb: 'Scanning = looking quickly for specific words, names, numbers, or dates without reading everything. (Reading Strategy)' },
+  { q: '"Renewable energy" refers to energy from sources that:', opts: ['A) run out quickly', 'B) are replenished naturally (sun, wind, water)', 'C) only come from oil', 'D) cause more pollution'], correct: 1, fb: 'Renewable energy comes from sources that naturally replenish: solar (sun), wind, hydropower (water). (Unit 2)' },
+];
+
+let pdnAnswers = new Array(PDN_DATA.length).fill(null);
+let pdnScore = 0;
+
+function buildPDNQuiz() {
+  const container = document.getElementById('pdn-quiz-container');
+  container.innerHTML = '';
+  pdnAnswers = new Array(PDN_DATA.length).fill(null);
+  pdnScore = 0;
+  PDN_DATA.forEach((q, qi) => {
+    const div = document.createElement('div');
+    div.className = 'quiz-question';
+    div.innerHTML = `
+      <div class="quiz-q-num">Unit ${qi < 3 ? '1' : qi < 6 ? '2' : 'Both'} · Question ${qi + 1} of ${PDN_DATA.length}</div>
+      <div class="quiz-q-text">${q.q}</div>
+      <div class="quiz-options" id="pdn-opts-${qi}">
+        ${q.opts.map((opt, oi) => `<button class="quiz-opt" onclick="answerPDN(${qi},${oi})">${opt}</button>`).join('')}
+      </div>
+      <div class="quiz-feedback" id="pdn-fb-${qi}"></div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function answerPDN(qi, oi) {
+  if (pdnAnswers[qi] !== null) return;
+  pdnAnswers[qi] = oi;
+  const q = PDN_DATA[qi];
+  const opts = document.querySelectorAll(`#pdn-opts-${qi} .quiz-opt`);
+  opts.forEach((btn, i) => {
+    btn.disabled = true;
+    if (i === q.correct) btn.classList.add('correct');
+    else if (i === oi && oi !== q.correct) btn.classList.add('wrong');
+  });
+  const fb = document.getElementById('pdn-fb-' + qi);
+  fb.className = 'quiz-feedback show ' + (oi === q.correct ? 'feedback-correct' : 'feedback-wrong');
+  fb.textContent = (oi === q.correct ? '✓ Correct! ' : '✗ Incorrect. ') + q.fb;
+  if (oi === q.correct) pdnScore++;
+  if (pdnAnswers.every(a => a !== null)) {
+    setTimeout(() => {
+      document.getElementById('pdn-score-container').style.display = 'block';
+      document.getElementById('pdn-final-score').textContent = pdnScore + '/' + PDN_DATA.length;
+      if (pdnScore >= 8) unlockAchievement('pdn_master');
+      if (pdnScore === PDN_DATA.length) unlockAchievement('perfect_pdn');
+      progressData.u1 = Math.min(100, progressData.u1 + 20);
+      progressData.u2 = Math.min(100, progressData.u2 + 20);
+      updateProgressBars(); saveProgress();
+    }, 600);
+  }
+}
+
+function resetPDNQuiz() {
+  document.getElementById('pdn-score-container').style.display = 'none';
+  buildPDNQuiz();
+}
+
+// ═══════════════════════════ FILL IN BLANK ═══════════════════════════
+const FIB_DATA = [
+  { before: 'Access to', after: 'is a fundamental human right for all children.', answer: 'education' },
+  { before: 'Gender', after: 'means equal rights and opportunities for everyone.', answer: 'equality' },
+  { before: 'Poverty and conflict are examples of', after: 'to education.', answer: 'barriers' },
+  { before: '', after: 'change is one of the biggest challenges of the 21st century.', answer: 'climate' },
+  { before: 'Solar and wind power are types of', after: 'energy.', answer: 'renewable' },
+  { before: 'We need', after: 'development to protect our planet for future generations.', answer: 'sustainable' },
+];
+
+function buildFIB() {
+  const container = document.getElementById('fib-container');
+  FIB_DATA.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.style.cssText = 'margin-bottom:14px;font-size:14.5px;color:var(--text);display:flex;gap:6px;align-items:center;flex-wrap:wrap;';
+    div.innerHTML = `<span style="font-size:12px;font-family:var(--font-mono);color:var(--text-dim);width:22px">${i + 1}.</span>
+      ${item.before ? `<span>${item.before}</span>` : ''}
+      <input class="blank-input" id="fib-${i}" type="text" placeholder="..." data-answer="${item.answer}">
+      <span>${item.after}</span>`;
+    container.appendChild(div);
+  });
+}
+
+function checkFIB() {
+  let correct = 0;
+  FIB_DATA.forEach((item, i) => {
+    const input = document.getElementById('fib-' + i);
+    const val = input.value.trim().toLowerCase();
+    input.classList.remove('correct-blank', 'wrong-blank');
+    if (val === item.answer.toLowerCase()) {
+      input.classList.add('correct-blank');
+      correct++;
+    } else {
+      input.classList.add('wrong-blank');
+      input.placeholder = item.answer;
+    }
+  });
+  if (correct >= 4) unlockAchievement('fib_master');
+  progressData.u1 = Math.min(100, progressData.u1 + 10);
+  progressData.u2 = Math.min(100, progressData.u2 + 10);
+  updateProgressBars(); saveProgress();
+}
+
+// ═══════════════════════════ TRUE/FALSE ═══════════════════════════
+const TF_DATA = [
+  { text: 'Education is a human right that belongs only to children in rich countries.', answer: false, fb: 'FALSE ✗ — Education is a UNIVERSAL right, meaning it belongs to every child regardless of where they live or how rich or poor they are.' },
+  { text: 'Gender equality in education means only girls should be allowed to study.', answer: false, fb: 'FALSE ✗ — Gender equality means ALL genders have the same rights and access. It\'s about equal opportunity, not preferring one gender.' },
+  { text: 'Economic barriers to education can include not being able to afford school fees.', answer: true, fb: 'TRUE ✓ — Economic barriers include costs like school fees, uniforms, books, and transport. These prevent many children from attending school.' },
+  { text: 'Climate change is mainly caused by human activities like burning fossil fuels.', answer: true, fb: 'TRUE ✓ — Scientists agree the main cause is human activity, especially burning coal, oil and gas which releases greenhouse gases.' },
+  { text: '"Renewable energy" runs out very quickly and cannot be replaced.', answer: false, fb: 'FALSE ✗ — Renewable energy comes from sources that are naturally replenished — like the sun, wind and water. They do NOT run out.' },
+  { text: 'Funding climate action means providing financial resources to fight climate change.', answer: true, fb: 'TRUE ✓ — To fund = to finance. Climate funding provides money for projects that reduce emissions and help communities adapt.' },
+];
+
+let tfAnswers = new Array(TF_DATA.length).fill(null);
+
+function buildTF() {
+  const container = document.getElementById('tf-container');
+  TF_DATA.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'tf-question';
+    div.innerHTML = `
+      <div class="tf-text"><strong>${i + 1}.</strong> ${item.text}</div>
+      <div class="tf-btns">
+        <button class="tf-btn t-btn" id="tf-${i}-t" onclick="answerTF(${i}, true)">✓ True</button>
+        <button class="tf-btn f-btn" id="tf-${i}-f" onclick="answerTF(${i}, false)">✗ False</button>
+      </div>
+      <div class="tf-result" id="tf-res-${i}"></div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function answerTF(i, val) {
+  if (tfAnswers[i] !== null) return;
+  tfAnswers[i] = val;
+  const item = TF_DATA[i];
+  const correct = val === item.answer;
+  const tBtn = document.getElementById(`tf-${i}-t`);
+  const fBtn = document.getElementById(`tf-${i}-f`);
+  tBtn.disabled = true; fBtn.disabled = true;
+  if (item.answer === true) tBtn.classList.add('correct'); else fBtn.classList.add('correct');
+  if (!correct) (val ? tBtn : fBtn).classList.add('wrong');
+  const res = document.getElementById('tf-res-' + i);
+  res.className = 'tf-result show ' + (correct ? 'feedback-correct' : 'feedback-wrong');
+  res.textContent = item.fb;
+  if (tfAnswers.every(a => a !== null)) {
+    const score = tfAnswers.reduce((acc, a, j) => acc + (a === TF_DATA[j].answer ? 1 : 0), 0);
+    if (score >= 5) unlockAchievement('tf_master');
+    progressData.u1 = Math.min(100, progressData.u1 + 10);
+    progressData.u2 = Math.min(100, progressData.u2 + 10);
+    updateProgressBars(); saveProgress();
+  }
+}
+
+// ═══════════════════════════ MATCHING ═══════════════════════════
+const MATCH_PAIRS = [
+  { en: 'education', es: 'educación' },
+  { en: 'barrier', es: 'barrera' },
+  { en: 'equality', es: 'igualdad' },
+  { en: 'climate', es: 'clima' },
+  { en: 'sustainable', es: 'sostenible' },
+  { en: 'funding', es: 'financiamiento' },
+  { en: 'renewable', es: 'renovable' },
+  { en: 'emission', es: 'emisión' },
+];
+
+let matchSelected = null;
+let matchDone = 0;
+
+function buildMatching() {
+  const enCol = document.getElementById('match-en');
+  const esCol = document.getElementById('match-es');
+  const shuffledEs = [...MATCH_PAIRS].sort(() => Math.random() - 0.5);
+  MATCH_PAIRS.forEach(pair => {
+    const btn = document.createElement('div');
+    btn.className = 'match-item';
+    btn.textContent = pair.en;
+    btn.dataset.type = 'en';
+    btn.dataset.val = pair.en;
+    btn.onclick = () => handleMatch(btn);
+    enCol.appendChild(btn);
+  });
+  shuffledEs.forEach(pair => {
+    const btn = document.createElement('div');
+    btn.className = 'match-item';
+    btn.textContent = pair.es;
+    btn.dataset.type = 'es';
+    btn.dataset.val = pair.en;
+    btn.onclick = () => handleMatch(btn);
+    esCol.appendChild(btn);
+  });
+}
+
+function handleMatch(btn) {
+  if (btn.classList.contains('matched')) return;
+  if (!matchSelected) {
+    if (matchSelected) matchSelected.classList.remove('selected');
+    matchSelected = btn;
+    btn.classList.add('selected');
+  } else {
+    if (matchSelected === btn) { btn.classList.remove('selected'); matchSelected = null; return; }
+    if (matchSelected.dataset.type === btn.dataset.type) {
+      matchSelected.classList.remove('selected');
+      matchSelected = btn;
+      btn.classList.add('selected');
+      return;
+    }
+    const correct = matchSelected.dataset.val === btn.dataset.val;
+    if (correct) {
+      matchSelected.classList.remove('selected');
+      matchSelected.classList.add('matched');
+      btn.classList.add('matched');
+      matchSelected = null;
+      matchDone++;
+      if (matchDone === MATCH_PAIRS.length) {
+        document.getElementById('match-result').textContent = '🎉 Perfect! You matched all pairs! (¡Perfecto! Emparejaste todos los pares.)';
+        document.getElementById('match-result').style.color = '#2dd4bf';
+        unlockAchievement('match_master');
+        progressData.vocab = Math.min(100, progressData.vocab + 20);
+        updateProgressBars(); saveProgress();
+      }
+    } else {
+      matchSelected.classList.remove('selected');
+      btn.classList.add('wrong-match');
+      matchSelected.classList.add('wrong-match');
+      setTimeout(() => { btn.classList.remove('wrong-match'); matchSelected && matchSelected.classList.remove('wrong-match'); matchSelected = null; }, 700);
+    }
+  }
+}
+
+// ═══════════════════════════ MEMORY GAME ═══════════════════════════
+const MEM_PAIRS = [
+  { en: 'education', es: 'educación' },
+  { en: 'barrier', es: 'barrera' },
+  { en: 'climate', es: 'clima' },
+  { en: 'equality', es: 'igualdad' },
+  { en: 'renewable', es: 'renovable' },
+  { en: 'funding', es: 'financiamiento' },
+  { en: 'emission', es: 'emisión' },
+  { en: 'sustainable', es: 'sostenible' },
+];
+
+let memFlipped = [], memMatches = 0, memMoves = 0, memLocked = false;
+
+function initMemory() {
+  memFlipped = []; memMatches = 0; memMoves = 0; memLocked = false;
+  document.getElementById('mem-moves').textContent = 'Moves: 0';
+  document.getElementById('mem-matches').textContent = 'Matches: 0/8';
+  document.getElementById('memory-win').style.display = 'none';
+  const grid = document.getElementById('memory-grid');
+  const cards = [];
+  MEM_PAIRS.forEach(p => {
+    cards.push({ text: p.en, id: p.en, side: 'en' });
+    cards.push({ text: p.es, id: p.en, side: 'es' });
+  });
+  cards.sort(() => Math.random() - 0.5);
+  grid.innerHTML = '';
+  cards.forEach((card, i) => {
+    const div = document.createElement('div');
+    div.className = 'mem-card';
+    div.dataset.id = card.id;
+    div.dataset.idx = i;
+    div.innerHTML = `<div class="mem-inner"><div class="mem-front">🔤</div><div class="mem-back">${card.text}</div></div>`;
+    div.addEventListener('click', () => handleMemCard(div));
+    grid.appendChild(div);
+  });
+}
+
+function handleMemCard(card) {
+  if (memLocked || card.classList.contains('flipped') || card.classList.contains('matched')) return;
+  card.classList.add('flipped');
+  memFlipped.push(card);
+  if (memFlipped.length === 2) {
+    memLocked = true;
+    memMoves++;
+    document.getElementById('mem-moves').textContent = 'Moves: ' + memMoves;
+    const [a, b] = memFlipped;
+    if (a.dataset.id === b.dataset.id) {
+      a.classList.add('matched'); b.classList.add('matched');
+      memMatches++;
+      document.getElementById('mem-matches').textContent = `Matches: ${memMatches}/8`;
+      memFlipped = []; memLocked = false;
+      if (memMatches === 8) {
+        document.getElementById('memory-win').style.display = 'block';
+        unlockAchievement('memory_master');
+        progressData.vocab = Math.min(100, progressData.vocab + 20);
+        updateProgressBars(); saveProgress();
+      }
+    } else {
+      setTimeout(() => { a.classList.remove('flipped'); b.classList.remove('flipped'); memFlipped = []; memLocked = false; }, 900);
+    }
+  }
+}
+
+// ═══════════════════════════ ACHIEVEMENTS ═══════════════════════════
+const ACHIEVEMENTS = [
+  { id: 'first_steps', icon: '🚀', name: 'First Steps', desc: 'Opened the English guide' },
+  { id: 'flashcard_fan', icon: '🃏', name: 'Flashcard Fan', desc: 'Flipped 8+ vocabulary cards' },
+  { id: 'first_reading', icon: '📖', name: 'First Reader', desc: 'Completed your first reading comprehension' },
+  { id: 'perfect_reader', icon: '📚', name: 'Perfect Reader', desc: 'Got all answers right in a reading passage' },
+  { id: 'pdn_master', icon: '🎯', name: 'PDN Ready', desc: 'Scored 8+ in the PDN-style quiz' },
+  { id: 'perfect_pdn', icon: '⭐', name: 'English Star', desc: 'Perfect score in the PDN quiz' },
+  { id: 'match_master', icon: '🧩', name: 'Match Master', desc: 'Matched all vocabulary pairs' },
+  { id: 'memory_master', icon: '🧠', name: 'Memory Master', desc: 'Completed the memory game' },
+  { id: 'fib_master', icon: '✏️', name: 'Fill-It Pro', desc: 'Got 4+ correct in fill-in-the-blank' },
+  { id: 'tf_master', icon: '✓', name: 'True/False Expert', desc: 'Got 5+ correct in True/False' },
+  { id: 'checkpoint_u1', icon: '🎓', name: 'Unit 1 Complete', desc: 'Completed Unit 1 checkpoint' },
+  { id: 'checkpoint_u2', icon: '🌱', name: 'Unit 2 Complete', desc: 'Completed Unit 2 checkpoint' },
+  { id: 'explorer', icon: '🗺️', name: 'Explorer', desc: 'Visited all sections' },
+];
+
+let unlockedAch = new Set();
+
+function unlockAchievement(id) {
+  if (unlockedAch.has(id)) return;
+  unlockedAch.add(id);
+  try { localStorage.setItem('ingles_ach', JSON.stringify([...unlockedAch])); } catch(e) {}
+  showAchievementToast(id);
+  if (document.getElementById('panel-logros').classList.contains('active')) renderAchievements();
+}
+
+function showAchievementToast(id) {
+  const ach = ACHIEVEMENTS.find(a => a.id === id);
+  if (!ach) return;
+  const toast = document.createElement('div');
+  toast.style.cssText = 'position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:#040e1c;border:1px solid rgba(234,179,8,0.4);border-radius:12px;padding:12px 20px;display:flex;gap:12px;align-items:center;font-size:14px;color:#dce8f8;z-index:300;box-shadow:0 4px 20px rgba(0,0,0,0.5);animation:fadeIn 0.3s ease;';
+  toast.innerHTML = `<span style="font-size:24px">${ach.icon}</span><div><div style="font-weight:500;color:var(--yellow-bright)">Achievement Unlocked!</div><div style="font-size:12px;color:var(--text-muted)">${ach.name}</div></div>`;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 3000);
+}
+
+function renderAchievements() {
+  const grid = document.getElementById('achievements-grid');
+  grid.innerHTML = '';
+  ACHIEVEMENTS.forEach(ach => {
+    const div = document.createElement('div');
+    div.className = 'achievement ' + (unlockedAch.has(ach.id) ? 'unlocked' : 'locked');
+    div.innerHTML = `<div class="ach-icon">${ach.icon}</div><div><div class="ach-name">${ach.name}</div><div class="ach-desc">${ach.desc}</div></div>`;
+    grid.appendChild(div);
+  });
+}
+
+function loadAchievements() {
+  try {
+    const saved = localStorage.getItem('ingles_ach');
+    if (saved) unlockedAch = new Set(JSON.parse(saved));
+  } catch(e) {}
+}
+
+// Section tracking for explorer achievement
+const visitedSections = new Set();
+function checkExplorerAch() {
+  const allSections = ['overview','unit1','unit2','vocab','reading','practice','games','logros'];
+  if (allSections.every(s => visitedSections.has(s))) unlockAchievement('explorer');
+}
+
+// ═══════════════════════════ TUTOR IA ═══════════════════════════
+(function() {
+  const TUTOR_SYSTEM = `You are an English tutor for Colegio Tantauco, Chile. You help students who are complete beginners learn English for their school exam (PDN). You ALWAYS explain in Spanish unless the student asks for English.
+
+You cover these topics:
+**Unit 1 – The Right to an Education:**
+- What education is and why it's a human right (Article 26, Universal Declaration of Human Rights)
+- Barriers to education: economic, gender, geographic, conflict
+- Gender equality vocabulary: empowerment, stereotype, inclusion, bias, discrimination, equal opportunity
+- School vocabulary: knowledge, formal/informal education, primary/higher education
+- Reading comprehension: identifying main idea vs specific details
+- Key vocabulary: education, right, access, equality, barrier, opportunity, discrimination
+
+**Unit 2 – Funding Climate Action:**
+- What climate change is (long-term shifts in global temperatures caused by humans)
+- Causes: burning fossil fuels, deforestation, industrial pollution, greenhouse gases
+- Effects: rising sea levels, extreme weather, biodiversity loss, melting glaciers
+- Climate action vocabulary: renewable energy, sustainability, carbon footprint, net zero, green technology
+- Funding: what it means, Green Climate Fund, international cooperation
+- Reading comprehension strategies: scanning, skimming, identifying specific details
+
+**Reading Skills (both units):**
+- Finding the main idea (idea principal)
+- Identifying specific details
+- Answering comprehension questions based only on the text
+- Understanding vocabulary in context
+
+RULES:
+- Always respond in Spanish unless asked to use English
+- Use a warm, encouraging tone for beginners
+- Use **bold** for English vocabulary words
+- When teaching vocabulary, always give: English word → Spanish translation → example sentence
+- When explaining grammar, give very simple rules with examples
+- Maximum 4 paragraphs per response; be clear and concise
+- Never just give the answer to quiz questions — help the student think it through
+- Add emoji to make responses more engaging 📚✏️🌍
+- If asked about other subjects, kindly redirect to English`;
+
+  let tutorOpen = false;
+  let tutorHistory = [];
+  let tutorBusy = false;
+
+  document.querySelectorAll('.tutor-sq').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (tutorBusy) return;
+      tutorAsk(btn.textContent.trim());
+      document.getElementById('tutor-suggestions').style.display = 'none';
+    });
+  });
+
+  window.tutorToggle = function() {
+    tutorOpen = !tutorOpen;
+    const panel = document.getElementById('tutor-panel');
+    const fab = document.getElementById('tutor-fab');
+    panel.classList.toggle('open', tutorOpen);
+    fab.classList.toggle('open', tutorOpen);
+    if (tutorOpen && tutorHistory.length === 0) tutorWelcome();
+    if (tutorOpen) setTimeout(() => document.getElementById('tutor-input').focus(), 120);
+  };
+
+  function tutorWelcome() {
+    appendMsg('ai', '🇬🇧 ¡Hola! Soy tu Tutor de **Inglés** del Colegio Tantauco. Puedo ayudarte con todo el contenido de **Unit 1 (Education)** y **Unit 2 (Climate Change)**.\n\nPuedes preguntarme en español y te respondo en español con ejemplos en inglés. ¡Pregúntame cualquier cosa sobre vocabulario, gramática, textos o estrategias de lectura! 📚');
+  }
+
+  window.tutorSend = function() {
+    const inp = document.getElementById('tutor-input');
+    const text = inp.value.trim();
+    if (!text || tutorBusy) return;
+    inp.value = ''; inp.style.height = 'auto';
+    tutorAsk(text);
+  };
+
+  async function tutorAsk(text) {
+    if (tutorBusy) return;
+    document.getElementById('tutor-suggestions').style.display = 'none';
+    appendMsg('user', text);
+    tutorHistory.push({ role: 'user', content: text });
+    tutorBusy = true;
+    document.getElementById('tutor-send').disabled = true;
+    const thinkId = appendThinking();
+    try {
+      const WORKER_URL = 'https://portaltantauco.enzofuentes1804.workers.dev';
+      const res = await fetch(location.hostname === 'th1804.github.io' ? WORKER_URL + '/api/tutor' : '/api/tutor', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ model: 'claude-sonnet-4-5', max_tokens: 1000, system: TUTOR_SYSTEM, messages: tutorHistory })
+      });
+      const data = await res.json();
+      removeThinking(thinkId);
+      if (data.content && data.content[0]) {
+        const reply = data.content.map(b => b.text || '').join('');
+        tutorHistory.push({ role: 'assistant', content: reply });
+        appendMsg('ai', reply);
+      } else {
+        appendMsg('ai', '⚠️ Hubo un error al conectar con el tutor. Intenta de nuevo.');
+      }
+    } catch(e) {
+      removeThinking(thinkId);
+      appendMsg('ai', '⚠️ No pude conectarme. Revisa tu conexión e intenta de nuevo.');
+    }
+    tutorBusy = false;
+    document.getElementById('tutor-send').disabled = false;
+  }
+
+  function appendMsg(role, text) {
+    const msgs = document.getElementById('tutor-messages');
+    const div = document.createElement('div');
+    div.className = 'tutor-msg ' + (role === 'user' ? 'user' : 'ai');
+    const avatar = document.createElement('div');
+    avatar.className = 'tutor-avatar';
+    avatar.innerHTML = role === 'user' ? 'Tú' : '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 36" width="18" height="11" style="display:block;border-radius:1px"><rect width="60" height="36" fill="#012169"/><path d="M0 0l60 36M60 0L0 36" stroke="#fff" stroke-width="7.2"/><path d="M0 0l60 36M60 0L0 36" stroke="#C8102E" stroke-width="4.8"/><path d="M30 0v36M0 18h60" stroke="#fff" stroke-width="12"/><path d="M30 0v36M0 18h60" stroke="#C8102E" stroke-width="7.2"/></svg>';
+    const bubble = document.createElement('div');
+    bubble.className = 'tutor-bubble';
+    bubble.innerHTML = markdownToHtml(text);
+    div.appendChild(avatar);
+    div.appendChild(bubble);
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+    return div;
+  }
+
+  function appendThinking() {
+    const msgs = document.getElementById('tutor-messages');
+    const div = document.createElement('div');
+    div.className = 'tutor-msg ai';
+    const id = 'think-' + Date.now();
+    div.id = id;
+    div.innerHTML = '<div class="tutor-avatar"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 36" width="18" height="11" style="display:block;border-radius:1px"><rect width="60" height="36" fill="#012169"/><path d="M0 0l60 36M60 0L0 36" stroke="#fff" stroke-width="7.2"/><path d="M0 0l60 36M60 0L0 36" stroke="#C8102E" stroke-width="4.8"/><path d="M30 0v36M0 18h60" stroke="#fff" stroke-width="12"/><path d="M30 0v36M0 18h60" stroke="#C8102E" stroke-width="7.2"/></svg></div><div class="tutor-bubble"><div class="tutor-thinking"><span></span><span></span><span></span></div></div>';
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+    return id;
+  }
+
+  function removeThinking(id) {
+    const el = document.getElementById(id);
+    if (el) el.remove();
+  }
+
+  function markdownToHtml(text) {
+    return text
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+      .replace(/\*(.+?)\*/g,'<em>$1</em>')
+      .replace(/^- (.+)$/gm,'<li>$1</li>')
+      .replace(/(<li>.*<\/li>(\n|$))+/g,m=>'<ul>'+m+'</ul>')
+      .replace(/\n\n/g,'</p><p>')
+      .replace(/\n/g,'<br>')
+      .replace(/^(.)/,'<p>$1')
+      .replace(/(.)$/,'$1</p>');
+  }
+
+  document.getElementById('tutor-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); tutorSend(); }
+  });
+  document.getElementById('tutor-input').addEventListener('input', function() {
+    this.style.height = 'auto';
+    this.style.height = Math.min(this.scrollHeight, 100) + 'px';
+  });
+})();
+
+// ═══════════════════════════ INIT ═══════════════════════════
+loadProgress();
+loadAchievements();
+buildFlashcards(FC_U1, 'fc-u1');
+buildFlashcards(FC_U2, 'fc-u2');
+buildRQ(RQ1_DATA, 'rq1-container', 'rq1');
+buildRQ(RQ2_DATA, 'rq2-container', 'rq2');
+buildRQ(RQ3_DATA, 'rq3-container', 'rq3');
+buildPDNQuiz();
+buildFIB();
+buildTF();
+buildMatching();
+initMemory();
+unlockAchievement('first_steps');
+</script>
+</body>
+</html>

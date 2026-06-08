@@ -7,14 +7,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0f0e0b;
-    --surface: #1a1916;
-    --surface2: #222119;
+    --bg: #100808;
+    --surface: #1a0d0d;
+    --surface2: #221212;
     --border: rgba(255,255,255,0.08);
     --border2: rgba(255,255,255,0.14);
-    --gold: #c9a84c;
-    --gold-light: #e4c97e;
-    --gold-dim: rgba(201,168,76,0.15);
+    --red: #dc2626;
+    --red-light: #f87171;
+    --red-dim: rgba(220,38,38,0.15);
     --red: #c0392b;
     --red-dim: rgba(192,57,43,0.15);
     --teal: #1a8a72;
@@ -46,7 +46,7 @@
 
   /* HEADER */
   .site-header {
-    background: linear-gradient(180deg, #1a1410 0%, var(--bg) 100%);
+    background: linear-gradient(180deg, #1a0808 0%, var(--bg) 100%);
     border-bottom: 1px solid var(--border2);
     padding: 56px 0 48px;
     text-align: center;
@@ -57,14 +57,14 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse 60% 80% at 50% 0%, rgba(201,168,76,0.07) 0%, transparent 70%);
+    background: radial-gradient(ellipse 60% 80% at 50% 0%, rgba(220,38,38,0.07) 0%, transparent 70%);
     pointer-events: none;
   }
   .header-eyebrow {
     font-family: var(--font-mono);
     font-size: 11px;
     letter-spacing: 0.2em;
-    color: var(--gold);
+    color: var(--red);
     text-transform: uppercase;
     margin-bottom: 16px;
     opacity: 0.8;
@@ -73,7 +73,7 @@
     font-family: var(--font-display);
     font-size: clamp(2.4rem, 5vw, 4rem);
     font-weight: 900;
-    color: var(--gold-light);
+    color: var(--red-light);
     line-height: 1.1;
     margin-bottom: 10px;
     letter-spacing: -0.01em;
@@ -99,7 +99,7 @@
     border: 1px solid;
     letter-spacing: 0.05em;
   }
-  .badge-gold { border-color: rgba(201,168,76,0.4); color: var(--gold); background: var(--gold-dim); }
+  .badge-gold { border-color: rgba(220,38,38,0.4); color: var(--red); background: var(--red-dim); }
   .badge-red { border-color: rgba(192,57,43,0.4); color: #e06c5c; background: var(--red-dim); }
   .badge-teal { border-color: rgba(26,138,114,0.4); color: #4db89e; background: var(--teal-dim); }
 
@@ -141,7 +141,7 @@
     font-family: var(--font-body);
   }
   .nav-tab:hover { color: var(--text); }
-  .nav-tab.active { color: var(--gold-light); border-bottom-color: var(--gold); }
+  .nav-tab.active { color: var(--red-light); border-bottom-color: var(--red); }
   .nav-tab .tab-icon { font-size: 15px; }
 
   /* LAYOUT */
@@ -158,7 +158,7 @@
     font-family: var(--font-display);
     font-size: 1.9rem;
     font-weight: 700;
-    color: var(--gold-light);
+    color: var(--red-light);
     margin-bottom: 6px;
     line-height: 1.2;
   }
@@ -178,7 +178,7 @@
     transition: border-color 0.2s;
   }
   .acc-item:hover { border-color: var(--border2); }
-  .acc-item.open { border-color: rgba(201,168,76,0.3); }
+  .acc-item.open { border-color: rgba(220,38,38,0.3); }
   .acc-trigger {
     width: 100%;
     display: flex;
@@ -196,9 +196,9 @@
   .acc-num {
     font-family: var(--font-mono);
     font-size: 11px;
-    color: var(--gold);
-    background: var(--gold-dim);
-    border: 1px solid rgba(201,168,76,0.25);
+    color: var(--red);
+    background: var(--red-dim);
+    border: 1px solid rgba(220,38,38,0.25);
     border-radius: 6px;
     padding: 3px 8px;
     white-space: nowrap;
@@ -212,7 +212,7 @@
     flex-shrink: 0;
     line-height: 1;
   }
-  .acc-item.open .acc-arrow { transform: rotate(180deg); color: var(--gold); }
+  .acc-item.open .acc-arrow { transform: rotate(180deg); color: var(--red); }
   .acc-body {
     display: none;
     padding: 0 22px 22px;
@@ -246,17 +246,17 @@
   .pill-death { border-color: rgba(192,57,43,0.35); color: #e06c5c; background: var(--red-dim); }
 
   .quote-block {
-    border-left: 2px solid var(--gold);
+    border-left: 2px solid var(--red);
     padding: 10px 16px;
     margin: 6px 0;
-    background: var(--gold-dim);
+    background: var(--red-dim);
     border-radius: 0 6px 6px 0;
     font-style: italic;
     font-size: 13.5px;
     color: var(--text-muted);
     line-height: 1.65;
   }
-  .quote-block em { color: var(--gold-light); font-style: normal; }
+  .quote-block em { color: var(--red-light); font-style: normal; }
 
   /* TIMELINE */
   .timeline { position: relative; padding-left: 28px; }
@@ -267,7 +267,7 @@
     top: 8px;
     bottom: 8px;
     width: 1px;
-    background: linear-gradient(180deg, var(--gold) 0%, var(--border) 100%);
+    background: linear-gradient(180deg, var(--red) 0%, var(--border) 100%);
   }
   .tl-item {
     position: relative;
@@ -317,7 +317,7 @@
   .tl-title { font-size: 14px; font-weight: 500; color: var(--text); }
   .tl-preview { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
   .tl-arrow { color: var(--text-dim); font-size: 14px; transition: transform 0.2s; margin-top: 2px; flex-shrink: 0; }
-  .tl-item.open .tl-arrow { transform: rotate(180deg); color: var(--gold); }
+  .tl-item.open .tl-arrow { transform: rotate(180deg); color: var(--red); }
   .tl-item.open .tl-dot { transform: scale(1.3); }
   .tl-body {
     display: none;
@@ -377,8 +377,8 @@
   .persona-quote {
     font-style: italic;
     font-size: 12.5px;
-    color: var(--gold);
-    border-left: 2px solid var(--gold);
+    color: var(--red);
+    border-left: 2px solid var(--red);
     padding-left: 10px;
     opacity: 0.85;
     line-height: 1.5;
@@ -433,7 +433,7 @@
   }
   .theme-title { font-size: 14px; font-weight: 500; flex: 1; }
   .theme-arrow { color: var(--text-dim); font-size: 16px; transition: transform 0.2s; }
-  .theme-item.open .theme-arrow { transform: rotate(180deg); color: var(--gold); }
+  .theme-item.open .theme-arrow { transform: rotate(180deg); color: var(--red); }
   .theme-body {
     display: none;
     padding: 0 20px 16px 42px;
@@ -458,7 +458,7 @@
     transition: all 0.15s;
   }
   .q-filter-btn:hover { background: var(--surface2); color: var(--text); }
-  .q-filter-btn.active { background: var(--gold-dim); border-color: rgba(201,168,76,0.4); color: var(--gold-light); }
+  .q-filter-btn.active { background: var(--red-dim); border-color: rgba(220,38,38,0.4); color: var(--red-light); }
   .q-list { display: flex; flex-direction: column; gap: 8px; }
   .q-item {
     background: var(--surface);
@@ -497,7 +497,7 @@
   .qb-dev { background: var(--amber-dim); color: #f0a030; border: 1px solid rgba(217,119,6,0.3); }
   .q-text { font-size: 14px; font-weight: 500; flex: 1; line-height: 1.5; }
   .q-arrow { color: var(--text-dim); font-size: 16px; transition: transform 0.2s; flex-shrink: 0; margin-top: 2px; }
-  .q-item.open .q-arrow { transform: rotate(180deg); color: var(--gold); }
+  .q-item.open .q-arrow { transform: rotate(180deg); color: var(--red); }
   .q-body {
     display: none;
     padding: 0 18px 16px 42px;
@@ -539,7 +539,7 @@
   .context-card h3 {
     font-family: var(--font-display);
     font-size: 1rem;
-    color: var(--gold-light);
+    color: var(--red-light);
     margin-bottom: 10px;
   }
   .context-card p { font-size: 13.5px; color: var(--text-muted); line-height: 1.7; }
@@ -547,16 +547,16 @@
 
   /* TIP BOX */
   .tip-box {
-    background: var(--gold-dim);
-    border: 1px solid rgba(201,168,76,0.25);
+    background: var(--red-dim);
+    border: 1px solid rgba(220,38,38,0.25);
     border-radius: 10px;
     padding: 14px 18px;
     margin-bottom: 24px;
     font-size: 13.5px;
-    color: var(--gold-light);
+    color: var(--red-light);
     line-height: 1.6;
   }
-  .tip-box strong { color: var(--gold-light); }
+  .tip-box strong { color: var(--red-light); }
 
   /* LEGEND */
   .legend { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
@@ -655,7 +655,7 @@
     <p class="section-desc">Los ocho símbolos centrales y los principales recursos literarios de la novela.</p>
     <div class="sym-grid" id="sym-grid"></div>
 
-    <h3 style="font-family:var(--font-display);font-size:1.2rem;color:var(--gold-light);margin:32px 0 16px;">Recursos literarios</h3>
+    <h3 style="font-family:var(--font-display);font-size:1.2rem;color:var(--red-light);margin:32px 0 16px;">Recursos literarios</h3>
     <div class="accordion" id="recursos-accordion"></div>
   </div>
 
@@ -692,8 +692,8 @@
     <div class="context-grid" id="context-grid"></div>
 
     <div style="margin-top:32px;">
-      <h3 style="font-family:var(--font-display);font-size:1.2rem;color:var(--gold-light);margin-bottom:16px;">Resumen integrador final</h3>
-      <div class="acc-item" style="border-color:rgba(201,168,76,0.2);">
+      <h3 style="font-family:var(--font-display);font-size:1.2rem;color:var(--red-light);margin-bottom:16px;">Resumen integrador final</h3>
+      <div class="acc-item" style="border-color:rgba(220,38,38,0.2);">
         <button class="acc-trigger" onclick="toggleAcc(this)">
           <span class="acc-num">Síntesis</span>
           <span class="acc-title">Lectura completa del argumento y la tesis de Golding</span>
@@ -900,7 +900,7 @@ const recursosData = [
 ];
 
 const temasData = [
-  { titulo: 'Civilización vs. salvajismo', color: '#c9a84c', desc: 'Es el tema estructural de la novela. Golding propone que la civilización es una capa delgada y frágil sobre el salvajismo inherente al ser humano. Los niños llegan con los valores de la sociedad británica (uno de los más "civilizados" del mundo) y en pocas semanas regresan a la violencia tribal y el asesinato. El proceso es gradual y sistemático: primero las reglas se debilitan, luego la identidad se enmascara, luego la violencia se ritualiza, luego se normaliza.' },
+  { titulo: 'Civilización vs. salvajismo', color: '#dc2626', desc: 'Es el tema estructural de la novela. Golding propone que la civilización es una capa delgada y frágil sobre el salvajismo inherente al ser humano. Los niños llegan con los valores de la sociedad británica (uno de los más "civilizados" del mundo) y en pocas semanas regresan a la violencia tribal y el asesinato. El proceso es gradual y sistemático: primero las reglas se debilitan, luego la identidad se enmascara, luego la violencia se ritualiza, luego se normaliza.' },
   { titulo: 'El mal inherente al ser humano', color: '#c0392b', desc: 'Golding rechaza directamente la idea rousseauniana del "buen salvaje" — la idea de que los humanos son naturalmente buenos y que la sociedad los corrompe. Propone lo contrario: el mal es innato, y la civilización es lo que lo contiene. La visión de Simon con el Señor de las Moscas lo expresa directamente: "El mal está dentro de ti." La novela no dice que los humanos son irremediablemente malos — dice que son capaces de un mal terrible cuando las estructuras que los contienen desaparecen.' },
   { titulo: 'Pérdida de la inocencia', color: '#7c5cbf', desc: 'La novela es el relato de la caída. Los niños son, al principio, asustados pero esperanzados. Al final, quien no ha muerto ha participado en asesinatos. Ralph llora al final no solo por las muertes sino por algo más abstracto e irreversible: la inocencia perdida. Ni el rescate ni el regreso al "mundo civilizado" puede devolver lo que se perdió. La inocencia no es recuperable.' },
   { titulo: 'Poder y liderazgo', color: '#2563a8', desc: 'Ralph representa el liderazgo democrático y legítimo, basado en el bien común. Jack representa el liderazgo carismático autoritario, basado en el miedo y la recompensa inmediata. La novela muestra que el segundo tipo gana en ausencia de instituciones que sostengan al primero. El orden de Ralph exige sacrificio y pensamiento a largo plazo; el de Jack ofrece placer inmediato. Golding propone esto como una verdad sobre la naturaleza humana adulta, no solo sobre niños.' },
@@ -1175,7 +1175,7 @@ function toggleAcc(btn) {
   item.classList.toggle('open', !isOpen);
   body.classList.toggle('open', !isOpen);
   arrow.style.transform = isOpen ? '' : 'rotate(180deg)';
-  if (!isOpen) arrow.style.color = 'var(--gold)';
+  if (!isOpen) arrow.style.color = 'var(--red)';
   else arrow.style.color = '';
 }
 
@@ -1245,7 +1245,7 @@ renderContexto();
 <!-- ══ FEATURES DE SECCIÓN ══ -->
 <style>
   /* ── READ PROGRESS ── */
-  #read-progress { position:fixed; top:0; left:0; height:3px; width:0%; background:linear-gradient(90deg,var(--teal,#14b8a6),var(--accent,#c9a84c)); z-index:10000; transition:width 0.1s linear; border-radius:0 2px 2px 0; }
+  #read-progress { position:fixed; top:0; left:0; height:3px; width:0%; background:linear-gradient(90deg,var(--teal,#14b8a6),var(--accent,#dc2626)); z-index:10000; transition:width 0.1s linear; border-radius:0 2px 2px 0; }
 
   /* ── LIGHT MODE ── */
   body.light-mode { --bg:#f4f3ee!important; --surface:#ffffff!important; --surface2:#ebe9e2!important; --border:rgba(0,0,0,0.08)!important; --border2:rgba(0,0,0,0.14)!important; --text:#1a1a2e!important; --text-muted:#5a6070!important; --text-dim:#9aa0b0!important; }
@@ -1520,9 +1520,9 @@ window.addSticky = function() {
     transition: all 0.15s; position: relative; flex-shrink: 0;
   }
   #tutor-fab:hover, #tutor-fab.open {
-    border-color: rgba(201,168,76, 0.45);
-    color: var(--gold-light, #e4c97e);
-    background: rgba(201,168,76, 0.08);
+    border-color: rgba(220,38,38, 0.45);
+    color: var(--red-light, #f87171);
+    background: rgba(220,38,38, 0.08);
   }
 
   /* ── TUTOR PANEL ── */
@@ -1554,8 +1554,8 @@ window.addSticky = function() {
   }
   #tutor-header-icon {
     width: 28px; height: 28px; border-radius: 8px;
-    background: rgba(201,168,76, 0.13);
-    border: 1px solid rgba(201,168,76, 0.3);
+    background: rgba(220,38,38, 0.13);
+    border: 1px solid rgba(220,38,38, 0.3);
     display: flex; align-items: center; justify-content: center; font-size: 13px;
   }
   #tutor-header-info { flex: 1; }
@@ -1564,7 +1564,7 @@ window.addSticky = function() {
   }
   #tutor-header-sub {
     font-family: var(--font-mono, monospace); font-size: 9.5px;
-    color: var(--gold-light, #e4c97e); letter-spacing: 0.06em; opacity: 0.8;
+    color: var(--red-light, #f87171); letter-spacing: 0.06em; opacity: 0.8;
   }
   #tutor-close {
     width: 24px; height: 24px; border-radius: 6px; border: none;
@@ -1590,8 +1590,8 @@ window.addSticky = function() {
   .tutor-avatar {
     width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
     display: flex; align-items: center; justify-content: center; font-size: 11px;
-    background: rgba(201,168,76, 0.15); border: 1px solid rgba(201,168,76, 0.25);
-    color: var(--gold-light, #e4c97e); font-family: var(--font-mono, monospace);
+    background: rgba(220,38,38, 0.15); border: 1px solid rgba(220,38,38, 0.25);
+    color: var(--red-light, #f87171); font-family: var(--font-mono, monospace);
   }
   .tutor-msg.user .tutor-avatar {
     background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12);
@@ -1603,12 +1603,12 @@ window.addSticky = function() {
     background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.07);
   }
   .tutor-msg.user .tutor-bubble {
-    background: rgba(201,168,76, 0.12); border-color: rgba(201,168,76, 0.22);
+    background: rgba(220,38,38, 0.12); border-color: rgba(220,38,38, 0.22);
     border-radius: 12px 4px 12px 12px;
   }
   .tutor-bubble p { margin: 0 0 6px; }
   .tutor-bubble p:last-child { margin-bottom: 0; }
-  .tutor-bubble strong { color: var(--gold-light, #e4c97e); font-weight: 600; }
+  .tutor-bubble strong { color: var(--red-light, #f87171); font-weight: 600; }
   .tutor-bubble em { font-style: italic; color: var(--text-muted, #7a8aa0); }
   .tutor-bubble code {
     font-family: var(--font-mono, monospace); font-size: 11.5px;
@@ -1622,7 +1622,7 @@ window.addSticky = function() {
   .tutor-thinking { display: flex; gap: 4px; align-items: center; padding: 4px 0; }
   .tutor-thinking span {
     width: 5px; height: 5px; border-radius: 50%;
-    background: var(--gold-light, #e4c97e); opacity: 0.4;
+    background: var(--red-light, #f87171); opacity: 0.4;
     animation: tutor-bounce 1.1s ease-in-out infinite;
   }
   .tutor-thinking span:nth-child(2) { animation-delay: 0.15s; }
@@ -1650,7 +1650,7 @@ window.addSticky = function() {
     transition: all 0.13s; line-height: 1.35;
     font-family: var(--font-body, sans-serif);
   }
-  .tutor-sq:hover { background: rgba(201,168,76, 0.08); border-color: rgba(201,168,76, 0.2); color: var(--text, #e2e8f0); }
+  .tutor-sq:hover { background: rgba(220,38,38, 0.08); border-color: rgba(220,38,38, 0.2); color: var(--text, #e2e8f0); }
 
   /* Input area */
   #tutor-input-area {
@@ -1667,16 +1667,16 @@ window.addSticky = function() {
     scrollbar-width: none;
   }
   #tutor-input::-webkit-scrollbar { display: none; }
-  #tutor-input:focus { border-color: rgba(201,168,76, 0.4); }
+  #tutor-input:focus { border-color: rgba(220,38,38, 0.4); }
   #tutor-input::placeholder { color: var(--text-dim, #3d4f68); }
   #tutor-send {
     width: 32px; height: 32px; border-radius: 9px; border: none;
-    background: rgba(201,168,76, 0.18); color: var(--gold-light, #e4c97e);
+    background: rgba(220,38,38, 0.18); color: var(--red-light, #f87171);
     font-size: 14px; cursor: pointer; display: flex;
     align-items: center; justify-content: center;
     transition: background 0.15s; flex-shrink: 0;
   }
-  #tutor-send:hover { background: rgba(201,168,76, 0.3); }
+  #tutor-send:hover { background: rgba(220,38,38, 0.3); }
   #tutor-send:disabled { opacity: 0.35; cursor: default; }
 </style>
 

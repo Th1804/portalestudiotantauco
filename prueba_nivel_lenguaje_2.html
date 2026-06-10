@@ -587,6 +587,217 @@
     from { opacity: 0; transform: translateY(14px); }
     to   { opacity: 1; transform: translateY(0); }
   }
+
+  /* ═══════════════════════════════════════════
+     MOBILE TOUCH IMPROVEMENTS — auto-applied
+     Mínimo 44×44 px en todos los elementos táctiles
+     ═══════════════════════════════════════════ */
+
+  /* ── Back button ── */
+  #back-btn {
+    min-height: 44px !important;
+    padding: 0 16px !important;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* ── Nav tabs ── */
+  .nav-tab {
+    min-height: 48px !important;
+    padding: 14px 16px !important;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* ── Acordeón triggers ── */
+  .acc-trigger, .acc-header {
+    min-height: 52px !important;
+    padding: 14px 18px !important;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* ── Quiz options ── */
+  .quiz-opt {
+    min-height: 48px !important;
+    padding: 12px 16px !important;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* ── Botones principales (check, reset, etc.) ── */
+  .btn-check, .btn-reset, .btn-next, .btn-show,
+  .btn-primary, button.btn, .quiz-score button,
+  .sub-card {
+    min-height: 48px !important;
+    padding: 12px 22px !important;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* ── Flashcards ── */
+  .flashcard {
+    min-height: 160px;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* ── Timeline items ── */
+  .tl-item {
+    padding-top: 10px !important;
+    padding-bottom: 20px !important;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* ── Persona / sub cards ── */
+  .persona-card, .element-card, .oa-card {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* ── Tutor suggestions ── */
+  .tutor-sq {
+    min-height: 44px !important;
+    padding: 11px 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* ── Match items (inglés) ── */
+  .match-item {
+    min-height: 44px !important;
+    padding: 12px 14px !important;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* ── True/False buttons ── */
+  .tf-btn {
+    min-height: 44px !important;
+    padding: 10px 20px !important;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* ── Word chips ── */
+  .word-chip {
+    min-height: 36px !important;
+    padding: 8px 14px !important;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* ── Checklist / progress items ── */
+  .cp-item, .prog-item, .cl-item {
+    min-height: 44px !important;
+    padding: 8px 4px !important;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  .cp-item input[type="checkbox"] {
+    width: 20px !important; height: 20px !important;
+  }
+
+  /* ── Memory game cards ── */
+  .mem-card {
+    min-height: 80px;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* ── Dock: st-trigger, tutor-fab, tutor-close ── */
+  #st-trigger, #tutor-fab {
+    width: 40px !important; height: 40px !important;
+    font-size: 16px !important;
+    -webkit-tap-highlight-color: transparent !important;
+    touch-action: manipulation !important;
+  }
+  #tutor-close {
+    width: 36px !important; height: 36px !important;
+    -webkit-tap-highlight-color: transparent !important;
+    touch-action: manipulation !important;
+  }
+  #tutor-send {
+    width: 44px !important; height: 44px !important;
+    -webkit-tap-highlight-color: transparent !important;
+    touch-action: manipulation !important;
+  }
+
+  /* ── Timer: tabs, modes, btns ── */
+  .st-tab {
+    min-height: 40px !important;
+    padding: 10px 4px !important;
+    font-size: 10px !important;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  .st-mode {
+    min-height: 40px !important;
+    padding: 8px 2px !important;
+    font-size: 10px !important;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  .st-btn {
+    min-height: 44px !important;
+    padding: 11px 4px !important;
+    font-size: 11px !important;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* ── Element cards (tabla periódica) ── */
+  .element-card {
+    min-height: 56px !important;
+  }
+
+  /* ── Acc header icon (ciencias/lenguaje) ── */
+  .acc-icon {
+    min-width: 36px; min-height: 36px;
+    width: 36px !important; height: 36px !important;
+  }
+
+  /* ── Progress check (prog-check) ── */
+  .prog-check {
+    width: 22px !important; height: 22px !important;
+    flex-shrink: 0;
+  }
+
+  /* ── Highlight toolbar buttons ── */
+  .hl-color {
+    width: 26px !important; height: 26px !important;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  .hl-erase {
+    font-size: 18px !important;
+    padding: 4px 6px !important;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  .sticky-close {
+    font-size: 16px !important;
+    padding: 6px 8px !important;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* ── Responsive grid collapses ── */
+  @media (max-width: 680px) {
+    .flashcards-grid { grid-template-columns: 1fr !important; }
+    .sub-cards-grid, .oa-grid { grid-template-columns: 1fr !important; }
+    .content-area { padding: 24px 14px 100px !important; }
+    .nav-tab { padding: 14px 12px !important; font-size: 12px !important; }
+  }
+  @media (max-width: 480px) {
+    .acc-trigger, .acc-header { padding: 14px 14px !important; }
+    .quiz-opt { font-size: 13px !important; }
+    .flashcard { height: 140px !important; }
+  }
+
 </style>
 </head>
 <body>

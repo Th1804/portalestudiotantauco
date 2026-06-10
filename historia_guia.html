@@ -74,7 +74,7 @@
 
   /* NAV */
   .nav-wrapper { position: sticky; top: 0; z-index: 100; background: rgba(14,10,4,0.95); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(124,63,0,0.15); }
-  .nav-tabs { display: flex; overflow-x: auto; max-width: 1100px; margin: 0 auto; padding: 0 20px; scrollbar-width: none; }
+  .nav-tabs { display: flex; overflow-x: auto; max-width: 1100px; margin: 0 auto; padding: 0 20px; scrollbar-width: none; -webkit-overflow-scrolling: touch; touch-action: pan-x; }
   .nav-tabs::-webkit-scrollbar { display: none; }
   .nav-tab { display: flex; align-items: center; gap: 7px; padding: 14px 18px; font-size: 13px; font-weight: 500; color: var(--text-muted); cursor: pointer; white-space: nowrap; border-bottom: 2px solid transparent; transition: all 0.2s; background: none; border-top: none; border-left: none; border-right: none; font-family: var(--font-body); }
   .nav-tab:hover { color: var(--text); }

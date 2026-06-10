@@ -260,7 +260,30 @@
     border-radius: 16px;
     overflow: hidden;
     transition: border-color 0.25s, transform 0.2s;
-    cursor: default;
+    cursor: pointer;
+    position: relative;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  /* Link overlay para hacer toda la tarjeta clickeable en iOS */
+  .card-main-link {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    display: block;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  /* Elementos sobre el overlay */
+  .card-stripe,
+  .card-body {
+    position: relative;
+    z-index: 1;
+  }
+  .card-checklist,
+  .cta-btn {
+    position: relative;
+    z-index: 2;
   }
   .materia-card:hover {
     transform: translateY(-2px);
@@ -1003,6 +1026,7 @@
 
     <!-- LENGUAJE -->
     <div class="materia-card lenguaje">
+      <a class="card-main-link" href="senor_de_las_moscas.html" aria-label="Abrir guía El Señor de las Moscas"></a>
       <div class="card-stripe stripe-gold"></div>
       <div class="card-body">
         <div class="card-top">
@@ -1041,10 +1065,10 @@
         <div class="card-checklist">
           <div class="cl-label">Mi progreso</div>
           <div class="cl-items" id="cl-moscas">
-            <label class="cl-item" onclick="clToggle('moscas',0,this)"><span class="cl-box" id="cl-moscas-0-box"></span><span class="cl-text">Cronología capítulo a capítulo</span></label>
-            <label class="cl-item" onclick="clToggle('moscas',1,this)"><span class="cl-box" id="cl-moscas-1-box"></span><span class="cl-text">Fichas de personajes</span></label>
-            <label class="cl-item" onclick="clToggle('moscas',2,this)"><span class="cl-box" id="cl-moscas-2-box"></span><span class="cl-text">Temas y citas clave</span></label>
-            <label class="cl-item" onclick="clToggle('moscas',3,this)"><span class="cl-box" id="cl-moscas-3-box"></span><span class="cl-text">Banco de preguntas</span></label>
+            <label class="cl-item" onclick="clToggle('moscas',0,this,event)"><span class="cl-box" id="cl-moscas-0-box"></span><span class="cl-text">Cronología capítulo a capítulo</span></label>
+            <label class="cl-item" onclick="clToggle('moscas',1,this,event)"><span class="cl-box" id="cl-moscas-1-box"></span><span class="cl-text">Fichas de personajes</span></label>
+            <label class="cl-item" onclick="clToggle('moscas',2,this,event)"><span class="cl-box" id="cl-moscas-2-box"></span><span class="cl-text">Temas y citas clave</span></label>
+            <label class="cl-item" onclick="clToggle('moscas',3,this,event)"><span class="cl-box" id="cl-moscas-3-box"></span><span class="cl-text">Banco de preguntas</span></label>
           </div>
           <div class="cl-progress"><div class="cl-bar" id="cl-moscas-bar" style="width:0%"></div></div>
         </div>
@@ -1053,6 +1077,7 @@
 
     <!-- PRUEBA DE NIVEL LENGUAJE -->
     <div class="materia-card lenguaje">
+      <a class="card-main-link" href="prueba_nivel_lenguaje_2.html" aria-label="Abrir Prueba de Nivel Lenguaje"></a>
       <div class="card-stripe stripe-gold"></div>
       <div class="card-body">
         <div class="card-top">
@@ -1091,10 +1116,10 @@
         <div class="card-checklist">
           <div class="cl-label">Mi progreso</div>
           <div class="cl-items" id="cl-lenguaje">
-            <label class="cl-item" onclick="clToggle('lenguaje',0,this)"><span class="cl-box" id="cl-lenguaje-0-box"></span><span class="cl-text">Comprensión lectora</span></label>
-            <label class="cl-item" onclick="clToggle('lenguaje',1,this)"><span class="cl-box" id="cl-lenguaje-1-box"></span><span class="cl-text">Análisis de textos</span></label>
-            <label class="cl-item" onclick="clToggle('lenguaje',2,this)"><span class="cl-box" id="cl-lenguaje-2-box"></span><span class="cl-text">Gramática y ortografía</span></label>
-            <label class="cl-item" onclick="clToggle('lenguaje',3,this)"><span class="cl-box" id="cl-lenguaje-3-box"></span><span class="cl-text">Producción escrita</span></label>
+            <label class="cl-item" onclick="clToggle('lenguaje',0,this,event)"><span class="cl-box" id="cl-lenguaje-0-box"></span><span class="cl-text">Comprensión lectora</span></label>
+            <label class="cl-item" onclick="clToggle('lenguaje',1,this,event)"><span class="cl-box" id="cl-lenguaje-1-box"></span><span class="cl-text">Análisis de textos</span></label>
+            <label class="cl-item" onclick="clToggle('lenguaje',2,this,event)"><span class="cl-box" id="cl-lenguaje-2-box"></span><span class="cl-text">Gramática y ortografía</span></label>
+            <label class="cl-item" onclick="clToggle('lenguaje',3,this,event)"><span class="cl-box" id="cl-lenguaje-3-box"></span><span class="cl-text">Producción escrita</span></label>
           </div>
           <div class="cl-progress"><div class="cl-bar" id="cl-lenguaje-bar" style="width:0%"></div></div>
         </div>
@@ -1103,6 +1128,7 @@
 
     <!-- MATEMÁTICAS -->
     <div class="materia-card matematicas">
+      <a class="card-main-link" href="matematica_guia.html" aria-label="Abrir guía de Matemáticas"></a>
       <div class="card-stripe stripe-blue"></div>
       <div class="card-body">
         <div class="card-top">
@@ -1141,10 +1167,10 @@
         <div class="card-checklist">
           <div class="cl-label">Mi progreso</div>
           <div class="cl-items" id="cl-mate">
-            <label class="cl-item" onclick="clToggle('mate',0,this)"><span class="cl-box" id="cl-mate-0-box"></span><span class="cl-text">Fracciones y potencias</span></label>
-            <label class="cl-item" onclick="clToggle('mate',1,this)"><span class="cl-box" id="cl-mate-1-box"></span><span class="cl-text">Números reales</span></label>
-            <label class="cl-item" onclick="clToggle('mate',2,this)"><span class="cl-box" id="cl-mate-2-box"></span><span class="cl-text">Productos notables</span></label>
-            <label class="cl-item" onclick="clToggle('mate',3,this)"><span class="cl-box" id="cl-mate-3-box"></span><span class="cl-text">Banco de preguntas</span></label>
+            <label class="cl-item" onclick="clToggle('mate',0,this,event)"><span class="cl-box" id="cl-mate-0-box"></span><span class="cl-text">Fracciones y potencias</span></label>
+            <label class="cl-item" onclick="clToggle('mate',1,this,event)"><span class="cl-box" id="cl-mate-1-box"></span><span class="cl-text">Números reales</span></label>
+            <label class="cl-item" onclick="clToggle('mate',2,this,event)"><span class="cl-box" id="cl-mate-2-box"></span><span class="cl-text">Productos notables</span></label>
+            <label class="cl-item" onclick="clToggle('mate',3,this,event)"><span class="cl-box" id="cl-mate-3-box"></span><span class="cl-text">Banco de preguntas</span></label>
           </div>
           <div class="cl-progress"><div class="cl-bar" id="cl-mate-bar" style="width:0%"></div></div>
         </div>
@@ -1153,6 +1179,7 @@
 
     <!-- CIENCIAS NATURALES -->
     <div class="materia-card ciencias">
+      <a class="card-main-link" href="prueba_nivel_ciencias_naturales.html" aria-label="Abrir guía de Ciencias Naturales"></a>
       <div class="card-stripe stripe-green"></div>
       <div class="card-body">
         <div class="card-top">
@@ -1191,10 +1218,10 @@
         <div class="card-checklist">
           <div class="cl-label">Mi progreso</div>
           <div class="cl-items" id="cl-ciencias">
-            <label class="cl-item" onclick="clToggle('ciencias',0,this)"><span class="cl-box" id="cl-ciencias-0-box"></span><span class="cl-text">Biología: evolución y fósiles</span></label>
-            <label class="cl-item" onclick="clToggle('ciencias',1,this)"><span class="cl-box" id="cl-ciencias-1-box"></span><span class="cl-text">Física: ondas</span></label>
-            <label class="cl-item" onclick="clToggle('ciencias',2,this)"><span class="cl-box" id="cl-ciencias-2-box"></span><span class="cl-text">Física: fenómenos luminosos</span></label>
-            <label class="cl-item" onclick="clToggle('ciencias',3,this)"><span class="cl-box" id="cl-ciencias-3-box"></span><span class="cl-text">Química: tabla periódica</span></label>
+            <label class="cl-item" onclick="clToggle('ciencias',0,this,event)"><span class="cl-box" id="cl-ciencias-0-box"></span><span class="cl-text">Biología: evolución y fósiles</span></label>
+            <label class="cl-item" onclick="clToggle('ciencias',1,this,event)"><span class="cl-box" id="cl-ciencias-1-box"></span><span class="cl-text">Física: ondas</span></label>
+            <label class="cl-item" onclick="clToggle('ciencias',2,this,event)"><span class="cl-box" id="cl-ciencias-2-box"></span><span class="cl-text">Física: fenómenos luminosos</span></label>
+            <label class="cl-item" onclick="clToggle('ciencias',3,this,event)"><span class="cl-box" id="cl-ciencias-3-box"></span><span class="cl-text">Química: tabla periódica</span></label>
           </div>
           <div class="cl-progress"><div class="cl-bar" id="cl-ciencias-bar" style="width:0%"></div></div>
         </div>
@@ -1203,6 +1230,7 @@
 
     <!-- HISTORIA -->
     <div class="materia-card historia">
+      <a class="card-main-link" href="historia_guia.html" aria-label="Abrir guía de Historia"></a>
       <div class="card-stripe stripe-amber"></div>
       <div class="card-body">
         <div class="card-top">
@@ -1241,10 +1269,10 @@
         <div class="card-checklist">
           <div class="cl-label">Mi progreso</div>
           <div class="cl-items" id="cl-historia">
-            <label class="cl-item" onclick="clToggle('historia',0,this)"><span class="cl-box" id="cl-historia-0-box"></span><span class="cl-text">República y Constitución 1833</span></label>
-            <label class="cl-item" onclick="clToggle('historia',1,this)"><span class="cl-box" id="cl-historia-1-box"></span><span class="cl-text">Economía siglo XIX</span></label>
-            <label class="cl-item" onclick="clToggle('historia',2,this)"><span class="cl-box" id="cl-historia-2-box"></span><span class="cl-text">Salitre y cuestión social</span></label>
-            <label class="cl-item" onclick="clToggle('historia',3,this)"><span class="cl-box" id="cl-historia-3-box"></span><span class="cl-text">Facciones políticas</span></label>
+            <label class="cl-item" onclick="clToggle('historia',0,this,event)"><span class="cl-box" id="cl-historia-0-box"></span><span class="cl-text">República y Constitución 1833</span></label>
+            <label class="cl-item" onclick="clToggle('historia',1,this,event)"><span class="cl-box" id="cl-historia-1-box"></span><span class="cl-text">Economía siglo XIX</span></label>
+            <label class="cl-item" onclick="clToggle('historia',2,this,event)"><span class="cl-box" id="cl-historia-2-box"></span><span class="cl-text">Salitre y cuestión social</span></label>
+            <label class="cl-item" onclick="clToggle('historia',3,this,event)"><span class="cl-box" id="cl-historia-3-box"></span><span class="cl-text">Facciones políticas</span></label>
           </div>
           <div class="cl-progress"><div class="cl-bar" id="cl-historia-bar" style="width:0%"></div></div>
         </div>
@@ -1254,6 +1282,7 @@
 
     <!-- INGLÉS -->
     <div class="materia-card ingles">
+      <a class="card-main-link" href="ingles_guia.html" aria-label="Abrir guía de Inglés"></a>
       <div class="card-stripe stripe-yellow"></div>
       <div class="card-body">
         <div class="card-top">
@@ -1288,10 +1317,10 @@
         <div class="card-checklist">
           <div class="cl-label">Mi progreso</div>
           <div class="cl-items" id="cl-ingles">
-            <label class="cl-item" onclick="clToggle('ingles',0,this)"><span class="cl-box" id="cl-ingles-0-box"></span><span class="cl-text">Unit 1: Education Rights</span></label>
-            <label class="cl-item" onclick="clToggle('ingles',1,this)"><span class="cl-box" id="cl-ingles-1-box"></span><span class="cl-text">Unit 2: Climate Action</span></label>
-            <label class="cl-item" onclick="clToggle('ingles',2,this)"><span class="cl-box" id="cl-ingles-2-box"></span><span class="cl-text">Reading Comprehension</span></label>
-            <label class="cl-item" onclick="clToggle('ingles',3,this)"><span class="cl-box" id="cl-ingles-3-box"></span><span class="cl-text">Vocabulary &amp; Grammar</span></label>
+            <label class="cl-item" onclick="clToggle('ingles',0,this,event)"><span class="cl-box" id="cl-ingles-0-box"></span><span class="cl-text">Unit 1: Education Rights</span></label>
+            <label class="cl-item" onclick="clToggle('ingles',1,this,event)"><span class="cl-box" id="cl-ingles-1-box"></span><span class="cl-text">Unit 2: Climate Action</span></label>
+            <label class="cl-item" onclick="clToggle('ingles',2,this,event)"><span class="cl-box" id="cl-ingles-2-box"></span><span class="cl-text">Reading Comprehension</span></label>
+            <label class="cl-item" onclick="clToggle('ingles',3,this,event)"><span class="cl-box" id="cl-ingles-3-box"></span><span class="cl-text">Vocabulary &amp; Grammar</span></label>
           </div>
           <div class="cl-progress"><div class="cl-bar" id="cl-ingles-bar" style="width:0%"></div></div>
         </div>
@@ -1416,7 +1445,8 @@ function clLoad() {
   });
 }
 
-function clToggle(card, idx, label) {
+function clToggle(card, idx, label, event) {
+  if (event) event.stopPropagation();
   label.classList.toggle('done');
   const done = label.classList.contains('done');
   const box = document.getElementById(`cl-${card}-${idx}-box`);

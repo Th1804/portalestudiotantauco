@@ -3320,9 +3320,6 @@ const db  = getDatabase(app);
 let nick = localStorage.getItem('tantauco-nick') || '';
 let userId = localStorage.getItem('tantauco-uid') || ('u_' + Math.random().toString(36).slice(2,9));
 localStorage.setItem('tantauco-uid', userId);
-let chatOpen = false;
-let unread = 0;
-let currentTab = 'chat';
 
 // ── COLORS for nicks ──
 const NICK_COLORS = ['#a78bfa','#60a5fa','#34d399','#e4c97e','#f472b6','#c68642','#38bdf8','#4ade80'];
@@ -3414,7 +3411,7 @@ window._registerReal('chatSetNick', function() {
   showChatUI();
   // system msg
   push(ref(db, 'messages'), { type: 'system', text: `${nick} se unió al chat`, t: Date.now() });
-};
+});
 
 document.getElementById('chat-nick-input').addEventListener('keydown', e => {
   if (e.key === 'Enter') window.chatSetNick();
@@ -3507,55 +3504,83 @@ function listenMessages() {
       });
     }
     msgs.scrollTop = msgs.scrollHeight;
-    if (!chatOpen) {
-      unread++;
+    if (!window._chatState.chatOpen) {
+      window._chatState.unread++;
       const badge = document.getElementById('chat-unread');
-      badge.textContent = unread > 9 ? '9+' : unread;
+      badge.textContent = window._chatState.unread > 9 ? '9+' : window._chatState.unread;
       badge.classList.add('show');
     }
   });
 }
 
-// ── CHAT TOOLTIP ──
-const chatTooltip = document.getElementById('chat-tooltip');
-const chatFab = document.getElementById('chat-fab');
-let ctTimer = null;
-
-function showChatTooltip() {
-  chatTooltip.classList.add('visible');
-  clearTimeout(ctTimer);
-  ctTimer = setTimeout(() => chatTooltip.classList.remove('visible'), 3000);
+// ── CHAT TOOLTIP (Firebase-aware, sólo mouseenter/leave) ──
+const chatFabFB = document.getElementById('chat-fab');
+if (chatFabFB) {
+  chatFabFB.addEventListener('mouseenter', () => window._showChatTooltip && window._showChatTooltip());
+  chatFabFB.addEventListener('mouseleave', () => window._hideChatTooltip && window._hideChatTooltip());
 }
+</script>
 
-chatFab.addEventListener('mouseenter', showChatTooltip);
-chatFab.addEventListener('mouseleave', () => {
-  clearTimeout(ctTimer);
-  ctTimer = setTimeout(() => chatTooltip.classList.remove('visible'), 300);
-});
-chatTooltip.addEventListener('mouseenter', () => clearTimeout(ctTimer));
+<!-- Chat UI: toggle y tooltip — independiente de Firebase -->
+<script>
+(function() {
+  let chatOpen = false;
+  let unread = 0;
+  let currentTab = 'chat';
 
-// Show briefly on page load
-showChatTooltip();
+  // Exportar para que el módulo Firebase pueda leer/escribir estas vars
+  window._chatState = { get chatOpen() { return chatOpen; }, set chatOpen(v) { chatOpen = v; },
+                        get unread() { return unread; }, set unread(v) { unread = v; },
+                        get currentTab() { return currentTab; }, set currentTab(v) { currentTab = v; } };
 
-// ── TOGGLE ──
-window._registerReal('chatToggle', function() {
-  chatOpen = !chatOpen;
-  const panel = document.getElementById('chat-panel');
-  panel.classList.toggle('open', chatOpen);
-  chatFab.classList.toggle('open', chatOpen);
-  if (chatOpen) {
-    unread = 0;
-    document.getElementById('chat-unread').classList.remove('show');
-    setTimeout(() => {
-      if (currentTab === 'chat') {
-        const msgs = document.getElementById('chat-messages');
-        if (msgs.style.display !== 'none') msgs.scrollTop = msgs.scrollHeight;
-        if (nick) document.getElementById('chat-input').focus();
-        else document.getElementById('chat-nick-input').focus();
-      }
-    }, 120);
-  }
-});
+  // ── TOOLTIP ──
+  const chatTooltip = document.getElementById('chat-tooltip');
+  const chatFab = document.getElementById('chat-fab');
+  let ctTimer = null;
+
+  window._showChatTooltip = function() {
+    if (!chatTooltip) return;
+    chatTooltip.classList.add('visible');
+    clearTimeout(ctTimer);
+    ctTimer = setTimeout(() => chatTooltip.classList.remove('visible'), 3000);
+  };
+  window._hideChatTooltip = function() {
+    clearTimeout(ctTimer);
+    ctTimer = setTimeout(() => { if (chatTooltip) chatTooltip.classList.remove('visible'); }, 300);
+  };
+
+  if (chatTooltip) chatTooltip.addEventListener('mouseenter', () => clearTimeout(ctTimer));
+
+  // Mostrar tooltip brevemente al cargar
+  setTimeout(window._showChatTooltip, 500);
+
+  // ── TOGGLE ──
+  window._registerReal('chatToggle', function() {
+    chatOpen = !chatOpen;
+    const panel = document.getElementById('chat-panel');
+    if (panel) panel.classList.toggle('open', chatOpen);
+    if (chatFab) chatFab.classList.toggle('open', chatOpen);
+    if (chatOpen) {
+      unread = 0;
+      const badge = document.getElementById('chat-unread');
+      if (badge) badge.classList.remove('show');
+      const nick = localStorage.getItem('tantauco-nick');
+      setTimeout(() => {
+        if (currentTab === 'chat') {
+          const msgs = document.getElementById('chat-messages');
+          if (msgs && msgs.style.display !== 'none') msgs.scrollTop = msgs.scrollHeight;
+          if (nick) {
+            const inp = document.getElementById('chat-input');
+            if (inp) inp.focus();
+          } else {
+            const ni = document.getElementById('chat-nick-input');
+            if (ni) ni.focus();
+          }
+        }
+      }, 120);
+    }
+  });
+})();
 </script>
 
 </body>

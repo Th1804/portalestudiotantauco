@@ -198,7 +198,7 @@
   #chat-fab:hover { transform: scale(1.05); }
   #chat-fab.open { transform: rotate(90deg); background: var(--surface2); border: 1px solid var(--border2); color: var(--text-muted); box-shadow: none; }
 
-  /* Tabs — now 5 tabs, smaller font */
+  /* Tabs */
   .panel-tabs { display: flex; background: var(--surface2); border-bottom: 1px solid var(--border); padding: 4px 4px 0; gap: 2px; overflow-x: auto; scrollbar-width: none; flex-shrink: 0; }
   .panel-tabs::-webkit-scrollbar { display: none; }
   .panel-tab-btn { flex: 1; min-width: 0; background: none; border: none; outline: none; padding: 9px 2px; font-family: var(--font-mono); font-size: 9.5px; color: var(--text-dim); cursor: pointer; transition: all 0.15s; border-radius: 7px 7px 0 0; text-align: center; letter-spacing: 0.03em; text-transform: uppercase; white-space: nowrap; }
@@ -207,7 +207,7 @@
   .panel-content { flex: 1; display: none; flex-direction: column; min-height: 0; background: var(--surface); overflow: hidden; }
   .panel-content.active { display: flex; }
 
-  /* ── TAB: TUTOR IA (real AI) ── */
+  /* ── TAB: TUTOR IA ── */
   #tutor-messages { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 12px; scrollbar-width: thin; }
   .tutor-msg { display: flex; gap: 10px; align-items: flex-start; max-width: 88%; }
   .tutor-msg.user { align-self: flex-end; flex-direction: row-reverse; }
@@ -303,1055 +303,507 @@
   .logros-inner { padding: 12px; display: flex; flex-direction: column; gap: 14px; }
   #ach-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
   .ach-card { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 10px; padding: 11px 9px; display: flex; flex-direction: column; align-items: center; gap: 5px; text-align: center; transition: all 0.2s; }
-  .ach-card.unlocked { background: rgba(251,191,36,0.06); border-color: rgba(251,191,36,0.3); }
-  .ach-card-icon { font-size: 22px; filter: grayscale(1) opacity(0.3); transition: filter 0.3s; }
-  .ach-card.unlocked .ach-card-icon { filter: none; }
-  .ach-card-name { font-size: 10.5px; font-weight: 600; color: var(--text-muted); line-height: 1.2; }
-  .ach-card.unlocked .ach-card-name { color: var(--text); }
-  .ach-card-desc { font-size: 9.5px; color: var(--text-dim); line-height: 1.3; }
-  /* mini calendar inside logros */
-  .mini-cal { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
-  .mini-cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-  .mini-cal-title { font-family: var(--font-display); font-size: 12px; font-weight: 700; }
-  .mini-cal-month { font-family: var(--font-mono); font-size: 9.5px; color: var(--text-muted); text-transform: uppercase; }
-  .sc-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
-  .sc-wday { font-family: var(--font-mono); font-size: 8.5px; color: var(--text-dim); text-align: center; padding: 2px 0; text-transform: uppercase; }
-  .sc-day { aspect-ratio: 1; border-radius: 5px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 9.5px; color: var(--text-muted); font-family: var(--font-mono); transition: all 0.2s; }
-  .sc-day.active { background: rgba(251,191,36,0.15); border-color: rgba(251,191,36,0.4); color: #fbbf24; font-weight: bold; }
-  .sc-day.today { border-color: var(--teal); color: var(--teal); font-weight: bold; }
-  .sc-day.empty { background: transparent; border-color: transparent; }
-
-  /* ── TOAST ── */
-  #achievement-toast { position: fixed; top: 20px; left: 50%; z-index: 100000; transform: translateX(-50%) translateY(-20px); opacity: 0; pointer-events: none; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); min-width: 280px; max-width: 340px; }
-  #achievement-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-  .ach-toast-inner { display: flex; align-items: center; gap: 12px; background: var(--surface); border: 1px solid #fbbf24; border-radius: 12px; padding: 12px 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); }
-  .ach-toast-icon { font-size: 22px; }
-  .ach-toast-body { flex: 1; }
-  .ach-toast-label { font-family: var(--font-mono); font-size: 9px; color: #fbbf24; text-transform: uppercase; }
-  .ach-toast-title { font-size: 13px; font-weight: 600; color: var(--text); }
+  .ach-card.unlocked { background: rgba(251,191,36,0.06); border-color: rgba(251,191,36,0.25); }
 </style>
 </head>
 <body>
 
-<div id="read-progress"></div>
-<button id="theme-toggle" onclick="toggleTheme()" aria-label="Cambiar modo de color">🌙</button>
-<button id="gs-trigger" onclick="gsOpen()" aria-label="Buscar en el sitio">
-  <span class="gs-trig-icon">🔍</span>
-  <span>BUSCAR</span>
-  <kbd class="gs-trig-kbd">⌘K</kbd>
-</button>
+  <div id="read-progress"></div>
 
-<header class="hero">
-  <div class="hero-eyebrow">Hecho por estudiantes, para estudiantes</div>
-  <div class="hero-logo">
-    <div class="logo-icon">✨</div>
-    <div class="logo-text">
-      <div class="logo-name">Colegio Tantauco</div>
-      <div class="logo-sub">Plataforma de Estudio</div>
+  <!-- TRIGGER BUSCADOR -->
+  <button id="gs-trigger">
+    <span class="gs-trig-icon">🔍</span> Buscar materia... <kbd class="gs-trig-kbd">⌘K</kbd>
+  </button>
+
+  <!-- TOGGLE TEMA -->
+  <button id="theme-toggle">🌙</button>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-eyebrow">Plataforma Académica Digital</div>
+    <div class="hero-logo">
+      <div class="logo-icon">🦅</div>
+      <div class="logo-text">
+        <div class="logo-name">Colegio Tantauco</div>
+        <div class="logo-sub">Estudio e Innovación</div>
+      </div>
     </div>
-  </div>
-  <h1 class="hero-title">Bienvenido a tu <span class="hl-gold">Portal</span> de <span class="hl-blue">Estudio</span></h1>
-  <p class="hero-desc">Accede a las guías completas, cronologías de lectura, formularios y ejercitación interactiva optimizada para los OA de tus evaluaciones.</p>
-  <div class="hero-stats">
-    <div class="stat-pill"><span class="dot dot-gold"></span>5 Asignaturas</div>
-    <div class="stat-pill"><span class="dot dot-blue"></span>Contenido Actualizado 2026</div>
-    <div class="stat-pill"><span class="dot dot-teal"></span>🔥 Racha: <span id="streak-num">1</span> d</div>
-  </div>
-  <div class="hero-quote" id="hero-quote">Cargando motivación...</div>
-</header>
+    <h1 class="hero-title">Tu espacio de <span class="hl-gold">aprendizaje</span> e <span class="hl-blue">IA</span></h1>
+    <p class="hero-desc">Explora los módulos de estudio interactivos, organiza tus tiempos y consulta al tutor con inteligencia artificial en tiempo real.</p>
+    <div class="hero-stats">
+      <div class="stat-pill"><span class="dot dot-gold"></span> 1° Medio</div>
+      <div class="stat-pill"><span class="dot dot-blue"></span> Pomodoro Integrado</div>
+      <div class="stat-pill"><span class="dot dot-teal"></span> Tutor Claude 3.5</div>
+    </div>
+  </header>
 
-<main class="main">
-  <div class="section-label">Asignaturas disponibles</div>
-  <h2 class="section-title">Guías de Estudio Activas</h2>
-  <p class="section-desc">Haz clic en cualquier tarjeta para abrir la guía detallada de la materia o lleva el control de tu progreso marcando las unidades estudiadas.</p>
+  <!-- MAIN -->
+  <main class="main">
+    <div class="section-label">Asignaturas Disponibles</div>
+    <h2 class="section-title">Módulos de Aprendizaje</h2>
+    <p class="section-desc">Selecciona una materia para revisar los contenidos priorizados del año escolar.</p>
 
-  <div class="materias-grid">
-    <div class="materia-card lenguaje">
-      <a class="card-main-link" href="senor_de_las_moscas.html" aria-label="Abrir guía de Lenguaje"></a>
-      <div class="card-stripe stripe-gold"></div>
-      <div class="card-body">
-        <div class="card-top">
-          <div class="card-icon icon-gold">📖</div>
-          <div class="card-meta">
-            <div class="card-materia-label label-gold">Lengua y Literatura</div>
-            <div class="card-title">El Señor de las Moscas</div>
+    <div class="materias-grid">
+      <!-- Ciencias -->
+      <div class="materia-card ciencias">
+        <div class="card-stripe stripe-green"></div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-icon icon-green">🧬</div>
+            <div class="card-meta">
+              <div class="card-materia-label label-green">Biología / Física / Química</div>
+              <h3 class="card-title">Ciencias Naturales</h3>
+            </div>
+          </div>
+          <p class="card-desc">Ecosistemas, herencia, materia, energía y leyes de la naturaleza aplicadas al entorno actual.</p>
+          <div class="card-badges">
+            <span class="badge b-green">Células</span>
+            <span class="badge b-teal">Fuerzas</span>
+          </div>
+          <div class="card-checklist">
+            <div class="cl-label">Tareas pendientes</div>
+            <div class="cl-items">
+              <div class="cl-item">
+                <div class="cl-box"></div>
+                <div class="cl-text">Guía de Mitosis y Meiosis</div>
+              </div>
+            </div>
           </div>
         </div>
-        <p class="card-desc">Análisis exhaustivo de la obra de William Golding. Incluye cronología de eventos, fichas de personajes, simbología detallada y preguntas tipo prueba con respuestas guiadas.</p>
-        <div class="card-badges">
-          <span class="badge b-gold">Lectura Mensual</span>
-          <span class="badge b-teal">Análisis Literario</span>
-          <span class="badge b-purple">Personajes y Símbolos</span>
-        </div>
-        <div class="card-cta">
-          <span class="cta-text">Prueba de Nivel → 16/06</span>
-          <a href="senor_de_las_moscas.html" class="cta-btn btn-gold">Ver guía →</a>
-        </div>
-        <div class="card-checklist">
-          <div class="cl-label">Mi progreso</div>
-          <div class="cl-items" id="cl-lenguaje">
-            <label class="cl-item" onclick="clToggle('lenguaje',0,this,event)"><span class="cl-box"></span><span class="cl-text">Argumento y capítulos</span></label>
-            <label class="cl-item" onclick="clToggle('lenguaje',1,this,event)"><span class="cl-box"></span><span class="cl-text">Análisis de personajes</span></label>
-            <label class="cl-item" onclick="clToggle('lenguaje',2,this,event)"><span class="cl-box"></span><span class="cl-text">Temas y simbología</span></label>
-            <label class="cl-item" onclick="clToggle('lenguaje',3,this,event)"><span class="cl-box"></span><span class="cl-text">Preguntas de práctica</span></label>
-          </div>
-          <div class="cl-progress"><div class="cl-bar" id="cl-lenguaje-bar" style="width:0%"></div></div>
-        </div>
       </div>
-    </div>
-
-    <div class="materia-card matematicas">
-      <a class="card-main-link" href="matematica_guia.html" aria-label="Abrir guía de Matemáticas"></a>
-      <div class="card-stripe stripe-blue"></div>
-      <div class="card-body">
-        <div class="card-top">
-          <div class="card-icon icon-blue">📐</div>
-          <div class="card-meta">
-            <div class="card-materia-label label-blue">Matemática</div>
-            <div class="card-title">Guía Completa de Matemática</div>
+      <!-- Matemáticas -->
+      <div class="materia-card matematicas">
+        <div class="card-stripe stripe-blue"></div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-icon icon-blue">📐</div>
+            <div class="card-meta">
+              <div class="card-materia-label label-blue">Álgebra y Geometría</div>
+              <h3 class="card-title">Matemáticas</h3>
+            </div>
+          </div>
+          <p class="card-desc">Resolución de ecuaciones, funciones lineales, vectores y probabilidad y estadística avanzada.</p>
+          <div class="card-badges">
+            <span class="badge b-blue">Ecuaciones</span>
+            <span class="badge b-purple">Vectores</span>
           </div>
         </div>
-        <p class="card-desc">Material de estudio completo con formularios por unidad, resolución de ejercicios paso a paso, productos notables, ecuaciones y banco de preguntas tipo prueba de nivel.</p>
-        <div class="card-badges">
-          <span class="badge b-blue">Prueba de Nivel</span>
-          <span class="badge b-teal">Ejercicios resueltos</span>
-          <span class="badge b-purple">Formularios</span>
-        </div>
-        <div class="card-cta">
-          <span class="cta-text">Prueba de Nivel → Próximamente</span>
-          <a href="matematica_guia.html" class="cta-btn btn-blue">Ver guía →</a>
-        </div>
-        <div class="card-checklist">
-          <div class="cl-label">Mi progreso</div>
-          <div class="cl-items" id="cl-mate">
-            <label class="cl-item" onclick="clToggle('mate',0,this,event)"><span class="cl-box"></span><span class="cl-text">Fracciones y potencias</span></label>
-            <label class="cl-item" onclick="clToggle('mate',1,this,event)"><span class="cl-box"></span><span class="cl-text">Números reales</span></label>
-            <label class="cl-item" onclick="clToggle('mate',2,this,event)"><span class="cl-box"></span><span class="cl-text">Productos notables</span></label>
-            <label class="cl-item" onclick="clToggle('mate',3,this,event)"><span class="cl-box"></span><span class="cl-text">Ecuaciones de 1er grado</span></label>
-          </div>
-          <div class="cl-progress"><div class="cl-bar" id="cl-mate-bar" style="width:0%"></div></div>
-        </div>
       </div>
     </div>
 
-    <div class="materia-card ciencias">
-      <a class="card-main-link" href="prueba_nivel_ciencias_naturales.html" aria-label="Abrir guía de Ciencias"></a>
-      <div class="card-stripe stripe-green"></div>
-      <div class="card-body">
-        <div class="card-top">
-          <div class="card-icon icon-green">🧬</div>
-          <div class="card-meta">
-            <div class="card-materia-label label-green">Ciencias Naturales</div>
-            <div class="card-title">Biología, Física y Química</div>
-          </div>
+    <hr class="divider">
+
+    <!-- METODOLOGÍA -->
+    <div class="section-label">¿Cómo Funciona?</div>
+    <h2 class="section-title">Tu flujo diario de trabajo</h2>
+    <p class="section-desc">Sigue estos tres sencillos pasos para potenciar tus sesiones de estudio autónomo.</p>
+    
+    <div class="howto-grid">
+      <div class="howto-card">
+        <div class="howto-num">01</div>
+        <div class="howto-title">Elige un objetivo</div>
+        <div class="howto-desc">Revisa tus pendientes en los paneles de asignaturas de arriba.</div>
+      </div>
+      <div class="howto-card">
+        <div class="howto-num">02</div>
+        <div class="howto-title">Activa el Pomodoro</div>
+        <div class="howto-desc">Trabaja 25 minutos sin distracciones en el panel flotante de la esquina inferior.</div>
+      </div>
+      <div class="howto-card">
+        <div class="howto-num">03</div>
+        <div class="howto-title">Consulta con la IA</div>
+        <div class="howto-desc">Si te estancas en algún concepto, escribe en el chat del Tutor IA para una explicación fluida.</div>
+      </div>
+    </div>
+  </main>
+
+  <!-- PANEL FLOTANTE COMPLETO -->
+  <button id="chat-fab">💬</button>
+
+  <div id="chat-panel">
+    <div class="panel-tabs">
+      <button class="panel-tab-btn active" data-tab="tutor">🤖 Tutor IA</button>
+      <button class="panel-tab-btn" data-tab="alumnos">👥 Alumnos</button>
+      <button class="panel-tab-btn" data-tab="pomodoro">⏱️ Pomodoro</button>
+      <button class="panel-tab-btn" data-tab="musica">🎵 Lo-Fi</button>
+      <button class="panel-tab-btn" data-tab="logros">🏆 Logros</button>
+    </div>
+
+    <!-- TAB: TUTOR IA -->
+    <div class="panel-content active" id="tab-tutor">
+      <div id="tutor-messages">
+        <div class="tutor-msg assistant">
+          <div class="msg-avatar">🤖</div>
+          <div class="msg-bubble">¡Hola! Soy tu Tutor IA del Colegio Tantauco. ¿En qué materia o concepto te gustaría profundizar hoy?</div>
         </div>
-        <p class="card-desc">Contenidos articulados de los tres ejes: Fósiles y evolución (Biología), Ondas y luz (Física) junto a Tabla Periódica y Enlaces Químicos (Química). Quiz integrado.</p>
-        <div class="card-badges">
-          <span class="badge b-green">Ejes Integrados</span>
-          <span class="badge b-teal">Fósiles y Ondas</span>
-          <span class="badge b-purple">Enlaces Químicos</span>
-        </div>
-        <div class="card-cta">
-          <span class="cta-text">Prueba de Nivel → 12/06</span>
-          <a href="prueba_nivel_ciencias_naturales.html" class="cta-btn btn-green">Ver guía →</a>
-        </div>
-        <div class="card-checklist">
-          <div class="cl-label">Mi progreso</div>
-          <div class="cl-items" id="cl-ciencias">
-            <label class="cl-item" onclick="clToggle('ciencias',0,this,event)"><span class="cl-box"></span><span class="cl-text">Biología: Fósiles y Evolución</span></label>
-            <label class="cl-item" onclick="clToggle('ciencias',1,this,event)"><span class="cl-box"></span><span class="cl-text">Física: Ondas y Espectro</span></label>
-            <label class="cl-item" onclick="clToggle('ciencias',2,this,event)"><span class="cl-box"></span><span class="cl-text">Química: Tabla periódica</span></label>
-            <label class="cl-item" onclick="clToggle('ciencias',3,this,event)"><span class="cl-box"></span><span class="cl-text">Química: Enlace químico</span></label>
-          </div>
-          <div class="cl-progress"><div class="cl-bar" id="cl-ciencias-bar" style="width:0%"></div></div>
-        </div>
+      </div>
+      <div id="tutor-suggestions">
+        <div class="tutor-sq-label">Sugerencias Rápidas</div>
+        <button class="tutor-sq">Explícame de forma fácil la mitosis celular</button>
+      </div>
+      <div id="tutor-input-area">
+        <textarea id="tutor-input" rows="1" placeholder="Hazme una pregunta sobre tu materia..."></textarea>
+        <button id="tutor-send">→</button>
       </div>
     </div>
 
-    <div class="materia-card historia">
-      <a class="card-main-link" href="historia_guia.html" aria-label="Abrir guía de Historia"></a>
-      <div class="card-stripe stripe-amber"></div>
-      <div class="card-body">
-        <div class="card-top">
-          <div class="card-icon icon-amber">🏛️</div>
-          <div class="card-meta">
-            <div class="card-materia-label label-amber">Historia y Geografía</div>
-            <div class="card-title">Historia de Chile Siglo XIX</div>
-          </div>
-        </div>
-        <p class="card-desc">Análisis de la formación republicana chilena, la constitución de 1833, el ciclo económico salitrero, la Cuestión Social y las ideologías políticas de la época. Línea de tiempo y cuestionarios.</p>
-        <div class="card-badges">
-          <span class="badge b-amber">OA 8 · República</span>
-          <span class="badge b-rust">OA 10 · Economía</span>
-          <span class="badge b-teal">Cuestión Social</span>
-        </div>
-        <div class="card-cta">
-          <span class="cta-text">Prueba de Nivel → 15/06</span>
-          <a href="historia_guia.html" class="cta-btn btn-amber">Ver guía →</a>
-        </div>
-        <div class="card-checklist">
-          <div class="cl-label">Mi progreso</div>
-          <div class="cl-items" id="cl-historia">
-            <label class="cl-item" onclick="clToggle('historia',0,this,event)"><span class="cl-box"></span><span class="cl-text">Constitución de 1833</span></label>
-            <label class="cl-item" onclick="clToggle('historia',1,this,event)"><span class="cl-box"></span><span class="cl-text">Economía e inserción internacional</span></label>
-            <label class="cl-item" onclick="clToggle('historia',2,this,event)"><span class="cl-box"></span><span class="cl-text">Salitre y Cuestión Social</span></label>
-            <label class="cl-item" onclick="clToggle('historia',3,this,event)"><span class="cl-box"></span><span class="cl-text">Facciones e ideologías</span></label>
-          </div>
-          <div class="cl-progress"><div class="cl-bar" id="cl-historia-bar" style="width:0%"></div></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="materia-card ingles">
-      <a class="card-main-link" href="ingles_guia.html" aria-label="Abrir guía de Inglés"></a>
-      <div class="card-stripe stripe-yellow"></div>
-      <div class="card-body">
-        <div class="card-top">
-          <div class="card-icon icon-yellow">🇬🇧</div>
-          <div class="card-meta">
-            <div class="card-materia-label label-yellow">Idioma Extranjero</div>
-            <div class="card-title">English Guide — Units 1 & 2</div>
+    <!-- TAB: ALUMNOS (Simulado) -->
+    <div class="panel-content" id="tab-alumnos">
+      <div id="chat-alumnos-wrap">
+        <div id="chat-alumnos-msgs">
+          <div class="ca-msg">
+            <div class="ca-msg-header">
+              <span class="ca-avatar">🦊</span>
+              <span class="ca-name">Benja_1M</span>
+              <span class="ca-time">15:32</span>
+            </div>
+            <div class="ca-text">¿Alguien entendió la pregunta 3 de la guía de biología? No me cuadra la profase.</div>
           </div>
         </div>
-        <p class="card-desc">Revisión de contenidos obligatorios: Education Rights y Climate Action. Ejercicios interactivos de comprensión de lectura (Reading), vocabulario contextualizado y estructuras gramaticales.</p>
-        <div class="card-badges">
-          <span class="badge b-yellow">Unit 1 & 2</span>
-          <span class="badge b-teal">Reading Skills</span>
-          <span class="badge b-purple">Vocabulary Game</span>
+        <div id="chat-alumnos-name-row">
+          <input type="text" id="ca-name-input" placeholder="Tu Apodo" value="Estudiante">
+          <textarea id="ca-msg-input" rows="1" placeholder="Escribe al grupo de estudio..."></textarea>
+          <button id="ca-send">✈️</button>
         </div>
-        <div class="card-cta">
-          <span class="cta-text">Prueba de Inglés → Próximamente</span>
-          <a href="ingles_guia.html" class="cta-btn btn-yellow">Ver guía →</a>
+      </div>
+    </div>
+
+    <!-- TAB: POMODORO -->
+    <div class="panel-content" id="tab-pomodoro">
+      <div class="pom-timer-display">
+        <div class="pom-mode-btns">
+          <button class="pom-mode-btn active" data-time="1500">Pomodoro</button>
+          <button class="pom-mode-btn" data-time="300">Recreo</button>
         </div>
-        <div class="card-checklist">
-          <div class="cl-label">Mi progreso</div>
-          <div class="cl-items" id="cl-ingles">
-            <label class="cl-item" onclick="clToggle('ingles',0,this,event)"><span class="cl-box"></span><span class="cl-text">Unit 1: Education Rights</span></label>
-            <label class="cl-item" onclick="clToggle('ingles',1,this,event)"><span class="cl-box"></span><span class="cl-text">Unit 2: Climate Action</span></label>
-            <label class="cl-item" onclick="clToggle('ingles',2,this,event)"><span class="cl-box"></span><span class="cl-text">Reading Comprehension</span></label>
-            <label class="cl-item" onclick="clToggle('ingles',3,this,event)"><span class="cl-box"></span><span class="cl-text">Grammar & Vocabulary</span></label>
+        <div class="pom-ring-wrap">
+          <svg class="pom-ring">
+            <circle class="pom-ring-bg" cx="70" cy="70" r="65"></circle>
+            <circle class="pom-ring-fill" cx="70" cy="70" r="65"></circle>
+          </svg>
+          <div class="pom-ring-text">
+            <div class="pom-clock" id="pom-clock-text">25:00</div>
+            <div class="pom-label" id="pom-label-status">Foco Activo</div>
           </div>
-          <div class="cl-progress"><div class="cl-bar" id="cl-ingles-bar" style="width:0%"></div></div>
+        </div>
+        <div class="pom-controls">
+          <button class="pom-btn pom-btn-start" id="pom-start-btn">Iniciar</button>
+          <button class="pom-btn pom-btn-reset" id="pom-reset-btn">Reset</button>
+        </div>
+        <div class="pom-sessions">
+          <div class="pom-sessions-label">Ciclos Completados</div>
+          <div class="pom-dots">
+            <div class="pom-dot filled"></div>
+            <div class="pom-dot"></div>
+            <div class="pom-dot"></div>
+            <div class="pom-dot"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: MÚSICA -->
+    <div class="panel-content" id="tab-musica">
+      <div class="mus-now">
+        <div class="mus-now-label">Sonando Ahora</div>
+        <div class="mus-now-name" id="mus-current-title">Estudio Relajante (Ambiental)</div>
+        <div class="mus-controls">
+          <button class="mus-ctrl-btn main" id="mus-play-toggle">▶</button>
+          <div class="mus-vol">
+            <span class="mus-vol-icon">🔊</span>
+            <input type="range" class="mus-vol-slider" min="0" max="100" value="50">
+          </div>
+        </div>
+      </div>
+      <div class="mus-track-list">
+        <div class="mus-track playing">
+          <span class="mus-track-icon">🎧</span>
+          <div class="mus-track-info">
+            <div class="mus-track-name">Lo-Fi Post-Gótico Instrumental</div>
+            <div class="mus-track-desc">Sintetizadores suaves retro y beats lentos</div>
+          </div>
+          <span class="mus-track-badge">Focus</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: LOGROS -->
+    <div class="panel-content" id="tab-logros">
+      <div class="logros-inner">
+        <div id="ach-grid">
+          <div class="ach-card unlocked">
+            <span>🔥</span>
+            <div style="font-size:11px; font-weight:600; margin-top:4px;">Primer Paso</div>
+            <div style="font-size:9.5px; color:var(--text-muted);">Abre la app</div>
+          </div>
+          <div class="ach-card">
+            <span>🧠</span>
+            <div style="font-size:11px; font-weight:600; margin-top:4px;">Curioso</div>
+            <div style="font-size:9.5px; color:var(--text-muted);">1 Pregunta a IA</div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <hr class="divider">
-  <div class="section-label">Funcionalidades del ecosistema</div>
-  <h2 class="section-title">¿Cómo estudiar con el Portal?</h2>
-  <p class="section-desc">Esta plataforma fue desarrollada para brindarte herramientas tecnológicas avanzadas de repaso autónomo.</p>
-  <div class="howto-grid">
-    <div class="howto-card">
-      <div class="howto-num">01</div>
-      <h3 class="howto-title">Buscador Inteligente</h3>
-      <p class="howto-desc">Presiona <kbd style="font-family:var(--font-mono);font-size:11px;background:rgba(255,255,255,0.08);padding:1px 4px;border-radius:3px;">Ctrl+K</kbd> para buscar conceptos instantáneamente en todas las materias.</p>
+  <!-- BACKDROP Y MODAL DEL BUSCADOR -->
+  <div id="gs-backdrop"></div>
+  <div id="gs-modal">
+    <div id="gs-input-wrap">
+      <span id="gs-icon">🔍</span>
+      <input type="text" id="gs-input" placeholder="Buscar temas (ej: mitosis, ecuaciones, vectores)..." autocomplete="off">
+      <kbd id="gs-kbd">ESC</kbd>
     </div>
-    <div class="howto-card">
-      <div class="howto-num">02</div>
-      <h3 class="howto-title">Tutor IA en vivo</h3>
-      <p class="howto-desc">El botón ✨ abre un asistente con IA real (Claude) que responde cualquier duda sobre el portal o te orienta a la guía correcta.</p>
-    </div>
-    <div class="howto-card">
-      <div class="howto-num">03</div>
-      <h3 class="howto-title">Pomodoro + Música</h3>
-      <p class="howto-desc">Gestiona tus bloques de estudio con el temporizador Pomodoro integrado y acompaña tus sesiones con música de concentración.</p>
-    </div>
-    <div class="howto-card">
-      <div class="howto-num">04</div>
-      <h3 class="howto-title">Chat de Curso y Logros</h3>
-      <p class="howto-desc">Coordínate con tus compañeros en el chat grupal y desbloquea logros conforme avanzas en tus estudios.</p>
-    </div>
-  </div>
-</main>
-
-<footer class="footer">
-  <p>© 2026 Portal de Aprendizaje Autónomo — <span>Colegio Tantauco</span></p>
-</footer>
-
-<!-- BUSCADOR GLOBAL -->
-<div id="gs-backdrop" onclick="gsClose()"></div>
-<div id="gs-modal">
-  <div id="gs-input-wrap">
-    <span id="gs-icon">🔍</span>
-    <input type="text" id="gs-input" placeholder="Buscar conceptos, obras, fórmulas, hitos históricos..." autocomplete="off">
-    <kbd id="gs-kbd">ESC</kbd>
-  </div>
-  <div id="gs-results"></div>
-  <div id="gs-empty"><div class="gs-empty-icon">⚠️</div><div>No encontramos resultados para "<span id="gs-empty-q"></span>"</div></div>
-  <div id="gs-footer">
-    <div class="gs-hint"><kbd>↑↓</kbd><span>Navegar</span></div>
-    <div class="gs-hint"><kbd>Enter</kbd><span>Abrir</span></div>
-  </div>
-</div>
-
-<!-- TOAST -->
-<div id="achievement-toast">
-  <div class="ach-toast-inner">
-    <div class="ach-toast-icon">🏆</div>
-    <div class="ach-toast-body">
-      <div class="ach-toast-label">¡Logro Desbloqueado!</div>
-      <div class="ach-toast-title" id="ach-toast-title"></div>
-    </div>
-  </div>
-</div>
-
-<!-- PANEL FLOTANTE CON 5 PESTAÑAS -->
-<div id="chat-panel">
-  <div class="panel-tabs">
-    <button class="panel-tab-btn active"   data-tab="tutor"      onclick="switchTab('tutor')">🤖 IA</button>
-    <button class="panel-tab-btn"          data-tab="alumnos"    onclick="switchTab('alumnos')">💬 Curso</button>
-    <button class="panel-tab-btn"          data-tab="pomodoro"   onclick="switchTab('pomodoro')">⏱ Pomodoro</button>
-    <button class="panel-tab-btn"          data-tab="musica"     onclick="switchTab('musica')">🎵 Música</button>
-    <button class="panel-tab-btn"          data-tab="logros"     onclick="switchTab('logros')">🏆 Logros</button>
-  </div>
-
-  <!-- TUTOR IA REAL -->
-  <div id="tab-tutor" class="panel-content active">
-    <div id="tutor-messages"></div>
-    <div id="tutor-suggestions">
-      <div class="tutor-sq-label">Preguntas frecuentes:</div>
-      <button class="tutor-sq" onclick="sendSuggested('¿Cómo uso los Tutores IA de las asignaturas?')">¿Cómo uso los Tutores IA de las asignaturas?</button>
-      <button class="tutor-sq" onclick="sendSuggested('¿Cuándo son las próximas Pruebas de Nivel?')">¿Cuándo son las próximas Pruebas de Nivel?</button>
-    </div>
-    <div id="tutor-input-area">
-      <textarea id="tutor-input" placeholder="Pregúntame algo sobre el portal..." rows="1"></textarea>
-      <button id="tutor-send" onclick="tutorSend()">➔</button>
-    </div>
-  </div>
-
-  <!-- CHAT ALUMNOS -->
-  <div id="tab-alumnos" class="panel-content">
-    <div id="chat-alumnos-wrap">
-      <div id="chat-alumnos-msgs"></div>
-      <div id="chat-alumnos-name-row">
-        <input id="ca-name-input" type="text" placeholder="Tu nombre" maxlength="18">
-        <textarea id="ca-msg-input" placeholder="Escribe un mensaje..." rows="1"></textarea>
-        <button id="ca-send" onclick="caSend()">➔</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- POMODORO -->
-  <div id="tab-pomodoro" class="panel-content">
-    <div class="pom-timer-display">
-      <div class="pom-mode-btns">
-        <button class="pom-mode-btn active" onclick="pomSetMode('work',25)">Estudio</button>
-        <button class="pom-mode-btn" onclick="pomSetMode('short',5)">Pausa corta</button>
-        <button class="pom-mode-btn" onclick="pomSetMode('long',15)">Pausa larga</button>
-      </div>
-      <div class="pom-ring-wrap">
-        <svg class="pom-ring" viewBox="0 0 140 140">
-          <circle class="pom-ring-bg" cx="70" cy="70" r="65"/>
-          <circle class="pom-ring-fill" id="pom-ring-fill" cx="70" cy="70" r="65"/>
-        </svg>
-        <div class="pom-ring-text">
-          <div class="pom-clock" id="pom-clock">25:00</div>
-          <div class="pom-label" id="pom-label">ESTUDIO</div>
+    <div id="gs-results">
+      <div class="gs-section-label">Resultados sugeridos</div>
+      <a href="#" class="gs-item">
+        <div class="gs-item-icon" style="background:var(--green-dim);">🧬</div>
+        <div class="gs-item-body">
+          <div class="gs-item-title">Mitosis celular y ciclo cromosómico</div>
+          <div class="gs-item-snippet">Módulo de Biología - Primer año medio.</div>
         </div>
-      </div>
-      <div class="pom-controls">
-        <button class="pom-btn pom-btn-start" id="pom-start-btn" onclick="pomToggle()">▶ Iniciar</button>
-        <button class="pom-btn pom-btn-reset" onclick="pomReset()">↺ Reset</button>
-      </div>
+        <span class="gs-item-badge" style="border-color:rgba(16,185,129,0.3); color:var(--green-light);">Contenido</span>
+      </a>
     </div>
-    <div class="pom-sessions">
-      <div class="pom-sessions-label">Sesiones completadas hoy</div>
-      <div class="pom-dots" id="pom-dots"></div>
+    <div id="gs-empty">
+      <div class="gs-empty-icon">📂</div>
+      <div>No encontramos resultados para esa búsqueda.</div>
     </div>
-  </div>
-
-  <!-- MÚSICA -->
-  <div id="tab-musica" class="panel-content">
-    <div class="mus-now" id="mus-now">
-      <div class="mus-now-label">▶ REPRODUCIENDO</div>
-      <div class="mus-now-name" id="mus-now-name">Lofi Hip Hop · Estudio</div>
-      <div class="mus-controls">
-        <button class="mus-ctrl-btn" onclick="musPrev()" title="Anterior">⏮</button>
-        <button class="mus-ctrl-btn main" id="mus-play-btn" onclick="musToggle()">▶</button>
-        <button class="mus-ctrl-btn" onclick="musNext()" title="Siguiente">⏭</button>
-        <div class="mus-vol">
-          <span class="mus-vol-icon">🔉</span>
-          <input type="range" class="mus-vol-slider" id="mus-vol" min="0" max="1" step="0.05" value="0.7" oninput="musSetVol(this.value)">
-        </div>
-      </div>
-      <div class="mus-progress-wrap">
-        <span class="mus-time" id="mus-time-cur">0:00</span>
-        <div class="mus-progress-bar"><div class="mus-progress-fill" id="mus-prog-fill" style="width:0%"></div></div>
-        <span class="mus-time" id="mus-time-tot">∞</span>
-      </div>
-    </div>
-    <div class="mus-header">Ambientes de Estudio</div>
-    <div class="mus-sub">Streams en vivo · YouTube</div>
-    <div class="mus-track-list" id="mus-track-list"></div>
-    <div class="mus-note">Los streams se abren en una nueva pestaña de YouTube para evitar bloqueos de reproducción automática.</div>
-  </div>
-
-  <!-- LOGROS + CALENDARIO -->
-  <div id="tab-logros" class="panel-content">
-    <div class="logros-inner">
-      <div id="ach-grid"></div>
-      <div class="mini-cal">
-        <div class="mini-cal-header">
-          <div class="mini-cal-title">Días de Estudio</div>
-          <div class="mini-cal-month" id="mini-cal-month"></div>
-        </div>
-        <div class="sc-grid" id="calendar-grid"></div>
-      </div>
+    <div id="gs-footer">
+      <div class="gs-hint"><kbd>↑↓</kbd> para navegar</div>
+      <div class="gs-hint"><kbd>Enter</kbd> para seleccionar</div>
     </div>
   </div>
-</div>
 
-<button id="chat-fab" onclick="toggleChatPanel()" aria-label="Abrir asistente">✨</button>
+  <!-- FOOTER -->
+  <footer class="footer">
+    &copy; 2026 Colegio Tantauco — Portal de Apoyo Académico <span>v2.4</span>
+  </footer>
 
-<script>
-// ══════════════════════════════════════════════════
-//  CONFIGURACIÓN — Cloudflare Worker proxy (mismo
-//  que usan las guías individuales del portal)
-// ══════════════════════════════════════════════════
-const CF_WORKER_URL = 'https://portaltantauco.enzofuentes1804.workers.dev';
+  <!-- ==========================================
+       LÓGICA JAVASCRIPT CONSOLIDADA Y CORREGIDA
+       ========================================== -->
+  <script>
+    // Configuración general del ambiente del Tutor IA
+    const CF_WORKER_URL = "https://tu-worker-id.workers.dev"; // URL de tu Cloudflare Worker
+    const TUTOR_SYSTEM = "Eres un tutor experto del Colegio Tantauco para estudiantes de 1° Medio. Responde de manera clara y didáctica."; // Prompt del sistema
+    let tutorHistory = [];
+    let tutorBusy = false;
 
-// ── FRASES MOTIVACIONALES ──
-const QUOTES = [
-  "El estudio sabio supera al esfuerzo bruto. Organiza tus tiempos.",
-  "Pequeños pasos constantes construyen grandes promedios.",
-  "La memoria activa se entrena respondiendo preguntas, no solo releyendo.",
-  "La constancia es el secreto: cada día sumas conocimiento clave.",
-  "¡Éxito en tus pruebas de nivel! Tienes las herramientas para lograrlo."
-];
-const quoteEl = document.getElementById('hero-quote');
-if (quoteEl) quoteEl.textContent = QUOTES[Math.floor(Math.random() * QUOTES.length)];
+    // --- MANEJO DE TABS DEL PANEL ---
+    const tabButtons = document.querySelectorAll('.panel-tab-btn');
+    const tabContents = document.querySelectorAll('.panel-content');
 
-// ── RACHA ──
-(function() {
-  const today = new Date().toDateString();
-  const stored = JSON.parse(localStorage.getItem('tantauco-streak') || '{"last":"","count":0}');
-  const yesterday = new Date(Date.now() - 86400000).toDateString();
-  let count = stored.count || 0;
-  if (stored.last !== today) {
-    count = (stored.last === yesterday) ? count + 1 : 1;
-    localStorage.setItem('tantauco-streak', JSON.stringify({ last: today, count }));
-  }
-  const el = document.getElementById('streak-num');
-  if (el) el.textContent = count;
-  let history = JSON.parse(localStorage.getItem('study-calendar') || '[]');
-  if (!history.includes(today)) { history.push(today); localStorage.setItem('study-calendar', JSON.stringify(history)); }
-})();
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        tabButtons.forEach(b => b.classList.remove('active'));
+        tabContents.forEach(c => c.classList.remove('active'));
 
-// ── TEMA ──
-function toggleTheme() {
-  const light = document.body.classList.toggle('light-mode');
-  localStorage.setItem('tantauco-theme', light ? 'light' : 'dark');
-  document.getElementById('theme-toggle').textContent = light ? '☀️' : '🌙';
-}
-(function() {
-  if (localStorage.getItem('tantauco-theme') === 'light') {
-    document.body.classList.add('light-mode');
-    document.getElementById('theme-toggle').textContent = '☀️';
-  }
-})();
-
-// ── BARRA PROGRESO LECTURA ──
-const progressBar = document.getElementById('read-progress');
-window.addEventListener('scroll', () => {
-  const doc = document.documentElement;
-  const scrolled = doc.scrollTop / (doc.scrollHeight - doc.clientHeight);
-  if (progressBar) progressBar.style.width = (scrolled * 100) + '%';
-});
-
-// ── CHECKLISTS ──
-const CL_COUNTS = { lenguaje: 4, mate: 4, ciencias: 4, historia: 4, ingles: 4 };
-function clToggle(card, idx, element, event) {
-  if (event) event.preventDefault();
-  const key = `cl-${card}-${idx}`;
-  const done = localStorage.getItem(key) === 'done';
-  if (done) { localStorage.removeItem(key); element.classList.remove('done'); }
-  else { localStorage.setItem(key, 'done'); element.classList.add('done'); checkChecklistAchievements(); }
-  updateBar(card);
-}
-function updateBar(card) {
-  let done = 0;
-  for (let i = 0; i < CL_COUNTS[card]; i++) if (localStorage.getItem(`cl-${card}-${i}`) === 'done') done++;
-  const bar = document.getElementById(`cl-${card}-bar`);
-  if (bar) bar.style.width = (done / CL_COUNTS[card] * 100) + '%';
-}
-function clLoad() {
-  Object.keys(CL_COUNTS).forEach(card => {
-    for (let i = 0; i < CL_COUNTS[card]; i++) {
-      if (localStorage.getItem(`cl-${card}-${i}`) === 'done') {
-        const item = document.querySelector(`#cl-${card} label:nth-child(${i+1})`);
-        if (item) item.classList.add('done');
-      }
-    }
-    updateBar(card);
-  });
-}
-window.addEventListener('DOMContentLoaded', clLoad);
-
-// ══════════════════════════════════════════════════
-//  PANEL FLOTANTE — Control general
-// ══════════════════════════════════════════════════
-let chatOpen = false;
-let currentTab = 'tutor';
-
-function toggleChatPanel() {
-  chatOpen = !chatOpen;
-  document.getElementById('chat-panel').classList.toggle('open', chatOpen);
-  document.getElementById('chat-fab').classList.toggle('open', chatOpen);
-  if (chatOpen && currentTab === 'tutor' && document.getElementById('tutor-messages').children.length === 0) {
-    initTutorIA();
-  }
-}
-
-function switchTab(tab) {
-  currentTab = tab;
-  document.querySelectorAll('.panel-tab-btn').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.panel-content').forEach(c => c.classList.remove('active'));
-  document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
-  document.getElementById(`tab-${tab}`).classList.add('active');
-  if (tab === 'logros') { renderAchievements(); renderCalendar(); }
-  if (tab === 'alumnos') { caInit(); }
-  if (tab === 'pomodoro') { pomRenderDots(); }
-}
-
-// ══════════════════════════════════════════════════
-//  TUTOR IA — Llamada real a Cloudflare Worker
-// ══════════════════════════════════════════════════
-const TUTOR_SYSTEM = `Eres el Tutor Orientador del Portal de Estudio del Colegio Tantauco. Respondes en español chileno, con tono amigable, cercano y entusiasta.
-
-CONTEXTO DEL PORTAL:
-- 5 asignaturas con guías de estudio interactivas.
-- Lenguaje: "El Señor de las Moscas" de William Golding → archivo: senor_de_las_moscas.html → Prueba: 16 de Junio.
-- Ciencias Naturales: Biología (fósiles/evolución), Física (ondas/espectro), Química (tabla periódica, enlaces) → archivo: prueba_nivel_ciencias_naturales.html → Prueba: 12 de Junio.
-- Historia: Chile Siglo XIX, Constitución 1833, salitre, Cuestión Social → archivo: historia_guia.html → Prueba: 15 de Junio.
-- Matemática: fracciones, productos notables, ecuaciones → archivo: matematica_guia.html.
-- Inglés: Units 1 & 2 (Education Rights, Climate Action) → archivo: ingles_guia.html.
-
-FUNCIONALIDADES DEL PANEL ✨:
-- 🤖 IA: este chat contigo (tutor orientador con IA real).
-- 💬 Curso: chat grupal entre alumnos de la clase.
-- ⏱ Pomodoro: temporizador de estudio (25 min trabajo / descansos).
-- 🎵 Música: reproductor con links a streams de estudio en YouTube.
-- 🏆 Logros: sistema de logros gamificados + calendario de racha de estudio.
-- Buscador global: Ctrl+K busca en todos los contenidos del portal.
-- Checklist por tarjeta: barra de progreso para cada asignatura.
-- Modo claro/oscuro: botón arriba a la derecha.
-
-INSTRUCCIONES:
-- Si te preguntan dudas académicas específicas (ej: resolver una ecuación, analizar un personaje), indícales que esa materia la responde el Tutor IA especializado DENTRO de la guía correspondiente (botón ✨ dentro de cada guía).
-- Tú sólo orientas sobre cómo navegar y usar el portal.
-- Sé breve y directo en tus respuestas (máximo 4-5 líneas salvo que pidan detalle).
-- Usa emojis con moderación para mantener cercanía.`;
-
-let tutorHistory = [];
-let tutorBusy = false;
-
-function initTutorIA() {
-  const box = document.getElementById('tutor-messages');
-  box.innerHTML = '';
-  tutorHistory = [];
-  appendTutorMsg('assistant', '¡Hola! 👋 Soy el Tutor Orientador del Portal Tantauco, potenciado con IA real.\n\nPuedo ayudarte a navegar el portal, explicarte las funciones del panel ✨ o decirte qué guía estudiar según tu prueba. ¿En qué te ayudo hoy?');
-}
-
-function appendTutorMsg(role, text, isTyping = false) {
-  const box = document.getElementById('tutor-messages');
-  const div = document.createElement('div');
-  div.className = `tutor-msg ${role === 'user' ? 'user' : 'assistant'}`;
-  const bubble = document.createElement('div');
-  bubble.className = 'msg-bubble' + (isTyping ? ' typing' : '');
-  bubble.textContent = text;
-  div.innerHTML = `<div class="msg-avatar">${role === 'user' ? '👤' : '✨'}</div>`;
-  div.appendChild(bubble);
-  box.appendChild(div);
-  box.scrollTop = box.scrollHeight;
-  return bubble;
-}
-
-function sendSuggested(text) {
-  document.getElementById('tutor-suggestions').style.display = 'none';
-  tutorProcess(text);
-}
-
-function tutorSend() {
-  const area = document.getElementById('tutor-input');
-  const text = area.value.trim();
-  if (!text || tutorBusy) return;
-  area.value = '';
-  area.style.height = '';
-  document.getElementById('tutor-suggestions').style.display = 'none';
-  tutorProcess(text);
-}
-
-async function tutorProcess(userText) {
-  if (tutorBusy) return;
-  tutorBusy = true;
-  document.getElementById('tutor-send').disabled = true;
-
-  appendTutorMsg('user', userText);
-  tutorHistory.push({ role: 'user', content: userText });
-
-  // Mostrar indicador de tipeo
-  const typingBubble = appendTutorMsg('assistant', '...', true);
-
-  try {
-    const res = await fetch(`${CF_WORKER_URL}/api/tutor`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-3-5-sonnet-latest',
-        max_tokens: 600,
-        system: TUTOR_SYSTEM,
-        messages: tutorHistory
-      })
+        btn.classList.add('active');
+        const targetTab = document.getElementById(`tab-${btn.dataset.tab}`);
+        if (targetTab) targetTab.classList.add('active');
+      });
     });
 
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
-    const reply = data.content?.[0]?.text || 'No pude procesar la respuesta. Intenta de nuevo.';
+    // --- ABRIR/CERRAR PANEL FLOTANTE ---
+    const chatFab = document.getElementById('chat-fab');
+    const chatPanel = document.getElementById('chat-panel');
 
-    typingBubble.classList.remove('typing');
-    typingBubble.textContent = reply;
-    tutorHistory.push({ role: 'assistant', content: reply });
+    chatFab?.addEventListener('click', () => {
+      chatPanel?.classList.toggle('open');
+      chatFab?.classList.toggle('open');
+    });
 
-  } catch (err) {
-    typingBubble.classList.remove('typing');
-    typingBubble.textContent = '⚠️ No se pudo conectar con la IA. Revisa tu conexión e intenta de nuevo.';
-    console.error('Tutor IA error:', err);
-  }
+    // --- PROCESAMIENTO ROBUSTO DEL TUTOR IA (EVITA EL ERROR 400) ---
+    async function tutorProcess(userText) {
+      if (tutorBusy || !userText.trim()) return;
+      tutorBusy = true;
 
-  const box = document.getElementById('tutor-messages');
-  box.scrollTop = box.scrollHeight;
-  tutorBusy = false;
-  document.getElementById('tutor-send').disabled = false;
-}
+      const sendBtn = document.getElementById('tutor-send');
+      if (sendBtn) sendBtn.disabled = true;
 
-document.getElementById('tutor-input').addEventListener('keydown', e => {
-  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); tutorSend(); }
-});
-document.getElementById('tutor-input').addEventListener('input', function() {
-  this.style.height = ''; this.style.height = Math.min(this.scrollHeight, 80) + 'px';
-});
+      // Renderizar el mensaje en pantalla e inyectarlo al historial bruto
+      appendTutorMsg('user', userText);
+      tutorHistory.push({ role: 'user', content: userText });
 
-// ══════════════════════════════════════════════════
-//  CHAT ALUMNOS — Shared via localStorage broadcast
-//  (en producción real usaría WebSocket/Supabase,
-//   aquí funciona entre pestañas del mismo navegador
-//   o se puede conectar a un canal de BroadcastAPI)
-// ══════════════════════════════════════════════════
-const CA_COLORS = ['#14b8a6','#60a5fa','#a78bfa','#f87171','#34d399','#fde047','#fb923c'];
-const CA_AVATARS = ['🐺','🦊','🦁','🐧','🦅','🐙','🌿','⚡','🌙','🎯'];
-let caInited = false;
-let caMyName = '';
-let caMyColor = '';
-let caMyAvatar = '';
-let caBroadcast = null;
+      // Generar burbuja de escritura temporaria
+      const typingBubble = appendTutorMsg('assistant', '...', true);
 
-const CA_SEED_MSGS = [
-  { name: 'Valentina', color: '#60a5fa', avatar: '🦅', text: 'Alguien ya estudió las ondas de Física? me confundo con reflexión y refracción 😅', time: horaActual(-12) },
-  { name: 'Ignacio',   color: '#34d399', avatar: '🐙', text: 'Yo! La reflexión es cuando el ángulo de incidencia = ángulo de reflexión. La refracción cambia la dirección al cambiar de medio.', time: horaActual(-10) },
-  { name: 'Sofía',     color: '#a78bfa', avatar: '🌿', text: 'Gracias Ignacio!! Para historia, el profe dijo que caen preguntas sobre los pelucones vs pipiolos 👀', time: horaActual(-5) },
-  { name: 'Matías',    color: '#fb923c', avatar: '⚡', text: 'Buena data. Yo voy en el capítulo 6 del Señor de las Moscas, ¿llega hasta ahí la prueba?', time: horaActual(-2) },
-];
+      try {
+        // 1. LIMPIEZA Y SANEAMIENTO DEL DIÁLOGO (Esencial para Anthropic)
+        let sanitizedHistory = [];
+        tutorHistory.forEach((msg) => {
+          // Descartar entradas vacías o animaciones de carga pendientes
+          if (!msg.content || msg.content.trim() === "" || msg.content === "...") return;
 
-function horaActual(offsetMin) {
-  const d = new Date(Date.now() + offsetMin * 60000);
-  return d.getHours().toString().padStart(2,'0') + ':' + d.getMinutes().toString().padStart(2,'0');
-}
+          if (sanitizedHistory.length === 0) {
+            // Regla estricta: El primer elemento enviado a la API siempre debe poseer el rol 'user'
+            if (msg.role === 'user') sanitizedHistory.push({ role: msg.role, content: msg.content });
+          } else {
+            const lastMsg = sanitizedHistory[sanitizedHistory.length - 1];
+            // Si el rol es diferente al anterior, mantenemos el ritmo natural de la conversación
+            if (msg.role !== lastMsg.role) {
+              sanitizedHistory.push({ role: msg.role, content: msg.content });
+            } else if (msg.role === 'user') {
+              // Si se detectan dos intervenciones seguidas de un usuario, se acoplan para no generar un fallo estructural
+              lastMsg.content += "\n" + msg.content;
+            }
+          }
+        });
 
-function caInit() {
-  if (caInited) return;
-  caInited = true;
-
-  caMyName = localStorage.getItem('ca-name') || '';
-  caMyColor = localStorage.getItem('ca-color') || CA_COLORS[Math.floor(Math.random()*CA_COLORS.length)];
-  caMyAvatar = localStorage.getItem('ca-avatar') || CA_AVATARS[Math.floor(Math.random()*CA_AVATARS.length)];
-  localStorage.setItem('ca-color', caMyColor);
-  localStorage.setItem('ca-avatar', caMyAvatar);
-
-  const nameInput = document.getElementById('ca-name-input');
-  if (caMyName) nameInput.value = caMyName;
-
-  // Renderizar mensajes semilla
-  const box = document.getElementById('chat-alumnos-msgs');
-  CA_SEED_MSGS.forEach(m => caRenderMsg(m.name, m.color, m.avatar, m.text, m.time, false));
-
-  // BroadcastChannel para comunicación entre pestañas
-  try {
-    caBroadcast = new BroadcastChannel('tantauco-chat');
-    caBroadcast.onmessage = (e) => {
-      const m = e.data;
-      caRenderMsg(m.name, m.color, m.avatar, m.text, m.time, m.name === caMyName);
-    };
-  } catch(e) {}
-}
-
-function caRenderMsg(name, color, avatar, text, time, isMine) {
-  const box = document.getElementById('chat-alumnos-msgs');
-  const div = document.createElement('div');
-  div.className = 'ca-msg' + (isMine ? ' mine' : '');
-  div.innerHTML = `
-    <div class="ca-msg-header">
-      <div class="ca-avatar" style="background:${color}22;border:1px solid ${color}44;">${avatar}</div>
-      <span class="ca-name" style="color:${color}">${name}</span>
-      <span class="ca-time">${time}</span>
-    </div>
-    <div class="ca-text">${text}</div>
-  `;
-  box.appendChild(div);
-  box.scrollTop = box.scrollHeight;
-}
-
-function caSend() {
-  const nameEl = document.getElementById('ca-name-input');
-  const msgEl = document.getElementById('ca-msg-input');
-  const name = nameEl.value.trim() || 'Anónimo';
-  const text = msgEl.value.trim();
-  if (!text) return;
-
-  caMyName = name;
-  localStorage.setItem('ca-name', name);
-  msgEl.value = '';
-  msgEl.style.height = '';
-
-  const time = horaActual(0);
-  caRenderMsg(name, caMyColor, caMyAvatar, text, time, true);
-  if (caBroadcast) caBroadcast.postMessage({ name, color: caMyColor, avatar: caMyAvatar, text, time });
-}
-
-document.getElementById('ca-msg-input').addEventListener('keydown', e => {
-  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); caSend(); }
-});
-document.getElementById('ca-msg-input').addEventListener('input', function() {
-  this.style.height = ''; this.style.height = Math.min(this.scrollHeight, 60) + 'px';
-});
-
-// ══════════════════════════════════════════════════
-//  POMODORO
-// ══════════════════════════════════════════════════
-let pomMode = 'work';
-let pomTotal = 25 * 60;
-let pomRemaining = 25 * 60;
-let pomRunning = false;
-let pomTimer = null;
-let pomSessionsToday = parseInt(localStorage.getItem('pom-sessions-' + new Date().toDateString()) || '0');
-
-function pomSetMode(mode, minutes) {
-  pomMode = mode;
-  pomTotal = minutes * 60;
-  pomRemaining = pomTotal;
-  pomRunning = false;
-  clearInterval(pomTimer);
-  document.getElementById('pom-start-btn').textContent = '▶ Iniciar';
-  document.querySelectorAll('.pom-mode-btn').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
-  const labels = { work: 'ESTUDIO', short: 'PAUSA CORTA', long: 'PAUSA LARGA' };
-  document.getElementById('pom-label').textContent = labels[mode];
-  pomUpdateDisplay();
-}
-
-function pomToggle() {
-  if (pomRunning) {
-    pomRunning = false;
-    clearInterval(pomTimer);
-    document.getElementById('pom-start-btn').textContent = '▶ Continuar';
-  } else {
-    pomRunning = true;
-    document.getElementById('pom-start-btn').textContent = '⏸ Pausar';
-    pomTimer = setInterval(() => {
-      pomRemaining--;
-      if (pomRemaining <= 0) {
-        pomRunning = false;
-        clearInterval(pomTimer);
-        document.getElementById('pom-start-btn').textContent = '▶ Iniciar';
-        if (pomMode === 'work') {
-          pomSessionsToday++;
-          localStorage.setItem('pom-sessions-' + new Date().toDateString(), pomSessionsToday);
-          pomRenderDots();
-          triggerAchievement('pom_done');
-          // Sonido sutil de notificación
-          try { const ctx = new AudioContext(); const o = ctx.createOscillator(); const g = ctx.createGain(); o.connect(g); g.connect(ctx.destination); o.frequency.value = 880; g.gain.setValueAtTime(0.3, ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.8); o.start(); o.stop(ctx.currentTime + 0.8); } catch(e) {}
+        // Aseguramiento crítico antes de disparar la llamada remota
+        if (sanitizedHistory.length === 0) {
+          sanitizedHistory.push({ role: 'user', content: userText });
         }
-        pomRemaining = 0;
+
+        // 2. LLAMADA POST AL WORKER CONECTADO A LA API DE ANTHROPIC
+        const response = await fetch(`${CF_WORKER_URL}/api/tutor`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            model: 'claude-3-5-sonnet-latest',
+            max_tokens: 600,
+            system: TUTOR_SYSTEM,
+            messages: sanitizedHistory
+          })
+        });
+
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        
+        const data = await response.json();
+        const reply = data.content?.[0]?.text || 'No logré estructurar una respuesta. Inténtalo de nuevo.';
+
+        // Reemplazar la animación de carga con la respuesta real recibida
+        typingBubble.classList.remove('typing');
+        typingBubble.textContent = reply;
+
+        // Registrar la respuesta limpia en el historial maestro de sesión
+        tutorHistory.push({ role: 'assistant', content: reply });
+
+      } catch (err) {
+        console.error('Tutor IA Error Log:', err);
+        typingBubble.classList.remove('typing');
+        typingBubble.textContent = '⚠️ Error al conectar con el servidor de IA. Verifica tu Cloudflare Worker.';
       }
-      pomUpdateDisplay();
-    }, 1000);
-  }
-}
 
-function pomReset() {
-  pomRunning = false;
-  clearInterval(pomTimer);
-  pomRemaining = pomTotal;
-  document.getElementById('pom-start-btn').textContent = '▶ Iniciar';
-  pomUpdateDisplay();
-}
+      // Auto-Scroll al fondo de la conversación
+      const msgBox = document.getElementById('tutor-messages');
+      if (msgBox) msgBox.scrollTop = msgBox.scrollHeight;
 
-function pomUpdateDisplay() {
-  const m = Math.floor(pomRemaining / 60).toString().padStart(2, '0');
-  const s = (pomRemaining % 60).toString().padStart(2, '0');
-  document.getElementById('pom-clock').textContent = `${m}:${s}`;
-  // anillo SVG: circunferencia = 2π×65 ≈ 408.41
-  const circ = 408.41;
-  const offset = circ - (circ * (pomRemaining / pomTotal));
-  document.getElementById('pom-ring-fill').style.strokeDashoffset = offset;
-}
+      tutorBusy = false;
+      if (sendBtn) sendBtn.disabled = false;
+    }
 
-function pomRenderDots() {
-  const wrap = document.getElementById('pom-dots');
-  wrap.innerHTML = '';
-  for (let i = 0; i < 4; i++) {
-    const d = document.createElement('div');
-    d.className = 'pom-dot' + (i < pomSessionsToday ? ' filled' : '');
-    wrap.appendChild(d);
-  }
-}
+    // --- ACCIONES DE DISPARO DEL CHAT (Detección Segura de Eventos) ---
+    function initTutorListeners() {
+      const inputField = document.getElementById('tutor-input');
+      const sendBtn = document.getElementById('tutor-send');
 
-pomUpdateDisplay();
-pomRenderDots();
+      // Envío por Click en botón
+      sendBtn?.addEventListener('click', () => {
+        if (inputField) {
+          tutorProcess(inputField.value);
+          inputField.value = "";
+        }
+      });
 
-// ══════════════════════════════════════════════════
-//  MÚSICA — Links a YouTube (evita bloqueos CORS)
-// ══════════════════════════════════════════════════
-const MUS_TRACKS = [
-  { id: 'jfKfPfyJRdk', name: 'Lofi Hip Hop · Estudio',       icon: '🎧', tag: '24/7 Stream' },
-  { id: '5qap5aO4i9A', name: 'Lofi Hip Hop · Chill / Relax', icon: '🌙', tag: 'Relajación' },
-  { id: 'DWcJFNfaw9c', name: 'Música Clásica · Concentración',icon: '🎻', tag: 'Clásica' },
-  { id: 'lTRiuFIWV54', name: 'Deep Focus · Trabajo profundo', icon: '🧠', tag: 'Deep Work'  },
-  { id: 'HuFYqnbVbzY', name: 'Jazz Suave · Café Estudio',     icon: '☕', tag: 'Jazz'       },
-];
-let musCurrentIdx = 0;
+      // Envío rápido por Tecla Enter (sin Shift activo)
+      inputField?.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          tutorProcess(inputField.value);
+          inputField.value = "";
+        }
+      });
 
-function musRenderTrackList() {
-  const list = document.getElementById('mus-track-list');
-  list.innerHTML = '';
-  MUS_TRACKS.forEach((t, i) => {
-    const div = document.createElement('div');
-    div.className = 'mus-track' + (i === musCurrentIdx ? ' playing' : '');
-    div.innerHTML = `
-      <div class="mus-track-icon">${t.icon}</div>
-      <div class="mus-track-info">
-        <div class="mus-track-name">${t.name}</div>
-        <div class="mus-track-desc">YouTube · ${t.tag}</div>
-      </div>
-      <span class="mus-track-badge">${i === musCurrentIdx ? '▶ activo' : 'abrir'}</span>
-    `;
-    div.onclick = () => musPlay(i);
-    list.appendChild(div);
-  });
-}
+      // Interacción con sugerencias estáticas rápidas
+      document.querySelectorAll('.tutor-sq').forEach(button => {
+        button.addEventListener('click', () => {
+          tutorProcess(button.textContent);
+        });
+      });
+    }
 
-function musPlay(idx) {
-  musCurrentIdx = idx;
-  const track = MUS_TRACKS[idx];
-  document.getElementById('mus-now-name').textContent = track.name;
-  document.getElementById('mus-play-btn').textContent = '⏸';
-  musRenderTrackList();
-  // Abrir YouTube en nueva pestaña (los iframes están bloqueados por YouTube)
-  window.open(`https://www.youtube.com/watch?v=${track.id}`, '_blank', 'noopener');
-}
+    // Auxiliar dinámico para crear burbujas de chat
+    function appendTutorMsg(role, text, isTyping = false) {
+      const box = document.getElementById('tutor-messages');
+      if (!box) return null;
 
-function musToggle() {
-  musPlay(musCurrentIdx);
-}
-function musNext() { musPlay((musCurrentIdx + 1) % MUS_TRACKS.length); }
-function musPrev() { musPlay((musCurrentIdx - 1 + MUS_TRACKS.length) % MUS_TRACKS.length); }
-function musSetVol(v) { /* vol se aplicaría a audio element si usáramos API directa */ }
+      const container = document.createElement('div');
+      container.className = `tutor-msg ${role}`;
 
-musRenderTrackList();
+      const avatar = document.createElement('div');
+      avatar.className = 'msg-avatar';
+      avatar.textContent = role === 'user' ? '👤' : '🤖';
 
-// ══════════════════════════════════════════════════
-//  LOGROS
-// ══════════════════════════════════════════════════
-const AC_DEFINITIONS = [
-  { id: 'first_step',   name: 'Primer Paso',         desc: 'Abre el portal por primera vez.',            icon: '🚀' },
-  { id: 'constancy_3',  name: 'Hábito Formado',       desc: 'Racha de 3 días consecutivos.',              icon: '🔥' },
-  { id: 'materia_master',name: 'Progreso Activo',     desc: 'Marca tu primer tema estudiado.',            icon: '⚡' },
-  { id: 'explorer',     name: 'Explorador',           desc: 'Usa el buscador global.',                    icon: '🔍' },
-  { id: 'pom_done',     name: 'Modo Foco',            desc: 'Completa una sesión Pomodoro.',              icon: '⏱' },
-  { id: 'chat_sent',    name: 'Compañerismo',         desc: 'Envía un mensaje en el chat de curso.',      icon: '💬' },
-];
+      const bubble = document.createElement('div');
+      bubble.className = `msg-bubble ${isTyping ? 'typing' : ''}`;
+      bubble.textContent = text;
 
-function renderAchievements() {
-  const grid = document.getElementById('ach-grid');
-  grid.innerHTML = '';
-  const unlocked = JSON.parse(localStorage.getItem('tantauco-ach') || '[]');
-  AC_DEFINITIONS.forEach(ac => {
-    const isUnlocked = unlocked.includes(ac.id);
-    const card = document.createElement('div');
-    card.className = `ach-card${isUnlocked ? ' unlocked' : ''}`;
-    card.innerHTML = `<div class="ach-card-icon">${ac.icon}</div><div class="ach-card-name">${ac.name}</div><div class="ach-card-desc">${ac.desc}</div>`;
-    grid.appendChild(card);
-  });
-}
+      container.appendChild(avatar);
+      container.appendChild(bubble);
+      box.appendChild(container);
+      
+      box.scrollTop = box.scrollHeight;
+      return bubble;
+    }
 
-function triggerAchievement(id) {
-  let unlocked = JSON.parse(localStorage.getItem('tantauco-ach') || '[]');
-  if (unlocked.includes(id)) return;
-  unlocked.push(id);
-  localStorage.setItem('tantauco-ach', JSON.stringify(unlocked));
-  const def = AC_DEFINITIONS.find(a => a.id === id);
-  if (!def) return;
-  const toast = document.getElementById('achievement-toast');
-  document.getElementById('ach-toast-title').textContent = def.name;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 4000);
-}
+    // --- MODAL DE BÚSQUEDA GLOBAL (Manejo con Atajos de Teclado) ---
+    const triggerSearch = document.getElementById('gs-trigger');
+    const backdropSearch = document.getElementById('gs-backdrop');
+    const modalSearch = document.getElementById('gs-modal');
+    const inputSearch = document.getElementById('gs-input');
 
-function checkChecklistAchievements() {
-  let any = false;
-  Object.keys(CL_COUNTS).forEach(card => {
-    for (let i = 0; i < CL_COUNTS[card]; i++) if (localStorage.getItem(`cl-${card}-${i}`) === 'done') any = true;
-  });
-  if (any) triggerAchievement('materia_master');
-}
+    function openSearch() {
+      backdropSearch?.classList.add('open');
+      modalSearch?.classList.add('open');
+      setTimeout(() => inputSearch?.focus(), 50);
+    }
 
-window.addEventListener('DOMContentLoaded', () => {
-  setTimeout(() => triggerAchievement('first_step'), 2000);
-  const streak = JSON.parse(localStorage.getItem('tantauco-streak') || '{"count":0}').count;
-  if (streak >= 3) triggerAchievement('constancy_3');
-});
+    function closeSearch() {
+      backdropSearch?.classList.remove('open');
+      modalSearch?.classList.remove('open');
+    }
 
-// Logro chat al enviar mensaje
-const origCaSend = caSend;
-window.caSend = function() {
-  origCaSend();
-  triggerAchievement('chat_sent');
-};
+    triggerSearch?.addEventListener('click', openSearch);
+    backdropSearch?.addEventListener('click', closeSearch);
 
-// ── CALENDARIO (dentro de Logros) ──
-function renderCalendar() {
-  const grid = document.getElementById('calendar-grid');
-  const monthEl = document.getElementById('mini-cal-month');
-  grid.innerHTML = '';
-  const MONTHS = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-  const studyHistory = JSON.parse(localStorage.getItem('study-calendar') || '[]');
-  const todayDate = new Date();
-  const year = todayDate.getFullYear();
-  const month = todayDate.getMonth();
-  if (monthEl) monthEl.textContent = `${MONTHS[month]} ${year}`;
-  const weekdays = ['D','L','M','M','J','V','S'];
-  weekdays.forEach(w => {
-    const div = document.createElement('div');
-    div.className = 'sc-wday';
-    div.textContent = w;
-    grid.appendChild(div);
-  });
-  const firstDay = new Date(year, month, 1).getDay();
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-  for (let i = 0; i < firstDay; i++) {
-    const e = document.createElement('div'); e.className = 'sc-day empty'; grid.appendChild(e);
-  }
-  for (let d = 1; d <= daysInMonth; d++) {
-    const dayDiv = document.createElement('div');
-    dayDiv.className = 'sc-day';
-    dayDiv.textContent = d;
-    const ds = new Date(year, month, d).toDateString();
-    if (studyHistory.includes(ds)) dayDiv.classList.add('active');
-    if (ds === todayDate.toDateString()) dayDiv.classList.add('today');
-    grid.appendChild(dayDiv);
-  }
-}
-
-// ══════════════════════════════════════════════════
-//  BUSCADOR GLOBAL
-// ══════════════════════════════════════════════════
-const SEARCH_INDEX = [
-  { title: 'El Señor de las Moscas — Visión general', snippet: 'Guía completa de la novela de William Golding. Análisis literario, personajes, temas y símbolos.', file: 'senor_de_las_moscas.html', section: '', icon: '📖', materia: 'Lenguaje' },
-  { title: 'Cronología capítulo a capítulo', snippet: 'Resumen de cada capítulo: el avión, la isla, la concha, la caza, la bestia, el castillo de roca.', file: 'senor_de_las_moscas.html', section: '#cronologia', icon: '📅', materia: 'Lenguaje' },
-  { title: 'Personajes: Ralph, Jack, Piggy, Simon', snippet: 'Fichas detalladas de cada personaje, su simbolismo y evolución a lo largo de la novela.', file: 'senor_de_las_moscas.html', section: '#personajes', icon: '👤', materia: 'Lenguaje' },
-  { title: 'Temas: civilización vs salvajismo', snippet: 'Orden vs caos, inocencia perdida, poder y democracia, violencia e instintos primarios.', file: 'senor_de_las_moscas.html', section: '#temas', icon: '💡', materia: 'Lenguaje' },
-  { title: 'Guía Completa de Matemática', snippet: 'Material de estudio con fórmulas, procedimientos paso a paso y ejercicios tipo prueba.', file: 'matematica_guia.html', section: '', icon: '📐', materia: 'Matemática' },
-  { title: 'Productos Notables', snippet: 'Cuadrado de binomio, suma por su diferencia y multiplicación de binomios con término común.', file: 'matematica_guia.html', section: '#productos-notables', icon: '✖️', materia: 'Matemática' },
-  { title: 'Ecuaciones de primer grado', snippet: 'Resolución de ecuaciones lineales, despeje de variable y planteamiento de problemas.', file: 'matematica_guia.html', section: '#ecuaciones', icon: '⚖️', materia: 'Matemática' },
-  { title: 'Prueba de Nivel — Ciencias Naturales', snippet: 'Guía completa para la PDN. Biología (fósiles), Física (ondas) y Química con cuestionarios.', file: 'prueba_nivel_ciencias_naturales.html', section: '', icon: '🧬', materia: 'Ciencias' },
-  { title: 'Biología: fósiles y estratigrafía', snippet: 'Formación de fósiles, moldes, huellas, inclusión en ámbar y datación por estratos sedimentarios.', file: 'prueba_nivel_ciencias_naturales.html', section: '#fosiles', icon: '🦴', materia: 'Ciencias' },
-  { title: 'Física: Ondas y Fenómenos Luminosos', snippet: 'Reflexión, refracción, difracción de ondas electromagnéticas y el espectro de luz visible.', file: 'prueba_nivel_ciencias_naturales.html', section: '#ondas', icon: '🌊', materia: 'Ciencias' },
-  { title: 'Química: Tabla Periódica y Enlaces', snippet: 'Estructura atómica, grupos, períodos, enlace iónico, covalente y propiedades moleculares.', file: 'prueba_nivel_ciencias_naturales.html', section: '#quimica', icon: '🔗', materia: 'Ciencias' },
-  { title: 'Historia de Chile — Guía Completa', snippet: 'Guía de estudio sobre el siglo XIX chileno. Formación republicana, ciclo económico del salitre y cuestión social.', file: 'historia_guia.html', section: '', icon: '🏛️', materia: 'Historia' },
-  { title: 'República de Chile · Constitución 1833', snippet: 'Ensayos constitucionales, pugna entre pipiolos y pelucones, e institucionalidad portaliana.', file: 'historia_guia.html', section: '#constitucion', icon: '📜', materia: 'Historia' },
-  { title: 'El Ciclo del Salitre y Cuestión Social', snippet: 'Migración campo-ciudad, condiciones laborales en las oficinas salitreras y auge del movimiento obrero.', file: 'historia_guia.html', section: '#cuestion-social', icon: '⛏️', materia: 'Historia' },
-  { title: 'English Guide — Units 1 & 2', snippet: 'Preparation for english evaluation. Vocabulary, reading comprehension and syntax practice.', file: 'ingles_guia.html', section: '', icon: '🇬🇧', materia: 'Inglés' },
-];
-
-let gsActiveIdx = -1, gsFiltered = [], gsIsOpen = false;
-
-function highlightText(text, query) {
-  if (!query) return text;
-  return text.replace(new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi'), '<mark>$1</mark>');
-}
-
-function gsRender(query) {
-  const container = document.getElementById('gs-results');
-  const empty = document.getElementById('gs-empty');
-  container.innerHTML = '';
-  gsActiveIdx = -1;
-  query = query.trim().toLowerCase();
-  if (!query) { empty.style.display = 'none'; gsFiltered = []; return; }
-  triggerAchievement('explorer');
-  gsFiltered = SEARCH_INDEX.filter(item => item.title.toLowerCase().includes(query) || item.snippet.toLowerCase().includes(query) || item.materia.toLowerCase().includes(query));
-  if (gsFiltered.length === 0) { document.getElementById('gs-empty-q').textContent = query; empty.style.display = 'block'; return; }
-  empty.style.display = 'none';
-  const groups = {};
-  gsFiltered.forEach(item => { if (!groups[item.materia]) groups[item.materia] = []; groups[item.materia].push(item); });
-  let cnt = 0;
-  Object.keys(groups).forEach(materia => {
-    const label = document.createElement('div'); label.className = 'gs-section-label'; label.textContent = materia; container.appendChild(label);
-    groups[materia].forEach(item => {
-      const idx = cnt++;
-      const a = document.createElement('a');
-      a.className = 'gs-item'; a.href = item.file + item.section; a.dataset.index = idx;
-      let bc = 'b-teal';
-      if (item.materia === 'Lenguaje') bc = 'b-gold';
-      if (item.materia === 'Matemática') bc = 'b-blue';
-      if (item.materia === 'Ciencias') bc = 'b-green';
-      if (item.materia === 'Historia') bc = 'b-amber';
-      a.innerHTML = `<div class="gs-item-icon" style="background:rgba(255,255,255,0.04);border:1px solid var(--border)">${item.icon}</div><div class="gs-item-body"><div class="gs-item-title">${highlightText(item.title, query)}</div><div class="gs-item-snippet">${highlightText(item.snippet, query)}</div></div><div class="gs-item-badge ${bc}">${item.materia}</div>`;
-      a.addEventListener('click', () => gsClose());
-      container.appendChild(a);
+    // Atajos globales seguros (Cmd+K, Ctrl+K, Escape)
+    window.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        openSearch();
+      }
+      if (e.key === 'Escape') {
+        closeSearch();
+      }
     });
-  });
-}
 
-function gsSetActive(idx) {
-  const items = document.querySelectorAll('.gs-item');
-  items.forEach(el => el.classList.remove('gs-active'));
-  if (idx >= items.length) idx = 0;
-  if (idx < 0) idx = items.length - 1;
-  gsActiveIdx = idx;
-  const target = document.querySelector(`.gs-item[data-index="${idx}"]`);
-  if (target) { target.classList.add('gs-active'); target.scrollIntoView({ block: 'nearest' }); }
-}
+    // --- TOGGLE DE MODO CLARO / OSCURO ---
+    const themeBtn = document.getElementById('theme-toggle');
+    themeBtn?.addEventListener('click', () => {
+      document.body.classList.toggle('light-mode');
+      if(document.body.classList.contains('light-mode')) {
+        themeBtn.textContent = "☀️";
+      } else {
+        themeBtn.textContent = "🌙";
+      }
+    });
 
-window.gsOpen = function() {
-  gsIsOpen = true;
-  document.getElementById('gs-backdrop').classList.add('open');
-  document.getElementById('gs-modal').classList.add('open');
-  const inp = document.getElementById('gs-input');
-  inp.value = ''; gsRender('');
-  setTimeout(() => inp.focus(), 60);
-  document.body.style.overflow = 'hidden';
-};
-window.gsClose = function() {
-  gsIsOpen = false;
-  document.getElementById('gs-backdrop').classList.remove('open');
-  document.getElementById('gs-modal').classList.remove('open');
-  document.body.style.overflow = '';
-  document.getElementById('gs-input').blur();
-};
-document.getElementById('gs-input').addEventListener('input', e => gsRender(e.target.value));
-document.getElementById('gs-input').addEventListener('keydown', e => {
-  if (e.key === 'ArrowDown') { e.preventDefault(); gsSetActive(gsActiveIdx + 1); }
-  else if (e.key === 'ArrowUp') { e.preventDefault(); gsSetActive(gsActiveIdx - 1); }
-  else if (e.key === 'Enter') {
-    e.preventDefault();
-    const activeEl = document.querySelector('.gs-item.gs-active') || document.querySelector('.gs-item');
-    if (activeEl) { gsClose(); window.location.href = activeEl.href; }
-  } else if (e.key === 'Escape') gsClose();
-});
-document.addEventListener('keydown', e => {
-  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); gsIsOpen ? gsClose() : gsOpen(); }
-  if (e.key === 'Escape' && gsIsOpen) gsClose();
-});
-</script>
+    // --- BARRA SUPERIOR DE PROGRESO DE LECTURA ---
+    window.addEventListener('scroll', () => {
+      const progressBar = document.getElementById('read-progress');
+      if (!progressBar) return;
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      progressBar.style.width = scrolled + "%";
+    });
+
+    // --- INICIALIZADOR GENERAL DEL DOM ---
+    document.addEventListener("DOMContentLoaded", () => {
+      initTutorListeners();
+      // Cualquier otra rutina de inicio para los tabs extras (Pomodoro, Música) va aquí.
+    });
+  </script>
 </body>
 </html>

@@ -2,36 +2,62 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
+    // Cabeceras CORS globales para permitir peticiones desde cualquier origen
+    const corsHeaders = {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type, x-api-key, anthropic-version"
+    };
+
+    # Manejo de peticiones Preflight (OPTIONS)
     if (request.method === "OPTIONS") {
       return new Response(null, {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
-          "Access-Control-Allow-Headers": "Content-Type",
-        },
+        status: 204,
+        headers: corsHeaders
       });
     }
 
+    # Ruta específica del Tutor IA
     if (url.pathname === "/api/tutor" && request.method === "POST") {
-      const body = await request.json();
-      const res = await fetch("https://api.anthropic.com/v1/messages", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-api-key": env.ANTHROPIC_API_KEY,
-          "anthropic-version": "2023-06-01",
-        },
-        body: JSON.stringify(body),
-      });
-      const data = await res.json();
-      return new Response(JSON.stringify(data), {
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
-      });
+      try {
+        const body = await request.json();
+
+        # Llamada a la API oficial de Anthropic Claude Messages
+        const res = await fetch("https://api.anthropic.com/v1/messages", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-key": env.ANTHROPIC_API_KEY,
+            "anthropic-version": "2023-06-01"
+          },
+          body: JSON.stringify(body)
+        });
+
+        const data = await res.json();
+
+        # Retornamos la respuesta agregando siempre CORS
+        return new Response(JSON.stringify(data), {
+          status: res.status,
+          headers: {
+            "Content-Type": "application/json",
+            ...corsHeaders
+          }
+        });
+
+      } catch (error) {
+        return new Response(JSON.stringify({
+          error: { message: "Error interno en el Cloudflare Worker", details: error.message }
+        }), {
+          status: 500,
+          headers: {
+            "Content-Type": "application/json",
+            ...corsHeaders
+          }
+        });
+      }
     }
 
+    # Si no coincide con la API, servir los archivos estáticos (Assets del portal)
     return env.ASSETS.fetch(request);
-  },
+  }
 };

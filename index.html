@@ -894,11 +894,11 @@ async function tutorProcess(userText) {
   const typingBubble = appendTutorMsg('assistant', '...', true);
 
   try {
-    const res = await fetch(CF_WORKER_URL, {
+    const res = await fetch(`${CF_WORKER_URL}/api/tutor`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'claude-opus-4-5',
+        model: 'claude-3-5-sonnet-latest',
         max_tokens: 600,
         system: TUTOR_SYSTEM,
         messages: tutorHistory

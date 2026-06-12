@@ -1,8 +1,4 @@
--- ============================================================
---  Portal Tantauco — Schema D1
---  Aplica con: npx wrangler d1 execute portaltantauco-db --file=schema.sql
--- ============================================================
-
+cat > schema.sql << 'EOF'
 CREATE TABLE IF NOT EXISTS messages (
   id        INTEGER PRIMARY KEY AUTOINCREMENT,
   name      TEXT    NOT NULL,
@@ -13,5 +9,5 @@ CREATE TABLE IF NOT EXISTS messages (
   timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
--- Índice para acelerar la consulta de los últimos mensajes
 CREATE INDEX IF NOT EXISTS idx_messages_timestamp ON messages (timestamp DESC);
+EOF

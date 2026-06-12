@@ -5,3 +5,8 @@ compatibility_date = "2025-01-01"
 [assets]
 directory = "."
 binding = "ASSETS"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "portaltantauco-db"
+database_id = "7bfbf3ac-e395-4672-ab9e-7e6380c3a773"

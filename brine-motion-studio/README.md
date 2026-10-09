@@ -15,7 +15,7 @@ Sistema que genera anuncios verticales de motion graphics (Reels, TikTok y Meta 
 | Python | 3.11–3.13 | python.org (marca "Add to PATH"), o `winget install Python.Python.3.12` | `brew install python@3.12` |
 | ffmpeg + ffprobe | 6 o superior | `winget install Gyan.FFmpeg` (deben quedar en el PATH) | `brew install ffmpeg` |
 | Chrome | opcional | Remotion descarga gratis su propio Chrome Headless Shell la primera vez. Para usar uno instalado, define `BMS_CHROME` con su ruta. | igual |
-| Voz Piper | es_MX-claude-high | incluida en `studio/voices/`; si no está, ver más abajo | igual |
+| Voz Piper | es_MX-claude-high | **no viene en el repo** (`studio/voices/` está en `.gitignore`); descárgala como se indica abajo | igual |
 
 Espacio: unos 1,5 GB (node_modules, venv y build). RAM: 8 GB o más. Todo es gratuito y de código abierto. No hay claves, cuentas ni secretos.
 
@@ -38,14 +38,18 @@ npm ci
 ```
 `scripts/env.mjs` detecta solo el Python del venv (`.venv/bin/python` o `.venv\Scripts\python.exe`). Para usar otro, define `BMS_PYTHON`.
 
-Si falta la voz, descárgala gratis a `studio/voices/`:
-`es_MX-claude-high.onnx` y `es_MX-claude-high.onnx.json`, desde https://huggingface.co/rhasspy/piper-voices/tree/main/es/es_MX/claude/high
+Descarga la voz (gratis, Apache-2.0) a `studio/voices/`:
+```bash
+mkdir -p studio/voices && cd studio/voices
+B=https://huggingface.co/rhasspy/piper-voices/resolve/main/es/es_MX/claude/high
+for f in es_MX-claude-high.onnx es_MX-claude-high.onnx.json MODEL_CARD; do curl -L -o $f "$B/$f"; done
+```
 
 ## Producir (comando único)
 ```bash
 cd studio
 npm run produce -- productions/BMS-20261009-001-v2.json            # con voz
-npm run produce -- productions/BMS-20261009-001-v2-novoice.json    # variante sin voz
+npm run produce -- productions/BMS-20261009-001-v2-novoz.json       # variante sin voz
 ```
 El pipeline: assets → audio (música, SFX, 3 tomas de voz) → render 1080x1920 30 fps → mux H.264/AAC → stills de QA → QA.
 
@@ -59,7 +63,7 @@ Intermedios en `studio/build/<ID>/`: stems, tomas de voz (`voice-takes/`), `mix.
 Opciones:
 - `--skip-audio`: reutiliza `mix.wav`.
 - `--skip-video`: re-mezcla, re-mux y re-QA sin volver a renderizar.
-- `BMS_CONCURRENCY=4`: más rápido en un equipo potente (por defecto 2).
+- `BMS_CONCURRENCY=4`: más rápido en un equipo con GPU (por defecto 1: con GL por software, `swangle`, el render en paralelo se quedó colgado en el 5 % en el box de 4 vCPU; con 1 tarda unos 3,5 min).
 - `BMS_GL=angle`: backend GL (en el box Linux sin GPU se usa `swangle`).
 
 Otros comandos:
@@ -96,7 +100,6 @@ Mide:
 - `docs/B-TECHNICAL-ARCHITECTURE-V1.md`
 - `docs/E-QUALITY-REPORT-V1.md`
 - `docs/F-AUTOMATION-PLAN-V1.md`
-- `CURSOR-PROMPT.md`: instrucciones para continuar en Cursor.
 
 ## Licencias y créditos
 - Playfair Display y Manrope: SIL OFL 1.1 (`studio/public/assets/*-OFL.txt`). Son **sustitutas** de Sonttak y STRONG, que no están disponibles.

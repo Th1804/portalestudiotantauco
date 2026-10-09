@@ -178,8 +178,8 @@
    },
    {
     "id": "vo3",
-    "start_s": 10.25,
-    "max_s": 2.6,
+    "start_s": 10.15,
+    "max_s": 2.8,
     "text": "Cada medalla es única y memorable.",
     "max_pause_s": 0.06
    },
@@ -231,8 +231,8 @@
   "v2": {
    "hook": "tipografía cinética: máscara por letra, golpe de escala con motion blur direccional, tracking animado, disruptor en frame 0",
    "camera": "virtual: dolly + parallax 3 capas (0.35/1/1.8)",
-   "transitions": "medalla entra desde la cámara (escala) y sale atravesándola bajo un barrido de luz; statement revelado por la luz sobre azul",
-   "ribbon": "gradiente cilíndrico, pliegue, brillo satinado móvil, sombra suave (solo en la cinta)"
+   "transitions": "match-cut por escala: la medalla se recoge (anticipación) y atraviesa la cámara (f290-304) bajo un barrido de luz (f288-318); el statement nace del frente de luz sobre el mismo azul y continúa el avance (escala 0.92 -> 1)",
+   "ribbon": "cinta satinada vectorial (SVG): gradiente cilíndrico, pliegue diagonal con torsión, orillos, brillo satinado que sigue el balanceo, remache redibujado y sombra de contacto"
   },
   "type_scale": 1.0,
   "texture_opacity": 0.15
@@ -280,16 +280,16 @@
   {
    "scene": "benefits",
    "from": 192,
-   "to": 312
+   "to": 300
   },
   {
    "scene": "light_sweep_transition",
-   "from": 298,
-   "to": 330
+   "from": 288,
+   "to": 318
   },
   {
    "scene": "statement",
-   "from": 300,
+   "from": 302,
    "to": 384
   },
   {
@@ -369,13 +369,13 @@
     "gain": 0.45
    },
    {
-    "f": 278,
+    "f": 270,
     "type": "riser",
     "gain": 0.4,
-    "len_f": 22
+    "len_f": 20
    },
    {
-    "f": 300,
+    "f": 297,
     "type": "whoosh_big",
     "gain": 0.55
    },
@@ -446,9 +446,9 @@
    "file": "out/BMS-20261009-001-v2.mp4"
   },
   {
-   "id": "A-novoice",
+   "id": "A-novoz",
    "voice": false,
-   "file": "out/BMS-20261009-001-v2-novoice.mp4"
+   "file": "out/BMS-20261009-001-v2-novoz.mp4"
   }
  ],
  "approvals": {
@@ -478,5 +478,6 @@
  "mix": {
   "music_db": -3.0,
   "sfx_db": -8.0
- }
+ },
+ "qa_layout_step": 5
 }

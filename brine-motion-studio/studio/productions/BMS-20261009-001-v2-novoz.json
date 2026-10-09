@@ -275,7 +275,7 @@
   },
   {
    "scene": "reveal",
-   "from": 44,
+   "from": 56,
    "to": 196
   },
   {
@@ -318,18 +318,18 @@
     "gain": 0.65
    },
    {
-    "f": 34,
+    "f": 44,
     "type": "riser",
     "gain": 0.3,
     "len_f": 12
    },
    {
-    "f": 44,
+    "f": 56,
     "type": "whoosh",
     "gain": 0.55
    },
    {
-    "f": 58,
+    "f": 70,
     "type": "ping",
     "gain": 0.55
    },

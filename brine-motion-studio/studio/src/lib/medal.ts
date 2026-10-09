@@ -4,12 +4,13 @@ import {clamp, pendulum, smooth, expoIn, inOutBack} from './motion';
 // Entra DESDE la cámara (dolly inverso con desenfoque de profundidad) y sale atravesándola (match por escala)
 // bajo el barrido de luz. EXIT es la tabla compartida por la transición, Benefits y Statement.
 export const IMG_W = 437, IMG_H = 1001;
+export const ARRIVE = 57;
 export const EXIT = {a: 290, b: 304, sweepA: 288, sweepB: 318, statement: 302};
 export type MedalState = {cx: number; cy: number; s: number; rot: number; ry: number; vis: number; light: number; blur: number; op: number};
 const DISC_Y = 0.79; // centro del disco (normalizado en la imagen)
 export const medalState = (f: number, fps = 30): MedalState => {
   // llegada: escala 5,2 -> 1,42 con muelle (overshoot ~3 %), rotateY que se asienta (follow-through)
-  const arr = spring({frame: f - 45, fps, config: {stiffness: 95, damping: 15, mass: 0.9}});
+  const arr = spring({frame: f - ARRIVE, fps, config: {stiffness: 95, damping: 15, mass: 0.9}});
   let s = interpolate(arr, [0, 1], [5.2, 1.42]);
   let cy = interpolate(arr, [0, 1], [1460, 960]);
   let cx = interpolate(arr, [0, 1], [470, 540]);
@@ -31,14 +32,14 @@ export const medalState = (f: number, fps = 30): MedalState => {
   cx = cx * (1 - z) + 560 * z;
   // balanceo: péndulo amortiguado tras la llegada + respiración continua (micro-movimiento)
   const swingAmp = interpolate(f, [192, 216], [1, 0.3], clamp);
-  const rot = (pendulum(f, 54, 4.5, 44, 38) + 0.9 * Math.sin(f / 23)) * swingAmp * (1 - z);
+  const rot = (pendulum(f, ARRIVE + 9, 4.5, 44, 38) + 0.9 * Math.sin(f / 23)) * swingAmp * (1 - z);
   // giro lento en Y durante el revelado: la luz cambia sobre el acrílico
   const turn = interpolate(f, [66, 130, 192], [0, 1, 0], {...clamp, easing: smooth});
   const ry = (interpolate(arr, [0, 1], [32, 0]) + 7 * Math.sin((f - 60) / 38) * (1 - b * 0.6) - 9 * turn) * (1 - z);
   const blur = Math.max(0, (s / 1.42 - 1.08)) * 9 * (f < 120 ? 1 : 0) + z * 30;
-  const op = interpolate(f, [44, 49], [0, 1], clamp) * interpolate(f, [EXIT.a + 6, EXIT.b], [1, 0], clamp);
-  const vis = f < 44 || f > EXIT.b ? 0 : 1;
-  const light = interpolate(f, [48, 66, 96], [0.55, 0.78, 1], {...clamp, easing: Easing.out(Easing.quad)});
+  const op = interpolate(f, [ARRIVE - 1, ARRIVE + 4], [0, 1], clamp) * interpolate(f, [EXIT.a + 6, EXIT.b], [1, 0], clamp);
+  const vis = f < ARRIVE - 1 || f > EXIT.b ? 0 : 1;
+  const light = interpolate(f, [ARRIVE + 3, ARRIVE + 21, ARRIVE + 51], [0.55, 0.78, 1], {...clamp, easing: Easing.out(Easing.quad)});
   return {cx, cy, s, rot, ry, vis, light, blur, op};
 };
 export const medalPoint = (st: MedalState, nx: number, ny: number) => {

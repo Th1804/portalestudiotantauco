@@ -2,7 +2,7 @@ import React from 'react';
 import {AbsoluteFill, Img, interpolate, staticFile, useCurrentFrame} from 'remotion';
 import {useQa} from '../lib/qa';
 import {clamp} from '../lib/motion';
-import {EXIT, medalBox, medalState} from '../lib/medal';
+import {ARRIVE, EXIT, medalBox, medalState} from '../lib/medal';
 import {Ribbon} from './Ribbon';
 
 // Producto + luz dinámica + cinta vectorial con volumen (Ribbon). El sombreado general se enmascara con el alfa del producto.
@@ -14,14 +14,14 @@ export const Medal: React.FC = () => {
   const bx = medalBox(st);
   const src = staticFile('assets/product.png');
   const sweep = (a: number, b: number) => interpolate(f, [a, b], [-0.6, 1.6], clamp);
-  const s1 = sweep(56, 92), s2 = sweep(138, 168), s3 = sweep(244, 270);
+  const s1 = sweep(ARRIVE + 11, ARRIVE + 47), s2 = sweep(138, 168), s3 = sweep(244, 270);
   const sw = f < 120 ? s1 : f < 220 ? s2 : s3;
-  const shadowOp = interpolate(f, [52, 72], [0, 0.55], clamp) * interpolate(f, [EXIT.a, EXIT.a + 8], [1, 0], clamp);
+  const shadowOp = interpolate(f, [ARRIVE + 7, ARRIVE + 27], [0, 0.55], clamp) * interpolate(f, [EXIT.a, EXIT.a + 8], [1, 0], clamp);
   const mask = {WebkitMaskImage: `url(${src})`, WebkitMaskSize: '100% 100%', maskImage: `url(${src})`, maskSize: '100% 100%'} as React.CSSProperties;
   // el brillo satinado de la cinta sigue el balanceo (follow-through de la luz)
   const sheen = Math.min(0.75, Math.max(0.15, 0.42 + st.rot * 0.05 + 0.12 * Math.sin(f / 31)));
   const R = 218 * st.s; const dx = st.cx, dy = st.cy;
-  const haloOp = interpolate(f, [56, 90, EXIT.a - 6, EXIT.a + 6], [0, 1, 1, 0], clamp);
+  const haloOp = interpolate(f, [ARRIVE + 11, ARRIVE + 45, EXIT.a - 6, EXIT.a + 6], [0, 1, 1, 0], clamp);
   const ring = interpolate(f, [70, 110], [0, 1], clamp) * interpolate(f, [EXIT.a - 10, EXIT.a], [1, 0], clamp);
   const pulse = 1 + 0.04 * Math.exp(-((f % 15) / 5));
   const tilt = -14 + 3 * Math.sin(f / 50);

@@ -19,7 +19,7 @@ import {beatPulse} from './lib/motion';
 export const Main: React.FC<Props> = ({production: p, qaLayer}) => {
   ensureFonts();
   const f = useCurrentFrame();
-  const groove = f >= 214 && f < 296 ? 1 : 0;
+  const groove = f >= 214 && f < 286 ? 1 : 0;
   const bump = 1 + 0.008 * groove * beatPulse(f, p.beats.bpm, p.format.fps, 5);
   return (
     <QaCtx.Provider value={qaLayer}>
@@ -42,7 +42,7 @@ export const Main: React.FC<Props> = ({production: p, qaLayer}) => {
             <ForegroundBokeh />
           </Layer>
         </AbsoluteFill>
-        <LightSweep from={SWEEP_A} to={SWEEP_B} strength={0.55} />
+        <LightSweep from={SWEEP_A} to={SWEEP_B} strength={0.7} />
         <Layer depth={0.6}>
           <Statement p={p} />
         </Layer>

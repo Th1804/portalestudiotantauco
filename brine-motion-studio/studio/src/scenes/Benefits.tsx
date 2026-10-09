@@ -3,7 +3,7 @@ import {AbsoluteFill, interpolate, useCurrentFrame} from 'remotion';
 import {Deco, TextLayer, useInk} from '../lib/qa';
 import {clamp, expoIn, expoOut, settle, drift} from '../lib/motion';
 import {DISPLAY} from '../lib/fonts';
-import {medalPoint, medalState} from '../lib/medal';
+import {EXIT, medalPoint, medalState} from '../lib/medal';
 import type {Production} from '../types';
 
 // v2: cada etiqueta se revela por letra a través de una máscara (overshoot sutil), flota con micro-movimiento propio
@@ -12,7 +12,7 @@ export const Benefits: React.FC<{p: Production}> = ({p}) => {
   const f = useCurrentFrame();
   const C = p.brand.palette;
   const bone = useInk(C.bone);
-  if (f < 196 || f > 312) return null;
+  if (f < 196 || f > EXIT.a + 10) return null;
   const st = medalState(f);
   const A = p.product.assets.face_anchors_norm;
   const ts = (p as any).visual_direction?.type_scale ?? 1;
@@ -23,7 +23,7 @@ export const Benefits: React.FC<{p: Production}> = ({p}) => {
     {id: 'benefit-2', t: b2, start: 217, x: 130, top: 1376, align: 'left' as const, anchor: A.name},
     {id: 'benefit-3', t: b3, start: 232, x: 900, top: 1376, align: 'right' as const, anchor: A.date},
   ];
-  const exitAt = (i: number) => 292 + i * 2;
+  const exitAt = (i: number) => EXIT.a - 10 + i * 2;
   return (
     <AbsoluteFill>
       <Deco>

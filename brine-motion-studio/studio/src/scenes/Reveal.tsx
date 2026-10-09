@@ -24,18 +24,18 @@ export const RevealText: React.FC<{p: Production}> = ({p}) => {
   const ink = useInk(p.brand.palette.celeste);
   const bone = useInk(p.brand.palette.bone);
   if (f < 86 || f > 206) return null;
-  const track = interpolate(f, [92, 130], [0.6, 0.22], {...clamp, easing: expoOut});
+  const track = interpolate(f, [92, 130], [0.28, 0.12], {...clamp, easing: expoOut});
   const [s1, s2] = p.script.on_screen.benefits_sub.split(', ');
   const fl = 3 * Math.sin(f / 17);
   return (
     <TextLayer>
       <AbsoluteFill style={{transform: `translateY(${fl}px)`}}>
-        <MaskLine id="reveal-eyebrow" text={p.script.on_screen.reveal_eyebrow} top={1342} start={92} end={186}
-          style={{fontFamily: TEXT, fontWeight: 700, fontSize: 26, letterSpacing: `${track}em`, marginRight: `-${track}em`, color: ink}} />
-        <MaskLine id="reveal-sub1" text={s1 + ','} top={1388} start={118} end={188}
-          style={{fontFamily: DISPLAY, fontWeight: 600, fontSize: 44, lineHeight: 1.1, color: bone}} />
-        <MaskLine id="reveal-sub2" text={s2} top={1440} start={123} end={189}
-          style={{fontFamily: DISPLAY, fontWeight: 600, fontSize: 44, lineHeight: 1.1, color: bone}} />
+        <MaskLine id="reveal-eyebrow" text={p.script.on_screen.reveal_eyebrow} top={1338} start={92} end={186}
+          style={{fontFamily: TEXT, fontWeight: 700, fontSize: 30, letterSpacing: `${track}em`, marginRight: `-${track}em`, color: ink}} />
+        <MaskLine id="reveal-sub1" text={s1 + ','} top={1392} start={118} end={188}
+          style={{fontFamily: DISPLAY, fontWeight: 600, fontSize: 52, lineHeight: 1.1, color: bone}} />
+        <MaskLine id="reveal-sub2" text={s2} top={1454} start={123} end={189}
+          style={{fontFamily: DISPLAY, fontWeight: 600, fontSize: 52, lineHeight: 1.1, color: bone}} />
       </AbsoluteFill>
     </TextLayer>
   );

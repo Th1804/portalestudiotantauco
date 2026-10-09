@@ -30,8 +30,10 @@ const Word: React.FC<WordProps> = ({id, text, top, size, family, weight, color, 
   };
   let vy = 0;
   letters.forEach((_, i) => { vy = Math.max(vy, Math.abs(ly(i, f) - ly(i, f - 1))); });
-  const blurY = Math.min(14, vy * size * 0.0018 * 6);
-  const blurX = Math.min(22, vScale * size * 9);
+  // el frame 0 es la portada: nítido; el desenfoque nace con el golpe
+  const crisp = f <= 0 ? 0 : 1;
+  const blurY = crisp * Math.min(14, vy * size * 0.0018 * 6);
+  const blurX = crisp * Math.min(22, vScale * size * 9);
   const fid = `mb-${id}`;
   return (
     <div style={{position: 'absolute', top, left: 0, right: 0, display: 'flex', justifyContent: 'center'}}>
@@ -80,7 +82,7 @@ export const Hook: React.FC<{p: Production}> = ({p}) => {
       </Deco>
       <TextLayer>
         <AbsoluteFill style={{transform: `translateY(${floatY}px) scale(${antic})`, transformOrigin: '540px 760px'}}>
-          <Word id="hook-tu" text={w1} top={390} size={150} family={DISPLAY} weight={900} color={bone} start={-9} punchAt={0} exit={41} punch={1.9} trackFrom={0.14} trackTo={0.02} trackDur={40} />
+          <Word id="hook-tu" text={w1} top={390} size={150} family={DISPLAY} weight={900} color={bone} start={-16} punchAt={0} exit={41} punch={1.9} trackFrom={0.14} trackTo={0.02} trackDur={40} />
           <Word id="hook-logo" text={w2} top={540} size={250} family={DISPLAY} weight={900} color={bone} start={4} exit={42} stagger={2} punch={1.12} trackFrom={0.08} trackTo={-0.02} trackDur={44} />
           <Word id="hook-enuna" text={l2.toUpperCase()} top={858} size={44} family={TEXT} weight={500} color={cel} start={15} exit={43} stagger={0.8} trackFrom={0.9} trackTo={0.36} trackDur={26} />
           <Word id="hook-medalla" text={l3} top={930} size={146} family={DISPLAY} weight={900} color={bone} start={30} exit={44} stagger={1.4} punch={1.08} trackFrom={0.1} trackTo={0.0} trackDur={20} />

@@ -5,26 +5,27 @@ import {clamp, expoIn, expoOut, settle} from '../lib/motion';
 import {DISPLAY} from '../lib/fonts';
 import type {Production} from '../types';
 import {sweepFront} from './LightSweep';
+import {EXIT} from '../lib/medal';
 
 // v2: el statement aparece "con la luz" sobre el MISMO fondo azul premium (sin wipe a blanco):
 // la máscara del texto sigue al frente del barrido; cada palabra sube con muelle y queda flotando.
-export const SWEEP_A = 298, SWEEP_B = 330;
+export const SWEEP_A = EXIT.sweepA, SWEEP_B = EXIT.sweepB;
 export const Statement: React.FC<{p: Production}> = ({p}) => {
   const f = useCurrentFrame();
   const C = p.brand.palette;
   const ink = useInk(C.bone);
   const cel = useInk(C.celeste);
-  if (f < 300 || f > 384) return null;
+  if (f < EXIT.statement || f > 384) return null;
   const ts = (p as any).visual_direction?.type_scale ?? 1;
   const [s1, s2, s3] = p.script.on_screen.statement;
   const front = sweepFront(f, SWEEP_A, SWEEP_B) * 100;
   const u = interpolate(f, [342, 356], [0, 1], {...clamp, easing: expoOut});
   const uo = interpolate(f, [362, 370], [0, 1], {...clamp, easing: expoIn});
-  const push = interpolate(f, [312, 384], [1, 1.035], clamp);
+  const push = interpolate(f, [EXIT.statement, 384], [0.92, 1.0], {...clamp, easing: expoOut});
   const lines = [
-    {id: 'statement-1', t: s1, top: 676, st: 318, size: Math.min(118, 100 * ts), w: 600, color: cel},
-    {id: 'statement-2', t: s2, top: 820, st: 325, size: 150, w: 900, color: ink},
-    {id: 'statement-3', t: s3, top: 1000, st: 331, size: 150, w: 900, color: ink},
+    {id: 'statement-1', t: s1, top: 676, st: 306, size: Math.min(118, 100 * ts), w: 600, color: cel},
+    {id: 'statement-2', t: s2, top: 820, st: 312, size: 150, w: 900, color: ink},
+    {id: 'statement-3', t: s3, top: 1000, st: 318, size: 150, w: 900, color: ink},
   ];
   const mask = `linear-gradient(108deg, #000 ${front - 10}%, rgba(0,0,0,0) ${front + 6}%)`;
   return (

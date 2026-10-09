@@ -28,7 +28,7 @@ export const Background: React.FC<{p: Production}> = ({p}) => {
 export const TypeTexture: React.FC<{p: Production}> = ({p}) => {
   const f = useCurrentFrame();
   if (useQa() !== 'none') return null;
-  const op = interpolate(f, [64, 100, 296, 312], [0, 1, 1, 0], clamp);
+  const op = interpolate(f, [64, 100, 284, 300], [0, 1, 1, 0], clamp);
   const tex = (p as any).visual_direction?.texture_opacity ?? 0.15;
   const cam = Camera(f);
   const words = ['TU LOGO', 'TU NOMBRE', 'TU FECHA'];
@@ -90,7 +90,7 @@ export const ForegroundBokeh: React.FC = () => {
   const f = useCurrentFrame();
   if (useQa() !== 'none') return null;
   const cam = Camera(f);
-  const op = interpolate(f, [60, 90, 296, 312], [0, 1, 1, 0], clamp);
+  const op = interpolate(f, [60, 90, 284, 300], [0, 1, 1, 0], clamp);
   return (
     <AbsoluteFill style={{opacity: op}}>
       {Array.from({length: 5}).map((_, i) => {

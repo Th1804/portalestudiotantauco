@@ -15,6 +15,8 @@ const args = process.argv.slice(2);
 const prodPath = path.resolve(ROOT, args.find((a) => a.endsWith('.json')) ?? 'productions/BMS-20261009-001.json');
 const skipAudio = args.includes('--skip-audio');
 const skipVideo = args.includes('--skip-video');
+// --layout-only: solo stills de QA de texto + cajas/conectores y QA de layout (sin audio, video ni mux). Para variantes opcionales.
+const layoutOnly = args.includes('--layout-only');
 const CONC = Number(process.env.BMS_CONCURRENCY ?? 1); // >1 se cuelga con GL por software (swangle) en el box sin GPU
 const production = JSON.parse(fs.readFileSync(prodPath, 'utf8'));
 const id = production.id;
@@ -28,7 +30,7 @@ const py = (script, ...a) => execFileSync(PY, [path.join(ROOT, 'scripts', script
 const t0 = Date.now();
 log('producción', id);
 py('prep_assets.py', prodPath);
-if (!skipAudio) { log('audio…'); py('audio.py', prodPath); }
+if (!skipAudio && !layoutOnly) { log('audio…'); py('audio.py', prodPath); }
 
 log('bundle…');
 const serveUrl = await bundle({entryPoint: path.join(ROOT, 'src', 'index.ts'), publicDir: path.join(ROOT, 'public')});
@@ -36,7 +38,7 @@ const browser = await openBrowser('chrome', browserOpts());
 const inputProps = {production, qaLayer: 'none'};
 const comp = await selectComposition({serveUrl, id: 'Production', inputProps, puppeteerInstance: browser});
 const silent = path.join(build, 'video-silent.mp4');
-if (!skipVideo) {
+if (!skipVideo && !layoutOnly) {
   log(`render ${comp.width}x${comp.height} ${comp.fps}fps ${comp.durationInFrames}f, concurrency=${CONC}`);
   let last = -1;
   await renderMedia({composition: comp, serveUrl, codec: 'h264', outputLocation: silent, inputProps, concurrency: CONC,
@@ -46,7 +48,7 @@ if (!skipVideo) {
 }
 log('mux…');
 const final = path.join(outDir, `${id}.mp4`);
-execFileSync('ffmpeg', ['-y', '-v', 'error', '-i', silent, '-i', path.join(build, 'mix.wav'), '-map', '0:v:0', '-map', '1:a:0',
+if (!layoutOnly) execFileSync('ffmpeg', ['-y', '-v', 'error', '-i', silent, '-i', path.join(build, 'mix.wav'), '-map', '0:v:0', '-map', '1:a:0',
   '-vf', 'scale=in_range=pc:out_range=tv,format=yuv420p', '-c:v', 'libx264', '-preset', 'medium', '-crf', '16', '-profile:v', 'high',
   '-colorspace', 'bt709', '-color_primaries', 'bt709', '-color_trc', 'bt709', '-color_range', 'tv', '-c:a', 'aac', '-b:a', '192k', '-ar', '48000', '-shortest', '-movflags', '+faststart',
   '-metadata', `title=${id}`, '-metadata', 'comment=BRINE MOTION STUDIO — borrador interno, no publicar sin aprobación humana', final], {stdio: 'inherit'});
@@ -62,7 +64,7 @@ const layoutFrames = [...new Set([...production.qa_keyframes, ...Array.from({len
 for (const f of layoutFrames) {
   await renderStill({composition: tcomp, serveUrl, frame: f, output: path.join(build, 'qa', `text-${String(f).padStart(3, '0')}.png`),
     inputProps: {production, qaLayer: 'text'}, puppeteerInstance: browser, imageFormat: 'png', onBrowserLog});
-  if (production.qa_keyframes.includes(f) && f >= N - 80) {
+  if (!layoutOnly && production.qa_keyframes.includes(f) && f >= N - 80) {
     await renderStill({composition: lcomp, serveUrl, frame: f, output: path.join(build, 'qa', `logo-${String(f).padStart(3, '0')}.png`),
       inputProps: {production, qaLayer: 'logo'}, puppeteerInstance: browser, imageFormat: 'png'});
   }
@@ -70,5 +72,5 @@ for (const f of layoutFrames) {
 fs.writeFileSync(path.join(build, 'qa', 'text-boxes.json'), JSON.stringify(boxes, null, 1));
 await browser.close({silent: true});
 log('QA…');
-py('qa.py', prodPath, final);
+if (layoutOnly) py('qa.py', prodPath, '--layout-only'); else py('qa.py', prodPath, final);
 log(`listo en ${((Date.now() - t0) / 1000).toFixed(0)} s →`, final);

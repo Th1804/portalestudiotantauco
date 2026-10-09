@@ -17,12 +17,48 @@ def wcag(a, b):
     la, lb = sorted([lum(np.array(a, float)), lum(np.array(b, float))], reverse=True)
     return (la + 0.05) / (lb + 0.05)
 
-def main(prod_path, mp4):
+def connector_check(bx_frames, tol_px=2.0, start_gap_max=40):
+    """v3: cada conector visible debe (a) terminar DENTRO del disco de la medalla (<= 0,92 r del centro), (b) nacer junto a la tinta
+    de su etiqueta (a <= 40 px de su caja, fuera de ella) y (c) acercarse al disco en todo su recorrido (distancia al centro
+    no creciente a lo largo de la curva): así ninguna línea apunta al vacío."""
+    rows, seen = [], set()
+    for fr_ in bx_frames:
+        boxes = {b['id']: b for b in fr_['boxes']}
+        for c in fr_.get('connectors', []):
+            cx, cy, r = c['disc']; ex, ey = c['end']; sx, sy = c['start']
+            end_d = float(np.hypot(ex - cx, ey - cy)); end_ok = end_d <= 0.92 * r
+            lb = boxes.get(c['id']); gap = None; start_ok = False
+            if lb:
+                dx = max(lb['x0'] - sx, 0, sx - lb['x1']); dy = max(lb['y0'] - sy, 0, sy - lb['y1'])
+                gap = float(np.hypot(dx, dy)); start_ok = 0 < gap <= start_gap_max
+            ds = [float(np.hypot(x - cx, y - cy)) for x, y in c['samples']]
+            rise = max([ds[i + 1] - ds[i] for i in range(len(ds) - 1)] + [0.0])
+            mono_ok = rise <= tol_px
+            seen.add(c['id'])
+            rows.append({'frame': fr_['frame'], 'id': c['id'], 'start': c['start'], 'end': c['end'], 'end_dist_px': round(end_d, 1), 'disc_r_px': r,
+                         'start_gap_to_label_px': None if gap is None else round(gap, 1), 'max_distance_increase_px': round(rise, 2),
+                         'pass': bool(end_ok and start_ok and mono_ok)})
+    return rows, seen
+
+def main(prod_path, mp4, layout_only=False):
     prod = json.load(open(prod_path)); pid = prod['id']; F = prod['format']
     build = os.path.join(ROOT, 'build', pid); qa_dir = os.path.join(build, 'qa'); frames_dir = os.path.join(build, 'frames')
     os.makedirs(frames_dir, exist_ok=True)
     R = {'id': pid, 'file': mp4, 'checks': {}}; C = R['checks']
     def chk(name, ok, **kw): C[name] = {'pass': bool(ok), **kw}
+    def connectors_chk():
+        bx_path_ = os.path.join(qa_dir, 'text-boxes.json')
+        rows, seen = connector_check(json.load(open(bx_path_))) if os.path.exists(bx_path_) else ([], set())
+        need = {'benefit-1', 'benefit-2', 'benefit-3'}
+        chk('connectors_target_medal', bool(rows) and all(r['pass'] for r in rows) and need <= seen, frames_checked=len({r['frame'] for r in rows}),
+            connectors_seen=sorted(seen), failed=[r for r in rows if not r['pass']][:20], rows=rows,
+            note='Geometría real de cada conector (lib/connectors, la misma del render) en cada still de QA: termina dentro del disco, nace junto a su etiqueta y se acerca al disco en todo el trazo.')
+    if layout_only:
+        connectors_chk()
+        R['summary'] = {'passed': sum(c['pass'] for c in C.values()), 'total': len(C), 'failed': [k for k, c in C.items() if not c['pass']]}
+        out = os.path.join(ROOT, 'out', f'{pid}.layout-qa.json'); json.dump(R, open(out, 'w'), indent=1, ensure_ascii=False)
+        for k, c in C.items(): print(('PASS ' if c['pass'] else 'FAIL ') + k, {kk: vv for kk, vv in c.items() if kk not in ('rows', 'pass')})
+        return
 
     pr = json.loads(run(['ffprobe', '-v', 'error', '-show_streams', '-show_format', '-of', 'json', mp4]).stdout)
     v = next(s for s in pr['streams'] if s['codec_type'] == 'video'); a = [s for s in pr['streams'] if s['codec_type'] == 'audio']
@@ -95,6 +131,26 @@ def main(prod_path, mp4):
             note='Cajas de tinta por elemento [data-qa] (DOM + canvas.measureText, con transformaciones y máscaras) y el disco de la medalla como obstáculo (geometría de lib/medal), cada qa_layout_step frames; falla si dos cajas visibles quedan a < 8 px.')
     else:
         chk('text_no_overlap', False, note='faltan text-boxes.json')
+    connectors_chk()
+    # v3: contraste específico de la URL del CTA (texto chico: umbral 4,5:1), medido en el MP4 solo dentro de su caja
+    url_rows = []
+    bxs = json.load(open(bx_path)) if os.path.exists(bx_path) else []
+    for fr_ in bxs:
+        k = fr_['frame']; ub = next((b for b in fr_['boxes'] if b['id'] == 'url' and b['opacity'] >= 0.99), None)
+        if not ub or k not in fmap: continue
+        tp = os.path.join(qa_dir, f'text-{k:03d}.png')
+        m = np.asarray(Image.open(tp).convert('L')) > 60
+        reg = np.zeros_like(m); reg[max(0, ub['y0'] - 14):ub['y1'] + 14, max(0, ub['x0'] - 14):ub['x1'] + 14] = True
+        mi = Image.fromarray((m * 255).astype(np.uint8))
+        core = (np.asarray(mi.filter(ImageFilter.MinFilter(3))) > 128) & reg
+        ring = (np.asarray(mi.filter(ImageFilter.MaxFilter(15))) > 128) & ~(np.asarray(mi.filter(ImageFilter.MaxFilter(5))) > 128) & reg
+        if core.sum() < 20 or ring.sum() < 20: continue
+        fr = np.asarray(Image.open(fmap[k]).convert('RGB')).astype(float)
+        fg = np.median(fr[core], 0); bg = np.median(fr[ring], 0); cr = wcag(fg, bg)
+        url_rows.append({'frame': k, 'bbox': [ub['x0'], ub['y0'], ub['x1'], ub['y1']], 'height_px': ub['y1'] - ub['y0'], 'fg': [int(x) for x in fg], 'bg': [int(x) for x in bg],
+                         'ratio': round(float(cr), 2), 'pass': cr >= 4.5 and ub['y1'] - ub['y0'] >= 36})
+    chk('url_contrast_wcag_>=4.5', len(url_rows) > 0 and all(r['pass'] for r in url_rows), frames=url_rows,
+        note='URL del CTA: mediana del núcleo de sus glifos vs. anillo de fondo, solo dentro de su caja, en cada keyframe con la URL a opacidad plena; además altura de tinta >= 36 px.')
     # logo en cierre
     last = max(kfs); lp = os.path.join(qa_dir, f'logo-{last:03d}.png')
     lm = np.asarray(Image.open(lp).convert('L')) > 60
@@ -148,7 +204,8 @@ def main(prod_path, mp4):
     R['summary'] = {'passed': sum(c['pass'] for c in C.values()), 'total': len(C), 'failed': [k for k, c in C.items() if not c['pass']]}
     out = os.path.join(ROOT, 'out', f'{pid}.qa.json'); json.dump(R, open(out, 'w'), indent=1, ensure_ascii=False, default=lambda o: o.item() if hasattr(o, 'item') else str(o))
     print(json.dumps(R['summary'], ensure_ascii=False, default=str))
-    for k, c in C.items(): print(('PASS ' if c['pass'] else 'FAIL ') + k, {kk: vv for kk, vv in c.items() if kk not in ('frames', 'pass')})
+    for k, c in C.items(): print(('PASS ' if c['pass'] else 'FAIL ') + k, {kk: vv for kk, vv in c.items() if kk not in ('frames', 'pass', 'rows')})
 
 if __name__ == '__main__':
-    main(sys.argv[1], sys.argv[2])
+    if '--layout-only' in sys.argv: main(sys.argv[1], None, layout_only=True)
+    else: main(sys.argv[1], sys.argv[2])

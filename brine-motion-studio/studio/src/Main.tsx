@@ -46,10 +46,10 @@ export const Main: React.FC<Props> = ({production: p, qaLayer}) => {
         <Layer depth={0.6}>
           <Statement p={p} />
         </Layer>
-        <LightSweep from={372} to={404} strength={0.3} angle={112} />
+        <LightSweep from={358} to={386} strength={0.3} angle={112} />
         <CTA p={p} />
         <Grain />
-        <QaProbe />
+        <QaProbe p={p} />
       </AbsoluteFill>
     </QaCtx.Provider>
   );

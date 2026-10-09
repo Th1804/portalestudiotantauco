@@ -1,5 +1,9 @@
 import React, {createContext, useContext} from "react";
 import type {QaLayer} from '../types';
+import {continueRender, delayRender, useCurrentFrame} from 'remotion';
+import {IMG_W, medalPoint, medalState, RIBBON_NORM} from './medal';
+import {connectors, sampleConnector} from './connectors';
+import type {Production} from '../types';
 // Modo QA: renderiza SOLO el texto de mensaje (blanco sobre negro) o SOLO el logo, para medir safe zones y contraste.
 export const QaCtx = createContext<QaLayer>('none');
 export const useQa = () => useContext(QaCtx);
@@ -21,9 +25,7 @@ export const useInk = (c: string) => (useQa() === 'text' ? '#FFFFFF' : c);
 // ---- v2: sonda de bounding boxes de texto (QA de colisiones).
 // En modo 'text' mide cada elemento [data-qa] con el DOM real (incluye transformaciones y máscaras overflow:hidden),
 // ajusta la caja vertical a la tinta real con métricas de canvas.measureText y la emite por consola: produce.mjs la recoge.
-import {continueRender, delayRender, useCurrentFrame} from 'remotion';
-import {IMG_W, medalPoint, medalState, RIBBON_NORM} from './medal';
-export const QaProbe: React.FC = () => {
+export const QaProbe: React.FC<{p: Production}> = ({p}) => {
   const qa = useQa();
   const f = useCurrentFrame();
   const ref = React.useRef<HTMLDivElement>(null);
@@ -74,7 +76,11 @@ export const QaProbe: React.FC = () => {
           boxes.push({id: 'medal-ribbon', kind: 'object', text: '', opacity: st.op, x0: Math.round(Math.min(...xs)), y0: Math.round(Math.max(0, Math.min(...ys))), x1: Math.round(Math.max(...xs)), y1: Math.round(Math.max(...ys))});
           boxes.push({id: 'medal-disc', kind: 'object', text: '', opacity: st.op, x0: Math.round(c.x - r), y0: Math.round(c.y - r), x1: Math.round(c.x + r), y1: Math.round(c.y + r)});
         }
-        console.log('QA_BOXES ' + JSON.stringify({frame: f, boxes}));
+        // v3: conectores visibles (trazo completo) con su geometría analítica, para el QA de puntería hacia la medalla
+        const cons = f >= 196 && f <= 300 ? connectors(f, p).filter((c) => c.prog > 0.98 && c.op > 0.5 && st.vis && st.op > 0.5)
+          .map((c) => ({id: c.id, start: [Math.round(c.start.x), Math.round(c.start.y)], end: [Math.round(c.end.x), Math.round(c.end.y)],
+            disc: [Math.round(c.disc.x), Math.round(c.disc.y), Math.round(c.disc.r)], samples: sampleConnector(c)})) : [];
+        console.log('QA_BOXES ' + JSON.stringify({frame: f, boxes, connectors: cons}));
         continueRender(h);
     };
     (document as any).fonts.ready.then(() => requestAnimationFrame(measure));

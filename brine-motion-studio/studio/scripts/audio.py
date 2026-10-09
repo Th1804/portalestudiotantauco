@@ -107,7 +107,7 @@ def bass_note(m, dur, gain=1.0, cutoff=380):
     x = 0.6 * signal.sawtooth(2 * np.pi * f * tt) + 0.6 * np.sin(2 * np.pi * f * tt) + 0.3 * np.sin(np.pi * f * tt)
     x = bq(x, 'lp', cutoff, 0.9)
     return np.tanh(x * 1.3) * env_adsr(n, 0.004, 0.08, 0.7, 0.05) * gain
-def pad_chord(notes, dur, gain=1.0, bright=1800):
+def pad_chord(notes, dur, gain=1.0, bright=1800, att=0.35, rel=0.5):
     n = int(dur * SR); tt = t_arr(n); x = np.zeros(n)
     for m in notes:
         for det in (-0.09, 0.0, 0.08):
@@ -115,7 +115,7 @@ def pad_chord(notes, dur, gain=1.0, bright=1800):
             x += signal.sawtooth(2 * np.pi * f * tt + RNG.uniform(0, 6.28)) * 0.15
     x = bq(x, 'lp', bright, 0.6)
     trem = 1 + 0.06 * np.sin(2 * np.pi * 0.25 * tt)
-    return x * env_adsr(n, 0.35, 0.3, 0.85, 0.5) * trem * gain
+    return x * env_adsr(n, att, min(0.3, dur / 4), 0.85, min(rel, dur / 3)) * trem * gain
 def pluck(m, dur=0.25, gain=1.0, bright=1.0):
     n = int(dur * SR); tt = t_arr(n); f = midi_hz(m)
     x = 0.5 * signal.sawtooth(2 * np.pi * f * tt) + 0.5 * signal.square(2 * np.pi * f * tt * 1.003, 0.3)
@@ -205,7 +205,10 @@ def _sfx(kind, len_s):
 
 # ---------------------------------------------------------------- música
 CHORDS = {'Bm': (47, [59, 62, 66, 69]), 'G': (43, [59, 62, 67, 71]), 'D': (50, [57, 62, 66, 69]), 'A': (45, [57, 61, 64, 69])}
-END_HIT = 13.0  # acorde final sobre el beat 26 (frame 390): coincide con la entrada del CTA
+END_HIT = 13.0  # golpe final sobre el beat 26 (frame 390): la luz revela el logo (CTA.LOGO_HIT)
+BUILD_S, DOM_SUS_TO, STOP_S = 12.0, 12.375, 12.75  # dominante (sus4 -> 7) y stop de un beat antes del golpe
+DOM7SUS4 = (45, [57, 62, 64, 67])  # A D E G
+DOM7 = (45, [57, 61, 64, 67])      # A C# E G
 def music(prod, dur):
     md = prod['music_direction']; bpm = md['bpm']; spb = 60 / bpm; bar = 4 * spb
     n = int(dur * SR)
@@ -231,20 +234,21 @@ def music(prod, dur):
             for k in range(4): place(drums, stereo(hat(k == 2, 0.3 if k % 2 else 0.18), 0.3 if k % 2 else -0.3), s0 + k * spb / 4)
         elif name == 'statement':
             pass
-        elif name == 'cta':
-            # v2: dos pulsos suaves hacia el acorde final (13,0 s); después solo resonancia
-            if s0 < END_HIT and beat_in_bar in (0, 2): place(drums, stereo(kick(0.45)), s0)
-        # --- bajo (corcheas con acento; silencio en statement)
-        if name in ('hook', 'benefits', 'cta', 'reveal'):
+        elif name == 'build':
+            place(drums, stereo(kick(0.4 + 0.15 * (s0 > BUILD_S))), s0)
+        if name == 'build': root, notes = DOM7
+        # --- bajo (corcheas con acento; silencio en statement; en build solo hasta el stop)
+        if name in ('hook', 'benefits', 'reveal', 'build'):
             for k in range(2):
                 if name == 'reveal' and k == 1: continue
-                if name == 'cta' and s0 >= END_HIT: continue
+                if name == 'build' and s0 + k * spb / 2 >= STOP_S: continue
                 m = root + (12 if (k == 1 and name == 'benefits' and beat_in_bar == 3) else 0)
-                place(bass, stereo(bass_note(m, spb / 2 * 0.92, 0.55 * (0.6 + 0.4 * inten), 300 + 500 * inten)), s0 + k * spb / 2)
+                place(bass, stereo(bass_note(m, spb / 2 * 0.92, 0.55 * (0.6 + 0.4 * inten) * (0.7 if name == 'build' else 1), 300 + 500 * inten)), s0 + k * spb / 2)
         # --- arpegio en semicorcheas (filtro que abre con la intensidad)
-        if name in ('reveal', 'benefits', 'cta') and s0 < END_HIT:
+        if name in ('reveal', 'benefits', 'build') and s0 < STOP_S:
             pat = [0, 2, 1, 3, 2, 1, 3, 2]
             for k in range(4):
+                if s0 + k * spb / 4 >= STOP_S: continue
                 idx = pat[(b * 4 + k) % len(pat)]
                 m = notes[idx] + 12
                 place(arp, stereo(pluck(m, 0.3, 0.16 * (0.5 + 0.5 * inten), 0.4 + 0.6 * inten), (-0.45, 0.45)[k % 2]), s0 + k * spb / 4)
@@ -252,34 +256,50 @@ def music(prod, dur):
     for i in range(int(dur / bar) + 1):
         s0 = i * bar; root, notes = CHORDS[prog[i % len(prog)]]
         inten = sec(s0)['intensity']
-        if s0 >= END_HIT: break
-        L = min(bar + 0.4, END_HIT - s0 + 0.25)
+        if s0 >= BUILD_S: break
+        L = min(bar + 0.4, BUILD_S - s0 + 0.25)
         place(pads, stereo(pad_chord(notes, L, 0.22 + 0.12 * inten, 900 + 1800 * inten)), s0)
-    # --- acorde final (tónica D mayor con 9ª) y cola de reverb que se apaga en el frame 450
+    # --- v3: cadencia V7 -> I. Dominante A7sus4 (12,0-12,375) que resuelve a A7 (12,375-12,75) con brillo creciente,
+    # redoble de caja en semicorcheas en crescendo, STOP de un beat (12,75-13,0) y golpe tutti en la tónica en 13,0 s
+    sus_n = int((DOM_SUS_TO - BUILD_S) * SR)
+    place(pads, stereo(pad_chord(DOM7SUS4[1], DOM_SUS_TO - BUILD_S + 0.05, 0.28, 1700, 0.02, 0.05)[:sus_n + 2400] * np.r_[np.ones(sus_n), np.linspace(1, 0, 2400)]), BUILD_S)
+    d7 = pad_chord(DOM7[1], STOP_S - DOM_SUS_TO + 0.06, 0.34, 2600, 0.01, 0.05)
+    place(pads, stereo(d7 * np.minimum(1, t_arr(len(d7)) / 0.01)), DOM_SUS_TO)
+    for j, s in enumerate(np.arange(12.25, STOP_S - 1e-6, spb / 4)):
+        g = 0.1 + 0.36 * (j / 7) ** 1.4
+        place(drums, convolve(stereo(snare(g), (-0.2, 0.2)[j % 2]), IR_ROOM, 0.3), s)
+    # golpe final: tónica D (add9) en todo el registro + kick + caja + platillo, cola natural (sin fundido largo)
     fin_n = int((dur - END_HIT) * SR); ft = t_arr(fin_n)
-    fin_env = np.exp(-ft * 0.95) * np.minimum(1, ft / 0.03)
+    fin_env = np.exp(-ft * 0.8) * np.minimum(1, ft / 0.006)
     chord = np.zeros(fin_n)
-    for m in (50, 57, 62, 66, 69, 76):
+    for m in (38, 50, 57, 62, 66, 69, 76):
         for det in (-0.06, 0.0, 0.06):
             chord += signal.sawtooth(2 * np.pi * midi_hz(m) * 2 ** (det / 12) * ft + RNG.uniform(0, 6.28)) * 0.08
-    chord = bq(chord, 'lp', 1600, 0.6) * fin_env
-    place(pads, stereo(chord, 0.0), END_HIT)
-    place(bass, stereo(bass_note(38, 1.6, 0.5, 260) * np.exp(-t_arr(int(1.6 * SR)) * 1.2)), END_HIT)
-    place(drums, stereo(kick(0.5)), END_HIT)
-    # --- motivo de campana en el revelado y el cierre (melodía)
-    mel = [(3.0, 78, 1.0), (3.5, 81, 0.8), (4.0, 83, 1.2), (5.0, 81, 0.8), (5.5, 78, 1.6), (12.5, 74, 0.5), (END_HIT, 78, 0.6), (END_HIT, 86, 0.6)]
-    for s, m, d in mel: place(lead, stereo(bell(m, d + 1.2, 0.55), 0.15), s)
-    # automatización: filtro de pads/arp cerrado en statement, "tape stop"-ish
+    chord = svf_sweep(chord, 900 + 3600 * np.exp(-ft * 2.2), 0.7) * fin_env
+    place(pads, stereo(chord, 0.0), END_HIT, 1.25)
+    for m, g in ((62, 0.5), (66, 0.42), (69, 0.42), (74, 0.38)):
+        place(arp, stereo(pluck(m, 1.6, g, 1.0) , (m - 68) / 14), END_HIT)
+    place(bass, stereo(bass_note(38, 2.0, 0.75, 320) * np.exp(-t_arr(int(2.0 * SR)) * 0.9)), END_HIT)
+    place(drums, stereo(kick(1.1)), END_HIT)
+    place(drums, convolve(stereo(snare(0.6)), IR_HALL, 0.35), END_HIT)
+    cn = int(2.0 * SR); ct = t_arr(cn)
+    crash = bq(bq(RNG.standard_normal(cn), 'hp', 4200), 'peak', 7800, 1.0, 3) * np.exp(-ct * 2.1) * np.minimum(1, ct / 0.002)
+    place(drums, convolve(np.stack([crash, np.roll(crash, 240)], 1) * 0.22, IR_HALL, 0.3), END_HIT)
+    # --- motivo de campana: en el cierre la sensible C#6 (sobre A7) resuelve a D6/F#6 en el golpe
+    mel = [(3.0, 78, 1.0), (3.5, 81, 0.8), (4.0, 83, 1.2), (5.0, 81, 0.8), (5.5, 78, 1.6),
+           (12.0, 81, 0.35), (12.5, 85, 0.25), (END_HIT, 86, 1.0), (END_HIT, 90, 1.0)]
+    for s, m, d in mel: place(lead, stereo(bell(m, d + 1.2, 0.55 if s < 12 else 0.7), 0.15), s)
+    # automatización: nivel reducido en el statement
     autom = np.ones(n)
     tt = t_arr(n)
-    autom *= np.where((tt > 10.4) & (tt < 12.5), 0.55, 1.0)
+    autom *= np.where((tt > 10.4) & (tt < BUILD_S), 0.55, 1.0)
     bus = drums * 0.9 + bass * 0.9 + convolve(pads, IR_HALL, 0.35) * 0.8 + convolve(arp, IR_HALL, 0.3) * 0.75 + convolve(lead, IR_HALL, 0.45) * 0.7
     bus = bus * autom[:, None]
-    # cola: la reverb ya decae; fundido final en coseno de 0,8 s que llega a silencio exactamente en el frame 450
-    tail = np.clip((dur - tt) / 0.5, 0, 1); bus = bus * (np.sin(tail * np.pi / 2) ** 2)[:, None]
-    # filtro lowpass automatizado en la transición del statement
+    # el acorde final suena hasta el último frame; solo un fundido de seguridad de 0,25 s para que no haya clic
+    tail = np.clip((dur - tt) / 0.25, 0, 1); bus = bus * (np.sin(tail * np.pi / 2) ** 2)[:, None]
+    # filtro lowpass automatizado en el statement; se abre en la dominante
     lp = bq(bus, 'lp', 900)
-    mixw = np.clip((tt - 10.3) / 0.25, 0, 1) * np.clip((12.5 - tt) / 0.2, 0, 1)
+    mixw = np.clip((tt - 10.3) / 0.25, 0, 1) * np.clip((BUILD_S - tt) / 0.15, 0, 1)
     bus = bus * (1 - mixw[:, None]) + lp * mixw[:, None]
     stems = {'drums': drums, 'bass': bass, 'pads': pads, 'arp': arp, 'lead': lead}
     return bus, stems

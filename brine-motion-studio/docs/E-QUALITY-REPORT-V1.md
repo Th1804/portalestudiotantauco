@@ -1,4 +1,48 @@
-# E — Informe de calidad V2 · BMS-20261009-001-v2 (+ variante sin voz)
+# E — Informe de calidad V3 · BMS-20261009-001-v3 (sin voz, variante principal)
+
+Parte de la revisión audiovisual externa de la v2: 4/10 con voz y 5,5/10 sin voz. La base es la variante **sin voz** (tipografía al 112 %). La voz Piper quedó descartada por sonar robótica: `productions/BMS-20261009-001-v3-voz.json` existe solo como opción, sin más trabajo de voz y sin render propio (sí pasa el QA de layout, ver abajo).
+
+| Archivo | Tamaño | sha256 |
+|---|---|---|
+| `studio/out/BMS-20261009-001-v3.mp4` | 36,6 MB | `739f3fcc88df3cfd1b90869639dcb9575ef8310c1d19398754ec4a69689954cd` |
+
+Además: `BMS-20261009-001-v3.contact-sheet.png`, `BMS-20261009-001-v3.qa.json` y el log `studio/build/produce-v3.log`. La variante con voz tiene `out/BMS-20261009-001-v3-voz.layout-qa.json`. Los MP4 no están en git.
+
+### V3.1 QA automático: 16/16 PASS
+Se mantienen los 14 checks de la v2: 1080x1920, 30 fps, 15,000 s, H.264 High yuv420p + AAC 48 kHz, decodificación sin errores, -14,2 LUFS (LRA 3,2), -1,4 dBTP, sin frames negros, 98 stills de safe zones dentro de la zona, 0 colisiones, logo intacto (aspecto 2,5455 vs 2,5477, correlación 0,986) y dorado máximo de 0,24 %. Hay dos checks nuevos:
+
+| Check nuevo | Resultado |
+|---|---|
+| `url_contrast_wcag_>=4.5`: contraste de la URL medido solo dentro de su caja en el MP4, con umbral 4,5:1 y tinta ≥ 36 px de alto | **9,32–9,44:1** en f420, 425, 435 y 449 (tinta de 41–43 px). En la v2, celeste #ADBED4 a 46 px y peso 600 |
+| `connectors_target_medal`: los 3 conectores, en cada still donde están completos | Todos terminan **dentro del disco** (a 0,65–0,83 r del centro), nacen a 5–30 px de la tinta de su etiqueta y la distancia al disco **nunca crece** a lo largo del trazo. Con voz: PASS en 12 frames |
+
+Contraste general: ahora se puntúa solo con el texto asentado (21 keyframes, mínimo 5,55:1). Los 11 keyframes con glifos a media opacidad o desenfocados se reportan sin umbral, porque la v3 anima por glifo. `QaProbe` los marca con `settled=false` y además mide solo los glifos visibles. Sin ese ajuste aparecían colisiones falsas: letras que todavía estaban a opacidad 0.
+
+### V3.2 Cambios frente a la revisión de la v2
+| # | Crítica | Cambio v3 |
+|---|---|---|
+| 1 | El mask reveal de "única y memorable" cortaba las letras con una franja horizontal | El reveal se rehízo **sin máscaras ni `overflow:hidden`**. Cada glifo entra completo, con opacidad, una subida de 36 px y un desenfoque de 12 px que se enfoca, en el frame en que el frente del barrido de luz cruza su x. La salida es una disolución hacia arriba con desenfoque. Las etiquetas de beneficios usaban el mismo recorte por letra y también se cambiaron. Revisión cuadro a cuadro de f285–449: ninguna letra cortada |
+| 2 | URL casi ilegible | `brinechile.cl` en **#F4F6F9, 56 px, peso 700**, con check propio de 4,5:1 (pasa con 9,3:1) |
+| 3 | La línea de "Nombres" apuntaba al vacío (con voz) | La geometría está en un solo lugar, `lib/connectors.ts`, y la usan tanto el render como el QA. Cada línea nace en el borde de la tinta de su palabra más cercano a la medalla (antes nacía a la izquierda de "Nombres") y termina en su ancla impresa de la cara, con una curva que se abre hacia afuera del disco. El trazo se dibuja cuando la palabra ya se asentó. El QA detectó y obligó a corregir dos casos: la salida dentro de la tinta de "Nombres"/"Fechas" y un inicio a 42 px de "Logotipos" |
+| 4 | La música terminaba en fade y no resolvía | **Cadencia V7 → I.** A7sus4 (12,0 s) → A7 (12,375 s), con un redoble de caja en crescendo y un riser. Luego un **stop de un beat** (12,75–13,0 s, -23,9 dB RMS) y el **golpe tutti en D (add9) en 13,0 s = f390**: kick, caja, platillo, bajo D1, acorde en todo el registro y campana. Es el mismo frame en que la luz revela el logo. La sensible C#6 resuelve a D6. Medido en el MP4: chroma A-E-G → C#-E-A → **D-F#-A**. El golpe (-11,3 dB RMS) es lo más fuerte del cierre y el acorde suena hasta el final, con solo 0,25 s de fundido de seguridad |
+| 5 | Cierre sobrio | Desde f374, mientras se disuelve el statement, un **filamento de luz** crece sobre el eje del logo (anticipación). En f390 **estalla**, con partículas y un punch de cámara de 1,6 %. Después un **haz de luz cruza por detrás del logo** (f390–404) y el logo se descubre con una máscara de borde muy suave que sigue al haz. **El logo no lleva ningún efecto**: ni glow, ni sombra, ni recolor; el haz va en una capa inferior. La píldora entra con muelle, cada letra con desenfoque, y lleva una flecha. Cada 2 beats (f414, f444) la flecha se empuja, la píldora "late" un 1,4 % y sale un ping de anillo. La URL sube y se enfoca |
+
+### V3.3 Revisión cuadro a cuadro (9,5–12,5 s y 12–15 s) e iteraciones
+1. **Render 1**: 14/16. El contraste fallaba en f380/404/405, frames que se habían agregado a mitad de una animación. Las colisiones fallaban en f200–215 por glifos todavía invisibles. Los dos eran artefactos de medición y se corrigió el QA, no el video. En la revisión de los 165 frames, f381–386 quedaban casi vacíos porque el filamento usaba una curva expo-in que lo hacía visible recién en f387. Ahora usa una curva cuadrática desde f374. Además, el ping de la CTA casi no se veía y se reforzó.
+2. **Render 2 (final)**: 16/16. Se revisaron otra vez los frames f372–401: la secuencia disolución → filamento → golpe → haz → logo → píldora es continua y no hay frames vacíos.
+
+### V3.4 Evaluación honesta
+- Mejoró: no hay letras cortadas, la URL se lee, todas las líneas apuntan a la medalla (verificado por geometría) y la música cierra con un golpe sincronizado con el logo.
+- Nadie lo ha escuchado ni lo ha visto a velocidad real: el audio se validó con medidores y chroma, y el video con frames.
+- f304–308 siguen casi vacíos durante el barrido de luz, entre la salida de la medalla y el statement. Es una pausa intencional, pero corta.
+- Siguen pendientes los puntos de la v2: raw generado por IA y blando en planos grandes, cinta vectorial por aprobar, fuentes sustitutas y "Cotiza la tuya" vs. "Cotiza el tuyo".
+- La v3 no ha sido puntuada por la revisión externa.
+
+**Veredicto: TECHNICALLY_READY — CREATIVE_REVIEW_REQUIRED.** No publicar sin aprobación humana.
+
+---
+
+# Informe de calidad V2 (histórico) · BMS-20261009-001-v2 (+ variante sin voz)
 
 Producción: Medalla acrílico personalizado (variante A). Fecha: 2026-10-09, render final terminado a las 15:03 (hora de Chile).
 Parte de la revisión audiovisual de la v1 (3,5/10, "se siente como slideshow"). La v1 se conserva más abajo como anexo.

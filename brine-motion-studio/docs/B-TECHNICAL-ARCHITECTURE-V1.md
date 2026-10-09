@@ -61,6 +61,12 @@ brine-motion-studio/
 5. **Stills QA**: la capa de texto se renderiza cada `qa_layout_step` frames (5 → 91 stills) junto con los `qa_keyframes`, y el modo `logo` en los keyframes del cierre. Durante esos stills, `QaProbe` emite las cajas de tinta y los obstáculos (`text-boxes.json`).
 6. **qa.py**: mide sobre el MP4 final y escribe `<ID>.qa.json` y el contact sheet.
 
+Cambios de la v3:
+- `lib/connectors.ts` es la geometría única de etiquetas y conectores. La usan `Benefits` para dibujar y `QaProbe` para emitir el inicio, el fin, el disco y 13 muestras de la curva por still. Con eso, `qa.py` corre `connectors_target_medal`.
+- `QaProbe` mide solo los glifos visibles de los textos animados por glifo y marca `settled` cuando todos están a opacidad plena y sin desenfoque. `qa.py` agrega `url_contrast_wcag_>=4.5`.
+- `npm run produce -- productions/X.json --layout-only` renderiza solo los stills de texto y corre el QA de layout y conectores, sin audio, video ni mux, y escribe `out/<ID>.layout-qa.json`. Sirve para validar variantes opcionales, como `-v3-voz`, sin renderizarlas.
+- En `audio.py`, la sección `build` (12,0–13,0 s) es la dominante A7sus4 → A7 con redoble y un stop en 12,75 s. `END_HIT` = 13,0 s coincide con `CTA.LOGO_HIT` = f390.
+
 Sincronía: video y audio leen **la misma tabla de frames** (`beats.events`, `storyboard`, `voice_direction.lines.start_s`) y el mismo BPM (120 → 1 beat = 15 frames exactos).
 
 ## 4. Contrato de producción (resumen del JSON)

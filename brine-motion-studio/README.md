@@ -1,9 +1,9 @@
-# BRINE MOTION STUDIO (v2)
+# BRINE MOTION STUDIO (v3)
 
 Sistema que genera anuncios verticales de motion graphics (Reels, TikTok y Meta Ads) **por código**:
 - **Video**: Remotion 4 + React 19 + TypeScript.
 - **Música y SFX**: síntesis en Python (numpy/scipy).
-- **Voz**: TTS local Piper (`es_MX-claude-high`). La voz la genera Piper, no el modelo que programa.
+- **Voz** (opcional, descartada en v3 por sonar robótica): TTS local Piper (`es_MX-claude-high`). La variante principal es **sin voz**.
 - **Mezcla, master (-14 LUFS / ≤ -1 dBTP) y QA**: automáticos.
 
 **No publica nada.** Cada MP4 es un borrador para revisión humana.
@@ -48,8 +48,9 @@ for f in es_MX-claude-high.onnx es_MX-claude-high.onnx.json MODEL_CARD; do curl 
 ## Producir (comando único)
 ```bash
 cd studio
-npm run produce -- productions/BMS-20261009-001-v2.json            # con voz
-npm run produce -- productions/BMS-20261009-001-v2-novoz.json       # variante sin voz
+npm run produce -- productions/BMS-20261009-001-v3.json                       # v3, sin voz (principal)
+npm run produce -- productions/BMS-20261009-001-v3-voz.json --layout-only     # opcional con voz: solo QA de layout/conectores
+npm run produce -- productions/BMS-20261009-001-v2.json                       # v2 (histórico)
 ```
 El pipeline: assets → audio (música, SFX, 3 tomas de voz) → render 1080x1920 30 fps → mux H.264/AAC → stills de QA → QA.
 

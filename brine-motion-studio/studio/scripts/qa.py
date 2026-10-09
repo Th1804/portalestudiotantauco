@@ -34,7 +34,9 @@ def main(prod_path, mp4):
     chk('codecs', v['codec_name'] == 'h264' and v.get('pix_fmt') == 'yuv420p' and a and a[0]['codec_name'] == 'aac', video=v['codec_name'], audio=a[0]['codec_name'] if a else None,
         pix_fmt=v.get('pix_fmt'), audio_sr=a[0].get('sample_rate') if a else None)
     dec = run(['ffmpeg', '-v', 'error', '-i', mp4, '-f', 'null', '-'])
-    chk('integrity_full_decode', dec.returncode == 0 and not dec.stderr.strip(), errors=dec.stderr.strip()[:300])
+    # avisos del enlazador dinámico (p. ej. libncurses de tmux) no son errores de decodificación
+    dec_err = '\n'.join(l for l in dec.stderr.splitlines() if l.strip() and 'no version information available' not in l)
+    chk('integrity_full_decode', dec.returncode == 0 and not dec_err, errors=dec_err[:300])
     # loudness
     eb = run(['ffmpeg', '-nostats', '-i', mp4, '-filter_complex', 'ebur128=peak=true', '-f', 'null', '-']).stderr
     I = float(re.findall(r'I:\s+(-?[\d.]+) LUFS', eb)[-1]); TP = float(re.findall(r'Peak:\s+(-?[\d.]+) dBFS', eb)[-1])
@@ -57,9 +59,9 @@ def main(prod_path, mp4):
     sz = F['safe_zone']; W, H = F['width'], F['height']
     y0, y1, x0, x1 = sz['top'] * H, (1 - sz['bottom']) * H, sz['left_px'], W - sz['right_px']
     sz_rows, ct_rows = [], []
-    for k in kfs:
+    layout = sorted(int(os.path.basename(p_)[5:8]) for p_ in glob.glob(os.path.join(qa_dir, 'text-*.png')))
+    for k in layout:
         tp = os.path.join(qa_dir, f'text-{k:03d}.png')
-        if not os.path.exists(tp): continue
         m = np.asarray(Image.open(tp).convert('L')) > 60
         if m.sum() < 50: sz_rows.append({'frame': k, 'text': False}); continue
         ys, xs = np.nonzero(m); bb = [int(xs.min()), int(ys.min()), int(xs.max()), int(ys.max())]
@@ -73,7 +75,7 @@ def main(prod_path, mp4):
             if core.sum() > 20 and ring.sum() > 20:
                 fg = np.median(fr[core], 0); bg = np.median(fr[ring], 0); cr = wcag(fg, bg)
                 ct_rows.append({'frame': k, 'fg': [int(x) for x in fg], 'bg': [int(x) for x in bg], 'ratio': round(float(cr), 2), 'pass': cr >= 3.0})
-    chk('safe_zones_text', all(r.get('pass', True) for r in sz_rows), zone={'y_min': y0, 'y_max': y1, 'x_min': x0, 'x_max': x1}, frames=sz_rows)
+    chk('safe_zones_text', all(r.get('pass', True) for r in sz_rows), frames_checked=len(sz_rows), failed=[r for r in sz_rows if not r.get('pass', True)][:20], zone={'y_min': y0, 'y_max': y1, 'x_min': x0, 'x_max': x1}, frames=sz_rows)
     chk('text_contrast_wcag_>=3', all(r['pass'] for r in ct_rows) and len(ct_rows) > 0, frames=ct_rows,
         note='Ratio WCAG entre la mediana del núcleo del texto y la mediana del anillo de fondo, medido en el MP4 (texto >=46 px: umbral 3:1).')
     # colisiones de texto (v2): cajas de tinta medidas en el DOM durante el render de los stills de QA
@@ -85,11 +87,12 @@ def main(prod_path, mp4):
                 for j in range(i + 1, len(bs)):
                     a_, b_ = bs[i], bs[j]
                     dx_ = max(a_['x0'], b_['x0']) - min(a_['x1'], b_['x1']); dy_ = max(a_['y0'], b_['y0']) - min(a_['y1'], b_['y1'])
+                    if a_.get('kind') == 'object' and b_.get('kind') == 'object': continue
                     if dx_ < gap_min and dy_ < gap_min:
                         col_rows.append({'frame': fr_['frame'], 'a': a_['id'], 'b': b_['id'], 'gap_x': dx_, 'gap_y': dy_})
         nfr = len(json.load(open(bx_path)))
         chk('text_no_overlap', len(col_rows) == 0 and nfr > 0, frames_checked=nfr, min_gap_px=gap_min, collisions=col_rows[:40],
-            note='Cajas de tinta por elemento [data-qa] (DOM + canvas.measureText, con transformaciones y máscaras) en cada keyframe; falla si dos textos visibles quedan a < 8 px.')
+            note='Cajas de tinta por elemento [data-qa] (DOM + canvas.measureText, con transformaciones y máscaras) y el disco de la medalla como obstáculo (geometría de lib/medal), cada qa_layout_step frames; falla si dos cajas visibles quedan a < 8 px.')
     else:
         chk('text_no_overlap', False, note='faltan text-boxes.json')
     # logo en cierre

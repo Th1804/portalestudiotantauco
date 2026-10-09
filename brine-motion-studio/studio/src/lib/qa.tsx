@@ -22,6 +22,7 @@ export const useInk = (c: string) => (useQa() === 'text' ? '#FFFFFF' : c);
 // En modo 'text' mide cada elemento [data-qa] con el DOM real (incluye transformaciones y máscaras overflow:hidden),
 // ajusta la caja vertical a la tinta real con métricas de canvas.measureText y la emite por consola: produce.mjs la recoge.
 import {continueRender, delayRender, useCurrentFrame} from 'remotion';
+import {IMG_W, medalPoint, medalState} from './medal';
 export const QaProbe: React.FC = () => {
   const qa = useQa();
   const f = useCurrentFrame();
@@ -64,6 +65,12 @@ export const QaProbe: React.FC = () => {
           boxes.push({id: el.dataset.qa, text: txt, opacity: Math.round(op * 100) / 100,
             x0: Math.round((box.l - R.left) * k), y0: Math.round((box.t - R.top) * k), x1: Math.round((box.r - R.left) * k), y1: Math.round((box.b - R.top) * k)});
         });
+        // obstáculo: disco de la medalla (geometría analítica de lib/medal), salvo en entradas/salidas con desenfoque
+        const st = medalState(f);
+        if (st.vis && st.op > 0.5 && st.blur < 3) {
+          const c = medalPoint(st, 0.5, 0.79); const r = 0.5 * IMG_W * st.s;
+          boxes.push({id: 'medal-disc', kind: 'object', text: '', opacity: st.op, x0: Math.round(c.x - r), y0: Math.round(c.y - r), x1: Math.round(c.x + r), y1: Math.round(c.y + r)});
+        }
         console.log('QA_BOXES ' + JSON.stringify({frame: f, boxes}));
         continueRender(h);
     };

@@ -15,7 +15,7 @@ const args = process.argv.slice(2);
 const prodPath = path.resolve(ROOT, args.find((a) => a.endsWith('.json')) ?? 'productions/BMS-20261009-001.json');
 const skipAudio = args.includes('--skip-audio');
 const skipVideo = args.includes('--skip-video');
-const CONC = Number(process.env.BMS_CONCURRENCY ?? 2);
+const CONC = Number(process.env.BMS_CONCURRENCY ?? 1); // >1 se cuelga con GL por software (swangle) en el box sin GPU
 const production = JSON.parse(fs.readFileSync(prodPath, 'utf8'));
 const id = production.id;
 const build = path.join(ROOT, 'build', id);
@@ -56,10 +56,13 @@ const boxes = [];
 const tcomp = await selectComposition({serveUrl, id: 'Production', inputProps: {production, qaLayer: 'text'}, puppeteerInstance: browser});
 const lcomp = await selectComposition({serveUrl, id: 'Production', inputProps: {production, qaLayer: 'logo'}, puppeteerInstance: browser});
 const onBrowserLog = ({text}) => { if (typeof text === 'string' && text.startsWith('QA_BOXES ')) boxes.push(JSON.parse(text.slice(9))); };
-for (const f of production.qa_keyframes) {
+const step = production.qa_layout_step ?? 5;
+const N = production.format.durationInFrames;
+const layoutFrames = [...new Set([...production.qa_keyframes, ...Array.from({length: Math.ceil(N / step)}, (_, i) => i * step)])].sort((a, b) => a - b);
+for (const f of layoutFrames) {
   await renderStill({composition: tcomp, serveUrl, frame: f, output: path.join(build, 'qa', `text-${String(f).padStart(3, '0')}.png`),
     inputProps: {production, qaLayer: 'text'}, puppeteerInstance: browser, imageFormat: 'png', onBrowserLog});
-  if (f >= production.format.durationInFrames - 80) {
+  if (production.qa_keyframes.includes(f) && f >= N - 80) {
     await renderStill({composition: lcomp, serveUrl, frame: f, output: path.join(build, 'qa', `logo-${String(f).padStart(3, '0')}.png`),
       inputProps: {production, qaLayer: 'logo'}, puppeteerInstance: browser, imageFormat: 'png'});
   }

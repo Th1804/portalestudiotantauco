@@ -22,7 +22,7 @@ export const medalState = (f: number, fps = 30): MedalState => {
   const b = interpolate(f, [192, 216], [0, 1], {...clamp, easing: inOutBack(1.2)});
   s = s * (1 - b) + 1.28 * b;
   cy = cy * (1 - b) + 1040 * b;
-  cx = cx * (1 - b) + 600 * b;
+  cx = cx * (1 - b) + 650 * b;
   // salida: push-in a través de la cámara (escala 1,28 -> 4,2) con anticipación (se recoge 3 % antes de lanzarse)
   const pre = interpolate(f, [EXIT.a - 8, EXIT.a, EXIT.a + 2], [0, 1, 0], {...clamp, easing: Easing.inOut(Easing.quad)});
   s *= 1 - 0.03 * pre;
@@ -49,6 +49,8 @@ export const medalPoint = (st: MedalState, nx: number, ny: number) => {
   const a = (st.rot * Math.PI) / 180;
   return {x: px + dx * Math.cos(a) - dy * Math.sin(a), y: py + dx * Math.sin(a) + dy * Math.cos(a)};
 };
+// cinta en coordenadas normalizadas de product.png (Ribbon.tsx), para el QA de colisiones
+export const RIBBON_NORM = {x0: 158 / IMG_W, x1: 274 / IMG_W, y0: 0, y1: 524 / IMG_H};
 export const medalBox = (st: MedalState) => {
   const w = IMG_W * st.s, h = IMG_H * st.s;
   return {left: st.cx - w / 2, top: st.cy - DISC_Y * h, w, h};

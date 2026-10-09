@@ -22,7 +22,7 @@ export const useInk = (c: string) => (useQa() === 'text' ? '#FFFFFF' : c);
 // En modo 'text' mide cada elemento [data-qa] con el DOM real (incluye transformaciones y máscaras overflow:hidden),
 // ajusta la caja vertical a la tinta real con métricas de canvas.measureText y la emite por consola: produce.mjs la recoge.
 import {continueRender, delayRender, useCurrentFrame} from 'remotion';
-import {IMG_W, medalPoint, medalState} from './medal';
+import {IMG_W, medalPoint, medalState, RIBBON_NORM} from './medal';
 export const QaProbe: React.FC = () => {
   const qa = useQa();
   const f = useCurrentFrame();
@@ -69,6 +69,9 @@ export const QaProbe: React.FC = () => {
         const st = medalState(f);
         if (st.vis && st.op > 0.5 && st.blur < 3) {
           const c = medalPoint(st, 0.5, 0.79); const r = 0.5 * IMG_W * st.s;
+          const R_ = RIBBON_NORM; const pts = [[R_.x0, R_.y0], [R_.x1, R_.y0], [R_.x0, R_.y1], [R_.x1, R_.y1]].map(([nx, ny]) => medalPoint(st, nx, ny));
+          const xs = pts.map((p_) => p_.x), ys = pts.map((p_) => p_.y);
+          boxes.push({id: 'medal-ribbon', kind: 'object', text: '', opacity: st.op, x0: Math.round(Math.min(...xs)), y0: Math.round(Math.max(0, Math.min(...ys))), x1: Math.round(Math.max(...xs)), y1: Math.round(Math.max(...ys))});
           boxes.push({id: 'medal-disc', kind: 'object', text: '', opacity: st.op, x0: Math.round(c.x - r), y0: Math.round(c.y - r), x1: Math.round(c.x + r), y1: Math.round(c.y + r)});
         }
         console.log('QA_BOXES ' + JSON.stringify({frame: f, boxes}));

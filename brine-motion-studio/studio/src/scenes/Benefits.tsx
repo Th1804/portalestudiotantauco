@@ -19,9 +19,9 @@ export const Benefits: React.FC<{p: Production}> = ({p}) => {
   const size = 84 * ts;
   const [b1, b2, b3] = p.script.on_screen.benefits;
   const labels = [
-    {id: 'benefit-1', t: b1, start: 202, x: 130, top: 388, align: 'left' as const, anchor: A.logo},
-    {id: 'benefit-2', t: b2, start: 217, x: 130, top: 1376, align: 'left' as const, anchor: A.name},
-    {id: 'benefit-3', t: b3, start: 232, x: 900, top: 1376, align: 'right' as const, anchor: A.date},
+    {id: 'benefit-1', t: b1, start: 202, x: 130, top: 388, align: 'left' as const, anchor: A.logo, size: Math.min(size, 88)},
+    {id: 'benefit-2', t: b2, start: 217, x: 130, top: 1376, align: 'left' as const, anchor: A.name, size},
+    {id: 'benefit-3', t: b3, start: 232, x: 900, top: 1376, align: 'right' as const, anchor: A.date, size},
   ];
   const exitAt = (i: number) => EXIT.a - 10 + i * 2;
   return (
@@ -32,7 +32,7 @@ export const Benefits: React.FC<{p: Production}> = ({p}) => {
             const a = medalPoint(st, l.anchor[0], l.anchor[1]);
             const dy = drift(f, i, 3, 60);
             const fx = l.align === 'left' ? l.x + 60 : l.x - 60;
-            const fy = i === 0 ? l.top + size * 1.25 + dy : l.top - 8 + dy;
+            const fy = i === 0 ? l.top + l.size * 1.25 + dy : l.top - 8 + dy;
             const mx = (fx + a.x) / 2 + (i === 0 ? 40 : 0), my = i === 0 ? fy + 120 : (fy + a.y) / 2 - 60;
             const d = `M ${fx} ${fy} Q ${mx} ${my} ${a.x} ${a.y}`;
             const prog = interpolate(f, [l.start + 4, l.start + 18], [0, 1], {...clamp, easing: expoOut}) * interpolate(f, [exitAt(i), exitAt(i) + 8], [1, 0], clamp);
@@ -56,8 +56,8 @@ export const Benefits: React.FC<{p: Production}> = ({p}) => {
           const dy = drift(f, i, 3, 60);
           const track = interpolate(f, [l.start, l.start + 24], [0.12, -0.01], {...clamp, easing: expoOut});
           return (
-            <div key={i} style={{position: 'absolute', top: l.top + dy, [l.align]: l.align === 'left' ? l.x : 1080 - l.x, overflow: 'hidden', clipPath: 'inset(0)', padding: `${size * 0.12}px 0`}}>
-              <div data-qa={l.id} style={{whiteSpace: 'nowrap', fontFamily: DISPLAY, fontWeight: 900, fontSize: size, lineHeight: 1.05, color: bone,
+            <div key={i} style={{position: 'absolute', top: l.top + dy, [l.align]: l.align === 'left' ? l.x : 1080 - l.x, overflow: 'hidden', clipPath: 'inset(0)', padding: `${l.size * 0.12}px 0`}}>
+              <div data-qa={l.id} style={{whiteSpace: 'nowrap', fontFamily: DISPLAY, fontWeight: 900, fontSize: l.size, lineHeight: 1.05, color: bone,
                 letterSpacing: `${track}em`, marginRight: `-${track}em`}}>
                 {chars.map((c, k) => {
                   const inn = settle(f, l.start + k * 1.2, 180, 17, 0.7);

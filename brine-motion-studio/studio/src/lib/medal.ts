@@ -19,7 +19,7 @@ export const medalState = (f: number, fps = 30): MedalState => {
   cy += interpolate(f, [75, 195], [0, -50], {...clamp, easing: smooth});
   cx += interpolate(f, [70, 132, 195], [0, -16, 10], {...clamp, easing: smooth});
   // pose de beneficios con anticipación y overshoot sutil
-  const b = interpolate(f, [192, 216], [0, 1], {...clamp, easing: inOutBack(1.2)});
+  const b = interpolate(f, [184, 206], [0, 1], {...clamp, easing: inOutBack(1.2)});
   s = s * (1 - b) + 1.28 * b;
   cy = cy * (1 - b) + 1040 * b;
   cx = cx * (1 - b) + 650 * b;
@@ -31,10 +31,10 @@ export const medalState = (f: number, fps = 30): MedalState => {
   cy = cy * (1 - z) + 780 * z;
   cx = cx * (1 - z) + 560 * z;
   // balanceo: péndulo amortiguado tras la llegada + respiración continua (micro-movimiento)
-  const swingAmp = interpolate(f, [192, 216], [1, 0.3], clamp);
+  const swingAmp = interpolate(f, [184, 206], [1, 0.3], clamp);
   const rot = (pendulum(f, ARRIVE + 9, 4.5, 44, 38) + 0.9 * Math.sin(f / 23)) * swingAmp * (1 - z);
   // giro lento en Y durante el revelado: la luz cambia sobre el acrílico
-  const turn = interpolate(f, [66, 130, 192], [0, 1, 0], {...clamp, easing: smooth});
+  const turn = interpolate(f, [66, 130, 184], [0, 1, 0], {...clamp, easing: smooth});
   const ry = (interpolate(arr, [0, 1], [32, 0]) + 7 * Math.sin((f - 60) / 38) * (1 - b * 0.6) - 9 * turn) * (1 - z);
   const blur = Math.max(0, (s / 1.42 - 1.08)) * 9 * (f < 120 ? 1 : 0) + z * 30;
   const op = interpolate(f, [ARRIVE - 1, ARRIVE + 4], [0, 1], clamp) * interpolate(f, [EXIT.a + 6, EXIT.b], [1, 0], clamp);

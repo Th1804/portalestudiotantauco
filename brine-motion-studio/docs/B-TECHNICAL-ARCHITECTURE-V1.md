@@ -12,6 +12,17 @@
 | Hardware | 8 vCPU, 15 GiB de RAM, sin GPU, 113 GB libres; **box compartido y muy cargado** → render con concurrency 2 |
 | Fuentes | Playfair Display y Manrope (OFL-1.1, archivos locales). **Sustitutas** de las oficiales Sonttak y STRONG, que no están disponibles |
 
+### 1.1 Entorno del render v2 (cloud agent, 2026-10-09)
+| Componente | Versión / dato |
+|---|---|
+| Node | 22.14.0 |
+| Remotion | 4.0.534 (`npm ci` desde `package-lock.json`) |
+| Navegador | Google Chrome 148 del sistema (`/usr/bin/google-chrome`), GL `swangle` |
+| Python | 3.12.3 en `.venv`: numpy 2.5.3, scipy 1.18.1, pyloudnorm 0.2.0, pillow 12.3.0, piper-tts 1.8.0, onnxruntime 1.31.0 |
+| Voz | `es_MX-claude-high` descargada de Hugging Face `rhasspy/piper-voices` a `studio/voices/` (ignorada en git) |
+| ffmpeg / ffprobe | 6.1.1 |
+| Hardware | 4 vCPU, 15 GiB de RAM, sin GPU → **concurrency 1** (con 3, `renderMedia` se colgó en el 5 %); ~7,5 min por variante con los stills de QA |
+
 ## 2. Estructura
 ```
 brine-motion-studio/
@@ -27,10 +38,11 @@ brine-motion-studio/
       preview.mjs          frames sueltos para revisión rápida
     src/                   Remotion (React + TS)
       Main.tsx             composición; capas en Z; bump de cámara al beat
-      lib/medal.ts         estado continuo de la medalla (caída con muelle, péndulo, push-in, pose, zoom de transición)
+      lib/medal.ts         estado continuo de la medalla (llegada desde la cámara, péndulo, push-in, pose, salida por escala); tablas ARRIVE/EXIT y geometría de la cinta para el QA
       lib/motion.ts        easings (elástico/bézier), pulso de beat, péndulo, aleatorio determinista
-      lib/qa.tsx           modos QA: 'text' (solo texto, blanco sobre negro) y 'logo' (solo logo)
-      scenes/              Background (luz dinámica, tipografía-textura, partículas, grano), Hook, Medal, Reveal, Benefits, Statement, CTA
+      lib/camera.tsx       cámara virtual: dolly, paneo y parallax en 3 capas
+      lib/qa.tsx           modos QA: 'text' (solo texto) y 'logo' (solo logo); QaProbe mide cajas de texto + disco y cinta como obstáculos
+      scenes/              Background, Hook (tipografía cinética), Medal + Ribbon (cinta vectorial), Reveal, Benefits, LightSweep, Statement, CTA
     voices/                modelo Piper + MODEL_CARD
     build/<ID>/            intermedios: stems, voces, mix.wav, video-silent.mp4, stills QA, frames
     out/                   <ID>.mp4, <ID>.qa.json, <ID>.contact-sheet.png
@@ -40,13 +52,13 @@ brine-motion-studio/
 1. **prep_assets.py**: recorta el producto del raw aprobado con la llave de color de Creative (distancia al color del papel, componente principal, relleno de huecos, descontaminación del borde, enderezado rígido), sin IA. El logo se copia **byte a byte** (verificado por sha256).
 2. **audio.py** (48 kHz):
    - **Música** a BPM fijo desde el JSON: kick, snare/clap y hats 808 sintetizados; bajo; pads supersaw; arpegio pluck con filtro de estado variable automatizado; campana FM-like; progresión por compás; secciones con intensidad y filtro low-pass automático en el statement.
-   - **SFX** en los frames de `beats.events`: impact, pop, whoosh (paneo L→R), riser, split, ping metálico (parciales inarmónicos), shimmer y sub-boom, con reverb por convolución de IR sintética.
-   - **Voz**: Piper sintetiza cada línea; si una línea excede su `max_s`, el código ajusta `length_scale` (mínimo 0,85). Después se le aplica la cadena HPF/EQ/compresor/reverb corta.
+   - **SFX** en los frames de `beats.events` (v2, paleta suave): whooshes de ruido rosa con pasabajos barrido y su pico en el frame del evento, impact y sub-boom graves, pop, tick, riser, ping y shimmer. Todos con ataque ≥ 4 ms, shelf de -4 dB en 5,5 kHz, pico normalizado por tipo (`SFX_PEAK`) y reverb por convolución de IR sintética.
+   - **Voz**: Piper sintetiza cada línea en 3 tomas (`voice_direction.takes`: length/noise/noise_w). Los silencios internos se recortan a `max_pause_s` con fundido cruzado y, si una toma excede `max_s`, se ajusta `length_scale` (mínimo 0,9). La toma se elige por métricas (pausa interna, F0, duración) o se fuerza con `pick`. Cadena: HPF, EQ cálida, control de aspereza, de-esser y compresión en 2 etapas sin saturación, más una sala corta. Con `enabled: false` se genera la variante sin voz.
    - **Mezcla**: hueco de EQ en la música a 2,8 kHz y ducking sidechain de −7 dB bajo la voz.
    - **Master**: shelving, compresión de glue, normalización a −14 LUFS (pyloudnorm) y limitador lookahead con detección de pico intermuestra 4x a −1,2 dBTP. Lo itera hasta ±0,3 LU.
-3. **Render Remotion**: bundle → Chrome del sistema → `renderMedia` H.264 (CRF 16, yuv420p), 1080x1920, 30 fps, concurrency `BMS_CONCURRENCY` (por defecto 2), muted.
+3. **Render Remotion**: bundle → Chrome del sistema → `renderMedia` H.264 (CRF 16, yuv420p), 1080x1920, 30 fps, concurrency `BMS_CONCURRENCY` (por defecto 1), muted.
 4. **Mux ffmpeg**: copia el video, AAC de 192 kbps a 48 kHz, `+faststart`.
-5. **Stills QA**: cada `qa_keyframe` se renderiza en modo `text` y en modo `logo` (mismo código y layout, otras capas apagadas).
+5. **Stills QA**: la capa de texto se renderiza cada `qa_layout_step` frames (5 → 91 stills) junto con los `qa_keyframes`, y el modo `logo` en los keyframes del cierre. Durante esos stills, `QaProbe` emite las cajas de tinta y los obstáculos (`text-boxes.json`).
 6. **qa.py**: mide sobre el MP4 final y escribe `<ID>.qa.json` y el contact sheet.
 
 Sincronía: video y audio leen **la misma tabla de frames** (`beats.events`, `storyboard`, `voice_direction.lines.start_s`) y el mismo BPM (120 → 1 beat = 15 frames exactos).

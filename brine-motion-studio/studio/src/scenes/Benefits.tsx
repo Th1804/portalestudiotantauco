@@ -19,7 +19,7 @@ export const Benefits: React.FC<{p: Production}> = ({p}) => {
   const size = 84 * ts;
   const [b1, b2, b3] = p.script.on_screen.benefits;
   const labels = [
-    {id: 'benefit-1', t: b1, start: 202, x: 130, top: 388, align: 'left' as const, anchor: A.logo, size: Math.min(size, 88)},
+    {id: 'benefit-1', t: b1, start: 202, x: 130, top: 388, align: 'left' as const, anchor: A.logo, size: Math.min(size, 84)},
     {id: 'benefit-2', t: b2, start: 217, x: 130, top: 1376, align: 'left' as const, anchor: A.name, size},
     {id: 'benefit-3', t: b3, start: 232, x: 900, top: 1376, align: 'right' as const, anchor: A.date, size},
   ];

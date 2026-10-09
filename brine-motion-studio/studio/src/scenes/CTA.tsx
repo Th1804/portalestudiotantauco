@@ -1,7 +1,7 @@
 import React from 'react';
-import {AbsoluteFill, Img, interpolate, staticFile, useCurrentFrame} from 'remotion';
+import {AbsoluteFill, Easing, Img, interpolate, staticFile, useCurrentFrame} from 'remotion';
 import {Deco, LogoLayer, TextLayer, useInk, useQa} from '../lib/qa';
-import {clamp, expoIn, expoOut, rand, settle} from '../lib/motion';
+import {clamp, expoOut, rand, settle} from '../lib/motion';
 import {TEXT} from '../lib/fonts';
 import type {Production} from '../types';
 
@@ -25,7 +25,7 @@ export const CTA: React.FC<{p: Production}> = ({p}) => {
   const hit = f - LOGO_HIT;
   const punch = 1 + (hit >= 0 ? 0.016 * Math.exp(-hit / 5) : 0);
   // filamento: crece hacia el golpe y se disipa
-  const fil = interpolate(f, [372, LOGO_HIT], [0, 1], {...clamp, easing: expoIn});
+  const fil = interpolate(f, [374, LOGO_HIT], [0, 1], {...clamp, easing: Easing.in(Easing.quad)});
   const filOut = interpolate(f, [LOGO_HIT, LOGO_HIT + 9], [0, 1], {...clamp, easing: expoOut});
   // haz y máscara del logo (0..1 del ancho del logo)
   const beam = interpolate(f, [LOGO_HIT, BEAM_END], [-0.25, 1.3], {...clamp, easing: expoOut});
@@ -38,7 +38,7 @@ export const CTA: React.FC<{p: Production}> = ({p}) => {
   const pillOp = interpolate(f, [398, 403], [0, 1], clamp);
   const cyc = f >= 414 ? (f - 414) % 30 : -1;
   const tap = cyc >= 0 ? Math.sin(Math.PI * Math.min(1, cyc / 10)) : 0;
-  const ring = cyc >= 0 ? cyc / 20 : 2;
+  const ring = cyc >= 0 ? cyc / 22 : 2;
   const floatY = 2.5 * Math.sin((f - 398) / 15);
   const arrowIn = settle(f, 410, 180, 14, 0.7);
   const url = settle(f, 410, 120, 18, 0.8);
@@ -82,7 +82,7 @@ export const CTA: React.FC<{p: Production}> = ({p}) => {
       <Deco>
         {ring <= 1 && (
           <div style={{position: 'absolute', top: PILL_TOP + floatY - 22 * ring, left: 540 - PILL_W / 2 - 22 * ring, width: PILL_W + 44 * ring, height: PILL_H + 44 * ring,
-            borderRadius: PILL_H, border: `2px solid ${C.bone}`, opacity: (1 - ring) * 0.55 * pillOp}} />
+            borderRadius: PILL_H, border: `3px solid ${C.bone}`, opacity: (1 - ring) * 0.8 * pillOp}} />
         )}
       </Deco>
       <TextLayer>

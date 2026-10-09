@@ -54,6 +54,18 @@ export const QaProbe: React.FC<{p: Production}> = ({p}) => {
           if (op < 0.25) return;
           const rg = document.createRange(); rg.selectNodeContents(el); const rr = rg.getBoundingClientRect();
           if (rr.width < 1) return;
+          // v3: los textos animados por glifo (spans con opacidad/desenfoque propios) solo cuentan con sus glifos visibles;
+          // 'settled' = todos los glifos a opacidad plena y sin desenfoque (fuera de transición)
+          const glyphs = [...el.querySelectorAll<HTMLElement>(':scope > span')];
+          let settled = true; let gx0 = 1e9, gx1 = -1e9;
+          for (const g of glyphs) {
+            const gs = getComputedStyle(g); const eo = op * Number(gs.opacity);
+            const blur = Number(/blur\(([\d.]+)px\)/.exec(gs.filter)?.[1] ?? 0);
+            if (eo > 0.02 && (eo < 0.98 || blur > 0.5)) settled = false;
+            if (eo < 0.25 || !(g.textContent ?? '').trim()) continue;
+            const gr = g.getBoundingClientRect(); gx0 = Math.min(gx0, gr.left); gx1 = Math.max(gx1, gr.right);
+          }
+          if (glyphs.length && gx1 < gx0) return;
           const cs = getComputedStyle(el);
           ctx.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`; (ctx as any).letterSpacing = cs.letterSpacing;
           const txt = el.textContent ?? '';
@@ -61,10 +73,10 @@ export const QaProbe: React.FC<{p: Production}> = ({p}) => {
           const scale = rr.width / Math.max(1, m.width);
           const content = (m.fontBoundingBoxAscent + m.fontBoundingBoxDescent) * scale;
           const base = rr.top + (rr.height - content) / 2 + m.fontBoundingBoxAscent * scale;
-          let box = {l: rr.left, r: rr.right, t: base - m.actualBoundingBoxAscent * scale, b: base + m.actualBoundingBoxDescent * scale};
+          let box = {l: glyphs.length ? gx0 : rr.left, r: glyphs.length ? gx1 : rr.right, t: base - m.actualBoundingBoxAscent * scale, b: base + m.actualBoundingBoxDescent * scale};
           box = {l: Math.max(box.l, clip.l), t: Math.max(box.t, clip.t), r: Math.min(box.r, clip.r), b: Math.min(box.b, clip.b)};
           if (box.r - box.l < 2 || box.b - box.t < 2) return;
-          boxes.push({id: el.dataset.qa, text: txt, opacity: Math.round(op * 100) / 100,
+          boxes.push({id: el.dataset.qa, text: txt, opacity: Math.round(op * 100) / 100, settled,
             x0: Math.round((box.l - R.left) * k), y0: Math.round((box.t - R.top) * k), x1: Math.round((box.r - R.left) * k), y1: Math.round((box.b - R.top) * k)});
         });
         // obstáculo: disco de la medalla (geometría analítica de lib/medal), salvo en entradas/salidas con desenfoque

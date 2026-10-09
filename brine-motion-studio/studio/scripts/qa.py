@@ -95,6 +95,9 @@ def main(prod_path, mp4, layout_only=False):
     sz = F['safe_zone']; W, H = F['width'], F['height']
     y0, y1, x0, x1 = sz['top'] * H, (1 - sz['bottom']) * H, sz['left_px'], W - sz['right_px']
     sz_rows, ct_rows = [], []
+    bx_path = os.path.join(qa_dir, 'text-boxes.json')
+    transition_frames = {fr_['frame'] for fr_ in (json.load(open(bx_path)) if os.path.exists(bx_path) else [])
+                         if any(b.get('settled') is False for b in fr_['boxes'] if b.get('kind') != 'object')}
     layout = sorted(int(os.path.basename(p_)[5:8]) for p_ in glob.glob(os.path.join(qa_dir, 'text-*.png')))
     for k in layout:
         tp = os.path.join(qa_dir, f'text-{k:03d}.png')
@@ -110,10 +113,14 @@ def main(prod_path, mp4, layout_only=False):
             ring = (np.asarray(mi.filter(ImageFilter.MaxFilter(21))) > 128) & ~(np.asarray(mi.filter(ImageFilter.MaxFilter(7))) > 128)
             if core.sum() > 20 and ring.sum() > 20:
                 fg = np.median(fr[core], 0); bg = np.median(fr[ring], 0); cr = wcag(fg, bg)
-                ct_rows.append({'frame': k, 'fg': [int(x) for x in fg], 'bg': [int(x) for x in bg], 'ratio': round(float(cr), 2), 'pass': cr >= 3.0})
+                trans = k in transition_frames
+                ct_rows.append({'frame': k, 'fg': [int(x) for x in fg], 'bg': [int(x) for x in bg], 'ratio': round(float(cr), 2), 'transition': trans, 'pass': trans or cr >= 3.0})
     chk('safe_zones_text', all(r.get('pass', True) for r in sz_rows), frames_checked=len(sz_rows), failed=[r for r in sz_rows if not r.get('pass', True)][:20], zone={'y_min': y0, 'y_max': y1, 'x_min': x0, 'x_max': x1}, frames=sz_rows)
-    chk('text_contrast_wcag_>=3', all(r['pass'] for r in ct_rows) and len(ct_rows) > 0, frames=ct_rows,
-        note='Ratio WCAG entre la mediana del núcleo del texto y la mediana del anillo de fondo, medido en el MP4 (texto >=46 px: umbral 3:1).')
+    chk('text_contrast_wcag_>=3', all(r['pass'] for r in ct_rows) and sum(not r['transition'] for r in ct_rows) > 0, frames=ct_rows,
+        settled_frames=sum(not r['transition'] for r in ct_rows), transition_frames_not_scored=[r['frame'] for r in ct_rows if r['transition']],
+        min_ratio_settled=min([r['ratio'] for r in ct_rows if not r['transition']], default=None),
+        note='Ratio WCAG entre la mediana del núcleo del texto y la mediana del anillo de fondo, medido en el MP4 (texto >=46 px: umbral 3:1). '
+             'Se puntúa con el texto asentado; los frames con glifos a media opacidad o desenfocados (entradas/salidas por glifo, marcados settled=false por QaProbe) se reportan sin umbral.')
     # colisiones de texto (v2): cajas de tinta medidas en el DOM durante el render de los stills de QA
     bx_path = os.path.join(qa_dir, 'text-boxes.json'); col_rows = []; gap_min = 8
     if os.path.exists(bx_path):

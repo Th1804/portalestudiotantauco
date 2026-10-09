@@ -1,0 +1,20 @@
+{
+ "product_png": "/workspace/brine-motion-studio/studio/scripts/../public/assets/product.png",
+ "size": [
+  437,
+  1001
+ ],
+ "angle": 0.11826148374417995,
+ "cover": 0.20475911458333335,
+ "paper_rgb": [
+  30,
+  41,
+  70
+ ],
+ "raw_sha256": "369c4e9e7e8625bac464bd7f6730d20e88aad1d0ec2b234473b48eeb0cd07eef",
+ "logo_sha256": "742b87dfe6c3ae551b28dc3e0bc43afab3fdfdeb2be73b0afd87c6bbb394bb53",
+ "logo_size": [
+  3483,
+  1391
+ ]
+}

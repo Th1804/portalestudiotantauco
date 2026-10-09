@@ -1,0 +1,418 @@
+{
+ "id": "BMS-20261009-001",
+ "version": 1,
+ "created": "2026-10-09T12:30:00-03:00",
+ "status": "DRAFT_FOR_HUMAN_REVIEW",
+ "publish": false,
+ "source_content_id": "CNT-20261009-01",
+ "objective": {
+  "type": "ALCANCE_CONSIDERACION",
+  "description": "Mostrar que el logo, el nombre y la fecha del cliente caben en una medalla de acrílico moderna e invitar a cotizar.",
+  "framework": "PCD",
+  "promise": "Tu logo en una medalla.",
+  "curiosity": "La medalla cae a través del titular y su cara impresa se revela con la luz; luego se señala qué se puede poner en ella.",
+  "disruption": "Titular serif gigante que se parte en dos cuando la medalla lo atraviesa (0-3 s)."
+ },
+ "product": {
+  "name": "Medalla acrílico personalizado",
+  "url": "https://www.brinechile.cl/medalla-acrilico-personalizado",
+  "ficha_read": "2026-10-09 ~10:20 CLT (Brine Creative, refs/ficha-medalla-acrilico-personalizado-2026-10-09.html)",
+  "assets": {
+   "raw": "brand-assets/raw-medalla.jpg",
+   "raw_note": "Imagen generada en Flow para CNT-20261009-01, con logo de ejemplo ficticio y texto de muestra; pieza aprobada por Enzo 2026-10-09 10:47. NO es la foto oficial (la oficial trae impresiones de clientes reales).",
+   "key": {
+    "lo": 70,
+    "hi": 115,
+    "erode": 2,
+    "shrink": 2,
+    "feather": 1.1,
+    "decontam": 4
+   },
+   "face_anchors_norm": {
+    "logo": [
+     0.3,
+     0.68
+    ],
+    "name": [
+     0.15,
+     0.875
+    ],
+    "date": [
+     0.78,
+     0.925
+    ],
+    "disc_center": [
+     0.5,
+     0.79
+    ],
+    "disc_radius_w": 0.5,
+    "pivot": [
+     0.5,
+     0.0
+    ]
+   },
+   "raw_original_path": "/workspace/brine-marketing/carruseles-automatizados/CNT-20261009-01/raws/raw-medalla.jpg"
+  },
+  "verified_claims": [
+   "Puedes incluir logotipos, nombres, fechas o imágenes especiales para que cada medalla sea única y memorable",
+   "Personalizadas a tu gusto",
+   "superficie brillante que realza los colores vivos y diseños personalizados mediante sublimación",
+   "Resistentes, livianas y elegantes"
+  ],
+  "forbidden": [
+   "precio",
+   "desde $",
+   "descuento",
+   "stock",
+   "plazos",
+   "envío",
+   "mínimo de 100 unidades",
+   "cinta incluida",
+   "clientes reales",
+   "garantías"
+  ]
+ },
+ "brand": {
+  "logo": "brand-assets/logo-brine-crop.png",
+  "logo_rules": "Versión negativa sobre azul oscuro; sin recolor, sin deformar, sin rotar, sin sombra ni glow.",
+  "palette": {
+   "navy": "#21254B",
+   "celeste": "#ADBED4",
+   "celeste_light": "#C9D5E4",
+   "bone": "#F4F6F9",
+   "gold": "#CDA71F"
+  },
+  "gold_max_ratio": 0.03,
+  "fonts": {
+   "display": {
+    "family": "Playfair Display",
+    "file": "assets/PlayfairDisplay.ttf",
+    "license": "OFL-1.1",
+    "substitutes": "Sonttak (oficial, no disponible)"
+   },
+   "text": {
+    "family": "Manrope",
+    "file": "assets/Manrope.ttf",
+    "license": "OFL-1.1",
+    "substitutes": "STRONG (oficial, no disponible) para textos secundarios; Manrope ya usada por Creative"
+   }
+  },
+  "logo_original_path": "/workspace/brine-marketing/carrusel-3er-producto-2026-09-26/assets/logo-brine-crop.png"
+ },
+ "format": {
+  "width": 1080,
+  "height": 1920,
+  "fps": 30,
+  "duration_s": 15,
+  "durationInFrames": 450,
+  "safe_zone": {
+   "top": 0.14,
+   "bottom": 0.2,
+   "left_px": 90,
+   "right_px": 130
+  }
+ },
+ "music_direction": {
+  "bpm": 120,
+  "key": "D mayor / B menor",
+  "progression": [
+   "Bm",
+   "G",
+   "D",
+   "A"
+  ],
+  "mood": "Premium cinematográfico con pulso electrónico; gancho con golpes secos, revelado aireado (estilo REF2), beneficios con groove (energía REF1), caída en el statement, cierre con sub-boom.",
+  "sections": [
+   {
+    "name": "hook",
+    "from_s": 0,
+    "to_s": 3,
+    "intensity": 0.7
+   },
+   {
+    "name": "reveal",
+    "from_s": 3,
+    "to_s": 6.5,
+    "intensity": 0.5
+   },
+   {
+    "name": "benefits",
+    "from_s": 6.5,
+    "to_s": 10.5,
+    "intensity": 1.0
+   },
+   {
+    "name": "statement",
+    "from_s": 10.5,
+    "to_s": 12.5,
+    "intensity": 0.35
+   },
+   {
+    "name": "cta",
+    "from_s": 12.5,
+    "to_s": 15,
+    "intensity": 0.6
+   }
+  ]
+ },
+ "voice_direction": {
+  "engine": "piper-tts (local, CPU)",
+  "model": "es_MX-claude-high",
+  "model_license": "apache-2.0 (según MODEL_CARD; dataset HirCoir/Piper-TTS-Spanish)",
+  "style": "Comercial cálido y seguro, frases cortas.",
+  "length_scale": 0.9,
+  "lines": [
+   {
+    "id": "vo1",
+    "start_s": 0.35,
+    "max_s": 2.4,
+    "text": "Tu logo, en una medalla."
+   },
+   {
+    "id": "vo2",
+    "start_s": 6.6,
+    "max_s": 2.6,
+    "text": "Logotipos, nombres, fechas."
+   },
+   {
+    "id": "vo3",
+    "start_s": 10.3,
+    "max_s": 2.7,
+    "text": "Cada medalla, única y memorable."
+   },
+   {
+    "id": "vo4",
+    "start_s": 13.1,
+    "max_s": 1.6,
+    "text": "Cotiza la tuya."
+   }
+  ]
+ },
+ "visual_direction": {
+  "concept": "La medalla atraviesa el titular",
+  "references_principles": [
+   "capas en Z",
+   "easing con personalidad (elástico en el gancho, bézier suave en el revelado)",
+   "tipografía como mensaje y como textura",
+   "cada movimiento con su sonido",
+   "producto realista + elementos planos 2D",
+   "transiciones por objeto",
+   "micro-movimiento continuo",
+   "BPM manda el montaje"
+  ],
+  "notes": "Paleta Brine; dorado solo en hilo, subrayados y borde del CTA."
+ },
+ "script": {
+  "on_screen": {
+   "hook": [
+    "TU LOGO",
+    "en una",
+    "MEDALLA"
+   ],
+   "reveal_eyebrow": "MEDALLA DE ACRÍLICO PERSONALIZADA",
+   "benefits": [
+    "Logotipos",
+    "Nombres",
+    "Fechas"
+   ],
+   "benefits_sub": "Superficie brillante, impresa por sublimación",
+   "statement": [
+    "Cada medalla,",
+    "única y",
+    "memorable."
+   ],
+   "cta": "Cotiza la tuya",
+   "url": "brinechile.cl"
+  }
+ },
+ "storyboard": [
+  {
+   "scene": "HookType",
+   "from": 0,
+   "to": 90,
+   "desc": "Fondo azul oscuro. 'TU LOGO' / 'en una' / 'MEDALLA' entran en cada beat con overshoot y desenfoque de movimiento. En el beat 3 la medalla cae desde arriba, parte el titular en dos y se detiene balanceándose."
+  },
+  {
+   "scene": "ProductReveal",
+   "from": 75,
+   "to": 195,
+   "desc": "Medalla héroe al centro, péndulo amortiguado, barrido de luz especular sobre el acrílico, partículas y texto-textura en parallax. Eyebrow con la categoría."
+  },
+  {
+   "scene": "Benefits",
+   "from": 195,
+   "to": 315,
+   "desc": "La medalla sube; tres etiquetas entran en beats y trazan líneas hacia el logo, el nombre y la fecha impresos."
+  },
+  {
+   "scene": "Statement",
+   "from": 315,
+   "to": 375,
+   "desc": "Transición por objeto: la cara blanca de la medalla crece hasta llenar el cuadro y se convierte en el fondo hueso. Frase de la ficha en serif."
+  },
+  {
+   "scene": "CTA",
+   "from": 375,
+   "to": 450,
+   "desc": "Iris azul oscuro desde el subrayado; logo oficial, píldora 'Cotiza la tuya' y brinechile.cl. Sub-boom."
+  }
+ ],
+ "beats": {
+  "bpm": 120,
+  "events": [
+   {
+    "f": 0,
+    "type": "impact",
+    "gain": 0.9
+   },
+   {
+    "f": 15,
+    "type": "pop",
+    "gain": 0.6
+   },
+   {
+    "f": 30,
+    "type": "impact",
+    "gain": 0.9
+   },
+   {
+    "f": 34,
+    "type": "riser",
+    "len_f": 14,
+    "gain": 0.5
+   },
+   {
+    "f": 46,
+    "type": "whoosh",
+    "gain": 0.8
+   },
+   {
+    "f": 52,
+    "type": "split",
+    "gain": 0.8
+   },
+   {
+    "f": 62,
+    "type": "ping",
+    "gain": 0.75
+   },
+   {
+    "f": 90,
+    "type": "shimmer",
+    "gain": 0.4
+   },
+   {
+    "f": 150,
+    "type": "whoosh_soft",
+    "gain": 0.4
+   },
+   {
+    "f": 180,
+    "type": "riser",
+    "len_f": 15,
+    "gain": 0.45
+   },
+   {
+    "f": 195,
+    "type": "whoosh",
+    "gain": 0.6
+   },
+   {
+    "f": 202,
+    "type": "pop",
+    "gain": 0.6
+   },
+   {
+    "f": 217,
+    "type": "pop",
+    "gain": 0.6
+   },
+   {
+    "f": 232,
+    "type": "pop",
+    "gain": 0.6
+   },
+   {
+    "f": 262,
+    "type": "tick",
+    "gain": 0.5
+   },
+   {
+    "f": 290,
+    "type": "riser",
+    "len_f": 25,
+    "gain": 0.6
+   },
+   {
+    "f": 315,
+    "type": "whoosh_big",
+    "gain": 0.8
+   },
+   {
+    "f": 330,
+    "type": "ping",
+    "gain": 0.4
+   },
+   {
+    "f": 368,
+    "type": "whoosh",
+    "gain": 0.5
+   },
+   {
+    "f": 375,
+    "type": "subboom",
+    "gain": 1.0
+   },
+   {
+    "f": 395,
+    "type": "pop",
+    "gain": 0.45
+   },
+   {
+    "f": 410,
+    "type": "tick",
+    "gain": 0.4
+   }
+  ]
+ },
+ "qa_keyframes": [
+  8,
+  22,
+  40,
+  70,
+  120,
+  170,
+  245,
+  285,
+  345,
+  365,
+  405,
+  440,
+  449
+ ],
+ "variants": [
+  {
+   "id": "A",
+   "hook": "Titular serif 'TU LOGO en una MEDALLA' partido por la medalla",
+   "rhythm": "120 BPM",
+   "music": "pulse_premium",
+   "cta": "Cotiza la tuya",
+   "status": "RENDERED"
+  },
+  {
+   "id": "B",
+   "hook": "Pregunta: '¿Y si la medalla llevara tu logo?' (tipografía como textura repetida)",
+   "rhythm": "100 BPM, más aireado (REF2)",
+   "music": "lofi_glass",
+   "cta": "Cotiza la tuya",
+   "status": "DEFINED_NOT_RENDERED"
+  }
+ ],
+ "approvals": {
+  "creative": null,
+  "human_publish": null
+ },
+ "notes": [
+  "El brief del Director pide 'Cotiza la tuya'; el carrusel aprobado CNT-20261009-01 usa 'Cotiza el tuyo' (CTA fijo de EXP-001-v2). Elegir uno antes de publicar."
+ ]
+}

@@ -1,0 +1,25 @@
+{
+  "name": "brine-motion-studio",
+  "version": "2.0.0",
+  "private": true,
+  "scripts": {
+    "produce": "node scripts/produce.mjs",
+    "studio": "remotion studio",
+    "qa": "node scripts/run-qa.mjs",
+    "preview": "node scripts/preview.mjs"
+  },
+  "dependencies": {
+    "@remotion/bundler": "4.0.534",
+    "@remotion/cli": "4.0.534",
+    "@remotion/renderer": "4.0.534",
+    "@types/react": "19.3.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "remotion": "4.0.534",
+    "typescript": "7.0.2"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=22 <23"
+  }
+}

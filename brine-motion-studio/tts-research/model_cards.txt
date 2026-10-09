@@ -1,0 +1,93 @@
+=== es_AR/daniela/high
+# Model card for daniela (high)
+
+* Language: es_AR (Spanish, Argentina)
+* Speakers: 1
+* Quality: high
+* Samplerate: 22,050Hz
+
+## Dataset
+
+* URL: https://www.openslr.org/61/
+* License: Attribution-ShareAlike 4.0 International
+
+## Training
+
+Trained by: https://huggingface.co/larcanio/piper-voices
+Finetuned from U.S. English lessac voice (high quality).
+
+=== es_ES/carlfm/x_low
+
+=== es_ES/davefx/medium
+
+=== es_ES/mls_10246/low
+# Model card for mls_10246 (low)
+
+* Language: es_ES (Spanish, Spain)
+* Speakers: 1
+* Quality: low
+* Samplerate: 16,000Hz
+
+## Dataset
+
+* URL: http://www.openslr.org/94/
+* License: CC BY 4.0
+
+## Training
+
+Finetuned from U.S. English Ryan voice (low quality).
+
+=== es_ES/mls_9972/low
+
+=== es_ES/sharvard/medium
+# Model card for sharvard (medium)
+
+* Language: es_ES (Spanish, Spain)
+* Speakers: 2
+* Quality: medium
+* Samplerate: 22,050Hz
+
+## Dataset
+
+* URL: https://datashare.ed.ac.uk/handle/10283/574
+* License: http://creativecommons.org/licenses/by/3.0/
+* Paper: https://www.tandfonline.com/doi/abs/10.3109/14992027.2014.907507
+
+## Training
+
+Finetuned from U.S. English lessac voice (medium quality).
+
+=== es_MX/ald/medium
+# Model card for ald (medium)
+
+* Language: es_MX (Spanish, Mexico)
+* Speakers: 1
+* Quality: medium
+* Samplerate: 22,050Hz
+
+## Dataset
+
+* URL: https://huggingface.co/datasets/rmcpantoja/Ald_Mexican_Spanish_speech_dataset
+* License: http://unlicense.org
+
+## Training
+
+Finetuned from Spanish davefx voice (medium quality).
+
+=== es_MX/claude/high
+# Model card for claude (high)
+
+* Language: es_MX (Spanish, Mexico)
+* Speakers: 1
+* Quality: high
+* Samplerate: 22,050Hz
+
+## Dataset
+
+* URL: https://huggingface.co/spaces/HirCoir/Piper-TTS-Spanish
+* License: apache-2.0
+
+## Training
+
+See URL above
+

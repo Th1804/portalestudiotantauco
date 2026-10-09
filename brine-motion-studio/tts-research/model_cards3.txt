@@ -1,0 +1,51 @@
+=== es/es_ES/davefx/medium
+# Model card for davefx (medium)
+
+* Language: es_ES (Spanish, Spain)
+* Speakers: 1
+* Quality: medium
+* Samplerate: 22,050Hz
+
+## Dataset
+
+* URL: https://github.com/OHF-Voice/voice-datasets
+* License: CC0
+
+## Training
+
+Finetuned from U.S. English lessac voice (medium quality).
+
+=== en/en_US/lessac/medium
+# Model card for lessac (medium)
+
+* Language: en_US (English, United States)
+* Speakers: 1
+* Quality: medium
+* Samplerate: 22,050Hz
+
+## Dataset
+
+* URL: https://www.cstr.ed.ac.uk/projects/blizzard/2013/lessac_blizzard2013/
+* License: https://www.cstr.ed.ac.uk/projects/blizzard/2013/lessac_blizzard2013/license.html
+
+## Training
+
+Trained from scratch.
+
+=== en/en_US/ryan/low
+# Model card for ryan (low)
+
+* Language: en_US (English, United States)
+* Speakers: 1
+* Quality: low
+* Samplerate: 16,000Hz
+
+## Dataset
+
+* URL: https://www.kaggle.com/datasets/roholazandie/ryanspeech
+* License: CC BY-NC-SA 4.0
+
+## Training
+
+Trained from scratch.
+

@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+studio/node_modules/
+studio/voices/
+voices/
+studio/build/
+studio/out/
+*.mp4
+*.wav
+studio/npm-install*.log

@@ -1,0 +1,8 @@
+# BRINE MOTION STUDIO — dependencias Python (versiones fijas, probadas en el box con Python 3.13.5 el 2026-10-09; hay wheels de piper-tts para Windows x64 y macOS arm64)
+numpy==2.5.3
+scipy==1.18.1
+pyloudnorm==0.2.0
+pillow==12.3.0
+piper-tts==1.8.0
+onnxruntime==1.31.0
+pathvalidate==3.3.1

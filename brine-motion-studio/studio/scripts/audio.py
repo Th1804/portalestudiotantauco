@@ -128,60 +128,79 @@ def bell(m, dur=1.6, gain=1.0):
     return x * gain * 0.4
 
 # ---------------------------------------------------------------- SFX
+# Paleta "premium suave": sin ruido blanco crudo ni resonancias; ataques redondeados (>= 4 ms), agudos atenuados
+# y cada SFX normalizado a un pico fijo, para que la ganancia del JSON sea el nivel real.
+SFX_PEAK = {'whoosh': 0.42, 'whoosh_soft': 0.3, 'whoosh_big': 0.5, 'impact': 0.55, 'subboom': 0.6, 'riser': 0.32,
+            'pop': 0.32, 'tick': 0.18, 'ping': 0.28, 'shimmer': 0.28, 'split': 0.4}
+def pink(n):
+    return signal.lfilter([0.049922035, -0.095993537, 0.050612699, -0.004408786], [1, -2.494956002, 2.017265875, -0.522189400], RNG.standard_normal(n))
+def polish(x, attack=0.004):
+    if x.ndim == 1: x = stereo(x)
+    n = len(x); ramp = np.minimum(1, t_arr(n) / attack)
+    x = x * ramp[:, None]
+    x = bq(x, 'hs', 5500, 0.7, -4.0); x = bq(x, 'hp', 35)
+    return x
 def sfx(kind, len_s=0.6):
+    x = _sfx(kind, len_s)
+    x = polish(x, 0.012 if kind in ('ping', 'shimmer') else 0.004)
+    return x / (np.abs(x).max() + 1e-9) * SFX_PEAK.get(kind, 0.3)
+def _sfx(kind, len_s):
     if kind in ('whoosh', 'whoosh_soft', 'whoosh_big'):
-        L = {'whoosh': 0.55, 'whoosh_soft': 0.9, 'whoosh_big': 0.9}[kind]; n = int(L * SR); tt = t_arr(n)
-        nz = RNG.standard_normal(n)
-        fc = 250 + 2600 * np.sin(np.pi * np.clip(tt / L, 0, 1)) ** 2  # barrido más bajo y filtrado (v2)
-        x = svf_sweep(nz, fc, 0.9, 'bp'); x = bq(bq(x, 'lp', 4500), 'hp', 150)
-        e = np.sin(np.pi * np.clip(tt / L, 0, 1)) ** 1.5
-        st = np.stack([x * e * (1 - tt / L * 0.8), x * e * (0.2 + tt / L * 0.8)], 1)  # paneo L->R
-        if kind == 'whoosh_big': st += np.stack([np.sin(2 * np.pi * (60 + 40 * tt / L) * tt)] * 2, 1) * e[:, None] * 0.4
-        return st * (0.6 if kind == 'whoosh_soft' else 1.0) * 0.6
+        L = {'whoosh': 0.6, 'whoosh_soft': 0.95, 'whoosh_big': 1.0}[kind]; n = int(L * SR); tt = t_arr(n); u = np.clip(tt / L, 0, 1)
+        peak_at = 0.62
+        e = np.where(u < peak_at, np.sin(np.pi / 2 * u / peak_at) ** 2, np.clip(np.cos(np.pi / 2 * (u - peak_at) / (1 - peak_at)), 0, 1) ** 1.5)
+        top = {'whoosh': 2400, 'whoosh_soft': 1500, 'whoosh_big': 2000}[kind]
+        fc = 280 + (top - 280) * e ** 1.4
+        chans = []
+        for ch in range(2):
+            x = svf_sweep(pink(n) * 6, fc * (1.0 + 0.06 * ch), 0.6, 'lp')
+            chans.append(bq(x, 'hp', 120) * e)
+        pan = np.stack([1 - 0.55 * u, 0.45 + 0.55 * u], 1)
+        st = np.stack(chans, 1) * pan
+        if kind == 'whoosh_big':
+            body = np.sin(2 * np.pi * np.cumsum(52 + 30 * e) / SR) * e ** 2
+            st += stereo(body * 0.5)
+        return convolve(st, reverb_ir(1.2, 4.5), 0.22)
     if kind == 'impact':
-        n = int(1.4 * SR); tt = t_arr(n)
-        sub = np.sin(2 * np.pi * (38 + 60 * np.exp(-tt * 20)) * tt) * np.exp(-tt * 3.5)
-        crack = bq(RNG.standard_normal(n), 'lp', 1800) * np.exp(-tt * 30)
-        x = np.tanh((sub * 1.0 + crack * 0.35) * 1.2) * env_adsr(n, 0.004, 0.0, 1, 0.0, 1.4)
-        return convolve(stereo(x), reverb_ir(1.6, 4.0), 0.25)
+        n = int(1.5 * SR); tt = t_arr(n)
+        sub = np.sin(2 * np.pi * np.cumsum(40 + 48 * np.exp(-tt * 18)) / SR) * np.exp(-tt * 3.2)
+        body = bq(pink(n) * 4, 'lp', 700) * np.exp(-tt * 22)
+        x = np.tanh((sub + body * 0.4) * 1.1)
+        return convolve(stereo(x), reverb_ir(1.8, 3.4), 0.28)
     if kind == 'subboom':
-        n = int(2.6 * SR); tt = t_arr(n)
-        x = np.sin(2 * np.pi * (34 + 30 * np.exp(-tt * 6)) * tt) * np.exp(-tt * 1.4)
-        x += bq(RNG.standard_normal(n), 'lp', 900) * np.exp(-tt * 12) * 0.3
-        return convolve(stereo(np.tanh(x * 1.4)), reverb_ir(2.5, 2.4), 0.3)
+        n = int(2.0 * SR); tt = t_arr(n)
+        x = np.sin(2 * np.pi * np.cumsum(36 + 22 * np.exp(-tt * 5)) / SR) * np.exp(-tt * 1.6)
+        x += bq(pink(n) * 3, 'lp', 500) * np.exp(-tt * 10) * 0.25
+        return convolve(stereo(np.tanh(x * 1.2)), reverb_ir(2.2, 2.6), 0.3)
     if kind == 'riser':
-        L = len_s; n = int(L * SR); tt = t_arr(n)
-        fc = 400 * (20 ** (tt / L))
-        x = svf_sweep(RNG.standard_normal(n), fc, 2.0, 'bp') * 0.8
-        x += np.sin(2 * np.pi * np.cumsum(200 * (4 ** (tt / L))) / SR) * 0.15
-        e = (tt / L) ** 2.2
-        return stereo(x * e)
+        L = len_s; n = int(L * SR); tt = t_arr(n); u = tt / L
+        x = svf_sweep(pink(n) * 6, 300 * (8 ** u), 0.7, 'lp')
+        x += np.sin(2 * np.pi * np.cumsum(220 * (2 ** u)) / SR) * 0.08
+        return convolve(stereo(bq(x, 'hp', 150) * u ** 2.0), reverb_ir(1.0, 5), 0.2)
     if kind == 'pop':
-        n = int(0.18 * SR); tt = t_arr(n)
-        x = np.sin(2 * np.pi * (420 * np.exp(-tt * 30) + 240) * tt) * np.exp(-tt * 30) * np.minimum(1, tt / 0.004)
-        return stereo(bq(x, 'lp', 2500) * 0.5, RNG.uniform(-0.3, 0.3))
+        n = int(0.22 * SR); tt = t_arr(n)
+        x = np.sin(2 * np.pi * np.cumsum(330 + 260 * np.exp(-tt * 45)) / SR) * np.exp(-tt * 24)
+        x += 0.18 * np.sin(2 * np.pi * np.cumsum(2 * (330 + 260 * np.exp(-tt * 45))) / SR) * np.exp(-tt * 40)
+        return convolve(stereo(bq(x, 'lp', 1800), RNG.uniform(-0.25, 0.25)), reverb_ir(0.8, 6), 0.18)
     if kind == 'tick':
-        n = int(0.08 * SR); tt = t_arr(n)
-        return stereo(bq(RNG.standard_normal(n), 'bp', 2800, 3) * np.exp(-tt * 70) * np.minimum(1, tt / 0.003) * 0.8)
+        n = int(0.09 * SR); tt = t_arr(n)
+        x = np.sin(2 * np.pi * 1650 * tt) * np.exp(-tt * 60) + bq(pink(n), 'bp', 1600, 1.2) * np.exp(-tt * 80) * 0.5
+        return stereo(x, 0.15)
     if kind == 'ping':
-        # golpe metálico/acrílico: parciales inarmónicos (barra/placa) + reverb
-        # v2: ping metálico premium: f0 más baja (D6), ataque blando de 12 ms, parciales altos atenuados, sin ruido de click
         n = int(2.4 * SR); tt = t_arr(n); f0 = 1174.7
         x = sum(a * np.sin(2 * np.pi * f0 * r * tt + RNG.uniform(0, 6)) * np.exp(-tt * d)
-                for r, a, d in ((0.5, 0.35, 2.0), (1, 1, 2.2), (2.32, 0.30, 3.8), (4.25, 0.12, 6.5), (6.63, 0.05, 9)))
-        x *= 1 - np.exp(-tt / 0.012)
-        x = bq(x, 'lp', 6500)
-        return convolve(stereo(x * 0.4), reverb_ir(2.2, 2.6), 0.42)
+                for r, a, d in ((0.5, 0.4, 2.0), (1, 1, 2.4), (2.32, 0.18, 4.2), (4.25, 0.05, 7)))
+        return convolve(stereo(bq(x, 'lp', 4500)), reverb_ir(2.2, 2.6), 0.45)
     if kind == 'split':
         n = int(0.5 * SR); tt = t_arr(n)
-        tear = bq(RNG.standard_normal(n), 'bp', 1100, 0.8) * np.exp(-tt * 14) * np.minimum(1, tt / 0.01)
+        tear = bq(pink(n) * 4, 'lp', 1100) * np.exp(-tt * 14)
         thud = np.sin(2 * np.pi * (90 * np.exp(-tt * 10) + 50) * tt) * np.exp(-tt * 10)
-        return np.stack([tear * 0.9 + thud, -tear * 0.9 + thud], 1) * 0.8
+        return np.stack([tear * 0.9 + thud, -tear * 0.9 + thud], 1)
     if kind == 'shimmer':
         n = int(1.8 * SR); x = np.zeros(n)
         for i, m in enumerate((86, 90, 93, 97, 98)):
             x[int(i * 0.06 * SR):] += bell(m, 1.8, 0.5)[:n - int(i * 0.06 * SR)]
-        return convolve(stereo(x), reverb_ir(2.5, 2.2), 0.45)
+        return convolve(stereo(bq(x, 'lp', 6000)), reverb_ir(2.5, 2.2), 0.5)
     raise ValueError(kind)
 
 # ---------------------------------------------------------------- música
@@ -238,7 +257,7 @@ def music(prod, dur):
         place(pads, stereo(pad_chord(notes, L, 0.22 + 0.12 * inten, 900 + 1800 * inten)), s0)
     # --- acorde final (tónica D mayor con 9ª) y cola de reverb que se apaga en el frame 450
     fin_n = int((dur - END_HIT) * SR); ft = t_arr(fin_n)
-    fin_env = np.exp(-ft * 1.6) * np.minimum(1, ft / 0.02)
+    fin_env = np.exp(-ft * 0.95) * np.minimum(1, ft / 0.03)
     chord = np.zeros(fin_n)
     for m in (50, 57, 62, 66, 69, 76):
         for det in (-0.06, 0.0, 0.06):
@@ -257,7 +276,7 @@ def music(prod, dur):
     bus = drums * 0.9 + bass * 0.9 + convolve(pads, IR_HALL, 0.35) * 0.8 + convolve(arp, IR_HALL, 0.3) * 0.75 + convolve(lead, IR_HALL, 0.45) * 0.7
     bus = bus * autom[:, None]
     # cola: la reverb ya decae; fundido final en coseno de 0,8 s que llega a silencio exactamente en el frame 450
-    tail = np.clip((dur - tt) / 0.8, 0, 1); bus = bus * (np.sin(tail * np.pi / 2) ** 2)[:, None]
+    tail = np.clip((dur - tt) / 0.5, 0, 1); bus = bus * (np.sin(tail * np.pi / 2) ** 2)[:, None]
     # filtro lowpass automatizado en la transición del statement
     lp = bq(bus, 'lp', 900)
     mixw = np.clip((tt - 10.3) / 0.25, 0, 1) * np.clip((12.5 - tt) / 0.2, 0, 1)
@@ -326,14 +345,14 @@ def take_metrics(x):
     semis = float(np.std(12 * np.log2(f0 / np.median(f0)))) if len(f0) > 5 else 0.0
     return {'max_internal_pause_s': round(gap * 0.01, 3), 'f0_std_semitones': round(semis, 2), 'f0_median_hz': round(float(np.median(f0)), 1) if len(f0) else None}
 def voice_chain(x):
-    # HPF, des-embarre, presencia suave, de-esser dinámico, aire, compresión en 2 etapas, saturación muy leve, sala corta
-    x = bq(x, 'hp', 85); x = bq(x, 'ls', 160, 0.7, 1.5); x = bq(x, 'peak', 320, 1.0, -3.0); x = bq(x, 'peak', 2400, 0.8, 1.5)
-    x = bq(x, 'peak', 4200, 1.2, -1.5)  # aspereza metálica típica de vocoder
+    # HPF, calidez, des-embarre, presencia suave, control de la aspereza del vocoder, de-esser dinámico, aire
+    # y compresión suave en 2 etapas (sin saturación: la voz TTS ya es densa y se vuelve metálica si se aplasta)
+    x = bq(x, 'hp', 80); x = bq(x, 'ls', 180, 0.7, 2.0); x = bq(x, 'peak', 340, 1.0, -2.5); x = bq(x, 'peak', 2600, 0.7, 1.2)
+    x = bq(x, 'peak', 4300, 1.4, -2.5); x = bq(x, 'peak', 7600, 2.0, -1.5)
     s_band = bq(x, 'bp', 6500, 1.5); s_env = signal.lfilter([0.01], [1, -0.99], np.abs(s_band))
     ds = np.clip(1 - np.maximum(0, s_env - 0.02) * 6, 0.6, 1); x = x - s_band * (1 - ds)
-    x = bq(x, 'hs', 10000, 0.7, 1.5)
-    x = compress(x, -24, 2.5, 0.008, 0.12, 2); x = compress(x, -14, 4, 0.002, 0.05, 2)
-    x = np.tanh(x * 1.2) / np.tanh(1.2)
+    x = bq(x, 'hs', 11000, 0.7, 1.0)
+    x = compress(x, -26, 2.0, 0.012, 0.16, 2); x = compress(x, -14, 3.0, 0.004, 0.08, 1)
     return x / (np.abs(x).max() + 1e-9) * 0.7
 TAKES = [{'take': 'A', 'length_scale': 1.0, 'noise_scale': 0.667, 'noise_w': 0.8},
          {'take': 'B', 'length_scale': 1.05, 'noise_scale': 0.75, 'noise_w': 0.95},
@@ -398,6 +417,7 @@ def lufs(x):
     return pyln.Meter(SR).integrated_loudness(x)
 
 IR_ROOM = None; IR_HALL = None
+WHOOSH_PEAK_S = {'whoosh': 0.6 * 0.62, 'whoosh_soft': 0.95 * 0.62, 'whoosh_big': 1.0 * 0.62}
 def main(prod_path):
     global IR_ROOM, IR_HALL
     prod = json.load(open(prod_path)); pid = prod['id']
@@ -411,7 +431,7 @@ def main(prod_path):
     for ev in prod['beats']['events']:
         k = ev['type']; s = ev['f'] / fps
         x = sfx(k, ev.get('len_f', 15) / fps) if k != 'riser' else sfx(k, ev['len_f'] / fps)
-        start = s - (ev['len_f'] / fps if k == 'riser' else (0.25 if k.startswith('whoosh') else 0.0))  # whoosh centrado en el evento
+        start = s - WHOOSH_PEAK_S.get(k, 0.0)  # el pico del whoosh cae en el frame del evento
         if k == 'riser': start = s  # el riser EMPIEZA en f y termina en f+len_f (la acción)
         place(fx, x, start, ev.get('gain', 1.0)); frep.append({'f': ev['f'], 't_s': round(s, 3), 'type': k, 'placed_at_s': round(start, 3)})
     # ---- mezcla: EQ por bus + ducking de la música bajo la voz (sidechain)
@@ -431,7 +451,7 @@ def main(prod_path):
         L = lufs(m); m = m * db(target - L)
         m = limiter(m, -2.0)  # margen para el overshoot del códec AAC
         if abs(lufs(m) - target) < 0.3: break
-    tt_m = t_arr(len(m)); m = m * (np.sin(np.clip((len(m) / SR - tt_m) / 0.25, 0, 1) * np.pi / 2) ** 2)[:, None]
+    tt_m = t_arr(len(m)); m = m * (np.sin(np.clip((len(m) / SR - tt_m) / 0.12, 0, 1) * np.pi / 2) ** 2)[:, None]
     m = np.clip(m, -1, 1)
     out = os.path.join(build, 'mix.wav')
     pcm = (m * 32767).astype(np.int16)

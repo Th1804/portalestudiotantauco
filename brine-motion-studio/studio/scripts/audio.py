@@ -126,12 +126,38 @@ def bell(m, dur=1.6, gain=1.0):
     n = int(dur * SR); tt = t_arr(n); f = midi_hz(m)
     x = sum(a * np.sin(2 * np.pi * f * r * tt) * np.exp(-tt * d) for r, a, d in ((1, 1, 3), (2.76, 0.45, 5), (5.4, 0.25, 8), (8.93, 0.12, 12)))
     return x * gain * 0.4
+def fm_glass(m, dur=1.4, gain=1.0, ratio=3.5, index=2.2):
+    """Mazo de cristal FM: portadora en la nota, moduladora inarmónica con índice que cae rápido (ataque brillante, cola pura)."""
+    n = int(dur * SR); tt = t_arr(n); f = midi_hz(m)
+    idx = index * np.exp(-tt * 9)
+    x = np.sin(2 * np.pi * f * tt + idx * np.sin(2 * np.pi * f * ratio * tt)) * np.exp(-tt * 3.2)
+    x += 0.22 * np.sin(2 * np.pi * f * 2 * tt) * np.exp(-tt * 6)
+    return x * np.minimum(1, tt / 0.002) * gain * 0.5
+def felt_keys(notes, dur, gain=1.0, bright=2400):
+    """Teclado de fieltro: armónicos 1/n^2 con decaimiento por armónico, ataque blando de 8 ms y leve desafinación."""
+    n = int(dur * SR); tt = t_arr(n); x = np.zeros(n)
+    for m in notes:
+        f = midi_hz(m)
+        for h in range(1, 7):
+            for det in (-0.04, 0.04):
+                x += np.sin(2 * np.pi * f * h * 2 ** (det / 12) * tt + RNG.uniform(0, 6.28)) * np.exp(-tt * (1.1 + 0.9 * h)) / h ** 2
+    x = bq(x, 'lp', bright, 0.6) * np.minimum(1, tt / 0.008) * np.minimum(1, np.maximum(0, dur - tt) / 0.08)
+    return x * gain * 0.18
+def snap(gain=1.0):
+    n = int(0.18 * SR); tt = t_arr(n)
+    x = bq(RNG.standard_normal(n), 'bp', 1900, 1.6) * np.exp(-tt * 55) + bq(RNG.standard_normal(n), 'hp', 5000) * np.exp(-tt * 120) * 0.4
+    return x * gain * 0.6
+def shaker(gain=1.0):
+    n = int(0.09 * SR); tt = t_arr(n)
+    e = np.minimum(1, tt / 0.012) * np.exp(-tt * 45)
+    return bq(RNG.standard_normal(n), 'hp', 6200) * e * gain * 0.35
 
 # ---------------------------------------------------------------- SFX
 # Paleta "premium suave": sin ruido blanco crudo ni resonancias; ataques redondeados (>= 4 ms), agudos atenuados
 # y cada SFX normalizado a un pico fijo, para que la ganancia del JSON sea el nivel real.
 SFX_PEAK = {'whoosh': 0.42, 'whoosh_soft': 0.3, 'whoosh_big': 0.5, 'impact': 0.55, 'subboom': 0.6, 'riser': 0.32,
-            'pop': 0.32, 'tick': 0.18, 'ping': 0.28, 'shimmer': 0.28, 'split': 0.4}
+            'pop': 0.32, 'tick': 0.18, 'ping': 0.28, 'shimmer': 0.28, 'split': 0.4,
+            'glass_ting': 0.3, 'prism': 0.26, 'sparkle': 0.2, 'laser': 0.16, 'laser_on': 0.2, 'case_thud': 0.45, 'swish': 0.3}
 def pink(n):
     return signal.lfilter([0.049922035, -0.095993537, 0.050612699, -0.004408786], [1, -2.494956002, 2.017265875, -0.522189400], RNG.standard_normal(n))
 def polish(x, attack=0.004):
@@ -201,6 +227,48 @@ def _sfx(kind, len_s):
         for i, m in enumerate((86, 90, 93, 97, 98)):
             x[int(i * 0.06 * SR):] += bell(m, 1.8, 0.5)[:n - int(i * 0.06 * SR)]
         return convolve(stereo(bq(x, 'lp', 6000)), reverb_ir(2.5, 2.2), 0.5)
+    # ---- BMS-20261012-001 (cristal): golpes de cristal, láser y estuche
+    if kind == 'glass_ting':
+        # copa/cristal tallado: parciales inarmónicos de una placa de vidrio sobre F6, ataque redondo, cola larga
+        n = int(2.6 * SR); tt = t_arr(n); f0 = midi_hz(89)
+        x = sum(a * np.sin(2 * np.pi * f0 * r * tt + RNG.uniform(0, 6)) * np.exp(-tt * d)
+                for r, a, d in ((1, 1, 1.6), (2.405, 0.32, 2.8), (3.9, 0.12, 4.5), (5.33, 0.06, 7)))
+        x *= 1 + 0.04 * np.sin(2 * np.pi * 5.5 * tt)
+        return convolve(stereo(bq(x, 'lp', 7000)), reverb_ir(2.4, 2.4), 0.4)
+    if kind == 'prism':
+        # barrido ascendente de 6 notas de cristal (pentatónica de F) en 70 ms: la luz que se separa
+        n = int(1.6 * SR); x = np.zeros(n)
+        for i, m in enumerate((77, 79, 81, 84, 86, 89)):
+            st_ = int(i * 0.07 * SR); x[st_:] += fm_glass(m, 1.6, 0.3 + 0.08 * i)[:n - st_]
+        return convolve(stereo(bq(x, 'lp', 6500)), reverb_ir(1.8, 2.8), 0.42)
+    if kind == 'sparkle':
+        n = int(0.9 * SR); tt = t_arr(n)
+        x = sum(np.sin(2 * np.pi * f * tt) * np.exp(-tt * d) for f, d in ((3520, 7), (4186, 9), (5274, 12))) / 3
+        return convolve(stereo(x, RNG.uniform(-0.5, 0.5)), reverb_ir(1.2, 4), 0.45)
+    if kind == 'laser':
+        # cabezal láser: zumbido fino modulado (no agresivo) + chisporroteo de grabado, con ataque y cola cortos
+        L = len_s; n = int(L * SR); tt = t_arr(n)
+        buzz = np.sin(2 * np.pi * np.cumsum(1880 + 40 * np.sin(2 * np.pi * 7 * tt)) / SR) * (0.6 + 0.4 * np.sin(2 * np.pi * 60 * tt))
+        grains = signal.lfilter([1], [1, -0.996], (RNG.random(n) < 0.004).astype(float))
+        crackle = bq(pink(n) * 5, 'bp', 3400, 1.1) * np.clip(grains, 0, 1)
+        x = bq(buzz * 0.35 + crackle * 0.5, 'lp', 5200)
+        env = np.minimum(1, tt / 0.02) * np.minimum(1, (L - tt) / 0.05)
+        return stereo(x * env, 0.1)
+    if kind == 'laser_on':
+        n = int(0.25 * SR); tt = t_arr(n)
+        x = np.sin(2 * np.pi * np.cumsum(900 + 1400 * (1 - np.exp(-tt * 40))) / SR) * np.exp(-tt * 18)
+        return convolve(stereo(x), reverb_ir(0.6, 8), 0.2)
+    if kind == 'case_thud':
+        # estuche que asienta: golpe de fieltro grave + roce de tela
+        n = int(0.9 * SR); tt = t_arr(n)
+        body = np.sin(2 * np.pi * np.cumsum(72 + 50 * np.exp(-tt * 30)) / SR) * np.exp(-tt * 14)
+        cloth = svf_sweep(pink(n) * 3, 900 + 1800 * np.exp(-tt * 6), 0.7, 'lp') * np.exp(-tt * 9)
+        return convolve(stereo(np.tanh(body * 1.4) + cloth * 0.4), reverb_ir(0.8, 7), 0.15)
+    if kind == 'swish':
+        n = int(0.4 * SR); tt = t_arr(n); u = tt / 0.4
+        e = np.sin(np.pi * u) ** 2
+        x = svf_sweep(pink(n) * 5, 600 + 2400 * e, 0.7, 'lp') * e
+        return np.stack([x * (1 - 0.5 * u), x * (0.5 + 0.5 * u)], 1)
     raise ValueError(kind)
 
 # ---------------------------------------------------------------- música
@@ -303,6 +371,77 @@ def music(prod, dur):
     bus = bus * (1 - mixw[:, None]) + lp * mixw[:, None]
     stems = {'drums': drums, 'bass': bass, 'pads': pads, 'arp': arp, 'lead': lead}
     return bus, stems
+
+# ---------------------------------------------------------------- música "cristal" (BMS-20261012-001)
+# 100 BPM (beat = 18 frames). Gancho como pregunta en D menor (Dm-B♭-C en los beats 0/1/2 = f0/f18/f36), respuesta en F mayor
+# en f72 (llega el cristal). F - C/E - Dm - B♭ por compás; Csus4 con redoble de chasquidos y stop; golpe en F(add9) en f360 (logo).
+CR_CHORDS = {'F': (41, [57, 60, 65, 67]), 'C/E': (40, [55, 60, 64, 67]), 'Dm': (38, [57, 62, 65, 69]), 'Bb': (34, [58, 62, 65, 69]),
+             'C': (36, [55, 60, 64, 67]), 'Csus4': (36, [55, 60, 65, 67]), 'Fadd9': (29, [53, 57, 60, 65, 67, 72])}
+def music_crystal(prod, dur):
+    md = prod['music_direction']; bpm = md['bpm']; spb = 60 / bpm; bar = 4 * spb
+    n = int(dur * SR); tt = t_arr(n)
+    drums = np.zeros((n, 2)); bass = np.zeros((n, 2)); keys = np.zeros((n, 2)); glass = np.zeros((n, 2)); air = np.zeros((n, 2))
+    sec = lambda s_: next((x for x in md['sections'] if x['from_s'] <= s_ < x['to_s']), md['sections'][-1])
+    ANSWER, BUILD, STOP, HIT = 4 * spb, 11.4, 11.85, 12.0
+    # --- gancho: tres acordes-pregunta y un sus que queda abierto, con sub y cristal arriba
+    for k, ch in enumerate(('Dm', 'Bb', 'C')):
+        root, notes = CR_CHORDS[ch]; s0 = k * spb
+        place(keys, stereo(felt_keys(notes, spb * 1.05, 1.0, 2600)), s0)
+        place(bass, stereo(bass_note(root + 12, spb * 0.95, 0.5, 260)), s0)
+        place(glass, stereo(fm_glass(notes[-1] + 12, 1.4, 0.55), 0.25 * (k - 1)), s0)
+        place(drums, stereo(kick(0.45)), s0)
+    place(air, stereo(pad_chord(CR_CHORDS['Csus4'][1], spb * 1.4, 0.16, 1400, 0.25, 0.3)), 3 * spb)
+    # --- progresión desde la respuesta (f72)
+    prog = ['F', 'C/E', 'Dm', 'Bb']
+    t0 = ANSWER; i = 0
+    while t0 < BUILD - 1e-6:
+        ch = prog[i % 4]; root, notes = CR_CHORDS[ch]; L = min(bar, BUILD - t0)
+        inten = sec(t0)['intensity']
+        place(air, stereo(pad_chord(notes, L + 0.3, 0.14 + 0.08 * inten, 1100 + 900 * inten, 0.3, 0.4)), t0)
+        place(bass, stereo(bass_note(root + 12, L * 0.98, 0.42 + 0.15 * inten, 240 + 200 * inten) * np.exp(-t_arr(int(L * 0.98 * SR)) * 0.5)), t0)
+        for b_ in range(int(round(L / spb))):
+            sb = t0 + b_ * spb; name = sec(sb)['name']
+            # teclado: acorde en el 1, empuje a contratiempo en case
+            if b_ == 0: place(keys, stereo(felt_keys(notes, spb * 1.6, 0.8)), sb)
+            if name == 'case' and b_ in (1, 3): place(keys, stereo(felt_keys(notes[1:], spb * 0.45, 0.45, 3000)), sb + spb / 2)
+            # arpegio de cristal: corcheas en crystal, semicorcheas filtradas en laser/case
+            sub = 2 if name == 'crystal' else 4
+            pat = [0, 2, 3, 1, 2, 3, 1, 3]
+            for k in range(sub):
+                m = notes[pat[(b_ * sub + k) % len(pat)]] + 12 + (12 if (name == 'case' and k == 2) else 0)
+                g = (0.32 if k == 0 else 0.22) * (0.7 + 0.3 * inten)
+                place(glass, stereo(fm_glass(m, 0.9, g, 3.5, 1.4 + 0.8 * inten), (-0.4, 0.4)[k % 2]), sb + k * spb / sub)
+            # percusión
+            if name in ('crystal', 'laser', 'case') and b_ in (1, 3): place(drums, convolve(stereo(snap(0.5 if name == 'crystal' else 0.62), 0.15), IR_ROOM, 0.3), sb)
+            if name in ('laser', 'case'):
+                if b_ in (0, 2) or name == 'case': place(drums, stereo(kick(0.55 if name == 'laser' else 0.75)), sb)
+                for k in range(4): place(drums, stereo(shaker(0.5 if k % 2 else 0.3), (-0.3, 0.3)[k % 2]), sb + k * spb / 4)
+        t0 += L; i += 1
+    # --- build: Csus4 que crece, redoble de chasquidos y stop de 0,15 s antes del golpe
+    root, notes = CR_CHORDS['Csus4']
+    sus = pad_chord(notes, STOP - BUILD + 0.04, 0.3, 2200, 0.05, 0.04)
+    place(air, stereo(sus * np.linspace(0.6, 1.2, len(sus))), BUILD)
+    place(bass, stereo(bass_note(root + 12, STOP - BUILD, 0.5, 400)), BUILD)
+    for j, s_ in enumerate(np.arange(BUILD, STOP - 1e-6, spb / 4)):
+        place(drums, convolve(stereo(snap(0.25 + 0.5 * (j / 3) ** 1.3), (-0.25, 0.25)[j % 2]), IR_ROOM, 0.3), s_)
+    for j, m in enumerate((79, 84, 86, 89)):
+        place(glass, stereo(fm_glass(m, 0.6, 0.2 + 0.06 * j), 0.3), BUILD + j * spb / 4)
+    # --- golpe final en F(add9): teclado, cristal, sub, bombo y un ting de cristal; arpegio descendente que se apaga
+    root, notes = CR_CHORDS['Fadd9']
+    place(keys, stereo(felt_keys(notes, dur - HIT, 1.3, 3200)), HIT)
+    place(air, stereo(pad_chord(notes[1:], dur - HIT, 0.24, 1800, 0.01, 0.4) * np.exp(-t_arr(int((dur - HIT) * SR)) * 0.5)), HIT)
+    place(bass, stereo(bass_note(root + 12, dur - HIT, 0.7, 300) * np.exp(-t_arr(int((dur - HIT) * SR)) * 0.8)), HIT)
+    place(drums, stereo(kick(1.0)), HIT)
+    for m in (77, 81, 84):
+        place(glass, stereo(fm_glass(m + 12, 2.6, 0.4), (m - 81) / 8), HIT)
+    fall = [96, 93, 89, 84, 81, 77, 72, 69]
+    for j, m in enumerate(fall):
+        s_ = HIT + spb + j * spb / 2 * (1 + 0.06 * j)
+        if s_ < dur - 0.3: place(glass, stereo(fm_glass(m, 1.8, 0.3 * (1 - j / 12)), (-0.35, 0.35)[j % 2]), s_)
+    bus = drums * 0.85 + bass * 0.95 + convolve(keys, IR_HALL, 0.3) * 0.9 + convolve(glass, IR_HALL, 0.42) * 0.75 + convolve(air, IR_HALL, 0.45) * 0.7
+    # el cierre suena hasta el último frame; fundido de seguridad de 0,25 s para que no haya clic
+    tail = np.clip((dur - tt) / 0.25, 0, 1); bus = bus * (np.sin(tail * np.pi / 2) ** 2)[:, None]
+    return bus, {'drums': drums, 'bass': bass, 'keys': keys, 'glass': glass, 'air': air}
 
 # ---------------------------------------------------------------- voz (Piper)
 def read_wav(p):
@@ -445,7 +584,7 @@ def main(prod_path):
     fps = prod['format']['fps']; dur = prod['format']['durationInFrames'] / fps
     IR_ROOM = reverb_ir(0.6, 9.0, 0.004); IR_HALL = reverb_ir(2.4, 2.6, 0.02)
     n = int(dur * SR)
-    mus, stems = music(prod, dur)
+    mus, stems = (music_crystal if prod['music_direction'].get('engine') == 'crystal' else music)(prod, dur)
     vox, vrep = voice(prod, dur, build)
     fx = np.zeros((n, 2)); frep = []
     for ev in prod['beats']['events']:

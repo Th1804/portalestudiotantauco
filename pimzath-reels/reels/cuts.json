@@ -1,0 +1,17 @@
+{
+ "note": "source_start en segundos del audio fuente decodificado. Duración = frames/30. fade_in/fade_out en segundos (solo para evitar clics; sin otra alteración del audio).",
+ "reels": {
+  "01": {"name": "Refugio", "file": "NoSobreTi_01_Refugio.mp4", "source_start": 170.22, "frames": 514, "fade_in": 0.015, "fade_out": 0.30,
+         "section": "Coro 2", "lyrics": "Que llueva sobre mí / Que llueva sobre mí / Pero no sobre ti / Pero no sobre ti"},
+  "02": {"name": "Cielo", "file": "NoSobreTi_02_Cielo.mp4", "source_start": 51.235, "frames": 541, "fade_in": 0.015, "fade_out": 0.30,
+         "section": "Pre-coro", "lyrics": "Si cae el cielo / Déjalo caer / Si cae el cielo / Déjalo caer"},
+  "03": {"name": "TusOjosNo", "file": "NoSobreTi_03_TusOjosNo.mp4", "source_start": 17.60, "frames": 563, "fade_in": 0.015, "fade_out": 0.30,
+         "section": "Verso 1", "lyrics": "Tu pelo en mi cara / La lluvia en el vidrio / Tu boca mojada / Y yo sigo aquí / Las luces se apagan / Tus ojos no / Tus ojos no / Tus ojos no"},
+  "04": {"name": "Abril", "file": "NoSobreTi_04_Abril.mp4", "source_start": 119.50, "frames": 563, "fade_in": 0.015, "fade_out": 0.30,
+         "section": "Verso 2", "lyrics": "Dos gotas de sangre / Una flor sin raíz / Tu nombre en mi lengua / No quiere salir / La noche está fría / Tu piel sabe a abril / Abril / Abril / Abril / Abril"},
+  "05": {"name": "JuntoATi", "file": "NoSobreTi_05_JuntoATi.mp4", "source_start": 84.126, "frames": 543, "fade_in": 0.015, "fade_out": 0.30,
+         "section": "Coro 1", "lyrics": "Y la maldita lluvia caerá / Pero seguiré de pie junto a ti / (Y para ti) / Para ti / (Y para ti) / Para ti"},
+  "06": {"name": "SobreMi", "file": "NoSobreTi_06_SobreMi.mp4", "source_start": 196.51, "frames": 466, "fade_in": 0.015, "fade_out": 0.30,
+         "section": "Outro", "lyrics": "Sobre mí / Sobre mí / No sobre ti / Sobre mí / Sobre mí / No sobre ti"}
+ }
+}

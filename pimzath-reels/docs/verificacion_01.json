@@ -1,0 +1,44 @@
+{
+ "file": "NoSobreTi_01_Refugio.mp4",
+ "video": {
+  "codec_name": "h264",
+  "profile": "High",
+  "width": 1080,
+  "height": 1920,
+  "pix_fmt": "yuv420p",
+  "r_frame_rate": "30/1",
+  "avg_frame_rate": "30/1",
+  "nb_read_frames": "514",
+  "color_space": "bt709"
+ },
+ "audio": {
+  "codec_name": "aac",
+  "sample_rate": "44100",
+  "channels": 2,
+  "bit_rate": "257067"
+ },
+ "duration_s": 17.133333,
+ "size_mb": 28.8,
+ "expected_frames": 514,
+ "blackdetect": [],
+ "freezedetect": [],
+ "audio_offset_vs_source_samples": 0,
+ "audio_offset_vs_source_ms": 0.0,
+ "residual_vs_source_db": -28.3,
+ "peak_source_dbfs": 1.07,
+ "peak_export_dbfs": 0.09,
+ "samples_over_0dbfs": 1,
+ "source_samples_over_0dbfs_same_span": 31,
+ "peak_source_same_span_dbfs": 1.07,
+ "checks": {
+  "1080x1920": true,
+  "30fps_cfr": true,
+  "h264": true,
+  "aac": true,
+  "frame_count": true,
+  "no_black_frames": true,
+  "audio_sync_within_1ms": true,
+  "audio_unaltered_residual_below_-25dB": true,
+  "no_clipping_added_vs_source": true
+ }
+}

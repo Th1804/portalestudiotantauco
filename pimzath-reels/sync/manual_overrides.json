@@ -1,0 +1,25 @@
+{
+ "start": {
+  "CH1:17": 97.70,
+  "CH2:26": 174.45,
+  "OUT:4": 200.85
+ },
+ "end": {
+  "V1:29": 35.30,
+  "PRE:11": 68.20,
+  "CH1:33": 114.85,
+  "V2:27": 136.30,
+  "V2:28": 137.15,
+  "CH2:25": 174.30,
+  "CH2:37": 186.20,
+  "OUT:3": 200.75,
+  "OUT:6": 202.70,
+  "OUT:13": 211.00
+ },
+ "discrepancies": [
+  "Coro 2 (178.8-186.2 s): 'Pero no sobre ti' se canta DOS veces; la letra oficial lo escribe una vez. Se respeta lo cantado.",
+  "Outro (221.6-231.0 s): vocalización sin palabras reconocibles ('oh/ah'); no figura en la letra oficial y no se subtitula.",
+  "Verso 2: 'Abril' x4 tras 'Tu piel sabe a abril' es compatible con la envolvente (4 ataques ~1 s), pero el ASR cuenta 3-5; confianza media.",
+  "Coros: los '(Y para ti)' entre paréntesis son voces de fondo superpuestas; sus inicios son aproximados (+-0.2 s)."
+ ]
+}

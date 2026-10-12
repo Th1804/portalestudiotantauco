@@ -1,0 +1,11 @@
+[
+ {"id": "V1", "window": [17.0, 36.5], "text": "Tu pelo en mi cara La lluvia en el vidrio Tu boca mojada Y yo sigo aquí Las luces se apagan Tus ojos no Tus ojos no Tus ojos no"},
+ {"id": "V1_4x", "window": [17.0, 36.5], "text": "Tu pelo en mi cara La lluvia en el vidrio Tu boca mojada Y yo sigo aquí Las luces se apagan Tus ojos no Tus ojos no Tus ojos no Tus ojos no"},
+ {"id": "PRE", "window": [50.3, 69.0], "text": "Si cae el cielo Déjalo caer Si cae el cielo Déjalo caer"},
+ {"id": "PRE_x", "window": [50.3, 69.0], "text": "Si cae el cielo Déjalo caer Si cae el cielo Déjalo caer Déjalo caer"},
+ {"id": "CH1", "window": [83.6, 115.5], "text": "Y la maldita lluvia caerá Pero seguiré de pie junto a ti Y para ti Para ti Y para ti Para ti Que llueva sobre mí Que llueva sobre mí Pero no sobre ti"},
+ {"id": "V2", "window": [119.0, 138.0], "text": "Dos gotas de sangre Una flor sin raíz Tu nombre en mi lengua No quiere salir La noche está fría Tu piel sabe a abril Abril Abril Abril Abril"},
+ {"id": "CH2", "window": [150.8, 187.5], "text": "Y la maldita lluvia caerá Pero seguiré de pie junto a ti Y para ti Para ti Y para ti Para ti Que llueva sobre mí Que llueva sobre mí Pero no sobre ti Pero no sobre ti"},
+ {"id": "OUT", "window": [195.5, 212.0], "text": "Sobre mí Sobre mí No sobre ti Sobre mí Sobre mí No sobre ti"},
+ {"id": "TAIL", "window": [220.5, 233.0], "text": "Sobre mí Sobre mí No sobre ti"}
+]

@@ -1,0 +1,1358 @@
+{
+ "V1": {
+  "window": [
+   17.0,
+   36.5
+  ],
+  "text": "Tu pelo en mi cara La lluvia en el vidrio Tu boca mojada Y yo sigo aquí Las luces se apagan Tus ojos no Tus ojos no Tus ojos no",
+  "mean_logp": -0.299,
+  "words": [
+   {
+    "w": "Tu",
+    "start": 17.981,
+    "end": 18.081,
+    "score": -0.65
+   },
+   {
+    "w": "pelo",
+    "start": 18.221,
+    "end": 18.441,
+    "score": -4.13
+   },
+   {
+    "w": "en",
+    "start": 18.441,
+    "end": 18.482,
+    "score": -6.56
+   },
+   {
+    "w": "mi",
+    "start": 18.482,
+    "end": 18.622,
+    "score": -0.1
+   },
+   {
+    "w": "cara",
+    "start": 18.762,
+    "end": 19.743,
+    "score": -1.48
+   },
+   {
+    "w": "La",
+    "start": 20.123,
+    "end": 20.243,
+    "score": -0.11
+   },
+   {
+    "w": "lluvia",
+    "start": 20.343,
+    "end": 20.584,
+    "score": -5.66
+   },
+   {
+    "w": "en",
+    "start": 20.584,
+    "end": 20.644,
+    "score": -2.92
+   },
+   {
+    "w": "el",
+    "start": 20.724,
+    "end": 20.924,
+    "score": -1.05
+   },
+   {
+    "w": "vidrio",
+    "start": 21.004,
+    "end": 21.965,
+    "score": -2.87
+   },
+   {
+    "w": "Tu",
+    "start": 22.265,
+    "end": 22.386,
+    "score": -0.54
+   },
+   {
+    "w": "boca",
+    "start": 22.386,
+    "end": 22.746,
+    "score": -4.83
+   },
+   {
+    "w": "mojada",
+    "start": 22.786,
+    "end": 23.987,
+    "score": -1.75
+   },
+   {
+    "w": "Y",
+    "start": 24.468,
+    "end": 24.488,
+    "score": -2.76
+   },
+   {
+    "w": "yo",
+    "start": 24.588,
+    "end": 24.668,
+    "score": -3.4
+   },
+   {
+    "w": "sigo",
+    "start": 24.788,
+    "end": 24.928,
+    "score": -3.76
+   },
+   {
+    "w": "aquí",
+    "start": 24.988,
+    "end": 25.369,
+    "score": -3.38
+   },
+   {
+    "w": "Las",
+    "start": 26.49,
+    "end": 26.63,
+    "score": -3.08
+   },
+   {
+    "w": "luces",
+    "start": 26.73,
+    "end": 26.93,
+    "score": -4.62
+   },
+   {
+    "w": "se",
+    "start": 26.99,
+    "end": 27.05,
+    "score": -1.75
+   },
+   {
+    "w": "apagan",
+    "start": 27.11,
+    "end": 28.272,
+    "score": -0.85
+   },
+   {
+    "w": "Tus",
+    "start": 28.612,
+    "end": 28.872,
+    "score": -0.76
+   },
+   {
+    "w": "ojos",
+    "start": 28.972,
+    "end": 29.373,
+    "score": -2.57
+   },
+   {
+    "w": "no",
+    "start": 29.433,
+    "end": 29.533,
+    "score": -2.01
+   },
+   {
+    "w": "Tus",
+    "start": 30.734,
+    "end": 31.014,
+    "score": -1.93
+   },
+   {
+    "w": "ojos",
+    "start": 31.134,
+    "end": 31.475,
+    "score": -2.89
+   },
+   {
+    "w": "no",
+    "start": 31.555,
+    "end": 31.675,
+    "score": -2.56
+   },
+   {
+    "w": "Tus",
+    "start": 32.055,
+    "end": 32.596,
+    "score": -4.33
+   },
+   {
+    "w": "ojos",
+    "start": 32.676,
+    "end": 33.597,
+    "score": -2.7
+   },
+   {
+    "w": "no",
+    "start": 33.697,
+    "end": 33.817,
+    "score": -2.62
+   }
+  ]
+ },
+ "V1_4x": {
+  "window": [
+   17.0,
+   36.5
+  ],
+  "text": "Tu pelo en mi cara La lluvia en el vidrio Tu boca mojada Y yo sigo aquí Las luces se apagan Tus ojos no Tus ojos no Tus ojos no Tus ojos no",
+  "mean_logp": -0.352,
+  "words": [
+   {
+    "w": "Tu",
+    "start": 17.981,
+    "end": 18.081,
+    "score": -0.65
+   },
+   {
+    "w": "pelo",
+    "start": 18.221,
+    "end": 18.441,
+    "score": -4.13
+   },
+   {
+    "w": "en",
+    "start": 18.441,
+    "end": 18.482,
+    "score": -6.56
+   },
+   {
+    "w": "mi",
+    "start": 18.482,
+    "end": 18.622,
+    "score": -0.1
+   },
+   {
+    "w": "cara",
+    "start": 18.762,
+    "end": 19.743,
+    "score": -1.48
+   },
+   {
+    "w": "La",
+    "start": 20.123,
+    "end": 20.243,
+    "score": -0.11
+   },
+   {
+    "w": "lluvia",
+    "start": 20.343,
+    "end": 20.584,
+    "score": -5.66
+   },
+   {
+    "w": "en",
+    "start": 20.584,
+    "end": 20.644,
+    "score": -2.92
+   },
+   {
+    "w": "el",
+    "start": 20.724,
+    "end": 20.924,
+    "score": -1.05
+   },
+   {
+    "w": "vidrio",
+    "start": 21.004,
+    "end": 21.965,
+    "score": -2.87
+   },
+   {
+    "w": "Tu",
+    "start": 22.265,
+    "end": 22.386,
+    "score": -0.54
+   },
+   {
+    "w": "boca",
+    "start": 22.386,
+    "end": 22.746,
+    "score": -4.83
+   },
+   {
+    "w": "mojada",
+    "start": 22.786,
+    "end": 23.987,
+    "score": -1.75
+   },
+   {
+    "w": "Y",
+    "start": 24.468,
+    "end": 24.488,
+    "score": -2.76
+   },
+   {
+    "w": "yo",
+    "start": 24.588,
+    "end": 24.668,
+    "score": -3.4
+   },
+   {
+    "w": "sigo",
+    "start": 24.788,
+    "end": 24.928,
+    "score": -3.76
+   },
+   {
+    "w": "aquí",
+    "start": 24.988,
+    "end": 25.369,
+    "score": -3.38
+   },
+   {
+    "w": "Las",
+    "start": 26.49,
+    "end": 26.63,
+    "score": -3.08
+   },
+   {
+    "w": "luces",
+    "start": 26.73,
+    "end": 26.93,
+    "score": -4.62
+   },
+   {
+    "w": "se",
+    "start": 26.99,
+    "end": 27.05,
+    "score": -1.75
+   },
+   {
+    "w": "apagan",
+    "start": 27.11,
+    "end": 28.272,
+    "score": -0.85
+   },
+   {
+    "w": "Tus",
+    "start": 28.612,
+    "end": 28.872,
+    "score": -0.76
+   },
+   {
+    "w": "ojos",
+    "start": 28.972,
+    "end": 29.373,
+    "score": -2.57
+   },
+   {
+    "w": "no",
+    "start": 29.433,
+    "end": 29.533,
+    "score": -2.01
+   },
+   {
+    "w": "Tus",
+    "start": 30.734,
+    "end": 31.014,
+    "score": -1.93
+   },
+   {
+    "w": "ojos",
+    "start": 31.134,
+    "end": 31.475,
+    "score": -2.89
+   },
+   {
+    "w": "no",
+    "start": 31.555,
+    "end": 31.675,
+    "score": -2.56
+   },
+   {
+    "w": "Tus",
+    "start": 32.055,
+    "end": 32.596,
+    "score": -4.33
+   },
+   {
+    "w": "ojos",
+    "start": 32.676,
+    "end": 33.397,
+    "score": -3.68
+   },
+   {
+    "w": "no",
+    "start": 33.397,
+    "end": 33.437,
+    "score": -4.82
+   },
+   {
+    "w": "Tus",
+    "start": 33.437,
+    "end": 33.597,
+    "score": -4.79
+   },
+   {
+    "w": "ojos",
+    "start": 33.797,
+    "end": 34.258,
+    "score": -5.03
+   },
+   {
+    "w": "no",
+    "start": 34.258,
+    "end": 34.358,
+    "score": -4.48
+   }
+  ]
+ },
+ "PRE": {
+  "window": [
+   50.3,
+   69.0
+  ],
+  "text": "Si cae el cielo Déjalo caer Si cae el cielo Déjalo caer",
+  "mean_logp": -0.079,
+  "words": [
+   {
+    "w": "Si",
+    "start": 51.681,
+    "end": 51.842,
+    "score": -0.32
+   },
+   {
+    "w": "cae",
+    "start": 52.763,
+    "end": 52.943,
+    "score": -2.44
+   },
+   {
+    "w": "el",
+    "start": 53.183,
+    "end": 53.363,
+    "score": -2.55
+   },
+   {
+    "w": "cielo",
+    "start": 53.523,
+    "end": 54.545,
+    "score": -0.52
+   },
+   {
+    "w": "Déjalo",
+    "start": 55.706,
+    "end": 56.907,
+    "score": -0.19
+   },
+   {
+    "w": "caer",
+    "start": 57.287,
+    "end": 58.669,
+    "score": -2.72
+   },
+   {
+    "w": "Si",
+    "start": 60.171,
+    "end": 60.331,
+    "score": -0.59
+   },
+   {
+    "w": "cae",
+    "start": 61.252,
+    "end": 61.412,
+    "score": -2.15
+   },
+   {
+    "w": "el",
+    "start": 61.652,
+    "end": 61.872,
+    "score": -2.61
+   },
+   {
+    "w": "cielo",
+    "start": 62.013,
+    "end": 63.054,
+    "score": -0.55
+   },
+   {
+    "w": "Déjalo",
+    "start": 64.215,
+    "end": 65.416,
+    "score": -0.32
+   },
+   {
+    "w": "caer",
+    "start": 65.777,
+    "end": 67.178,
+    "score": -1.15
+   }
+  ]
+ },
+ "PRE_x": {
+  "window": [
+   50.3,
+   69.0
+  ],
+  "text": "Si cae el cielo Déjalo caer Si cae el cielo Déjalo caer Déjalo caer",
+  "mean_logp": -0.142,
+  "words": [
+   {
+    "w": "Si",
+    "start": 51.681,
+    "end": 51.842,
+    "score": -0.32
+   },
+   {
+    "w": "cae",
+    "start": 52.763,
+    "end": 52.943,
+    "score": -2.44
+   },
+   {
+    "w": "el",
+    "start": 53.183,
+    "end": 53.363,
+    "score": -2.55
+   },
+   {
+    "w": "cielo",
+    "start": 53.523,
+    "end": 54.545,
+    "score": -0.52
+   },
+   {
+    "w": "Déjalo",
+    "start": 55.706,
+    "end": 56.907,
+    "score": -0.19
+   },
+   {
+    "w": "caer",
+    "start": 57.287,
+    "end": 58.669,
+    "score": -2.72
+   },
+   {
+    "w": "Si",
+    "start": 60.171,
+    "end": 60.331,
+    "score": -0.59
+   },
+   {
+    "w": "cae",
+    "start": 61.252,
+    "end": 61.412,
+    "score": -2.15
+   },
+   {
+    "w": "el",
+    "start": 61.652,
+    "end": 61.872,
+    "score": -2.61
+   },
+   {
+    "w": "cielo",
+    "start": 62.013,
+    "end": 63.054,
+    "score": -0.55
+   },
+   {
+    "w": "Déjalo",
+    "start": 64.215,
+    "end": 65.416,
+    "score": -0.32
+   },
+   {
+    "w": "caer",
+    "start": 65.777,
+    "end": 67.158,
+    "score": -1.51
+   },
+   {
+    "w": "Déjalo",
+    "start": 67.158,
+    "end": 68.379,
+    "score": -5.8
+   },
+   {
+    "w": "caer",
+    "start": 68.419,
+    "end": 68.98,
+    "score": -5.94
+   }
+  ]
+ },
+ "CH1": {
+  "window": [
+   83.6,
+   115.5
+  ],
+  "text": "Y la maldita lluvia caerá Pero seguiré de pie junto a ti Y para ti Para ti Y para ti Para ti Que llueva sobre mí Que llueva sobre mí Pero no sobre ti",
+  "mean_logp": -0.128,
+  "words": [
+   {
+    "w": "Y",
+    "start": 84.441,
+    "end": 84.461,
+    "score": -2.85
+   },
+   {
+    "w": "la",
+    "start": 84.561,
+    "end": 84.721,
+    "score": -3.93
+   },
+   {
+    "w": "maldita",
+    "start": 84.841,
+    "end": 85.481,
+    "score": -1.48
+   },
+   {
+    "w": "lluvia",
+    "start": 85.621,
+    "end": 86.662,
+    "score": -1.52
+   },
+   {
+    "w": "caerá",
+    "start": 87.002,
+    "end": 87.703,
+    "score": -0.51
+   },
+   {
+    "w": "Pero",
+    "start": 89.123,
+    "end": 89.564,
+    "score": -0.16
+   },
+   {
+    "w": "seguiré",
+    "start": 89.884,
+    "end": 90.865,
+    "score": -2.09
+   },
+   {
+    "w": "de",
+    "start": 91.205,
+    "end": 91.305,
+    "score": -3.48
+   },
+   {
+    "w": "pie",
+    "start": 91.465,
+    "end": 91.625,
+    "score": -1.11
+   },
+   {
+    "w": "junto",
+    "start": 91.745,
+    "end": 92.365,
+    "score": -1.98
+   },
+   {
+    "w": "a",
+    "start": 92.466,
+    "end": 92.486,
+    "score": -0.07
+   },
+   {
+    "w": "ti",
+    "start": 92.806,
+    "end": 92.966,
+    "score": -0.28
+   },
+   {
+    "w": "Y",
+    "start": 93.486,
+    "end": 93.506,
+    "score": -2.38
+   },
+   {
+    "w": "para",
+    "start": 93.626,
+    "end": 94.147,
+    "score": -1.58
+   },
+   {
+    "w": "ti",
+    "start": 94.207,
+    "end": 94.347,
+    "score": -3.16
+   },
+   {
+    "w": "Para",
+    "start": 95.247,
+    "end": 95.868,
+    "score": -0.56
+   },
+   {
+    "w": "ti",
+    "start": 96.008,
+    "end": 96.148,
+    "score": -0.53
+   },
+   {
+    "w": "Y",
+    "start": 96.888,
+    "end": 96.908,
+    "score": -4.18
+   },
+   {
+    "w": "para",
+    "start": 97.949,
+    "end": 98.269,
+    "score": -1.59
+   },
+   {
+    "w": "ti",
+    "start": 98.409,
+    "end": 98.589,
+    "score": -2.28
+   },
+   {
+    "w": "Para",
+    "start": 99.47,
+    "end": 100.11,
+    "score": -0.59
+   },
+   {
+    "w": "ti",
+    "start": 100.27,
+    "end": 100.391,
+    "score": -0.69
+   },
+   {
+    "w": "Que",
+    "start": 102.332,
+    "end": 102.452,
+    "score": -0.63
+   },
+   {
+    "w": "llueva",
+    "start": 102.552,
+    "end": 103.352,
+    "score": -2.22
+   },
+   {
+    "w": "sobre",
+    "start": 103.693,
+    "end": 104.393,
+    "score": -0.83
+   },
+   {
+    "w": "mí",
+    "start": 104.533,
+    "end": 104.673,
+    "score": -0.26
+   },
+   {
+    "w": "Que",
+    "start": 106.654,
+    "end": 106.775,
+    "score": -2.47
+   },
+   {
+    "w": "llueva",
+    "start": 106.875,
+    "end": 107.615,
+    "score": -2.03
+   },
+   {
+    "w": "sobre",
+    "start": 107.975,
+    "end": 108.636,
+    "score": -0.5
+   },
+   {
+    "w": "mí",
+    "start": 108.736,
+    "end": 108.936,
+    "score": -0.36
+   },
+   {
+    "w": "Pero",
+    "start": 110.897,
+    "end": 111.317,
+    "score": -0.19
+   },
+   {
+    "w": "no",
+    "start": 111.698,
+    "end": 111.858,
+    "score": -1.03
+   },
+   {
+    "w": "sobre",
+    "start": 112.198,
+    "end": 112.838,
+    "score": -1.13
+   },
+   {
+    "w": "ti",
+    "start": 112.998,
+    "end": 113.139,
+    "score": -0.44
+   }
+  ]
+ },
+ "V2": {
+  "window": [
+   119.0,
+   138.0
+  ],
+  "text": "Dos gotas de sangre Una flor sin raíz Tu nombre en mi lengua No quiere salir La noche está fría Tu piel sabe a abril Abril Abril Abril Abril",
+  "mean_logp": -0.298,
+  "words": [
+   {
+    "w": "Dos",
+    "start": 119.861,
+    "end": 120.101,
+    "score": -1.24
+   },
+   {
+    "w": "gotas",
+    "start": 120.141,
+    "end": 120.381,
+    "score": -2.3
+   },
+   {
+    "w": "de",
+    "start": 120.462,
+    "end": 120.542,
+    "score": -1.16
+   },
+   {
+    "w": "sangre",
+    "start": 120.642,
+    "end": 121.583,
+    "score": -1.84
+   },
+   {
+    "w": "Una",
+    "start": 121.923,
+    "end": 122.103,
+    "score": -0.9
+   },
+   {
+    "w": "flor",
+    "start": 122.223,
+    "end": 122.344,
+    "score": -3.07
+   },
+   {
+    "w": "sin",
+    "start": 122.384,
+    "end": 122.524,
+    "score": -2.47
+   },
+   {
+    "w": "raíz",
+    "start": 122.564,
+    "end": 123.685,
+    "score": -1.8
+   },
+   {
+    "w": "Tu",
+    "start": 124.125,
+    "end": 124.246,
+    "score": -0.36
+   },
+   {
+    "w": "nombre",
+    "start": 124.346,
+    "end": 124.546,
+    "score": -3.08
+   },
+   {
+    "w": "en",
+    "start": 124.586,
+    "end": 124.626,
+    "score": -5.91
+   },
+   {
+    "w": "mi",
+    "start": 124.626,
+    "end": 124.726,
+    "score": -0.28
+   },
+   {
+    "w": "lengua",
+    "start": 124.906,
+    "end": 125.827,
+    "score": -1.71
+   },
+   {
+    "w": "No",
+    "start": 126.228,
+    "end": 126.328,
+    "score": -0.57
+   },
+   {
+    "w": "quiere",
+    "start": 126.468,
+    "end": 126.668,
+    "score": -3.66
+   },
+   {
+    "w": "salir",
+    "start": 126.748,
+    "end": 127.649,
+    "score": -1.01
+   },
+   {
+    "w": "La",
+    "start": 128.37,
+    "end": 128.53,
+    "score": -0.37
+   },
+   {
+    "w": "noche",
+    "start": 128.63,
+    "end": 128.81,
+    "score": -3.9
+   },
+   {
+    "w": "está",
+    "start": 128.83,
+    "end": 129.011,
+    "score": -2.48
+   },
+   {
+    "w": "fría",
+    "start": 129.131,
+    "end": 130.152,
+    "score": -0.56
+   },
+   {
+    "w": "Tu",
+    "start": 130.492,
+    "end": 130.592,
+    "score": -0.4
+   },
+   {
+    "w": "piel",
+    "start": 130.732,
+    "end": 130.852,
+    "score": -3.32
+   },
+   {
+    "w": "sabe",
+    "start": 130.893,
+    "end": 131.113,
+    "score": -2.29
+   },
+   {
+    "w": "a",
+    "start": 131.153,
+    "end": 131.173,
+    "score": -5.44
+   },
+   {
+    "w": "abril",
+    "start": 131.193,
+    "end": 131.894,
+    "score": -1.7
+   },
+   {
+    "w": "Abril",
+    "start": 133.215,
+    "end": 134.216,
+    "score": -2.0
+   },
+   {
+    "w": "Abril",
+    "start": 134.316,
+    "end": 135.297,
+    "score": -2.17
+   },
+   {
+    "w": "Abril",
+    "start": 135.377,
+    "end": 136.338,
+    "score": -3.17
+   },
+   {
+    "w": "Abril",
+    "start": 136.398,
+    "end": 137.179,
+    "score": -4.0
+   }
+  ]
+ },
+ "CH2": {
+  "window": [
+   150.8,
+   187.5
+  ],
+  "text": "Y la maldita lluvia caerá Pero seguiré de pie junto a ti Y para ti Para ti Y para ti Para ti Que llueva sobre mí Que llueva sobre mí Pero no sobre ti Pero no sobre ti",
+  "mean_logp": -0.184,
+  "words": [
+   {
+    "w": "Y",
+    "start": 152.381,
+    "end": 152.401,
+    "score": -5.82
+   },
+   {
+    "w": "la",
+    "start": 152.541,
+    "end": 152.641,
+    "score": -0.2
+   },
+   {
+    "w": "maldita",
+    "start": 152.761,
+    "end": 153.421,
+    "score": -1.67
+   },
+   {
+    "w": "lluvia",
+    "start": 153.521,
+    "end": 154.582,
+    "score": -2.51
+   },
+   {
+    "w": "caerá",
+    "start": 154.922,
+    "end": 155.643,
+    "score": -1.03
+   },
+   {
+    "w": "Pero",
+    "start": 157.043,
+    "end": 157.484,
+    "score": -0.97
+   },
+   {
+    "w": "seguiré",
+    "start": 157.804,
+    "end": 158.784,
+    "score": -1.56
+   },
+   {
+    "w": "de",
+    "start": 159.085,
+    "end": 159.185,
+    "score": -4.36
+   },
+   {
+    "w": "pie",
+    "start": 159.385,
+    "end": 159.545,
+    "score": -2.1
+   },
+   {
+    "w": "junto",
+    "start": 159.665,
+    "end": 160.225,
+    "score": -3.88
+   },
+   {
+    "w": "a",
+    "start": 160.345,
+    "end": 160.365,
+    "score": -0.1
+   },
+   {
+    "w": "ti",
+    "start": 160.745,
+    "end": 160.885,
+    "score": -0.33
+   },
+   {
+    "w": "Y",
+    "start": 161.406,
+    "end": 161.426,
+    "score": -4.6
+   },
+   {
+    "w": "para",
+    "start": 161.526,
+    "end": 161.946,
+    "score": -2.85
+   },
+   {
+    "w": "ti",
+    "start": 162.066,
+    "end": 162.226,
+    "score": -1.97
+   },
+   {
+    "w": "Para",
+    "start": 163.167,
+    "end": 163.807,
+    "score": -1.18
+   },
+   {
+    "w": "ti",
+    "start": 163.927,
+    "end": 164.067,
+    "score": -0.7
+   },
+   {
+    "w": "Y",
+    "start": 164.247,
+    "end": 164.267,
+    "score": -4.45
+   },
+   {
+    "w": "para",
+    "start": 164.808,
+    "end": 165.988,
+    "score": -3.17
+   },
+   {
+    "w": "ti",
+    "start": 166.328,
+    "end": 166.469,
+    "score": -1.94
+   },
+   {
+    "w": "Para",
+    "start": 167.389,
+    "end": 168.029,
+    "score": -0.92
+   },
+   {
+    "w": "ti",
+    "start": 168.189,
+    "end": 168.33,
+    "score": -0.57
+   },
+   {
+    "w": "Que",
+    "start": 170.291,
+    "end": 170.411,
+    "score": -2.97
+   },
+   {
+    "w": "llueva",
+    "start": 170.471,
+    "end": 171.271,
+    "score": -2.69
+   },
+   {
+    "w": "sobre",
+    "start": 171.631,
+    "end": 172.312,
+    "score": -2.19
+   },
+   {
+    "w": "mí",
+    "start": 172.472,
+    "end": 172.592,
+    "score": -0.79
+   },
+   {
+    "w": "Que",
+    "start": 172.772,
+    "end": 174.693,
+    "score": -5.67
+   },
+   {
+    "w": "llueva",
+    "start": 174.793,
+    "end": 175.533,
+    "score": -4.13
+   },
+   {
+    "w": "sobre",
+    "start": 175.914,
+    "end": 176.554,
+    "score": -4.35
+   },
+   {
+    "w": "mí",
+    "start": 176.674,
+    "end": 176.834,
+    "score": -2.6
+   },
+   {
+    "w": "Pero",
+    "start": 178.815,
+    "end": 179.215,
+    "score": -2.05
+   },
+   {
+    "w": "no",
+    "start": 179.596,
+    "end": 179.736,
+    "score": -1.49
+   },
+   {
+    "w": "sobre",
+    "start": 180.096,
+    "end": 180.756,
+    "score": -2.34
+   },
+   {
+    "w": "ti",
+    "start": 180.916,
+    "end": 181.056,
+    "score": -1.27
+   },
+   {
+    "w": "Pero",
+    "start": 183.078,
+    "end": 183.478,
+    "score": -3.55
+   },
+   {
+    "w": "no",
+    "start": 183.838,
+    "end": 183.998,
+    "score": -3.1
+   },
+   {
+    "w": "sobre",
+    "start": 184.358,
+    "end": 184.999,
+    "score": -3.01
+   },
+   {
+    "w": "ti",
+    "start": 185.159,
+    "end": 185.299,
+    "score": -2.07
+   }
+  ]
+ },
+ "OUT": {
+  "window": [
+   195.5,
+   212.0
+  ],
+  "text": "Sobre mí Sobre mí No sobre ti Sobre mí Sobre mí No sobre ti",
+  "mean_logp": -0.168,
+  "words": [
+   {
+    "w": "Sobre",
+    "start": 197.062,
+    "end": 197.522,
+    "score": -2.66
+   },
+   {
+    "w": "mí",
+    "start": 197.663,
+    "end": 197.803,
+    "score": -0.78
+   },
+   {
+    "w": "Sobre",
+    "start": 199.184,
+    "end": 199.625,
+    "score": -2.94
+   },
+   {
+    "w": "mí",
+    "start": 199.785,
+    "end": 199.905,
+    "score": -1.15
+   },
+   {
+    "w": "No",
+    "start": 200.005,
+    "end": 201.187,
+    "score": -3.42
+   },
+   {
+    "w": "sobre",
+    "start": 201.347,
+    "end": 201.768,
+    "score": -2.41
+   },
+   {
+    "w": "ti",
+    "start": 201.888,
+    "end": 202.028,
+    "score": -0.92
+   },
+   {
+    "w": "Sobre",
+    "start": 205.552,
+    "end": 205.993,
+    "score": -2.78
+   },
+   {
+    "w": "mí",
+    "start": 206.133,
+    "end": 206.253,
+    "score": -0.89
+   },
+   {
+    "w": "Sobre",
+    "start": 207.715,
+    "end": 208.115,
+    "score": -3.0
+   },
+   {
+    "w": "mí",
+    "start": 208.275,
+    "end": 208.436,
+    "score": -1.59
+   },
+   {
+    "w": "No",
+    "start": 209.117,
+    "end": 209.717,
+    "score": -3.55
+   },
+   {
+    "w": "sobre",
+    "start": 209.837,
+    "end": 210.238,
+    "score": -2.31
+   },
+   {
+    "w": "ti",
+    "start": 210.378,
+    "end": 210.538,
+    "score": -1.11
+   }
+  ]
+ },
+ "TAIL": {
+  "window": [
+   220.5,
+   233.0
+  ],
+  "text": "Sobre mí Sobre mí No sobre ti",
+  "mean_logp": -0.138,
+  "words": [
+   {
+    "w": "Sobre",
+    "start": 221.582,
+    "end": 222.744,
+    "score": -2.39
+   },
+   {
+    "w": "mí",
+    "start": 222.944,
+    "end": 223.525,
+    "score": -1.97
+   },
+   {
+    "w": "Sobre",
+    "start": 223.665,
+    "end": 224.366,
+    "score": -2.33
+   },
+   {
+    "w": "mí",
+    "start": 225.127,
+    "end": 225.548,
+    "score": -2.49
+   },
+   {
+    "w": "No",
+    "start": 226.87,
+    "end": 227.03,
+    "score": -1.55
+   },
+   {
+    "w": "sobre",
+    "start": 227.772,
+    "end": 228.252,
+    "score": -2.75
+   },
+   {
+    "w": "ti",
+    "start": 228.393,
+    "end": 228.533,
+    "score": -2.35
+   }
+  ]
+ }
+}

@@ -1,0 +1,1269 @@
+{
+ "song": "No Sobre Ti — Pimzath",
+ "source_audio": "assets/No_Sobre_Ti_original.m4a",
+ "time_base": "segundos del audio fuente decodificado por ffmpeg (stream start 0.046440 s ya compensado por el decodificador)",
+ "method": "Demucs htdemucs (voz aislada) + alineación forzada CTC MMS_FA con la letra oficial + fines por envolvente vocal + revisión manual con gráficos (analysis/plots).",
+ "discrepancies_vs_official_lyrics": [
+  "Coro 2 (178.8-186.2 s): 'Pero no sobre ti' se canta DOS veces; la letra oficial lo escribe una vez. Se respeta lo cantado.",
+  "Outro (221.6-231.0 s): vocalización sin palabras reconocibles ('oh/ah'); no figura en la letra oficial y no se subtitula.",
+  "Verso 2: 'Abril' x4 tras 'Tu piel sabe a abril' es compatible con la envolvente (4 ataques ~1 s), pero el ASR cuenta 3-5; confianza media.",
+  "Coros: los '(Y para ti)' entre paréntesis son voces de fondo superpuestas; sus inicios son aproximados (+-0.2 s)."
+ ],
+ "phrases": [
+  {
+   "id": "V1-01",
+   "section": "Verso 1",
+   "text": "Tu pelo en mi cara",
+   "backing": false,
+   "start": 17.981,
+   "end": 20.103,
+   "words": [
+    {
+     "w": "Tu",
+     "start": 17.981,
+     "end": 18.201
+    },
+    {
+     "w": "pelo",
+     "start": 18.221,
+     "end": 18.421
+    },
+    {
+     "w": "en",
+     "start": 18.441,
+     "end": 18.462
+    },
+    {
+     "w": "mi",
+     "start": 18.482,
+     "end": 18.742
+    },
+    {
+     "w": "cara",
+     "start": 18.762,
+     "end": 20.103
+    }
+   ]
+  },
+  {
+   "id": "V1-02",
+   "section": "Verso 1",
+   "text": "La lluvia en el vidrio",
+   "backing": false,
+   "start": 20.123,
+   "end": 22.152,
+   "words": [
+    {
+     "w": "La",
+     "start": 20.123,
+     "end": 20.323
+    },
+    {
+     "w": "lluvia",
+     "start": 20.343,
+     "end": 20.564
+    },
+    {
+     "w": "en",
+     "start": 20.584,
+     "end": 20.704
+    },
+    {
+     "w": "el",
+     "start": 20.724,
+     "end": 20.984
+    },
+    {
+     "w": "vidrio",
+     "start": 21.004,
+     "end": 22.152
+    }
+   ]
+  },
+  {
+   "id": "V1-03",
+   "section": "Verso 1",
+   "text": "Tu boca mojada",
+   "backing": false,
+   "start": 22.265,
+   "end": 24.201,
+   "words": [
+    {
+     "w": "Tu",
+     "start": 22.265,
+     "end": 22.366
+    },
+    {
+     "w": "boca",
+     "start": 22.386,
+     "end": 22.639
+    },
+    {
+     "w": "mojada",
+     "start": 22.786,
+     "end": 24.201
+    }
+   ]
+  },
+  {
+   "id": "V1-04",
+   "section": "Verso 1",
+   "text": "Y yo sigo aquí",
+   "backing": false,
+   "start": 24.468,
+   "end": 25.228,
+   "words": [
+    {
+     "w": "Y",
+     "start": 24.468,
+     "end": 24.568
+    },
+    {
+     "w": "yo",
+     "start": 24.588,
+     "end": 24.768
+    },
+    {
+     "w": "sigo",
+     "start": 24.788,
+     "end": 24.968
+    },
+    {
+     "w": "aquí",
+     "start": 24.988,
+     "end": 25.228
+    }
+   ]
+  },
+  {
+   "id": "V1-05",
+   "section": "Verso 1",
+   "text": "Las luces se apagan",
+   "backing": false,
+   "start": 26.49,
+   "end": 28.526,
+   "words": [
+    {
+     "w": "Las",
+     "start": 26.49,
+     "end": 26.71
+    },
+    {
+     "w": "luces",
+     "start": 26.73,
+     "end": 26.97
+    },
+    {
+     "w": "se",
+     "start": 26.99,
+     "end": 27.09
+    },
+    {
+     "w": "apagan",
+     "start": 27.11,
+     "end": 28.526
+    }
+   ]
+  },
+  {
+   "id": "V1-06",
+   "section": "Verso 1",
+   "text": "Tus ojos no",
+   "backing": false,
+   "start": 28.612,
+   "end": 30.018,
+   "words": [
+    {
+     "w": "Tus",
+     "start": 28.612,
+     "end": 28.952
+    },
+    {
+     "w": "ojos",
+     "start": 28.972,
+     "end": 29.413
+    },
+    {
+     "w": "no",
+     "start": 29.433,
+     "end": 30.018
+    }
+   ]
+  },
+  {
+   "id": "V1-07",
+   "section": "Verso 1",
+   "text": "Tus ojos no",
+   "backing": false,
+   "start": 30.734,
+   "end": 32.035,
+   "words": [
+    {
+     "w": "Tus",
+     "start": 30.734,
+     "end": 31.114
+    },
+    {
+     "w": "ojos",
+     "start": 31.134,
+     "end": 31.535
+    },
+    {
+     "w": "no",
+     "start": 31.555,
+     "end": 32.035
+    }
+   ]
+  },
+  {
+   "id": "V1-08",
+   "section": "Verso 1",
+   "text": "Tus ojos no",
+   "backing": false,
+   "start": 32.055,
+   "end": 35.3,
+   "words": [
+    {
+     "w": "Tus",
+     "start": 32.055,
+     "end": 32.656
+    },
+    {
+     "w": "ojos",
+     "start": 32.676,
+     "end": 33.677
+    },
+    {
+     "w": "no",
+     "start": 33.697,
+     "end": 35.3
+    }
+   ]
+  },
+  {
+   "id": "PRE-01",
+   "section": "Pre-coro",
+   "text": "Si cae el cielo",
+   "backing": false,
+   "start": 51.681,
+   "end": 55.368,
+   "words": [
+    {
+     "w": "Si",
+     "start": 51.681,
+     "end": 52.743
+    },
+    {
+     "w": "cae",
+     "start": 52.763,
+     "end": 53.163
+    },
+    {
+     "w": "el",
+     "start": 53.183,
+     "end": 53.325
+    },
+    {
+     "w": "cielo",
+     "start": 53.523,
+     "end": 55.368
+    }
+   ]
+  },
+  {
+   "id": "PRE-02",
+   "section": "Pre-coro",
+   "text": "Déjalo caer",
+   "backing": false,
+   "start": 55.706,
+   "end": 58.659,
+   "words": [
+    {
+     "w": "Déjalo",
+     "start": 55.706,
+     "end": 56.024
+    },
+    {
+     "w": "caer",
+     "start": 57.287,
+     "end": 58.659
+    }
+   ]
+  },
+  {
+   "id": "PRE-03",
+   "section": "Pre-coro",
+   "text": "Si cae el cielo",
+   "backing": false,
+   "start": 60.171,
+   "end": 63.901,
+   "words": [
+    {
+     "w": "Si",
+     "start": 60.171,
+     "end": 61.232
+    },
+    {
+     "w": "cae",
+     "start": 61.252,
+     "end": 61.632
+    },
+    {
+     "w": "el",
+     "start": 61.652,
+     "end": 61.835
+    },
+    {
+     "w": "cielo",
+     "start": 62.013,
+     "end": 63.901
+    }
+   ]
+  },
+  {
+   "id": "PRE-04",
+   "section": "Pre-coro",
+   "text": "Déjalo caer",
+   "backing": false,
+   "start": 64.215,
+   "end": 68.2,
+   "words": [
+    {
+     "w": "Déjalo",
+     "start": 64.215,
+     "end": 64.493
+    },
+    {
+     "w": "caer",
+     "start": 65.777,
+     "end": 68.2
+    }
+   ]
+  },
+  {
+   "id": "CH1-01",
+   "section": "Coro 1",
+   "text": "Y la maldita lluvia caerá",
+   "backing": false,
+   "start": 84.441,
+   "end": 88.381,
+   "words": [
+    {
+     "w": "Y",
+     "start": 84.441,
+     "end": 84.541
+    },
+    {
+     "w": "la",
+     "start": 84.561,
+     "end": 84.821
+    },
+    {
+     "w": "maldita",
+     "start": 84.841,
+     "end": 85.601
+    },
+    {
+     "w": "lluvia",
+     "start": 85.621,
+     "end": 86.982
+    },
+    {
+     "w": "caerá",
+     "start": 87.002,
+     "end": 88.381
+    }
+   ]
+  },
+  {
+   "id": "CH1-02",
+   "section": "Coro 1",
+   "text": "Pero seguiré de pie junto a ti",
+   "backing": false,
+   "start": 89.123,
+   "end": 93.466,
+   "words": [
+    {
+     "w": "Pero",
+     "start": 89.123,
+     "end": 89.864
+    },
+    {
+     "w": "seguiré",
+     "start": 89.884,
+     "end": 91.185
+    },
+    {
+     "w": "de",
+     "start": 91.205,
+     "end": 91.445
+    },
+    {
+     "w": "pie",
+     "start": 91.465,
+     "end": 91.725
+    },
+    {
+     "w": "junto",
+     "start": 91.745,
+     "end": 92.446
+    },
+    {
+     "w": "a",
+     "start": 92.466,
+     "end": 92.786
+    },
+    {
+     "w": "ti",
+     "start": 92.806,
+     "end": 93.466
+    }
+   ]
+  },
+  {
+   "id": "CH1-03",
+   "section": "Coro 1",
+   "text": "Y para ti",
+   "backing": true,
+   "start": 93.486,
+   "end": 94.766,
+   "words": [
+    {
+     "w": "Y",
+     "start": 93.486,
+     "end": 93.606
+    },
+    {
+     "w": "para",
+     "start": 93.626,
+     "end": 94.187
+    },
+    {
+     "w": "ti",
+     "start": 94.207,
+     "end": 94.766
+    }
+   ]
+  },
+  {
+   "id": "CH1-04",
+   "section": "Coro 1",
+   "text": "Para ti",
+   "backing": false,
+   "start": 95.247,
+   "end": 97.68,
+   "words": [
+    {
+     "w": "Para",
+     "start": 95.247,
+     "end": 95.988
+    },
+    {
+     "w": "ti",
+     "start": 96.008,
+     "end": 97.68
+    }
+   ]
+  },
+  {
+   "id": "CH1-05",
+   "section": "Coro 1",
+   "text": "Y para ti",
+   "backing": true,
+   "start": 97.7,
+   "end": 98.929,
+   "words": [
+    {
+     "w": "Y",
+     "start": 97.7,
+     "end": 97.929
+    },
+    {
+     "w": "para",
+     "start": 97.949,
+     "end": 98.389
+    },
+    {
+     "w": "ti",
+     "start": 98.409,
+     "end": 98.929
+    }
+   ]
+  },
+  {
+   "id": "CH1-06",
+   "section": "Coro 1",
+   "text": "Para ti",
+   "backing": false,
+   "start": 99.47,
+   "end": 102.312,
+   "words": [
+    {
+     "w": "Para",
+     "start": 99.47,
+     "end": 100.25
+    },
+    {
+     "w": "ti",
+     "start": 100.27,
+     "end": 102.312
+    }
+   ]
+  },
+  {
+   "id": "CH1-07",
+   "section": "Coro 1",
+   "text": "Que llueva sobre mí",
+   "backing": false,
+   "start": 102.332,
+   "end": 106.4,
+   "words": [
+    {
+     "w": "Que",
+     "start": 102.332,
+     "end": 102.532
+    },
+    {
+     "w": "llueva",
+     "start": 102.552,
+     "end": 103.201
+    },
+    {
+     "w": "sobre",
+     "start": 103.693,
+     "end": 104.513
+    },
+    {
+     "w": "mí",
+     "start": 104.533,
+     "end": 106.4
+    }
+   ]
+  },
+  {
+   "id": "CH1-08",
+   "section": "Coro 1",
+   "text": "Que llueva sobre mí",
+   "backing": false,
+   "start": 106.654,
+   "end": 110.585,
+   "words": [
+    {
+     "w": "Que",
+     "start": 106.654,
+     "end": 106.855
+    },
+    {
+     "w": "llueva",
+     "start": 106.875,
+     "end": 107.955
+    },
+    {
+     "w": "sobre",
+     "start": 107.975,
+     "end": 108.518
+    },
+    {
+     "w": "mí",
+     "start": 108.736,
+     "end": 110.585
+    }
+   ]
+  },
+  {
+   "id": "CH1-09",
+   "section": "Coro 1",
+   "text": "Pero no sobre ti",
+   "backing": false,
+   "start": 110.897,
+   "end": 114.85,
+   "words": [
+    {
+     "w": "Pero",
+     "start": 110.897,
+     "end": 111.678
+    },
+    {
+     "w": "no",
+     "start": 111.698,
+     "end": 112.178
+    },
+    {
+     "w": "sobre",
+     "start": 112.198,
+     "end": 112.978
+    },
+    {
+     "w": "ti",
+     "start": 112.998,
+     "end": 114.85
+    }
+   ]
+  },
+  {
+   "id": "V2-01",
+   "section": "Verso 2",
+   "text": "Dos gotas de sangre",
+   "backing": false,
+   "start": 119.861,
+   "end": 121.903,
+   "words": [
+    {
+     "w": "Dos",
+     "start": 119.861,
+     "end": 120.121
+    },
+    {
+     "w": "gotas",
+     "start": 120.141,
+     "end": 120.216
+    },
+    {
+     "w": "de",
+     "start": 120.462,
+     "end": 120.622
+    },
+    {
+     "w": "sangre",
+     "start": 120.642,
+     "end": 121.903
+    }
+   ]
+  },
+  {
+   "id": "V2-02",
+   "section": "Verso 2",
+   "text": "Una flor sin raíz",
+   "backing": false,
+   "start": 121.923,
+   "end": 123.397,
+   "words": [
+    {
+     "w": "Una",
+     "start": 121.923,
+     "end": 122.203
+    },
+    {
+     "w": "flor",
+     "start": 122.223,
+     "end": 122.364
+    },
+    {
+     "w": "sin",
+     "start": 122.384,
+     "end": 122.544
+    },
+    {
+     "w": "raíz",
+     "start": 122.564,
+     "end": 123.397
+    }
+   ]
+  },
+  {
+   "id": "V2-03",
+   "section": "Verso 2",
+   "text": "Tu nombre en mi lengua",
+   "backing": false,
+   "start": 124.125,
+   "end": 126.208,
+   "words": [
+    {
+     "w": "Tu",
+     "start": 124.125,
+     "end": 124.326
+    },
+    {
+     "w": "nombre",
+     "start": 124.346,
+     "end": 124.453
+    },
+    {
+     "w": "en",
+     "start": 124.586,
+     "end": 124.606
+    },
+    {
+     "w": "mi",
+     "start": 124.626,
+     "end": 124.886
+    },
+    {
+     "w": "lengua",
+     "start": 124.906,
+     "end": 126.208
+    }
+   ]
+  },
+  {
+   "id": "V2-04",
+   "section": "Verso 2",
+   "text": "No quiere salir",
+   "backing": false,
+   "start": 126.228,
+   "end": 127.089,
+   "words": [
+    {
+     "w": "No",
+     "start": 126.228,
+     "end": 126.448
+    },
+    {
+     "w": "quiere",
+     "start": 126.468,
+     "end": 126.728
+    },
+    {
+     "w": "salir",
+     "start": 126.748,
+     "end": 127.089
+    }
+   ]
+  },
+  {
+   "id": "V2-05",
+   "section": "Verso 2",
+   "text": "La noche está fría",
+   "backing": false,
+   "start": 128.37,
+   "end": 130.432,
+   "words": [
+    {
+     "w": "La",
+     "start": 128.37,
+     "end": 128.61
+    },
+    {
+     "w": "noche",
+     "start": 128.63,
+     "end": 128.81
+    },
+    {
+     "w": "está",
+     "start": 128.83,
+     "end": 129.111
+    },
+    {
+     "w": "fría",
+     "start": 129.131,
+     "end": 130.432
+    }
+   ]
+  },
+  {
+   "id": "V2-06",
+   "section": "Verso 2",
+   "text": "Tu piel sabe a abril",
+   "backing": false,
+   "start": 130.492,
+   "end": 131.895,
+   "words": [
+    {
+     "w": "Tu",
+     "start": 130.492,
+     "end": 130.712
+    },
+    {
+     "w": "piel",
+     "start": 130.732,
+     "end": 130.873
+    },
+    {
+     "w": "sabe",
+     "start": 130.893,
+     "end": 131.133
+    },
+    {
+     "w": "a",
+     "start": 131.153,
+     "end": 131.173
+    },
+    {
+     "w": "abril",
+     "start": 131.193,
+     "end": 131.895
+    }
+   ]
+  },
+  {
+   "id": "V2-07",
+   "section": "Verso 2",
+   "text": "Abril",
+   "backing": false,
+   "start": 133.215,
+   "end": 134.296,
+   "words": [
+    {
+     "w": "Abril",
+     "start": 133.215,
+     "end": 134.296
+    }
+   ]
+  },
+  {
+   "id": "V2-08",
+   "section": "Verso 2",
+   "text": "Abril",
+   "backing": false,
+   "start": 134.316,
+   "end": 135.065,
+   "words": [
+    {
+     "w": "Abril",
+     "start": 134.316,
+     "end": 135.065
+    }
+   ]
+  },
+  {
+   "id": "V2-09",
+   "section": "Verso 2",
+   "text": "Abril",
+   "backing": false,
+   "start": 135.377,
+   "end": 136.3,
+   "words": [
+    {
+     "w": "Abril",
+     "start": 135.377,
+     "end": 136.3
+    }
+   ]
+  },
+  {
+   "id": "V2-10",
+   "section": "Verso 2",
+   "text": "Abril",
+   "backing": false,
+   "start": 136.398,
+   "end": 137.15,
+   "words": [
+    {
+     "w": "Abril",
+     "start": 136.398,
+     "end": 137.15
+    }
+   ]
+  },
+  {
+   "id": "CH2-01",
+   "section": "Coro 2",
+   "text": "Y la maldita lluvia caerá",
+   "backing": false,
+   "start": 152.381,
+   "end": 156.491,
+   "words": [
+    {
+     "w": "Y",
+     "start": 152.381,
+     "end": 152.521
+    },
+    {
+     "w": "la",
+     "start": 152.541,
+     "end": 152.741
+    },
+    {
+     "w": "maldita",
+     "start": 152.761,
+     "end": 153.501
+    },
+    {
+     "w": "lluvia",
+     "start": 153.521,
+     "end": 154.902
+    },
+    {
+     "w": "caerá",
+     "start": 154.922,
+     "end": 156.491
+    }
+   ]
+  },
+  {
+   "id": "CH2-02",
+   "section": "Coro 2",
+   "text": "Pero seguiré de pie junto a ti",
+   "backing": false,
+   "start": 157.043,
+   "end": 161.386,
+   "words": [
+    {
+     "w": "Pero",
+     "start": 157.043,
+     "end": 157.784
+    },
+    {
+     "w": "seguiré",
+     "start": 157.804,
+     "end": 159.065
+    },
+    {
+     "w": "de",
+     "start": 159.085,
+     "end": 159.365
+    },
+    {
+     "w": "pie",
+     "start": 159.385,
+     "end": 159.645
+    },
+    {
+     "w": "junto",
+     "start": 159.665,
+     "end": 160.119
+    },
+    {
+     "w": "a",
+     "start": 160.345,
+     "end": 160.725
+    },
+    {
+     "w": "ti",
+     "start": 160.745,
+     "end": 161.386
+    }
+   ]
+  },
+  {
+   "id": "CH2-03",
+   "section": "Coro 2",
+   "text": "Y para ti",
+   "backing": true,
+   "start": 161.406,
+   "end": 162.633,
+   "words": [
+    {
+     "w": "Y",
+     "start": 161.406,
+     "end": 161.506
+    },
+    {
+     "w": "para",
+     "start": 161.526,
+     "end": 162.046
+    },
+    {
+     "w": "ti",
+     "start": 162.066,
+     "end": 162.633
+    }
+   ]
+  },
+  {
+   "id": "CH2-04",
+   "section": "Coro 2",
+   "text": "Para ti",
+   "backing": false,
+   "start": 163.167,
+   "end": 164.227,
+   "words": [
+    {
+     "w": "Para",
+     "start": 163.167,
+     "end": 163.907
+    },
+    {
+     "w": "ti",
+     "start": 163.927,
+     "end": 164.227
+    }
+   ]
+  },
+  {
+   "id": "CH2-05",
+   "section": "Coro 2",
+   "text": "Y para ti",
+   "backing": true,
+   "start": 164.247,
+   "end": 166.806,
+   "words": [
+    {
+     "w": "Y",
+     "start": 164.247,
+     "end": 164.788
+    },
+    {
+     "w": "para",
+     "start": 164.808,
+     "end": 166.308
+    },
+    {
+     "w": "ti",
+     "start": 166.328,
+     "end": 166.806
+    }
+   ]
+  },
+  {
+   "id": "CH2-06",
+   "section": "Coro 2",
+   "text": "Para ti",
+   "backing": false,
+   "start": 167.389,
+   "end": 170.202,
+   "words": [
+    {
+     "w": "Para",
+     "start": 167.389,
+     "end": 168.169
+    },
+    {
+     "w": "ti",
+     "start": 168.189,
+     "end": 170.202
+    }
+   ]
+  },
+  {
+   "id": "CH2-07",
+   "section": "Coro 2",
+   "text": "Que llueva sobre mí",
+   "backing": false,
+   "start": 170.291,
+   "end": 174.3,
+   "words": [
+    {
+     "w": "Que",
+     "start": 170.291,
+     "end": 170.451
+    },
+    {
+     "w": "llueva",
+     "start": 170.471,
+     "end": 171.611
+    },
+    {
+     "w": "sobre",
+     "start": 171.631,
+     "end": 172.452
+    },
+    {
+     "w": "mí",
+     "start": 172.472,
+     "end": 174.3
+    }
+   ]
+  },
+  {
+   "id": "CH2-08",
+   "section": "Coro 2",
+   "text": "Que llueva sobre mí",
+   "backing": false,
+   "start": 174.45,
+   "end": 176.982,
+   "words": [
+    {
+     "w": "Que",
+     "start": 174.45,
+     "end": 174.773
+    },
+    {
+     "w": "llueva",
+     "start": 174.793,
+     "end": 175.894
+    },
+    {
+     "w": "sobre",
+     "start": 175.914,
+     "end": 176.654
+    },
+    {
+     "w": "mí",
+     "start": 176.674,
+     "end": 176.982
+    }
+   ]
+  },
+  {
+   "id": "CH2-09",
+   "section": "Coro 2",
+   "text": "Pero no sobre ti",
+   "backing": false,
+   "start": 178.815,
+   "end": 182.277,
+   "words": [
+    {
+     "w": "Pero",
+     "start": 178.815,
+     "end": 179.576
+    },
+    {
+     "w": "no",
+     "start": 179.596,
+     "end": 180.076
+    },
+    {
+     "w": "sobre",
+     "start": 180.096,
+     "end": 180.616
+    },
+    {
+     "w": "ti",
+     "start": 180.916,
+     "end": 182.277
+    }
+   ]
+  },
+  {
+   "id": "CH2-10",
+   "section": "Coro 2",
+   "text": "Pero no sobre ti",
+   "backing": false,
+   "start": 183.078,
+   "end": 186.2,
+   "words": [
+    {
+     "w": "Pero",
+     "start": 183.078,
+     "end": 183.818
+    },
+    {
+     "w": "no",
+     "start": 183.838,
+     "end": 184.338
+    },
+    {
+     "w": "sobre",
+     "start": 184.358,
+     "end": 185.08
+    },
+    {
+     "w": "ti",
+     "start": 185.159,
+     "end": 186.2
+    }
+   ]
+  },
+  {
+   "id": "OUT-01",
+   "section": "Outro",
+   "text": "Sobre mí",
+   "backing": false,
+   "start": 197.062,
+   "end": 199.164,
+   "words": [
+    {
+     "w": "Sobre",
+     "start": 197.062,
+     "end": 197.643
+    },
+    {
+     "w": "mí",
+     "start": 197.663,
+     "end": 199.164
+    }
+   ]
+  },
+  {
+   "id": "OUT-02",
+   "section": "Outro",
+   "text": "Sobre mí",
+   "backing": false,
+   "start": 199.184,
+   "end": 200.75,
+   "words": [
+    {
+     "w": "Sobre",
+     "start": 199.184,
+     "end": 199.765
+    },
+    {
+     "w": "mí",
+     "start": 199.785,
+     "end": 200.75
+    }
+   ]
+  },
+  {
+   "id": "OUT-03",
+   "section": "Outro",
+   "text": "No sobre ti",
+   "backing": false,
+   "start": 200.85,
+   "end": 202.7,
+   "words": [
+    {
+     "w": "No",
+     "start": 200.85,
+     "end": 201.327
+    },
+    {
+     "w": "sobre",
+     "start": 201.347,
+     "end": 201.839
+    },
+    {
+     "w": "ti",
+     "start": 201.888,
+     "end": 202.7
+    }
+   ]
+  },
+  {
+   "id": "OUT-04",
+   "section": "Outro",
+   "text": "Sobre mí",
+   "backing": false,
+   "start": 205.552,
+   "end": 207.695,
+   "words": [
+    {
+     "w": "Sobre",
+     "start": 205.552,
+     "end": 206.113
+    },
+    {
+     "w": "mí",
+     "start": 206.133,
+     "end": 207.695
+    }
+   ]
+  },
+  {
+   "id": "OUT-05",
+   "section": "Outro",
+   "text": "Sobre mí",
+   "backing": false,
+   "start": 207.715,
+   "end": 208.968,
+   "words": [
+    {
+     "w": "Sobre",
+     "start": 207.715,
+     "end": 208.255
+    },
+    {
+     "w": "mí",
+     "start": 208.275,
+     "end": 208.968
+    }
+   ]
+  },
+  {
+   "id": "OUT-06",
+   "section": "Outro",
+   "text": "No sobre ti",
+   "backing": false,
+   "start": 209.117,
+   "end": 211.0,
+   "words": [
+    {
+     "w": "No",
+     "start": 209.117,
+     "end": 209.817
+    },
+    {
+     "w": "sobre",
+     "start": 209.837,
+     "end": 210.28
+    },
+    {
+     "w": "ti",
+     "start": 210.378,
+     "end": 211.0
+    }
+   ]
+  }
+ ]
+}

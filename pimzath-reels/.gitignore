@@ -1,0 +1,7 @@
+__pycache__/
+build/
+out/
+analysis/sep/
+analysis/*.wav
+analysis/pinterest/
+analysis/plots/w_*.png

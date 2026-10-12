@@ -52,6 +52,16 @@ if (!layoutOnly) execFileSync('ffmpeg', ['-y', '-v', 'error', '-i', silent, '-i'
   '-vf', 'scale=in_range=pc:out_range=tv,format=yuv420p', '-c:v', 'libx264', '-preset', 'medium', '-crf', '16', '-profile:v', 'high',
   '-colorspace', 'bt709', '-color_primaries', 'bt709', '-color_trc', 'bt709', '-color_range', 'tv', '-c:a', 'aac', '-b:a', '192k', '-ar', '48000', '-shortest', '-movflags', '+faststart',
   '-metadata', `title=${id}`, '-metadata', 'comment=BRINE MOTION STUDIO — borrador interno, no publicar sin aprobación humana', final], {stdio: 'inherit'});
+// copia para teléfono/WhatsApp: H.264 main (o baseline), yuv420p, AAC, +faststart y bitrate acotado para quedar bajo max_bytes
+const wa = production.exports?.whatsapp;
+if (wa && !layoutOnly) {
+  log('export WhatsApp…');
+  execFileSync('ffmpeg', ['-y', '-v', 'error', '-i', final, '-map', '0:v:0', '-map', '0:a:0', '-c:v', 'libx264', '-preset', 'slow', '-profile:v', wa.profile ?? 'main',
+    '-level:v', wa.level ?? '4.0', '-pix_fmt', 'yuv420p', '-b:v', `${wa.video_kbps}k`, '-maxrate', `${wa.maxrate_kbps}k`, '-bufsize', `${2 * wa.maxrate_kbps}k`,
+    '-colorspace', 'bt709', '-color_primaries', 'bt709', '-color_trc', 'bt709', '-color_range', 'tv',
+    '-c:a', 'aac', '-b:a', `${wa.audio_kbps}k`, '-ar', '48000', '-ac', '2', '-movflags', '+faststart',
+    '-metadata', `title=${id}`, '-metadata', 'comment=BRINE MOTION STUDIO — borrador interno, no publicar sin aprobación humana', path.join(ROOT, wa.file)], {stdio: 'inherit'});
+}
 
 log('stills QA (texto/logo) + bounding boxes de texto…');
 const boxes = [];

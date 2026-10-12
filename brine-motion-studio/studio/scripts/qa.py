@@ -3,7 +3,7 @@
 Mide: resolución, duración, fps, códecs, integridad (decode completo), audio, LUFS integrado y true peak (ffmpeg ebur128),
 frames negros (blackdetect), safe zones Reels/TikTok sobre máscaras REALES de texto (stills en modo QA), contraste WCAG
 texto/fondo sobre frames del MP4, presencia/integridad del logo en el cierre, proporción de dorado, contact sheet."""
-import json, os, re, subprocess, sys, glob
+import json, os, re, subprocess, sys, glob, wave
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
@@ -45,8 +45,10 @@ def main(prod_path, mp4, layout_only=False):
     build = os.path.join(ROOT, 'build', pid); qa_dir = os.path.join(build, 'qa'); frames_dir = os.path.join(build, 'frames')
     os.makedirs(frames_dir, exist_ok=True)
     R = {'id': pid, 'file': mp4, 'checks': {}}; C = R['checks']
+    QC = prod.get('qa', {})
     def chk(name, ok, **kw): C[name] = {'pass': bool(ok), **kw}
     def connectors_chk():
+        if not QC.get('connectors', True): return
         bx_path_ = os.path.join(qa_dir, 'text-boxes.json')
         rows, seen = connector_check(json.load(open(bx_path_))) if os.path.exists(bx_path_) else ([], set())
         need = {'benefit-1', 'benefit-2', 'benefit-3'}
@@ -135,7 +137,7 @@ def main(prod_path, mp4, layout_only=False):
                         col_rows.append({'frame': fr_['frame'], 'a': a_['id'], 'b': b_['id'], 'gap_x': dx_, 'gap_y': dy_})
         nfr = len(json.load(open(bx_path)))
         chk('text_no_overlap', len(col_rows) == 0 and nfr > 0, frames_checked=nfr, min_gap_px=gap_min, collisions=col_rows[:40],
-            note='Cajas de tinta por elemento [data-qa] (DOM + canvas.measureText, con transformaciones y máscaras) y el disco de la medalla como obstáculo (geometría de lib/medal), cada qa_layout_step frames; falla si dos cajas visibles quedan a < 8 px.')
+            note='Cajas de tinta por elemento [data-qa] (DOM + canvas.measureText, con transformaciones y máscaras) y el producto como obstáculo (medalla: lib/medal; cristal: crystal/geometry), cada qa_layout_step frames; falla si dos cajas visibles quedan a < 8 px.')
     else:
         chk('text_no_overlap', False, note='faltan text-boxes.json')
     connectors_chk()
@@ -167,7 +169,8 @@ def main(prod_path, mp4, layout_only=False):
         src = Image.open(os.path.join(ROOT, 'public', 'assets', 'logo.png')).convert('RGBA')
         sb = src.getchannel('A').point(lambda x: 255 if x > 60 else 0).getbbox()
         ar_src = (sb[2] - sb[0]) / (sb[3] - sb[1]); ar = (bb[2] - bb[0]) / (bb[3] - bb[1])
-        ref = Image.new('RGBA', src.size, (33, 37, 75, 255)); ref.alpha_composite(src)
+        lbg = prod['brand'].get('logo_bg', '#21254B').lstrip('#')
+        ref = Image.new('RGBA', src.size, tuple(int(lbg[i:i + 2], 16) for i in (0, 2, 4)) + (255,)); ref.alpha_composite(src)
         ref = ref.crop(sb).convert('RGB').resize((bb[2] - bb[0], bb[3] - bb[1]), Image.Resampling.LANCZOS)
         fr = Image.open(fmap[last]).convert('RGB').crop(bb)
         A_ = np.asarray(ref, float).mean(2).ravel(); B_ = np.asarray(fr, float).mean(2).ravel()
@@ -186,10 +189,58 @@ def main(prod_path, mp4, layout_only=False):
         fr = np.asarray(Image.open(pth).convert('RGB'), float)
         msk = np.sqrt(((fr - gold) ** 2).sum(2)) < 45
         t = i / 2
-        if t >= 12.6 and info.get('bbox'):
+        if t >= QC.get('gold_exclude_logo_from_s', 12.6) and info.get('bbox'):
             b = [v // 2 for v in info['bbox']]; msk[b[1]:b[3], b[0]:b[2]] = False
         gr.append(round(float(msk.mean()), 4))
     chk('gold_accent_<3%', max(gr) < prod['brand'].get('gold_max_ratio', 0.03), max_ratio=max(gr), mean_ratio=round(float(np.mean(gr)), 4))
+    # v4: cierre legible hasta el último frame (CTA y URL a opacidad plena y asentados en cada still de layout desde closing_from_f)
+    if QC.get('closing_required'):
+        need = QC['closing_required']; from_f = QC.get('closing_from_f', F['durationInFrames'] - 30)
+        rows_ = []
+        for fr_ in (json.load(open(bx_path)) if os.path.exists(bx_path) else []):
+            if fr_['frame'] < from_f: continue
+            have = {b['id']: b for b in fr_['boxes']}
+            ok_ = all(i in have and have[i]['opacity'] >= 0.99 and have[i].get('settled', True) for i in need)
+            rows_.append({'frame': fr_['frame'], 'pass': ok_, 'present': sorted(i for i in need if i in have)})
+        last_f = F['durationInFrames'] - 1
+        chk('closing_text_visible_to_last_frame', bool(rows_) and all(r['pass'] for r in rows_) and any(r['frame'] == last_f for r in rows_),
+            required=need, from_frame=from_f, frames_checked=len(rows_), failed=[r for r in rows_ if not r['pass']],
+            text_at_last_frame=[b['text'] for fr_ in json.load(open(bx_path)) if fr_['frame'] == last_f for b in fr_['boxes'] if b.get('kind') != 'object'])
+    # v4: sin voz: el stem de voz debe ser silencio digital y el MP4 debe tener una sola pista de audio
+    if QC.get('voice_must_be_absent'):
+        vs = os.path.join(build, 'stem-voice.wav'); vpk = None
+        if os.path.exists(vs):
+            with wave.open(vs) as w_: vpk = int(np.abs(np.frombuffer(w_.readframes(w_.getnframes()), np.int16)).max())
+        chk('no_voice_track', len(a) == 1 and vpk == 0 and not prod['voice_direction'].get('enabled', False) and not prod['voice_direction'].get('lines'),
+            audio_streams=len(a), voice_stem_peak=vpk, voice_enabled=prod['voice_direction'].get('enabled', False))
+    # v4: copy en pantalla sin términos prohibidos (precios, stock, plazos, promociones, WhatsApp)
+    if QC.get('forbidden_on_screen'):
+        txt = sorted({b['text'] for fr_ in (json.load(open(bx_path)) if os.path.exists(bx_path) else []) for b in fr_['boxes'] if b.get('kind') != 'object'})
+        txt += [t_ for t_ in prod['script']['on_screen'].get('engraving_sample', [])]
+        hits = [(t_, w_) for t_ in txt for w_ in QC['forbidden_on_screen'] if re.search(w_, t_, re.I)]
+        meta = run(['ffprobe', '-v', 'error', '-show_entries', 'format_tags', '-of', 'json', mp4]).stdout
+        hits += [('metadata', w_) for w_ in QC['forbidden_on_screen'] if re.search(w_, meta, re.I)]
+        chk('copy_no_forbidden_terms', not hits, texts_on_screen=txt, patterns=QC['forbidden_on_screen'], hits=hits)
+    # v4: copia para teléfono/WhatsApp
+    wa = prod.get('exports', {}).get('whatsapp')
+    if wa:
+        wp = os.path.join(ROOT, wa['file'])
+        if os.path.exists(wp):
+            wpr = json.loads(run(['ffprobe', '-v', 'error', '-show_streams', '-show_format', '-of', 'json', wp]).stdout)
+            wv = next(s_ for s_ in wpr['streams'] if s_['codec_type'] == 'video'); wa_ = [s_ for s_ in wpr['streams'] if s_['codec_type'] == 'audio']
+            head = open(wp, 'rb').read(1 << 16); moov, mdat = head.find(b'moov'), head.find(b'mdat')
+            size = os.path.getsize(wp); wdec = run(['ffmpeg', '-v', 'error', '-i', wp, '-f', 'null', '-'])
+            wdec_err = '\n'.join(l for l in wdec.stderr.splitlines() if l.strip() and 'no version information available' not in l)
+            wn, wd = map(int, wv['r_frame_rate'].split('/'))
+            ok_ = (wv['codec_name'] == 'h264' and wv.get('profile') in ('Main', 'Constrained Baseline', 'Baseline') and wv.get('pix_fmt') == 'yuv420p'
+                   and wa_ and wa_[0]['codec_name'] == 'aac' and size < wa['max_bytes'] and moov != -1 and (mdat == -1 or moov < mdat)
+                   and (wv['width'], wv['height']) == (F['width'], F['height']) and abs(wn / wd - F['fps']) < 0.01
+                   and abs(float(wpr['format']['duration']) - F['duration_s']) <= 0.1 and wdec.returncode == 0 and not wdec_err)
+            chk('whatsapp_export', ok_, file=wp, bytes=size, max_bytes=wa['max_bytes'], profile=wv.get('profile'), level=wv.get('level'), pix_fmt=wv.get('pix_fmt'),
+                audio=wa_[0]['codec_name'] if wa_ else None, faststart_moov_before_mdat=moov != -1 and (mdat == -1 or moov < mdat),
+                resolution=f"{wv['width']}x{wv['height']}", fps=round(wn / wd, 3), duration=round(float(wpr['format']['duration']), 3), decode_errors=wdec_err[:200])
+        else:
+            chk('whatsapp_export', False, note=f'falta {wp}')
     # contact sheet
     font = None
     try: font = ImageFont.truetype(os.path.join(ROOT, 'public', 'assets', 'Manrope.ttf'), 22)

@@ -103,6 +103,33 @@ def key_medal(raw, kc, straighten="pca"):
     return img, ang, cover, tuple(int(x) for x in bg)
 
 
+def white_to_alpha(img):
+    """Separa una foto de producto de su fondo blanco de estudio sin llave ni IA: 'color to alpha' respecto del blanco.
+    alpha = max_c (255 - c) / 255 y color = (c - 255 (1 - alpha)) / alpha. Compuesta sobre blanco devuelve la foto original
+    exacta; sobre otro fondo claro se comporta como un multiply, así que el cristal conserva su transparencia real."""
+    a = np.asarray(img.convert("RGB")).astype(np.float32)
+    alpha = ((255.0 - a).max(-1) / 255.0)
+    al = np.maximum(alpha, 1e-4)[..., None]
+    rgb = np.clip((a - 255.0 * (1 - al)) / al, 0, 255)
+    rgb = np.where(alpha[..., None] < 1e-4, 255.0, rgb)
+    return Image.fromarray(np.dstack([rgb, alpha * 255]).round().astype(np.uint8), "RGBA")
+
+
+def prep_photos(prod, pub, rp):
+    """Modo 'photo': fotos reales de la ficha, verificadas por sha256, sin recorte ni retoque (solo white_to_alpha)."""
+    out = {}
+    for ph in prod["product"]["assets"]["photos"]:
+        src = rp(ph["file"])
+        sha = hashlib.sha256(open(src, "rb").read()).hexdigest()
+        if sha != ph["sha256"]:
+            raise SystemExit(f"{src}: sha256 {sha} no coincide con la ficha ({ph['sha256']})")
+        img = Image.open(src)
+        dst = os.path.join(pub, ph["public_name"])
+        (white_to_alpha(img) if ph.get("white_to_alpha") else img.convert("RGBA")).save(dst)
+        out[ph["public_name"]] = {"source": src, "url": ph["url"], "sha256": sha, "size": img.size}
+    return out
+
+
 def main(prod_path):
     prod = json.load(open(prod_path))
     here = os.path.dirname(os.path.abspath(__file__))
@@ -111,6 +138,14 @@ def main(prod_path):
     pa = dict(prod["product"]["assets"])
     root = os.path.abspath(os.path.join(here, ".."))
     rp = lambda p: p if os.path.isabs(p) else os.path.join(root, p)  # rutas relativas = relativas a studio/
+    if pa.get("mode") == "photo":
+        logo_src = rp(prod["brand"]["logo"])
+        shutil.copyfile(logo_src, os.path.join(pub, "logo.png"))  # copia byte a byte: sin recolor, sin deformar
+        meta = {"photos": prep_photos(prod, pub, rp), "logo_sha256": hashlib.sha256(open(logo_src, "rb").read()).hexdigest(),
+                "logo_size": Image.open(logo_src).size}
+        json.dump(meta, open(os.path.join(pub, f"assets-meta-{prod['id']}.json"), "w"), indent=1)
+        print(json.dumps(meta))
+        return
     pa["raw"] = rp(pa["raw"])
     raw = Image.open(pa["raw"])
     kc = pa.get("key", {"lo": 70, "hi": 115, "erode": 2, "shrink": 2, "feather": 1.1, "decontam": 4})

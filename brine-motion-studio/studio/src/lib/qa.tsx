@@ -25,7 +25,20 @@ export const useInk = (c: string) => (useQa() === 'text' ? '#FFFFFF' : c);
 // ---- v2: sonda de bounding boxes de texto (QA de colisiones).
 // En modo 'text' mide cada elemento [data-qa] con el DOM real (incluye transformaciones y máscaras overflow:hidden),
 // ajusta la caja vertical a la tinta real con métricas de canvas.measureText y la emite por consola: produce.mjs la recoge.
-export const QaProbe: React.FC<{p: Production}> = ({p}) => {
+export type QaObject = {id: string; kind: 'object'; text: string; opacity: number; x0: number; y0: number; x1: number; y1: number};
+// obstáculos por defecto: disco y cinta de la medalla (geometría analítica de lib/medal), salvo en entradas/salidas con desenfoque
+const medalObstacles = (f: number): QaObject[] => {
+  const st = medalState(f);
+  if (!(st.vis && st.op > 0.5 && st.blur < 3)) return [];
+  const c = medalPoint(st, 0.5, 0.79); const r = 0.5 * IMG_W * st.s;
+  const R_ = RIBBON_NORM; const pts = [[R_.x0, R_.y0], [R_.x1, R_.y0], [R_.x0, R_.y1], [R_.x1, R_.y1]].map(([nx, ny]) => medalPoint(st, nx, ny));
+  const xs = pts.map((p_) => p_.x), ys = pts.map((p_) => p_.y);
+  return [
+    {id: 'medal-ribbon', kind: 'object', text: '', opacity: st.op, x0: Math.round(Math.min(...xs)), y0: Math.round(Math.max(0, Math.min(...ys))), x1: Math.round(Math.max(...xs)), y1: Math.round(Math.max(...ys))},
+    {id: 'medal-disc', kind: 'object', text: '', opacity: st.op, x0: Math.round(c.x - r), y0: Math.round(c.y - r), x1: Math.round(c.x + r), y1: Math.round(c.y + r)},
+  ];
+};
+export const QaProbe: React.FC<{p: Production; objects?: (f: number) => QaObject[]; connectors?: boolean}> = ({p, objects = medalObstacles, connectors: withConnectors = true}) => {
   const qa = useQa();
   const f = useCurrentFrame();
   const ref = React.useRef<HTMLDivElement>(null);
@@ -79,23 +92,16 @@ export const QaProbe: React.FC<{p: Production}> = ({p}) => {
           boxes.push({id: el.dataset.qa, text: txt, opacity: Math.round(op * 100) / 100, settled,
             x0: Math.round((box.l - R.left) * k), y0: Math.round((box.t - R.top) * k), x1: Math.round((box.r - R.left) * k), y1: Math.round((box.b - R.top) * k)});
         });
-        // obstáculo: disco de la medalla (geometría analítica de lib/medal), salvo en entradas/salidas con desenfoque
-        const st = medalState(f);
-        if (st.vis && st.op > 0.5 && st.blur < 3) {
-          const c = medalPoint(st, 0.5, 0.79); const r = 0.5 * IMG_W * st.s;
-          const R_ = RIBBON_NORM; const pts = [[R_.x0, R_.y0], [R_.x1, R_.y0], [R_.x0, R_.y1], [R_.x1, R_.y1]].map(([nx, ny]) => medalPoint(st, nx, ny));
-          const xs = pts.map((p_) => p_.x), ys = pts.map((p_) => p_.y);
-          boxes.push({id: 'medal-ribbon', kind: 'object', text: '', opacity: st.op, x0: Math.round(Math.min(...xs)), y0: Math.round(Math.max(0, Math.min(...ys))), x1: Math.round(Math.max(...xs)), y1: Math.round(Math.max(...ys))});
-          boxes.push({id: 'medal-disc', kind: 'object', text: '', opacity: st.op, x0: Math.round(c.x - r), y0: Math.round(c.y - r), x1: Math.round(c.x + r), y1: Math.round(c.y + r)});
-        }
+        boxes.push(...objects(f));
         // v3: conectores visibles (trazo completo) con su geometría analítica, para el QA de puntería hacia la medalla
-        const cons = f >= 196 && f <= 300 ? connectors(f, p).filter((c) => c.prog > 0.98 && c.op > 0.5 && st.vis && st.op > 0.5)
+        const st = medalState(f);
+        const cons = withConnectors && f >= 196 && f <= 300 ? connectors(f, p).filter((c) => c.prog > 0.98 && c.op > 0.5 && st.vis && st.op > 0.5)
           .map((c) => ({id: c.id, start: [Math.round(c.start.x), Math.round(c.start.y)], end: [Math.round(c.end.x), Math.round(c.end.y)],
             disc: [Math.round(c.disc.x), Math.round(c.disc.y), Math.round(c.disc.r)], samples: sampleConnector(c)})) : [];
         console.log('QA_BOXES ' + JSON.stringify({frame: f, boxes, connectors: cons}));
         continueRender(h);
     };
     (document as any).fonts.ready.then(() => requestAnimationFrame(measure));
-  }, [qa, f]);
+  }, [qa, f, objects, withConnectors]);
   return <div ref={ref} style={{display: 'none'}} />;
 };

@@ -51,13 +51,16 @@ cd studio
 npm run produce -- productions/BMS-20261009-001-v3.json                       # v3, sin voz (principal)
 npm run produce -- productions/BMS-20261009-001-v3-voz.json --layout-only     # opcional con voz: solo QA de layout/conectores
 npm run produce -- productions/BMS-20261009-001-v2.json                       # v2 (histórico)
+npm run produce -- productions/BMS-20261012-001.json                          # galvano cristal CTA 15 «Circular» (plantilla crystal, sin voz)
 ```
+En el box Linux, si Chrome no está en `/usr/bin/google-chrome`, define `BMS_CHROME` (p. ej. `/usr/local/bin/google-chrome`).
 El pipeline: assets → audio (música, SFX, 3 tomas de voz) → render 1080x1920 30 fps → mux H.264/AAC → stills de QA → QA.
 
 Salidas en `studio/out/`:
 - `<ID>.mp4`
 - `<ID>.qa.json`
 - `<ID>.contact-sheet.png` (un frame cada 0,5 s)
+- `<ID>-whatsapp.mp4` si la producción define `exports.whatsapp` (H.264 main, yuv420p, AAC, +faststart, bajo `max_bytes`)
 
 Intermedios en `studio/build/<ID>/`: stems, tomas de voz (`voice-takes/`), `mix.wav` y stills de QA.
 
@@ -71,6 +74,14 @@ Otros comandos:
 - QA de un MP4 ya renderizado: `npm run qa -- productions/X.json`
 - Frames sueltos: `npm run preview -- productions/X.json 0 45 120` (con `QA=text` mide además las cajas de texto).
 - Studio interactivo: `npm run studio`
+
+## Plantillas
+`production.template` elige la composición (`src/Root.tsx`):
+- sin `template`: medalla (BMS-20261009-001, `src/Main.tsx` + `src/scenes/`).
+- `"crystal"`: galvano de cristal con foto real (BMS-20261012-001, `src/crystal/`). Fondo hielo, tipografía Manrope 800 con ecos de refracción,
+  cámara virtual sobre la foto de la ficha (`crystal/geometry.ts`, compartida con el QA), luz/dispersión/destellos enmascarados al disco,
+  grabado láser de ejemplo, iris de 12 facetas y cierre navy. Música `music_direction.engine = "crystal"` (100 BPM, F mayor) en `scripts/audio.py`.
+  `product.assets.mode = "photo"`: `prep_assets.py` verifica el sha256 de cada foto y solo aplica `white_to_alpha` (sin llave, sin IA).
 
 ## Nueva producción
 Copia un JSON de `studio/productions/` con un nuevo `id` y cambia:
@@ -93,8 +104,11 @@ Mide:
 - contraste WCAG
 - **colisiones entre textos**: cajas de tinta medidas en el DOM, deben quedar a 8 px o más
 - logo intacto en el cierre
-- dorado bajo 3 %
+- dorado bajo 3 % (fuera del logo desde `qa.gold_exclude_logo_from_s`)
 - contact sheet
+- opcionales por producción (`qa`): `connectors` (puntería de conectores, por defecto activo), `closing_required` + `closing_from_f`
+  (CTA y URL visibles y asentados hasta el último frame), `voice_must_be_absent` (stem de voz en silencio digital y una sola pista de audio),
+  `forbidden_on_screen` (regex sobre todo el texto medido en pantalla y los metadatos), y `exports.whatsapp` (perfil, yuv420p, AAC, faststart, tamaño)
 
 ## Documentos
 - `docs/A-CREATIVE-REFERENCE-ANALYSIS-V1.md`
@@ -105,6 +119,9 @@ Mide:
 ## Licencias y créditos
 - Playfair Display y Manrope: SIL OFL 1.1 (`studio/public/assets/*-OFL.txt`). Son **sustitutas** de Sonttak y STRONG, que no están disponibles.
 - Piper: GPL-3.0, usado como proceso externo. Voz es_MX-claude-high: apache-2.0 según su MODEL_CARD.
+- Galvano cristal CTA 15 «Circular» (BMS-20261012-001): **foto real** de la ficha, https://cdnx.jumpseller.com/brine/image/81490724/GALVANOCTA15CRISTALMEJORADO.png
+  (`studio/brand-assets/galvano-cta15-circular-81490724.png`, sha256 af80b2d1…). La segunda foto de la ficha no se usa: lleva el grabado de un cliente real.
+  El texto grabado que escribe el láser es un ejemplo dibujado por código.
 - Medalla: raw de Brine Creative para CNT-20261009-01, generado por IA con logo y texto de muestra ficticios. Aprobado por Enzo el 2026-10-09. **No es una foto real.**
 - Logo oficial: `studio/brand-assets/logo-brine-crop.png`, copiado sin modificar (sha256 742b87df…).
 - Música y SFX: originales, generados por `scripts/audio.py`.

@@ -1,0 +1,18 @@
+{
+ "photos": {
+  "galvano-cta15-main.png": {
+   "source": "/workspace/brine-motion-studio/studio/brand-assets/galvano-cta15-circular-81490724.png",
+   "url": "https://cdnx.jumpseller.com/brine/image/81490724/GALVANOCTA15CRISTALMEJORADO.png",
+   "sha256": "af80b2d1913e44c878bbd644dd7d69be8804d9162020a72cad206d2ab68fb14a",
+   "size": [
+    1254,
+    1254
+   ]
+  }
+ },
+ "logo_sha256": "742b87dfe6c3ae551b28dc3e0bc43afab3fdfdeb2be73b0afd87c6bbb394bb53",
+ "logo_size": [
+  3483,
+  1391
+ ]
+}

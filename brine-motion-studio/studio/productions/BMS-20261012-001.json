@@ -1,0 +1,232 @@
+{
+ "id": "BMS-20261012-001",
+ "version": 1,
+ "template": "crystal",
+ "created": "2026-10-12T09:50:00-03:00",
+ "status": "draft_internal",
+ "publish": false,
+ "source_content_id": "BMS-20261012-SI-PICK",
+ "objective": {
+  "type": "ALCANCE_CONSIDERACION",
+  "description": "Reconocimiento para empresas, colegios e instituciones: mostrar el galvano de cristal con luz, la idea del grabado láser y el estuche azul, e invitar a cotizar.",
+  "angle": "gracias a todo un equipo",
+  "promise": "Así se le dice gracias a todo un equipo.",
+  "hook": "Pregunta tipográfica en 0-3 s: ¿Cómo le dices GRACIAS a todo un EQUIPO? La música la plantea en menor (Dm-B♭-C) y el cristal llega como respuesta en F mayor en el frame 72."
+ },
+ "product": {
+  "name": "Galvano cristal CTA 15 \"Circular\"",
+  "url": "https://www.brinechile.cl/galvano-cristal-cta-15-circular",
+  "ficha_read": "2026-10-12 12:47 UTC (brand-assets/ficha-galvano-cta15-circular-2026-10-12.txt)",
+  "assets": {
+   "mode": "photo",
+   "photos": [
+    {
+     "file": "brand-assets/galvano-cta15-circular-81490724.png",
+     "url": "https://cdnx.jumpseller.com/brine/image/81490724/GALVANOCTA15CRISTALMEJORADO.png",
+     "origin": "Foto real: imagen principal de la ficha (idéntica byte a byte a uploads/ref-producto.png). Sin IA, sin retoque.",
+     "sha256": "af80b2d1913e44c878bbd644dd7d69be8804d9162020a72cad206d2ab68fb14a",
+     "size": [1254, 1254],
+     "public_name": "galvano-cta15-main.png",
+     "white_to_alpha": true
+    }
+   ],
+   "photos_not_used": [
+    {
+     "url": "https://cdnx.jumpseller.com/brine/image/65073715/thumb/1600/1600",
+     "reason": "Segunda foto de la ficha: el disco lleva grabados el logo de un club y el nombre de una persona reales (cliente). No se usa en un anuncio sin autorización."
+    }
+   ],
+   "geometry_src_px": {
+    "disc_center": [642, 650],
+    "disc_radius": 340,
+    "base": [314, 1000, 1007, 1098],
+    "satin_panel": [78, 60, 714, 975],
+    "lid": [714, 17, 1228, 1080]
+   }
+  },
+  "verified_claims": [
+   "alto índice de refracción",
+   "grosor de 15mm",
+   "puedes personalizarlo con un grabado láser (opcional)",
+   "estuche de presentación azul, forrado con un suave paño de seda",
+   "dos medidas para elegir",
+   "Ideal para empresas, instituciones educativas"
+  ],
+  "forbidden": [
+   "precio",
+   "$",
+   "descuento",
+   "oferta",
+   "promoción",
+   "stock",
+   "plazos",
+   "despacho",
+   "envío",
+   "WhatsApp",
+   "medidas en mm (no se muestran para no saturar)",
+   "clientes reales"
+  ],
+  "engraving_sample": "El texto que el láser escribe sobre el disco (GRACIAS, / EQUIPO / 2026) es un ejemplo dibujado por código para ilustrar el grabado láser opcional; no es una pieza real."
+ },
+ "brand": {
+  "logo": "brand-assets/logo-brine-crop.png",
+  "logo_rules": "Versión negativa sobre azul oscuro; sin recolor, sin deformar, sin rotar, sin sombra ni glow.",
+  "logo_bg": "#21254B",
+  "palette": {
+   "ice": "#EEF2F7",
+   "ice_deep": "#DDE5EF",
+   "navy": "#21254B",
+   "case_blue": "#355691",
+   "celeste": "#ADBED4",
+   "celeste_light": "#C9D5E4",
+   "bone": "#F4F6F9",
+   "gold": "#CDA71F"
+  },
+  "gold_max_ratio": 0.03,
+  "fonts": {
+   "display": {"family": "Manrope", "file": "assets/Manrope.ttf", "license": "OFL-1.1", "use": "titulares 800 en mayúsculas/minúsculas (la serie de la medalla usaba Playfair 900 como display)"},
+   "text": {"family": "Playfair Display", "file": "assets/PlayfairDisplay.ttf", "license": "OFL-1.1", "use": "conectores y subtítulos en serif 500-600"}
+  }
+ },
+ "format": {
+  "width": 1080,
+  "height": 1920,
+  "fps": 30,
+  "duration_s": 15,
+  "durationInFrames": 450,
+  "safe_zone": {"top": 0.14, "bottom": 0.2, "left_px": 90, "right_px": 130}
+ },
+ "visual_direction": {
+  "concept": "Atelier de cristal: luz de día fría sobre fondo hielo; el cristal real recibe la luz y la refracta; un iris de doce facetas (la forma del canto del disco) cierra hacia el azul del estuche.",
+  "differs_from_BMS-20261009-001": [
+   "paleta clara (hielo #EEF2F7 + tinta navy + azul estuche) en vez de fondo navy",
+   "display sans Manrope 800 con ecos de refracción (dos copias celeste/azul que convergen), en vez de serif Playfair 900 con máscaras",
+   "foto real con cámara virtual (push-in, paneo al estuche) en vez de objeto recortado que cae y oscila",
+   "transición por iris dodecagonal en vez de barrido de luz y match-cut por escala",
+   "sin dorado fuera del logo, sin conectores, sin cinta"
+  ],
+  "camera": "Foto real 1254x1254 en coordenadas de origen; pantalla = C + (src - P) * s. Llegada desde abajo (f60-88), push lento (f88-186), push al disco para el láser (f186-212), paneo al paño de seda (f266-292), iris al cierre (f336-358).",
+  "light": "Barrido especular enmascarado al disco, anillo de dispersión en el canto facetado, destellos de 4 puntas en las facetas a tempo, cáusticas suaves sobre el piso y brillo satinado sobre el paño.",
+  "max_photo_scale": 1.26
+ },
+ "script": {
+  "on_screen": {
+   "hook": ["¿Cómo le dices", "GRACIAS", "a todo un", "EQUIPO?"],
+   "eyebrow": "GALVANO «CIRCULAR»",
+   "refraction": ["Alto índice", "de refracción"],
+   "thickness": ["15 mm", "de grosor"],
+   "laser": ["Grabado láser", "opcional"],
+   "engraving_sample": ["GRACIAS,", "EQUIPO", "2026"],
+   "case": ["Estuche azul", "con paño de seda incluido"],
+   "sizes_chip": "Dos medidas",
+   "audience": ["Para empresas e", "instituciones educativas"],
+   "cta": "Cotiza el tuyo",
+   "url": "brinechile.cl"
+  },
+  "voiceover": []
+ },
+ "storyboard": [
+  {"scene": "hook_question", "from": 0, "to": 70},
+  {"scene": "crystal_arrival", "from": 60, "to": 88},
+  {"scene": "crystal_light_refraction", "from": 84, "to": 186},
+  {"scene": "laser_engraving", "from": 186, "to": 268},
+  {"scene": "blue_case_silk", "from": 266, "to": 346},
+  {"scene": "facet_iris_transition", "from": 336, "to": 358},
+  {"scene": "end_card", "from": 356, "to": 450}
+ ],
+ "music_direction": {
+  "engine": "crystal",
+  "bpm": 100,
+  "key": "F mayor (gancho en D menor)",
+  "progression": ["Dm", "B♭", "C", "Csus4", "F", "C/E", "Dm", "B♭", "Csus4", "F(add9)"],
+  "instruments": "mazos de cristal FM, teclado de fieltro, pad de aire, sub senoidal, chasquidos de dedos, shaker, bombo suave",
+  "mood": "Gratitud luminosa: pregunta en menor, respuesta en mayor; brillo de cristal con pulso orgánico (sin sierras ni 808).",
+  "sections": [
+   {"name": "hook", "from_s": 0, "to_s": 2.4, "intensity": 0.55},
+   {"name": "crystal", "from_s": 2.4, "to_s": 6.2, "intensity": 0.6},
+   {"name": "laser", "from_s": 6.2, "to_s": 8.8, "intensity": 0.8},
+   {"name": "case", "from_s": 8.8, "to_s": 11.4, "intensity": 1.0},
+   {"name": "build", "from_s": 11.4, "to_s": 12.0, "intensity": 0.9},
+   {"name": "end", "from_s": 12.0, "to_s": 15.0, "intensity": 0.6}
+  ],
+  "ending": "Csus4 con redoble de chasquidos (11,4-11,85 s), silencio de 0,15 s y golpe en F(add9) en 12,0 s = frame 360, el frame en que el iris revela el logo; arpegio de cristal descendente que se apaga hasta el frame 450."
+ },
+ "voice_direction": {
+  "enabled": false,
+  "lines": [],
+  "note": "Sin voz por diseño: solo música original, SFX sincronizados y tipografía cinética."
+ },
+ "beats": {
+  "bpm": 100,
+  "events": [
+   {"f": 0, "type": "prism", "gain": 0.4},
+   {"f": 18, "type": "glass_ting", "gain": 0.42},
+   {"f": 18, "type": "impact", "gain": 0.32},
+   {"f": 21, "type": "tick", "gain": 0.16},
+   {"f": 36, "type": "glass_ting", "gain": 0.48},
+   {"f": 36, "type": "impact", "gain": 0.38},
+   {"f": 54, "type": "riser", "gain": 0.34, "len_f": 18},
+   {"f": 66, "type": "whoosh_soft", "gain": 0.48},
+   {"f": 72, "type": "subboom", "gain": 0.5},
+   {"f": 72, "type": "glass_ting", "gain": 0.55},
+   {"f": 88, "type": "tick", "gain": 0.18},
+   {"f": 98, "type": "prism", "gain": 0.32},
+   {"f": 112, "type": "shimmer", "gain": 0.28},
+   {"f": 126, "type": "sparkle", "gain": 0.22},
+   {"f": 134, "type": "swish", "gain": 0.32},
+   {"f": 148, "type": "pop", "gain": 0.3},
+   {"f": 162, "type": "sparkle", "gain": 0.22},
+   {"f": 166, "type": "tick", "gain": 0.16},
+   {"f": 186, "type": "whoosh_soft", "gain": 0.42},
+   {"f": 198, "type": "prism", "gain": 0.32},
+   {"f": 214, "type": "laser_on", "gain": 0.3},
+   {"f": 214, "type": "laser", "gain": 0.3, "len_f": 28},
+   {"f": 246, "type": "laser_on", "gain": 0.26},
+   {"f": 246, "type": "laser", "gain": 0.28, "len_f": 22},
+   {"f": 271, "type": "laser", "gain": 0.22, "len_f": 9},
+   {"f": 268, "type": "whoosh", "gain": 0.42},
+   {"f": 284, "type": "sparkle", "gain": 0.26},
+   {"f": 288, "type": "case_thud", "gain": 0.45},
+   {"f": 290, "type": "prism", "gain": 0.28},
+   {"f": 306, "type": "pop", "gain": 0.3},
+   {"f": 318, "type": "shimmer", "gain": 0.24},
+   {"f": 336, "type": "riser", "gain": 0.38, "len_f": 22},
+   {"f": 348, "type": "whoosh_big", "gain": 0.48},
+   {"f": 360, "type": "subboom", "gain": 0.58},
+   {"f": 360, "type": "glass_ting", "gain": 0.5},
+   {"f": 368, "type": "tick", "gain": 0.14},
+   {"f": 378, "type": "pop", "gain": 0.32},
+   {"f": 388, "type": "tick", "gain": 0.2},
+   {"f": 396, "type": "sparkle", "gain": 0.2},
+   {"f": 432, "type": "sparkle", "gain": 0.14}
+  ]
+ },
+ "mix": {"music_db": -1.5, "sfx_db": -7.0},
+ "qa": {
+  "connectors": false,
+  "gold_exclude_logo_from_s": 11.9,
+  "closing_required": ["cta", "url"],
+  "closing_from_f": 400,
+  "voice_must_be_absent": true,
+  "forbidden_on_screen": ["precio", "\\$", "clp", "descuento", "dcto", "oferta", "promo", "gratis", "stock", "plazo", "despacho", "env[ií]o", "whats ?app", "\\b\\d+ ?%"]
+ },
+ "qa_layout_step": 5,
+ "qa_keyframes": [0, 10, 20, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180, 195, 210, 225, 240, 255, 270, 285, 300, 315, 330, 345, 360, 375, 390, 405, 420, 435, 449],
+ "exports": {
+  "whatsapp": {
+   "file": "out/BMS-20261012-001-whatsapp.mp4",
+   "profile": "main",
+   "level": "4.0",
+   "video_kbps": 4500,
+   "maxrate_kbps": 6000,
+   "audio_kbps": 128,
+   "max_bytes": 15000000
+  }
+ },
+ "approvals": {"creative": null, "human_publish": null},
+ "notes": [
+  "Borrador para revisión humana. No publicar.",
+  "CTA 'Cotiza el tuyo' (masculino, galvano), igual al CTA fijo de EXP-001-v2.",
+  "Sin precios, stock, plazos, descuentos, promociones ni WhatsApp en pantalla ni en metadatos."
+ ]
+}

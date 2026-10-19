@@ -1,0 +1,159 @@
+{
+  "id": "BMS-20261019-001",
+  "version": 1,
+  "template": "paddle",
+  "created": "2026-10-19T14:50:00Z",
+  "status": "draft_internal",
+  "publish": false,
+  "objective": {
+    "type": "ALCANCE_CONSIDERACION",
+    "description": "Presentar el trofeo de resina con forma de pala de pádel, modelo 60227, con sus datos de ficha y sin precio.",
+    "promise": "Un trofeo de pala de pádel para premiar a los campeones."
+  },
+  "product": {
+    "name": "Trofeo de Resina pala de Pádel 60227",
+    "url": "https://www.brinechile.cl/trofeo-de-resina-pala-de-padel-60227",
+    "assets": {
+      "mode": "photo",
+      "photos": [
+        {
+          "file": "brand-assets/trofeo-resina-pala-padel-60227.jpg",
+          "url": "https://www.brinechile.cl/trofeo-de-resina-pala-de-padel-60227",
+          "origin": "Foto oficial de catálogo adjunta al brief (fondo blanco de estudio). Sin IA y sin retoque de color.",
+          "sha256": "9a35e8d64e8fc717218eee1ef43ab0f65c2380f2bc7203c80bc4c73be977b762",
+          "size": [600, 600],
+          "public_name": "paddle-60227.png",
+          "cutout": "studio_white"
+        }
+      ]
+    },
+    "verified_claims": [
+      "Trofeo de resina con forma de pala de pádel — Modelo 60227",
+      "23 cm de altura",
+      "Placa grabada en láser, personalizable con el nombre del ganador o un mensaje",
+      "Presentación en caja de cartón con interior de aislapol",
+      "Ideal para premiar a tus campeones en torneos y eventos deportivos"
+    ],
+    "forbidden": ["precio", "descuento", "stock", "plazos", "envío", "despacho"]
+  },
+  "brand": {
+    "logo": "brand-assets/logo-brine-crop.png",
+    "logo_rules": "Versión negativa sobre azul oscuro; sin recolor, sin deformar, sin rotar, sin sombra ni glow. Solo al cierre, pequeño.",
+    "logo_bg": "#21254B",
+    "palette": {
+      "navy": "#21254B",
+      "celeste": "#ADBED4",
+      "celeste_light": "#C9D5E4",
+      "bone": "#F4F6F9",
+      "gold": "#CDA71F"
+    },
+    "gold_max_ratio": 0.03,
+    "fonts": {
+      "display": {"family": "Playfair Display", "file": "assets/PlayfairDisplay.ttf", "license": "OFL-1.1"},
+      "text": {"family": "Manrope", "file": "assets/Manrope.ttf", "license": "OFL-1.1"}
+    }
+  },
+  "format": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "duration_s": 21,
+    "durationInFrames": 630,
+    "safe_zone": {"top": 0.14, "bottom": 0.2, "left_px": 90, "right_px": 130}
+  },
+  "visual_direction": {
+    "concept": "Trofeo de pala sobre navy con profundidad. Tipografía serif, paneles de vidrio líquido a un lado del producto y cierre con logo pequeño.",
+    "motion": "Entradas con ease-out expo, traslados del trofeo con ease-in-out, muelle con poco overshoot solo en la tipografía. El producto no se desenfoca ni se tapa."
+  },
+  "script": {
+    "on_screen": {
+      "hook": ["PARA TUS", "CAMPEONES", "DE PÁDEL"],
+      "hero_eye": "TROFEO DE RESINA",
+      "hero_title": "Pala de pádel",
+      "hero_model": "Modelo 60227",
+      "measure": ["23 cm", "de altura"],
+      "plate": ["Placa grabada", "en láser", "Personalizable con", "el nombre del ganador", "o un mensaje"],
+      "case_eye": "PRESENTACIÓN",
+      "case": ["Caja de cartón", "Interior de", "aislapol"],
+      "statement": ["Ideal para premiar", "a tus campeones", "en torneos y eventos deportivos"],
+      "cta": "Para tus campeones",
+      "url": "brinechile.cl"
+    },
+    "voiceover": []
+  },
+  "storyboard": [
+    {"scene": "hook", "from": 0, "to": 78},
+    {"scene": "hero", "from": 72, "to": 188},
+    {"scene": "plate", "from": 188, "to": 356},
+    {"scene": "case", "from": 344, "to": 474},
+    {"scene": "statement", "from": 452, "to": 560},
+    {"scene": "end", "from": 556, "to": 630}
+  ],
+  "music_direction": {
+    "engine": "paddle",
+    "bpm": 120,
+    "key": "La menor, cierre en Do mayor",
+    "hit_s": 18.733,
+    "build_s": 17.9,
+    "progression": ["Am", "F", "C", "G"],
+    "mood": "Sport premium: pulso seco y elegante, motivo de rebote, caída en la frase final y acorde de cierre con el logo.",
+    "sections": [
+      {"name": "hook", "from_s": 0, "to_s": 2.5, "intensity": 0.62},
+      {"name": "arrive", "from_s": 2.5, "to_s": 6.9, "intensity": 0.58},
+      {"name": "plate", "from_s": 6.9, "to_s": 11.6, "intensity": 0.84},
+      {"name": "case", "from_s": 11.6, "to_s": 16.2, "intensity": 0.96},
+      {"name": "statement", "from_s": 16.2, "to_s": 17.9, "intensity": 0.36},
+      {"name": "build", "from_s": 17.9, "to_s": 18.733, "intensity": 0.78},
+      {"name": "end", "from_s": 18.733, "to_s": 21.0, "intensity": 0.58}
+    ],
+    "ending": "Gsus4 con redoble (17,9–18,6 s), stop breve y acorde C(add9) en 18,733 s = frame 562, cuando entra el logo."
+  },
+  "voice_direction": {
+    "enabled": false,
+    "lines": [],
+    "note": "Sin voz. Música y SFX originales sintetizados."
+  },
+  "beats": {
+    "bpm": 120,
+    "events": [
+      {"f": 0, "type": "impact", "gain": 0.42},
+      {"f": 8, "type": "pop", "gain": 0.26},
+      {"f": 26, "type": "pop", "gain": 0.3},
+      {"f": 58, "type": "riser", "gain": 0.28, "len_f": 16},
+      {"f": 74, "type": "whoosh", "gain": 0.5},
+      {"f": 112, "type": "ball_hit", "gain": 0.7},
+      {"f": 114, "type": "impact", "gain": 0.26},
+      {"f": 128, "type": "tick", "gain": 0.16},
+      {"f": 188, "type": "whoosh", "gain": 0.46},
+      {"f": 242, "type": "pop", "gain": 0.3},
+      {"f": 262, "type": "tick", "gain": 0.14},
+      {"f": 344, "type": "whoosh_soft", "gain": 0.42},
+      {"f": 400, "type": "pop", "gain": 0.3},
+      {"f": 452, "type": "whoosh_soft", "gain": 0.4},
+      {"f": 502, "type": "pop", "gain": 0.24},
+      {"f": 538, "type": "whoosh_soft", "gain": 0.32},
+      {"f": 540, "type": "riser", "gain": 0.36, "len_f": 22},
+      {"f": 562, "type": "subboom", "gain": 0.55},
+      {"f": 562, "type": "impact", "gain": 0.36},
+      {"f": 580, "type": "pop", "gain": 0.26},
+      {"f": 594, "type": "tick", "gain": 0.14}
+    ]
+  },
+  "mix": {"music_db": -1.5, "sfx_db": -6.0},
+  "qa": {
+    "connectors": false,
+    "gold_exclude_logo_from_s": 18.4,
+    "closing_required": ["cta", "url"],
+    "closing_from_f": 614,
+    "voice_must_be_absent": true,
+    "forbidden_on_screen": ["precio", "\\$", "clp", "descuento", "dcto", "oferta", "promo", "gratis", "stock", "plazo", "despacho", "env[ií]o", "whats ?app", "\\b\\d+ ?%"]
+  },
+  "qa_layout_step": 10,
+  "qa_keyframes": [0, 15, 30, 45, 60, 72, 90, 105, 114, 135, 150, 165, 180, 204, 225, 250, 270, 285, 300, 330, 345, 360, 378, 405, 420, 450, 465, 480, 490, 510, 525, 540, 555, 562, 570, 585, 600, 615, 629],
+  "approvals": {"creative": null, "human_publish": null},
+  "notes": [
+    "Borrador interno. No publicar.",
+    "Copy limitado a la ficha: resina, pala de pádel, modelo 60227, 23 cm, placa láser, caja de cartón con aislapol, campeones en torneos y eventos.",
+    "La foto no se regenera: recorte de fondo blanco de estudio, huecos de la pala transparentes, colores intactos."
+  ]
+}

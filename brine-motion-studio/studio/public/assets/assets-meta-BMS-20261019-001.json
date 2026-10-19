@@ -1,0 +1,22 @@
+{
+ "photos": {
+  "paddle-60227.png": {
+   "source": "/workspace/brine-motion-studio/studio/brand-assets/trofeo-resina-pala-padel-60227.jpg",
+   "url": "https://www.brinechile.cl/trofeo-de-resina-pala-de-padel-60227",
+   "sha256": "9a35e8d64e8fc717218eee1ef43ab0f65c2380f2bc7203c80bc4c73be977b762",
+   "size": [
+    600,
+    600
+   ],
+   "cut_size": [
+    219,
+    554
+   ]
+  }
+ },
+ "logo_sha256": "742b87dfe6c3ae551b28dc3e0bc43afab3fdfdeb2be73b0afd87c6bbb394bb53",
+ "logo_size": [
+  3483,
+  1391
+ ]
+}

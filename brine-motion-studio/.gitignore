@@ -6,5 +6,6 @@ voices/
 studio/build/
 studio/out/
 *.mp4
+!studio/out/BMS-20261019-001.mp4
 *.wav
 studio/npm-install*.log

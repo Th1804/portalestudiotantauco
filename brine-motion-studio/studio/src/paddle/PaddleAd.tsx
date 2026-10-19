@@ -204,7 +204,7 @@ const Copy: React.FC<{p: PaddleProduction}> = ({p}) => {
       <Block id="case-eye" text={o.case_eye} top={668} left={588} size={26} family={TEXT} weight={700} color={cel} start={394} end={448} track={0.26} />
       <Block id="case-1" text={o.case[0]} top={748} left={588} size={48} family={DISPLAY} weight={700} color={bone} start={400} end={452} />
       <Block id="case-2" text={o.case[1]} top={840} left={588} size={42} family={DISPLAY} weight={600} color={bone} start={408} end={456} />
-      <Block id="case-3" text={o.case[2]} top={908} left={588} size={42} family={DISPLAY} weight={600} color={bone} start={414} end={460} />
+      <Block id="case-3" text={o.case[2]} top={908} left={588} size={42} family={DISPLAY} weight={600} color={bone} start={414} end={444} />
       <Block id="state-1" text={o.statement[0]} top={1004} left={0} size={52} family={DISPLAY} weight={600} color={bone} start={494} end={546} align="center" />
       <Block id="state-2" text={o.statement[1]} top={1088} left={0} size={76} family={DISPLAY} weight={800} color={bone} start={502} end={548} align="center" />
       <Block id="state-3" text={o.statement[2]} top={1204} left={0} size={32} family={TEXT} weight={600} color={cel} start={510} end={550} track={0.02} align="center" />
@@ -286,7 +286,6 @@ const EndCard: React.FC<{p: PaddleProduction}> = ({p}) => {
   const f = useCurrentFrame();
   const qa = useQa();
   const C = p.brand.palette;
-  const navyText = useInk(C.navy);
   const bone = useInk(C.bone);
   if (f < LOGO_HIT - 8) return null;
   const hit = f - LOGO_HIT;
@@ -319,13 +318,16 @@ const EndCard: React.FC<{p: PaddleProduction}> = ({p}) => {
       </LogoLayer>
       <TextLayer>
         <div style={{position: 'absolute', top: 960, left: 540 - 330, width: 660, height: 112, borderRadius: 56,
-          background: qa === 'none' ? C.bone : 'transparent', border: qa === 'none' ? `2.5px solid ${C.gold}` : 'none',
+          background: qa === 'none' ? 'linear-gradient(180deg, rgba(173,190,212,0.14), rgba(12,16,40,0.42))' : 'transparent',
+          border: qa === 'none' ? `2.5px solid ${C.gold}` : 'none',
+          boxShadow: qa === 'none' ? 'inset 0 1px 0 rgba(244,246,249,0.35)' : 'none',
+          backdropFilter: qa === 'none' ? 'blur(16px)' : undefined,
           display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: pillOp,
           transform: `scale(${0.86 + 0.14 * pill + 0.012 * tap})`}}>
-          <span data-qa="cta" style={{fontFamily: TEXT, fontWeight: 800, fontSize: 46, color: navyText, whiteSpace: 'pre'}}>{p.script.on_screen.cta}</span>
+          <span data-qa="cta" style={{fontFamily: TEXT, fontWeight: 800, fontSize: 46, color: bone, whiteSpace: 'pre'}}>{p.script.on_screen.cta}</span>
         </div>
         <div style={{position: 'absolute', top: 1124, left: 0, right: 0, display: 'flex', justifyContent: 'center'}}>
-          <div data-qa="url" style={{fontFamily: TEXT, fontWeight: 700, fontSize: 48, color: bone, letterSpacing: '0.03em', opacity: urlOp,
+          <div data-qa="url" style={{fontFamily: TEXT, fontWeight: 700, fontSize: 58, color: bone, letterSpacing: '0.02em', opacity: urlOp,
             transform: `translateY(${(1 - urlIn) * 16}px)`}}>{p.script.on_screen.url}</div>
         </div>
       </TextLayer>

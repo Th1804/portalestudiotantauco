@@ -1,0 +1,1596 @@
+{
+ "id": "BMS-20261019-001",
+ "file": "/workspace/brine-motion-studio/studio/out/BMS-20261019-001.mp4",
+ "checks": {
+  "resolution": {
+   "pass": true,
+   "value": "1080x1920"
+  },
+  "fps": {
+   "pass": true,
+   "value": 30.0
+  },
+  "duration": {
+   "pass": true,
+   "value": 21.0,
+   "frames": 630
+  },
+  "codecs": {
+   "pass": true,
+   "video": "h264",
+   "audio": "aac",
+   "pix_fmt": "yuv420p",
+   "audio_sr": "48000"
+  },
+  "integrity_full_decode": {
+   "pass": true,
+   "errors": ""
+  },
+  "audio_present": {
+   "pass": true,
+   "lufs": -14.3
+  },
+  "loudness_-14_LUFS": {
+   "pass": true,
+   "integrated_lufs": -14.3,
+   "lra": 2.5,
+   "target": -14,
+   "tolerance": 1.0
+  },
+  "true_peak_<=-1_dBTP": {
+   "pass": true,
+   "true_peak_dbtp": -2.8
+  },
+  "no_black_frames": {
+   "pass": true,
+   "segments": []
+  },
+  "safe_zones_text": {
+   "pass": true,
+   "frames_checked": 83,
+   "failed": [],
+   "zone": {
+    "y_min": 268.8,
+    "y_max": 1536.0,
+    "x_min": 90,
+    "x_max": 950
+   },
+   "frames": [
+    {
+     "frame": 0,
+     "text": true,
+     "bbox": [
+      400,
+      477,
+      681,
+      839
+     ],
+     "pass": true
+    },
+    {
+     "frame": 10,
+     "text": true,
+     "bbox": [
+      171,
+      481,
+      681,
+      842
+     ],
+     "pass": true
+    },
+    {
+     "frame": 15,
+     "text": true,
+     "bbox": [
+      188,
+      482,
+      890,
+      843
+     ],
+     "pass": true
+    },
+    {
+     "frame": 20,
+     "text": true,
+     "bbox": [
+      193,
+      482,
+      890,
+      843
+     ],
+     "pass": true
+    },
+    {
+     "frame": 30,
+     "text": true,
+     "bbox": [
+      195,
+      481,
+      887,
+      841
+     ],
+     "pass": true
+    },
+    {
+     "frame": 40,
+     "text": true,
+     "bbox": [
+      195,
+      479,
+      886,
+      819
+     ],
+     "pass": true
+    },
+    {
+     "frame": 45,
+     "text": true,
+     "bbox": [
+      195,
+      478,
+      886,
+      818
+     ],
+     "pass": true
+    },
+    {
+     "frame": 50,
+     "text": true,
+     "bbox": [
+      195,
+      476,
+      886,
+      816
+     ],
+     "pass": true
+    },
+    {
+     "frame": 60,
+     "text": true,
+     "bbox": [
+      194,
+      470,
+      886,
+      814
+     ],
+     "pass": true
+    },
+    {
+     "frame": 70,
+     "text": false
+    },
+    {
+     "frame": 72,
+     "text": false
+    },
+    {
+     "frame": 80,
+     "text": false
+    },
+    {
+     "frame": 90,
+     "text": false
+    },
+    {
+     "frame": 100,
+     "text": false
+    },
+    {
+     "frame": 105,
+     "text": true,
+     "bbox": [
+      354,
+      332,
+      720,
+      339
+     ],
+     "pass": true
+    },
+    {
+     "frame": 110,
+     "text": true,
+     "bbox": [
+      354,
+      308,
+      725,
+      438
+     ],
+     "pass": true
+    },
+    {
+     "frame": 114,
+     "text": true,
+     "bbox": [
+      335,
+      303,
+      740,
+      438
+     ],
+     "pass": true
+    },
+    {
+     "frame": 120,
+     "text": true,
+     "bbox": [
+      335,
+      303,
+      744,
+      499
+     ],
+     "pass": true
+    },
+    {
+     "frame": 130,
+     "text": true,
+     "bbox": [
+      335,
+      303,
+      890,
+      1032
+     ],
+     "pass": true
+    },
+    {
+     "frame": 135,
+     "text": true,
+     "bbox": [
+      335,
+      303,
+      894,
+      1077
+     ],
+     "pass": true
+    },
+    {
+     "frame": 140,
+     "text": true,
+     "bbox": [
+      335,
+      303,
+      894,
+      1068
+     ],
+     "pass": true
+    },
+    {
+     "frame": 150,
+     "text": true,
+     "bbox": [
+      335,
+      303,
+      894,
+      1065
+     ],
+     "pass": true
+    },
+    {
+     "frame": 160,
+     "text": true,
+     "bbox": [
+      335,
+      303,
+      893,
+      1066
+     ],
+     "pass": true
+    },
+    {
+     "frame": 165,
+     "text": true,
+     "bbox": [
+      335,
+      303,
+      893,
+      1066
+     ],
+     "pass": true
+    },
+    {
+     "frame": 170,
+     "text": true,
+     "bbox": [
+      335,
+      303,
+      893,
+      1066
+     ],
+     "pass": true
+    },
+    {
+     "frame": 180,
+     "text": true,
+     "bbox": [
+      335,
+      300,
+      893,
+      1067
+     ],
+     "pass": true
+    },
+    {
+     "frame": 190,
+     "text": true,
+     "bbox": [
+      417,
+      448,
+      663,
+      472
+     ],
+     "pass": true
+    },
+    {
+     "frame": 200,
+     "text": false
+    },
+    {
+     "frame": 204,
+     "text": false
+    },
+    {
+     "frame": 210,
+     "text": false
+    },
+    {
+     "frame": 220,
+     "text": false
+    },
+    {
+     "frame": 225,
+     "text": false
+    },
+    {
+     "frame": 230,
+     "text": false
+    },
+    {
+     "frame": 240,
+     "text": false
+    },
+    {
+     "frame": 250,
+     "text": true,
+     "bbox": [
+      126,
+      663,
+      472,
+      800
+     ],
+     "pass": true
+    },
+    {
+     "frame": 260,
+     "text": true,
+     "bbox": [
+      126,
+      661,
+      472,
+      881
+     ],
+     "pass": true
+    },
+    {
+     "frame": 270,
+     "text": true,
+     "bbox": [
+      125,
+      661,
+      472,
+      979
+     ],
+     "pass": true
+    },
+    {
+     "frame": 280,
+     "text": true,
+     "bbox": [
+      125,
+      661,
+      472,
+      971
+     ],
+     "pass": true
+    },
+    {
+     "frame": 285,
+     "text": true,
+     "bbox": [
+      125,
+      661,
+      472,
+      971
+     ],
+     "pass": true
+    },
+    {
+     "frame": 290,
+     "text": true,
+     "bbox": [
+      125,
+      661,
+      472,
+      971
+     ],
+     "pass": true
+    },
+    {
+     "frame": 300,
+     "text": true,
+     "bbox": [
+      125,
+      661,
+      472,
+      971
+     ],
+     "pass": true
+    },
+    {
+     "frame": 310,
+     "text": true,
+     "bbox": [
+      125,
+      661,
+      472,
+      971
+     ],
+     "pass": true
+    },
+    {
+     "frame": 320,
+     "text": true,
+     "bbox": [
+      125,
+      661,
+      472,
+      971
+     ],
+     "pass": true
+    },
+    {
+     "frame": 330,
+     "text": true,
+     "bbox": [
+      125,
+      661,
+      472,
+      971
+     ],
+     "pass": true
+    },
+    {
+     "frame": 340,
+     "text": true,
+     "bbox": [
+      125,
+      732,
+      467,
+      971
+     ],
+     "pass": true
+    },
+    {
+     "frame": 345,
+     "text": true,
+     "bbox": [
+      125,
+      841,
+      467,
+      971
+     ],
+     "pass": true
+    },
+    {
+     "frame": 350,
+     "text": true,
+     "bbox": [
+      125,
+      882,
+      467,
+      970
+     ],
+     "pass": true
+    },
+    {
+     "frame": 360,
+     "text": false
+    },
+    {
+     "frame": 370,
+     "text": false
+    },
+    {
+     "frame": 378,
+     "text": false
+    },
+    {
+     "frame": 380,
+     "text": false
+    },
+    {
+     "frame": 390,
+     "text": false
+    },
+    {
+     "frame": 400,
+     "text": true,
+     "bbox": [
+      593,
+      674,
+      872,
+      813
+     ],
+     "pass": true
+    },
+    {
+     "frame": 405,
+     "text": true,
+     "bbox": [
+      593,
+      670,
+      908,
+      813
+     ],
+     "pass": true
+    },
+    {
+     "frame": 410,
+     "text": true,
+     "bbox": [
+      593,
+      670,
+      908,
+      899
+     ],
+     "pass": true
+    },
+    {
+     "frame": 420,
+     "text": true,
+     "bbox": [
+      593,
+      670,
+      908,
+      966
+     ],
+     "pass": true
+    },
+    {
+     "frame": 430,
+     "text": true,
+     "bbox": [
+      593,
+      670,
+      908,
+      959
+     ],
+     "pass": true
+    },
+    {
+     "frame": 440,
+     "text": true,
+     "bbox": [
+      593,
+      670,
+      908,
+      959
+     ],
+     "pass": true
+    },
+    {
+     "frame": 450,
+     "text": true,
+     "bbox": [
+      593,
+      670,
+      908,
+      958
+     ],
+     "pass": true
+    },
+    {
+     "frame": 460,
+     "text": true,
+     "bbox": [
+      593,
+      753,
+      908,
+      885
+     ],
+     "pass": true
+    },
+    {
+     "frame": 465,
+     "text": true,
+     "bbox": [
+      593,
+      844,
+      797,
+      877
+     ],
+     "pass": true
+    },
+    {
+     "frame": 470,
+     "text": false
+    },
+    {
+     "frame": 480,
+     "text": false
+    },
+    {
+     "frame": 490,
+     "text": false
+    },
+    {
+     "frame": 500,
+     "text": true,
+     "bbox": [
+      320,
+      1025,
+      760,
+      1074
+     ],
+     "pass": true
+    },
+    {
+     "frame": 510,
+     "text": true,
+     "bbox": [
+      253,
+      1016,
+      826,
+      1253
+     ],
+     "pass": true
+    },
+    {
+     "frame": 520,
+     "text": true,
+     "bbox": [
+      253,
+      1016,
+      826,
+      1245
+     ],
+     "pass": true
+    },
+    {
+     "frame": 525,
+     "text": true,
+     "bbox": [
+      253,
+      1016,
+      826,
+      1245
+     ],
+     "pass": true
+    },
+    {
+     "frame": 530,
+     "text": true,
+     "bbox": [
+      253,
+      1016,
+      826,
+      1245
+     ],
+     "pass": true
+    },
+    {
+     "frame": 540,
+     "text": true,
+     "bbox": [
+      253,
+      1016,
+      826,
+      1245
+     ],
+     "pass": true
+    },
+    {
+     "frame": 550,
+     "text": true,
+     "bbox": [
+      253,
+      1016,
+      826,
+      1245
+     ],
+     "pass": true
+    },
+    {
+     "frame": 555,
+     "text": true,
+     "bbox": [
+      253,
+      1006,
+      826,
+      1244
+     ],
+     "pass": true
+    },
+    {
+     "frame": 560,
+     "text": true,
+     "bbox": [
+      287,
+      1204,
+      792,
+      1233
+     ],
+     "pass": true
+    },
+    {
+     "frame": 562,
+     "text": false
+    },
+    {
+     "frame": 570,
+     "text": false
+    },
+    {
+     "frame": 580,
+     "text": true,
+     "bbox": [
+      337,
+      1002,
+      744,
+      1041
+     ],
+     "pass": true
+    },
+    {
+     "frame": 585,
+     "text": true,
+     "bbox": [
+      313,
+      1000,
+      767,
+      1044
+     ],
+     "pass": true
+    },
+    {
+     "frame": 590,
+     "text": true,
+     "bbox": [
+      313,
+      1000,
+      767,
+      1044
+     ],
+     "pass": true
+    },
+    {
+     "frame": 600,
+     "text": true,
+     "bbox": [
+      314,
+      1000,
+      766,
+      1187
+     ],
+     "pass": true
+    },
+    {
+     "frame": 610,
+     "text": true,
+     "bbox": [
+      311,
+      1000,
+      769,
+      1186
+     ],
+     "pass": true
+    },
+    {
+     "frame": 615,
+     "text": true,
+     "bbox": [
+      313,
+      1000,
+      767,
+      1186
+     ],
+     "pass": true
+    },
+    {
+     "frame": 620,
+     "text": true,
+     "bbox": [
+      314,
+      1000,
+      766,
+      1186
+     ],
+     "pass": true
+    },
+    {
+     "frame": 629,
+     "text": true,
+     "bbox": [
+      314,
+      1000,
+      766,
+      1186
+     ],
+     "pass": true
+    }
+   ]
+  },
+  "text_contrast_wcag_>=3": {
+   "pass": true,
+   "frames": [
+    {
+     "frame": 0,
+     "fg": [
+      174,
+      187,
+      215
+     ],
+     "bg": [
+      63,
+      70,
+      105
+     ],
+     "ratio": 4.75,
+     "transition": false,
+     "pass": true
+    },
+    {
+     "frame": 15,
+     "fg": [
+      222,
+      226,
+      235
+     ],
+     "bg": [
+      48,
+      55,
+      92
+     ],
+     "ratio": 8.86,
+     "transition": true,
+     "pass": true
+    },
+    {
+     "frame": 30,
+     "fg": [
+      242,
+      244,
+      249
+     ],
+     "bg": [
+      48,
+      55,
+      92
+     ],
+     "ratio": 10.45,
+     "transition": true,
+     "pass": true
+    },
+    {
+     "frame": 45,
+     "fg": [
+      243,
+      244,
+      249
+     ],
+     "bg": [
+      49,
+      56,
+      93
+     ],
+     "ratio": 10.31,
+     "transition": false,
+     "pass": true
+    },
+    {
+     "frame": 60,
+     "fg": [
+      243,
+      244,
+      249
+     ],
+     "bg": [
+      49,
+      56,
+      93
+     ],
+     "ratio": 10.31,
+     "transition": true,
+     "pass": true
+    },
+    {
+     "frame": 105,
+     "fg": [
+      177,
+      185,
+      221
+     ],
+     "bg": [
+      41,
+      48,
+      85
+     ],
+     "ratio": 6.58,
+     "transition": false,
+     "pass": true
+    },
+    {
+     "frame": 114,
+     "fg": [
+      241,
+      244,
+      249
+     ],
+     "bg": [
+      47,
+      54,
+      92
+     ],
+     "ratio": 10.56,
+     "transition": false,
+     "pass": true
+    },
+    {
+     "frame": 135,
+     "fg": [
+      241,
+      244,
+      249
+     ],
+     "bg": [
+      50,
+      57,
+      94
+     ],
+     "ratio": 10.12,
+     "transition": false,
+     "pass": true
+    },
+    {
+     "frame": 150,
+     "fg": [
+      241,
+      244,
+      249
+     ],
+     "bg": [
+      50,
+      57,
+      94
+     ],
+     "ratio": 10.12,
+     "transition": false,
+     "pass": true
+    },
+    {
+     "frame": 165,
+     "fg": [
+      241,
+      244,
+      248
+     ],
+     "bg": [
+      50,
+      57,
+      94
+     ],
+     "ratio": 10.11,
+     "transition": false,
+     "pass": true
+    },
+    {
+     "frame": 180,
+     "fg": [
+      240,
+      244,
+      248
+     ],
+     "bg": [
+      50,
+      57,
+      94
+     ],
+     "ratio": 10.09,
+     "transition": false,
+     "pass": true
+    },
+    {
+     "frame": 250,
+     "fg": [
+      242,
+      245,
+      251
+     ],
+     "bg": [
+      71,
+      78,
+      112
+     ],
+     "ratio": 7.42,
+     "transition": false,
+     "pass": true
+    },
+    {
+     "frame": 270,
+     "fg": [
+      241,
+      245,
+      251
+     ],
+     "bg": [
+      65,
+      72,
+      107
+     ],
+     "ratio": 8.12,
+     "transition": false,
+     "pass": true
+    },
+    {
+     "frame": 285,
+     "fg": [
+      241,
+      245,
+      250
+     ],
+     "bg": [
+      66,
+      73,
+      108
+     ],
+     "ratio": 7.99,
+     "transition": false,
+     "pass": true
+    },
+    {
+     "frame": 300,
+     "fg": [
+      241,
+      245,
+      251
+     ],
+     "bg": [
+      67,
+      73,
+      108
+     ],
+     "ratio": 7.97,
+     "transition": false,
+     "pass": true
+    },
+    {
+     "frame": 330,
+     "fg": [
+      241,
+      245,
+      251
+     ],
+     "bg": [
+      67,
+      74,
+      109
+     ],
+     "ratio": 7.87,
+     "transition": false,
+     "pass": true
+    },
+    {
+     "frame": 345,
+     "fg": [
+      239,
+      244,
+      251
+     ],
+     "bg": [
+      59,
+      65,
+      102
+     ],
+     "ratio": 8.91,
+     "transition": false,
+     "pass": true
+    },
+    {
+     "frame": 405,
+     "fg": [
+      240,
+      244,
+      251
+     ],
+     "bg": [
+      64,
+      71,
+      106
+     ],
+     "ratio": 8.18,
+     "transition": false,
+     "pass": true
+    },
+    {
+     "frame": 420,
+     "fg": [
+      240,
+      245,
+      251
+     ],
+     "bg": [
+      63,
+      70,
+      105
+     ],
+     "ratio": 8.36,
+     "transition": false,
+     "pass": true
+    },
+    {
+     "frame": 450,
+     "fg": [
+      240,
+      245,
+      251
+     ],
+     "bg": [
+      65,
+      71,
+      106
+     ],
+     "ratio": 8.21,
+     "transition": false,
+     "pass": true
+    },
+    {
+     "frame": 465,
+     "fg": [
+      241,
+      245,
+      254
+     ],
+     "bg": [
+      58,
+      65,
+      101
+     ],
+     "ratio": 9.05,
+     "transition": false,
+     "pass": true
+    },
+    {
+     "frame": 510,
+     "fg": [
+      242,
+      245,
+      250
+     ],
+     "bg": [
+      51,
+      58,
+      95
+     ],
+     "ratio": 10.05,
+     "transition": false,
+     "pass": true
+    },
+    {
+     "frame": 525,
+     "fg": [
+      242,
+      244,
+      249
+     ],
+     "bg": [
+      50,
+      57,
+      94
+     ],
+     "ratio": 10.14,
+     "transition": false,
+     "pass": true
+    },
+    {
+     "frame": 540,
+     "fg": [
+      242,
+      244,
+      249
+     ],
+     "bg": [
+      50,
+      56,
+      94
+     ],
+     "ratio": 10.24,
+     "transition": false,
+     "pass": true
+    },
+    {
+     "frame": 555,
+     "fg": [
+      242,
+      244,
+      249
+     ],
+     "bg": [
+      49,
+      56,
+      93
+     ],
+     "ratio": 10.29,
+     "transition": false,
+     "pass": true
+    },
+    {
+     "frame": 585,
+     "fg": [
+      216,
+      221,
+      233
+     ],
+     "bg": [
+      50,
+      57,
+      91
+     ],
+     "ratio": 8.25,
+     "transition": false,
+     "pass": true
+    },
+    {
+     "frame": 600,
+     "fg": [
+      236,
+      241,
+      243
+     ],
+     "bg": [
+      50,
+      57,
+      94
+     ],
+     "ratio": 9.8,
+     "transition": false,
+     "pass": true
+    },
+    {
+     "frame": 615,
+     "fg": [
+      240,
+      245,
+      251
+     ],
+     "bg": [
+      50,
+      57,
+      93
+     ],
+     "ratio": 10.2,
+     "transition": false,
+     "pass": true
+    },
+    {
+     "frame": 629,
+     "fg": [
+      240,
+      245,
+      251
+     ],
+     "bg": [
+      50,
+      56,
+      93
+     ],
+     "ratio": 10.3,
+     "transition": false,
+     "pass": true
+    }
+   ],
+   "settled_frames": 26,
+   "transition_frames_not_scored": [
+    15,
+    30,
+    60
+   ],
+   "min_ratio_settled": 4.75,
+   "note": "Ratio WCAG entre la mediana del núcleo del texto y la mediana del anillo de fondo, medido en el MP4 (texto >=46 px: umbral 3:1). Se puntúa con el texto asentado; los frames con glifos a media opacidad o desenfocados (entradas/salidas por glifo, marcados settled=false por QaProbe) se reportan sin umbral."
+  },
+  "text_no_overlap": {
+   "pass": true,
+   "frames_checked": 83,
+   "min_gap_px": 8,
+   "collisions": [],
+   "note": "Cajas de tinta por elemento [data-qa] (DOM + canvas.measureText, con transformaciones y máscaras) y el producto como obstáculo (medalla: lib/medal; cristal: crystal/geometry), cada qa_layout_step frames; falla si dos cajas visibles quedan a < 8 px."
+  },
+  "url_contrast_wcag_>=4.5": {
+   "pass": true,
+   "frames": [
+    {
+     "frame": 615,
+     "bbox": [
+      358,
+      1143,
+      722,
+      1187
+     ],
+     "height_px": 44,
+     "fg": [
+      240,
+      245,
+      250
+     ],
+     "bg": [
+      50,
+      57,
+      94
+     ],
+     "ratio": 10.17,
+     "pass": true
+    },
+    {
+     "frame": 629,
+     "bbox": [
+      363,
+      1136,
+      717,
+      1179
+     ],
+     "height_px": 43,
+     "fg": [
+      240,
+      245,
+      250
+     ],
+     "bg": [
+      50,
+      56,
+      94
+     ],
+     "ratio": 10.28,
+     "pass": true
+    }
+   ],
+   "note": "URL del CTA: mediana del núcleo de sus glifos vs. anillo de fondo, solo dentro de su caja, en cada keyframe con la URL a opacidad plena; además altura de tinta >= 36 px."
+  },
+  "logo_in_closing": {
+   "pass": true,
+   "frame": 629,
+   "bbox": [
+    293,
+    670,
+    788,
+    866
+   ],
+   "aspect": 2.5255,
+   "aspect_source": 2.5477,
+   "luma_correlation_vs_official": 0.9683,
+   "mean_rgb_frame": [
+    104,
+    105,
+    118
+   ],
+   "mean_rgb_official_on_navy": [
+    91,
+    91,
+    104
+   ],
+   "safe_zone_ok": true
+  },
+  "gold_accent_<3%": {
+   "pass": true,
+   "max_ratio": 0.0011,
+   "mean_ratio": 0.0001
+  },
+  "closing_text_visible_to_last_frame": {
+   "pass": true,
+   "required": [
+    "cta",
+    "url"
+   ],
+   "from_frame": 614,
+   "frames_checked": 3,
+   "failed": [],
+   "text_at_last_frame": [
+    "Para tus campeones",
+    "brinechile.cl"
+   ]
+  },
+  "no_voice_track": {
+   "pass": true,
+   "audio_streams": 1,
+   "voice_stem_peak": 0,
+   "voice_enabled": false
+  },
+  "copy_no_forbidden_terms": {
+   "pass": true,
+   "texts_on_screen": [
+    "23 cm",
+    "CAMPEONES",
+    "Caja de cartón",
+    "DE PÁDEL",
+    "Ideal para premiar",
+    "Interior de",
+    "Modelo 60227",
+    "PARA TUS",
+    "PRESENTACIÓN",
+    "Pala de pádel",
+    "Para tus campeones",
+    "Personalizable con",
+    "Placa grabada",
+    "TROFEO DE RESINA",
+    "a tus campeones",
+    "aislapol",
+    "brinechile.cl",
+    "de altura",
+    "el nombre del ganador",
+    "en láser",
+    "en torneos y eventos deportivos",
+    "o un mensaje"
+   ],
+   "patterns": [
+    "precio",
+    "\\$",
+    "clp",
+    "descuento",
+    "dcto",
+    "oferta",
+    "promo",
+    "gratis",
+    "stock",
+    "plazo",
+    "despacho",
+    "env[ií]o",
+    "whats ?app",
+    "\\b\\d+ ?%"
+   ],
+   "hits": []
+  }
+ },
+ "contact_sheet": "/workspace/brine-motion-studio/studio/out/BMS-20261019-001.contact-sheet.png",
+ "audio_report": {
+  "mix": "/workspace/brine-motion-studio/studio/build/BMS-20261019-001/mix.wav",
+  "sr": 48000,
+  "duration_s": 21.0,
+  "lufs_internal": -14.28,
+  "true_peak_dbtp_internal": -3.54,
+  "bpm": 120,
+  "voice": [
+   {
+    "note": "variante sin voz (voice_direction.enabled=false)"
+   }
+  ],
+  "sfx": [
+   {
+    "f": 0,
+    "t_s": 0.0,
+    "type": "impact",
+    "placed_at_s": 0.0
+   },
+   {
+    "f": 8,
+    "t_s": 0.267,
+    "type": "pop",
+    "placed_at_s": 0.267
+   },
+   {
+    "f": 26,
+    "t_s": 0.867,
+    "type": "pop",
+    "placed_at_s": 0.867
+   },
+   {
+    "f": 58,
+    "t_s": 1.933,
+    "type": "riser",
+    "placed_at_s": 1.933
+   },
+   {
+    "f": 74,
+    "t_s": 2.467,
+    "type": "whoosh",
+    "placed_at_s": 2.095
+   },
+   {
+    "f": 112,
+    "t_s": 3.733,
+    "type": "ball_hit",
+    "placed_at_s": 3.733
+   },
+   {
+    "f": 114,
+    "t_s": 3.8,
+    "type": "impact",
+    "placed_at_s": 3.8
+   },
+   {
+    "f": 128,
+    "t_s": 4.267,
+    "type": "tick",
+    "placed_at_s": 4.267
+   },
+   {
+    "f": 188,
+    "t_s": 6.267,
+    "type": "whoosh",
+    "placed_at_s": 5.895
+   },
+   {
+    "f": 242,
+    "t_s": 8.067,
+    "type": "pop",
+    "placed_at_s": 8.067
+   },
+   {
+    "f": 262,
+    "t_s": 8.733,
+    "type": "tick",
+    "placed_at_s": 8.733
+   },
+   {
+    "f": 344,
+    "t_s": 11.467,
+    "type": "whoosh_soft",
+    "placed_at_s": 10.878
+   },
+   {
+    "f": 400,
+    "t_s": 13.333,
+    "type": "pop",
+    "placed_at_s": 13.333
+   },
+   {
+    "f": 452,
+    "t_s": 15.067,
+    "type": "whoosh_soft",
+    "placed_at_s": 14.478
+   },
+   {
+    "f": 502,
+    "t_s": 16.733,
+    "type": "pop",
+    "placed_at_s": 16.733
+   },
+   {
+    "f": 538,
+    "t_s": 17.933,
+    "type": "whoosh_soft",
+    "placed_at_s": 17.344
+   },
+   {
+    "f": 540,
+    "t_s": 18.0,
+    "type": "riser",
+    "placed_at_s": 18.0
+   },
+   {
+    "f": 562,
+    "t_s": 18.733,
+    "type": "subboom",
+    "placed_at_s": 18.733
+   },
+   {
+    "f": 562,
+    "t_s": 18.733,
+    "type": "impact",
+    "placed_at_s": 18.733
+   },
+   {
+    "f": 580,
+    "t_s": 19.333,
+    "type": "pop",
+    "placed_at_s": 19.333
+   },
+   {
+    "f": 594,
+    "t_s": 19.8,
+    "type": "tick",
+    "placed_at_s": 19.8
+   }
+  ],
+  "voice_engine": "Piper (piper-tts) es_MX-claude-high, local CPU"
+ },
+ "summary": {
+  "passed": 18,
+  "total": 18,
+  "failed": []
+ }
+}

@@ -696,9 +696,11 @@ def main(prod_path):
     m = bq(mix, 'ls', 90, 0.7, 1.0); m = bq(m, 'hs', 10000, 0.7, 1.0)
     m = compress(m, -16, 2.0, 0.01, 0.2, 0)
     target = -14.0
+    # limiter_db más bajo deja margen al overshoot del AAC (el pico interno no es el true peak del MP4)
+    ceil = float(prod.get('mix', {}).get('limiter_db', -2.0))
     for it in range(4):
         L = lufs(m); m = m * db(target - L)
-        m = limiter(m, -2.0)  # margen para el overshoot del códec AAC
+        m = limiter(m, ceil)
         if abs(lufs(m) - target) < 0.3: break
     tt_m = t_arr(len(m)); m = m * (np.sin(np.clip((len(m) / SR - tt_m) / 0.12, 0, 1) * np.pi / 2) ** 2)[:, None]
     m = np.clip(m, -1, 1)

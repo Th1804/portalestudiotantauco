@@ -139,7 +139,7 @@
       {"f": 594, "type": "tick", "gain": 0.14}
     ]
   },
-  "mix": {"music_db": -1.5, "sfx_db": -6.0},
+  "mix": {"music_db": -1.5, "sfx_db": -6.0, "limiter_db": -3.6},
   "qa": {
     "connectors": false,
     "gold_exclude_logo_from_s": 18.4,

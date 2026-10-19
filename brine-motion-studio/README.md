@@ -52,6 +52,7 @@ npm run produce -- productions/BMS-20261009-001-v3.json                       # 
 npm run produce -- productions/BMS-20261009-001-v3-voz.json --layout-only     # opcional con voz: solo QA de layout/conectores
 npm run produce -- productions/BMS-20261009-001-v2.json                       # v2 (histórico)
 npm run produce -- productions/BMS-20261012-001.json                          # galvano cristal CTA 15 «Circular» (plantilla crystal, sin voz)
+npm run produce -- productions/BMS-20261019-001.json                          # trofeo resina pala de pádel 60227 (plantilla paddle, sin voz)
 ```
 En el box Linux, si Chrome no está en `/usr/bin/google-chrome`, define `BMS_CHROME` (p. ej. `/usr/local/bin/google-chrome`).
 El pipeline: assets → audio (música, SFX, 3 tomas de voz) → render 1080x1920 30 fps → mux H.264/AAC → stills de QA → QA.
@@ -78,6 +79,7 @@ Otros comandos:
 ## Plantillas
 `production.template` elige la composición (`src/Root.tsx`):
 - sin `template`: medalla (BMS-20261009-001, `src/Main.tsx` + `src/scenes/`).
+- `"paddle"`: trofeo de resina pala de pádel con foto real recortada (BMS-20261019-001, `src/paddle/`). Fondo navy, Playfair, paneles de vidrio que no tapan el producto, logo solo al cierre. Música `music_direction.engine = "paddle"`. `product.assets` en modo `photo` con `cutout: "studio_white"`.
 - `"crystal"`: galvano de cristal con foto real (BMS-20261012-001, `src/crystal/`). Fondo hielo, tipografía Manrope 800 con ecos de refracción,
   cámara virtual sobre la foto de la ficha (`crystal/geometry.ts`, compartida con el QA), luz/dispersión/destellos enmascarados al disco,
   grabado láser de ejemplo, iris de 12 facetas y cierre navy. Música `music_direction.engine = "crystal"` (100 BPM, F mayor) en `scripts/audio.py`.

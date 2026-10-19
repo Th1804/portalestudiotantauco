@@ -4,6 +4,7 @@ Recorta la medalla aprobada (raw de CNT-20261009-01, aprobado por Enzo 2026-10-0
 y copia el logo oficial sin modificarlo. Funciones de llave copiadas (sin cambios) de
 /workspace/brine-marketing/carruseles-automatizados/CNT-20261009-01/postpro_cnt0901.py (Brine Creative)."""
 import hashlib, json, math, os, shutil, sys
+from collections import deque
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
 def _largest_component_seed(mask_bool, k=4):
@@ -103,6 +104,59 @@ def key_medal(raw, kc, straighten="pca"):
     return img, ang, cover, tuple(int(x) for x in bg)
 
 
+def studio_white_cutout(img):
+    """Recorte de una foto de estudio sobre blanco puro, sin IA y sin recolorear el producto.
+    El blanco conectado al borde del cuadro se vuelve transparente. Los huecos interiores de blanco
+    puro (perforaciones, vanos) también: son el fondo visto a través de la pieza. El blanco de la
+    pintura, las vetas y el mármol —menos puros— queda opaco. El borde se descontamina para no dejar halo."""
+    rgb = np.asarray(img.convert("RGB")).astype(np.float32)
+    h, w, _ = rgb.shape
+    mx, mn = rgb.max(-1), rgb.min(-1)
+    near = (mn >= 250) & ((mx - mn) <= 12)
+    binimg = Image.fromarray(np.where(near, 0, 255).astype(np.uint8)).copy()
+    ImageDraw.floodfill(binimg, (0, 0), 128)
+    bg = np.asarray(binimg) == 128
+    enclosed = near & ~bg
+    seen = np.zeros((h, w), bool)
+    holes = np.zeros((h, w), bool)
+    ys, xs = np.nonzero(enclosed)
+    for y, x in zip(ys.tolist(), xs.tolist()):
+        if seen[y, x]:
+            continue
+        q = deque([(int(y), int(x))])
+        seen[y, x] = True
+        cells = []
+        while q:
+            cy, cx = q.popleft()
+            cells.append((cy, cx))
+            for dy, dx in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+                ny, nx = cy + dy, cx + dx
+                if 0 <= ny < h and 0 <= nx < w and enclosed[ny, nx] and not seen[ny, nx]:
+                    seen[ny, nx] = True
+                    q.append((ny, nx))
+        yy, xx = np.array(cells).T
+        med = np.median(rgb[yy, xx], 0)
+        pure = float(med.min()) >= 249.0 and float(med.max() - med.min()) <= 5.0
+        if pure and len(cells) >= 40:
+            holes[yy, xx] = True
+    hole_d = np.asarray(Image.fromarray((holes * 255).astype(np.uint8)).filter(ImageFilter.MaxFilter(3))) > 127
+    solid = ~(bg | hole_d)
+    hard = Image.fromarray((solid * 255).astype(np.uint8))
+    A = np.asarray(hard.filter(ImageFilter.GaussianBlur(0.7))).astype(np.float32) / 255.0
+    al = np.clip(A, 1e-4, 1.0)[..., None]
+    unmix = np.clip((rgb - 255.0 * (1.0 - al)) / al, 0, 255)
+    fringe = (A > 0.02) & (A < 0.985)
+    out_rgb = np.where(fringe[..., None], unmix, rgb)
+    rgba = np.dstack([np.clip(out_rgb, 0, 255), np.clip(A, 0, 1) * 255]).astype(np.uint8)
+    cut = Image.fromarray(rgba, "RGBA")
+    bb = hard.point(lambda v: 255 if v > 12 else 0).getbbox()
+    if bb is None:
+        raise SystemExit("recorte de estudio vacío")
+    pad = 2
+    bb = (max(0, bb[0] - pad), max(0, bb[1] - pad), min(w, bb[2] + pad), min(h, bb[3] + pad))
+    return cut.crop(bb)
+
+
 def white_to_alpha(img):
     """Separa una foto de producto de su fondo blanco de estudio sin llave ni IA: 'color to alpha' respecto del blanco.
     alpha = max_c (255 - c) / 255 y color = (c - 255 (1 - alpha)) / alpha. Compuesta sobre blanco devuelve la foto original
@@ -125,8 +179,14 @@ def prep_photos(prod, pub, rp):
             raise SystemExit(f"{src}: sha256 {sha} no coincide con la ficha ({ph['sha256']})")
         img = Image.open(src)
         dst = os.path.join(pub, ph["public_name"])
-        (white_to_alpha(img) if ph.get("white_to_alpha") else img.convert("RGBA")).save(dst)
-        out[ph["public_name"]] = {"source": src, "url": ph["url"], "sha256": sha, "size": img.size}
+        if ph.get("cutout") == "studio_white":
+            cut = studio_white_cutout(img)
+        elif ph.get("white_to_alpha"):
+            cut = white_to_alpha(img)
+        else:
+            cut = img.convert("RGBA")
+        cut.save(dst)
+        out[ph["public_name"]] = {"source": src, "url": ph["url"], "sha256": sha, "size": img.size, "cut_size": list(cut.size)}
     return out
 
 

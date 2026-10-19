@@ -157,7 +157,8 @@ def shaker(gain=1.0):
 # y cada SFX normalizado a un pico fijo, para que la ganancia del JSON sea el nivel real.
 SFX_PEAK = {'whoosh': 0.42, 'whoosh_soft': 0.3, 'whoosh_big': 0.5, 'impact': 0.55, 'subboom': 0.6, 'riser': 0.32,
             'pop': 0.32, 'tick': 0.18, 'ping': 0.28, 'shimmer': 0.28, 'split': 0.4,
-            'glass_ting': 0.3, 'prism': 0.26, 'sparkle': 0.2, 'laser': 0.16, 'laser_on': 0.2, 'case_thud': 0.45, 'swish': 0.3}
+            'glass_ting': 0.3, 'prism': 0.26, 'sparkle': 0.2, 'laser': 0.16, 'laser_on': 0.2, 'case_thud': 0.45, 'swish': 0.3,
+            'ball_hit': 0.5}
 def pink(n):
     return signal.lfilter([0.049922035, -0.095993537, 0.050612699, -0.004408786], [1, -2.494956002, 2.017265875, -0.522189400], RNG.standard_normal(n))
 def polish(x, attack=0.004):
@@ -269,6 +270,14 @@ def _sfx(kind, len_s):
         e = np.sin(np.pi * u) ** 2
         x = svf_sweep(pink(n) * 5, 600 + 2400 * e, 0.7, 'lp') * e
         return np.stack([x * (1 - 0.5 * u), x * (0.5 + 0.5 * u)], 1)
+    if kind == 'ball_hit':
+        # golpe de pelota sintetizado (sin sample): tono que cae + ráfaga de fieltro en banda media
+        n = int(0.42 * SR); tt = t_arr(n)
+        thump = np.sin(2 * np.pi * np.cumsum(240 + 160 * np.exp(-tt * 36)) / SR) * np.exp(-tt * 16)
+        felt = bq(pink(n), 'bp', 1500, 0.9) * np.exp(-tt * 26)
+        body = np.sin(2 * np.pi * 92 * tt) * np.exp(-tt * 14) * 0.45
+        x = np.tanh((thump * 0.85 + felt * 0.5 + body) * 1.25)
+        return convolve(stereo(x, 0.04), reverb_ir(0.55, 7), 0.16)
     raise ValueError(kind)
 
 # ---------------------------------------------------------------- música
@@ -443,6 +452,84 @@ def music_crystal(prod, dur):
     tail = np.clip((dur - tt) / 0.25, 0, 1); bus = bus * (np.sin(tail * np.pi / 2) ** 2)[:, None]
     return bus, {'drums': drums, 'bass': bass, 'keys': keys, 'glass': glass, 'air': air}
 
+# ---------------------------------------------------------------- música "pala" (BMS-20261019-001)
+# 120 BPM, la menor → do mayor. Sport premium: bombo seco, shaker, bajo redondo, teclado de fieltro y un motivo de rebote.
+# El golpe final (hit_s del JSON) cae en el frame del logo. No reutiliza la cadencia de la medalla ni la del cristal.
+PD_CHORDS = {
+    'Am': (45, [57, 60, 64, 67]), 'F': (41, [53, 57, 60, 65]), 'C': (48, [55, 60, 64, 67]), 'G': (43, [50, 55, 59, 62]),
+    'Gsus4': (43, [50, 55, 60, 62]), 'Cadd9': (36, [48, 55, 60, 64, 67, 74]),
+}
+def music_paddle(prod, dur):
+    md = prod['music_direction']; bpm = md['bpm']; spb = 60 / bpm; bar = 4 * spb
+    n = int(dur * SR); tt = t_arr(n)
+    hit = float(md['hit_s']); build_s = float(md['build_s']); stop = hit - 0.12
+    drums = np.zeros((n, 2)); bass = np.zeros((n, 2)); keys = np.zeros((n, 2)); plucks = np.zeros((n, 2)); air = np.zeros((n, 2))
+    sec = lambda s_: next((x for x in md['sections'] if x['from_s'] <= s_ < x['to_s']), md['sections'][-1])
+    prog = ['Am', 'F', 'C', 'G']
+    nbeats = int(build_s / spb) + 1
+    for b in range(nbeats):
+        s0 = b * spb
+        if s0 >= build_s: break
+        name = sec(s0)['name']; inten = sec(s0)['intensity']
+        root, notes = PD_CHORDS[prog[int(s0 // bar) % 4]]
+        beat = b % 4
+        if name in ('hook', 'arrive', 'plate', 'case'):
+            if name == 'hook' and beat not in (0, 2): pass
+            elif name == 'hook': place(drums, stereo(kick(0.55)), s0)
+            else: place(drums, stereo(kick(0.62 if name == 'arrive' else 0.85)), s0)
+        if name in ('plate', 'case') and beat in (1, 3):
+            place(drums, convolve(stereo(snare(0.28 if name == 'plate' else 0.36)), IR_ROOM, 0.22), s0)
+        if name == 'arrive' and beat == 2:
+            place(drums, convolve(stereo(snare(0.18)), IR_ROOM, 0.2), s0)
+        if name in ('arrive', 'plate', 'case'):
+            for k in range(2):
+                place(drums, stereo(hat(False, 0.16 if name == 'arrive' else 0.22), 0.25 if k else -0.25), s0 + k * spb / 2)
+        if name in ('plate', 'case'):
+            for k in range(4):
+                place(drums, stereo(shaker(0.28 if k % 2 else 0.16), (-0.35, 0.35)[k % 2]), s0 + k * spb / 4)
+        if name in ('hook', 'arrive', 'plate', 'case') and s0 < stop:
+            step = 1 if name == 'hook' else 2
+            for k in range(step):
+                if name == 'hook' and k: continue
+                m = root + (12 if k == 1 and beat == 3 else 0)
+                place(bass, stereo(bass_note(m, spb / step * 0.9, 0.42 * (0.7 + 0.3 * inten), 240 + 180 * inten)), s0 + k * spb / step)
+        if name in ('arrive', 'plate', 'case') and beat in (0, 2) and s0 < stop:
+            motif = (0, 2, 1, 3)
+            for k, deg in enumerate(motif):
+                if s0 + k * spb / 8 >= stop: continue
+                place(plucks, stereo(pluck(notes[deg] + 12, 0.28, 0.14 * (0.6 + 0.4 * inten), 0.45), (-0.4, 0.4)[k % 2]), s0 + (spb / 2 if beat == 2 else 0) + k * spb / 8)
+        if name == 'case' and beat in (0, 2):
+            place(plucks, stereo(pluck(notes[0] + 12, 0.16, 0.12, 0.35), 0.2), s0 + spb * 0.5)
+            place(plucks, stereo(pluck(notes[2] + 12, 0.14, 0.08, 0.3), -0.15), s0 + spb * 0.75)
+    for i in range(int(build_s / bar) + 1):
+        s0 = i * bar
+        if s0 >= build_s: break
+        _root, notes = PD_CHORDS[prog[i % 4]]
+        inten = sec(s0)['intensity']
+        L = min(bar + 0.25, build_s - s0 + 0.15)
+        place(air, stereo(pad_chord(notes, L, 0.16 + 0.1 * inten, 1000 + 900 * inten, 0.28, 0.35)), s0)
+        if sec(s0)['name'] != 'statement':
+            place(keys, stereo(felt_keys(notes, min(bar * 0.9, L), 0.7 if sec(s0)['name'] == 'hook' else 0.45, 2400)), s0)
+    # dominante suspendida, redoble y stop corto antes del logo
+    gsus = PD_CHORDS['Gsus4']
+    place(air, stereo(pad_chord(gsus[1], stop - build_s + 0.04, 0.28, 2000, 0.04, 0.05)), build_s)
+    place(bass, stereo(bass_note(gsus[0], max(0.2, stop - build_s), 0.4, 280)), build_s)
+    roll = np.arange(build_s + 0.08, stop - 1e-6, spb / 4)
+    for j, s_ in enumerate(roll):
+        place(drums, convolve(stereo(snare(0.12 + 0.28 * (j / max(1, len(roll) - 1)) ** 1.3), (-0.2, 0.2)[j % 2]), IR_ROOM, 0.25), s_)
+    # tónica C(add9): teclado, sub, bombo y un motivo que se apaga hasta el último segundo
+    root, notes = PD_CHORDS['Cadd9']
+    place(keys, stereo(felt_keys(notes, dur - hit, 1.15, 2800)), hit)
+    place(air, stereo(pad_chord(notes[1:], dur - hit, 0.22, 1600, 0.02, 0.45) * np.exp(-t_arr(int((dur - hit) * SR)) * 0.55)), hit)
+    place(bass, stereo(bass_note(root, dur - hit, 0.62, 260) * np.exp(-t_arr(int((dur - hit) * SR)) * 0.7)), hit)
+    place(drums, stereo(kick(0.95)), hit)
+    for j, m in enumerate((72, 76, 79, 84)):
+        place(plucks, stereo(pluck(m, 1.4, 0.22 * (1 - j * 0.12), 0.7), (-0.3, 0.3)[j % 2]), hit + j * spb * 0.5)
+    bus = drums * 0.82 + bass * 0.9 + convolve(keys, IR_HALL, 0.28) * 0.85 + convolve(plucks, IR_HALL, 0.32) * 0.7 + convolve(air, IR_HALL, 0.4) * 0.72
+    tail = np.clip((dur - tt) / 0.25, 0, 1)
+    bus = bus * (np.sin(tail * np.pi / 2) ** 2)[:, None]
+    return bus, {'drums': drums, 'bass': bass, 'keys': keys, 'plucks': plucks, 'air': air}
+
 # ---------------------------------------------------------------- voz (Piper)
 def read_wav(p):
     with wave.open(p) as w:
@@ -584,7 +671,10 @@ def main(prod_path):
     fps = prod['format']['fps']; dur = prod['format']['durationInFrames'] / fps
     IR_ROOM = reverb_ir(0.6, 9.0, 0.004); IR_HALL = reverb_ir(2.4, 2.6, 0.02)
     n = int(dur * SR)
-    mus, stems = (music_crystal if prod['music_direction'].get('engine') == 'crystal' else music)(prod, dur)
+    engine = prod['music_direction'].get('engine')
+    if engine == 'crystal': mus, stems = music_crystal(prod, dur)
+    elif engine == 'paddle': mus, stems = music_paddle(prod, dur)
+    else: mus, stems = music(prod, dur)
     vox, vrep = voice(prod, dur, build)
     fx = np.zeros((n, 2)); frep = []
     for ev in prod['beats']['events']:
@@ -606,9 +696,11 @@ def main(prod_path):
     m = bq(mix, 'ls', 90, 0.7, 1.0); m = bq(m, 'hs', 10000, 0.7, 1.0)
     m = compress(m, -16, 2.0, 0.01, 0.2, 0)
     target = -14.0
+    # limiter_db más bajo deja margen al overshoot del AAC (el pico interno no es el true peak del MP4)
+    ceil = float(prod.get('mix', {}).get('limiter_db', -2.0))
     for it in range(4):
         L = lufs(m); m = m * db(target - L)
-        m = limiter(m, -2.0)  # margen para el overshoot del códec AAC
+        m = limiter(m, ceil)
         if abs(lufs(m) - target) < 0.3: break
     tt_m = t_arr(len(m)); m = m * (np.sin(np.clip((len(m) / SR - tt_m) / 0.12, 0, 1) * np.pi / 2) ** 2)[:, None]
     m = np.clip(m, -1, 1)

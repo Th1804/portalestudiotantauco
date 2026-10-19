@@ -4,7 +4,10 @@ studio/node_modules/
 studio/voices/
 voices/
 studio/build/
-studio/out/
+studio/out/*
 *.mp4
+!studio/out/BMS-20261019-001.mp4
+!studio/out/BMS-20261019-001.contact-sheet.png
+!studio/out/BMS-20261019-001.qa.json
 *.wav
 studio/npm-install*.log

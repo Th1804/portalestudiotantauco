@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PDN Lengua y Literatura — 9 de noviembre · Colegio Tantauco</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estudio.css">
 <style>
   :root {
     --bg:#100808; --surface:#1a0d0d; --surface2:#241414;
@@ -305,5 +306,6 @@ const cards = [['Información explícita','Está escrita. Se localiza, no se adi
 document.getElementById('flash').innerHTML = cards.map(([f,b])=>`<button class="flash" type="button" data-front="${f}" data-back="${b}"><small>Voltear</small><p>${f}</p></button>`).join('');
 document.getElementById('flash').addEventListener('click', e => { const c = e.target.closest('.flash'); if (!c) return; const on = c.classList.toggle('on'); c.querySelector('p').textContent = on ? c.dataset.back : c.dataset.front; });
 </script>
+<script src="estudio.js"></script>
 </body>
 </html>

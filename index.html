@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Portal de Estudio — Colegio Tantauco</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estudio.css">
 <style>
   :root {
     --bg: #0d0e12;
@@ -554,8 +555,8 @@
     </div>
     <div class="howto-card">
       <div class="howto-num">03</div>
-      <h3 class="howto-title">Pomodoro + Música</h3>
-      <p class="howto-desc">Gestiona tus bloques de estudio con el temporizador Pomodoro integrado y acompaña tus sesiones con música de concentración.</p>
+      <h3 class="howto-title">Barra de concentración</h3>
+      <p class="howto-desc">El reloj de abajo te sigue entre guías. Activa modo foco, lluvia o café, y cierra el bloque con una idea dicha sin mirar.</p>
     </div>
     <div class="howto-card">
       <div class="howto-num">04</div>
@@ -828,6 +829,7 @@ FUNCIONALIDADES DEL PANEL ✨:
 - Buscador global: Ctrl+K busca en todos los contenidos del portal.
 - Checklist por tarjeta: barra de progreso para cada asignatura.
 - Modo claro/oscuro: botón arriba a la derecha.
+- Barra de concentración, abajo en todas las guías: temporizador que sigue entre páginas, modo foco, sonido de lluvia, café o bosque, y el bloque de la PDN más cercana.
 
 INSTRUCCIONES:
 - Si te preguntan dudas académicas específicas (ej: resolver un sistema o explicar una metáfora), indícales la guía de esa PDN y la pestaña donde está el contenido. Las guías traen ejemplos y una práctica con corrección.
@@ -1347,5 +1349,6 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape' && gsIsOpen) gsClose();
 });
 </script>
+<script src="estudio.js"></script>
 </body>
 </html>

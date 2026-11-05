@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PDN English — 13 November · Colegio Tantauco</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estudio.css">
 <style>
   :root {
     --bg:#0d0a00; --surface:#14100a; --surface2:#1c1608;
@@ -186,5 +187,6 @@ const answered=new Set(); let correct=0; const quiz=document.getElementById('qui
 quiz.innerHTML=quizData.map((item,i)=>`<article class="quiz-item"><div class="quiz-q">${i+1}. ${item.q}</div>${item.opts.map((o,j)=>`<button class="quiz-opt" type="button" data-q="${i}" data-o="${j}">${String.fromCharCode(65+j)}) ${o}</button>`).join('')}<div class="quiz-feedback" id="fb-${i}"></div></article>`).join('');
 quiz.addEventListener('click',e=>{const btn=e.target.closest('.quiz-opt'); if(!btn)return; const qi=+btn.dataset.q; if(answered.has(qi))return; answered.add(qi); const item=quizData[qi]; const sel=+btn.dataset.o; const ok=sel===item.ans; if(ok)correct++; quiz.querySelectorAll(`[data-q="${qi}"]`).forEach(opt=>{opt.disabled=true; const idx=+opt.dataset.o; if(idx===item.ans)opt.classList.add('correct'); else if(idx===sel)opt.classList.add('wrong');}); const fb=document.getElementById('fb-'+qi); fb.className='quiz-feedback show '+(ok?'ok':'nok'); fb.textContent=(ok?'Correct. ':'Not quite. ')+item.exp; const score=document.getElementById('quiz-score'); score.style.display='block'; score.textContent=`${correct} / ${answered.size} correct · ${Math.round(correct/answered.size*100)}%`;});
 </script>
+<script src="estudio.js"></script>
 </body>
 </html>

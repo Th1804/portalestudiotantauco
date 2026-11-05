@@ -127,9 +127,9 @@
   });
 
   window.setTimeout(function () {
-    if (teachesHere()) say('Tócame: recorro las tarjetas de esta guía.', true);
+    if (!learning && lessonForPage().length) startLesson();
     else if (!narrow()) say(nextTip(), true);
-  }, 900);
+  }, 500);
   raf = window.requestAnimationFrame(frame);
 
   document.addEventListener('visibilitychange', function () {
@@ -173,7 +173,7 @@
       var dist = Math.hypot(dx, dy) || 1;
       dir = Math.abs(dx) < 6 ? dir : (dx < 0 ? -1 : 1);
       if (dist > 18) {
-        var pace = Math.min(dist, 0.62 * dt);
+        var pace = Math.min(dist, (narrow() ? 0.62 : 0.95) * dt);
         x += dx / dist * pace;
         y += dy / dist * pace;
         mode = 'walk';
@@ -199,10 +199,11 @@
     }
 
     if (!fingerDown && !chasing && mode === 'walk' && !document.body.classList.contains('foco-on') && !(quietGame && !learning)) {
-      x += dir * (narrow() ? 0.2 : 0.14) * dt;
+      x += dir * (narrow() ? 0.22 : 0.32) * dt;
       if (x >= maxX) { x = maxX; dir = -1; }
       if (x <= minX) { x = minX; dir = 1; }
-      y += (floor - y) * 0.12;
+      var roam = 120 + (Math.sin(now / 900) * 0.5 + 0.5) * Math.max(100, floor - 200);
+      y += (roam - y) * 0.1;
     }
 
     x = Math.max(minX, Math.min(x, maxX));
@@ -422,8 +423,8 @@
     function goNext() {
       if (done || token !== stepToken || !learning) return;
       var elapsed = performance.now() - shownAt;
-      if (elapsed < 3800) {
-        window.setTimeout(goNext, 3800 - elapsed);
+      if (elapsed < 2200) {
+        window.setTimeout(goNext, 2200 - elapsed);
         return;
       }
       if (!stepPressed) {
@@ -434,7 +435,7 @@
       if (step + 1 >= lesson.length) stopLesson();
       else { step += 1; startStep(); }
     }
-    window.setTimeout(goNext, 7200);
+    window.setTimeout(goNext, 4600);
   }
 
   function speak(text, onend) {

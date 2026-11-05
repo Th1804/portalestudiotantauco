@@ -68,11 +68,23 @@
   var stepEl = null;
   var spotted = null;
 
+  var eyes = actor.querySelector('.eyes');
+  var mouth = actor.querySelector('.mouth');
+  var feet = actor.querySelectorAll('.foot');
+  var blinkUntil = 0;
+  var heldUtterance = null;
+  var thinkTimer = 0;
+  if (window.speechSynthesis) {
+    speechSynthesis.getVoices();
+    speechSynthesis.addEventListener('voiceschanged', function () { speechSynthesis.getVoices(); });
+  }
+
   actor.addEventListener('click', function () {
     actor.classList.add('boop');
     window.setTimeout(function () { actor.classList.remove('boop'); }, 480);
-    if (learning) speak(lesson[step] ? lesson[step].say : nextTip());
-    else say(nextTip(), true);
+    var text = learning && lesson[step] ? lesson[step].say : nextTip();
+    if (!learning) openThought(text, graphicForPage());
+    speak(text);
   });
   learn.addEventListener('click', function () {
     if (learning) stopLesson();
@@ -186,12 +198,32 @@
       if (x <= minX) { x = minX; dir = 1; }
     }
 
-    actor.classList.toggle('walk', mode === 'walk');
+    var moving = mode === 'walk';
+    var wave = Math.sin(now / 140);
+    var lift = reduce ? 0 : (moving ? Math.abs(wave) * 12 : Math.sin(now / 500) * 5);
+    var squash = !moving || reduce ? 1 : (0.9 + (1 - Math.abs(wave)) * 0.12);
+    actor.classList.toggle('walk', moving);
     actor.classList.toggle('rest', mode === 'rest');
-    actor.classList.toggle('talk', learning && !think.hidden);
+    var voiceOn = window.speechSynthesis && (speechSynthesis.speaking || speechSynthesis.pending);
+    actor.classList.toggle('talk', !!voiceOn || (learning && !think.hidden));
     actor.style.left = Math.round(x) + 'px';
     actor.style.top = Math.round(y) + 'px';
-    actor.style.transform = 'scaleX(' + dir + ')';
+    actor.style.transform = 'translateY(' + (-lift).toFixed(1) + 'px) scaleX(' + dir + ') scaleY(' + squash.toFixed(3) + ')';
+    if (!reduce && feet.length === 2) {
+      feet[0].setAttribute('cy', String(96 - (moving ? Math.max(0, wave) * 10 : 0)));
+      feet[1].setAttribute('cy', String(96 - (moving ? Math.max(0, -wave) * 10 : 0)));
+    }
+    if (!blinkUntil && !reduce && Math.random() < 0.012) blinkUntil = now + 140;
+    if (blinkUntil && now > blinkUntil) blinkUntil = 0;
+    if (eyes) {
+      eyes.style.transformBox = 'fill-box';
+      eyes.style.transformOrigin = 'center';
+      eyes.style.transform = blinkUntil ? 'scaleY(0.1)' : 'scaleY(1)';
+    }
+    if (mouth) {
+      var open = actor.classList.contains('talk') ? (2.2 + Math.abs(Math.sin(now / 80)) * 5.5) : 2.2;
+      mouth.setAttribute('ry', String(open));
+    }
     if (!bubble.hidden) placeBubble();
     if (!think.hidden) placeThink();
     raf = window.requestAnimationFrame(frame);
@@ -325,7 +357,6 @@
     learn.textContent = 'Parar';
     learn.setAttribute('aria-pressed', 'true');
     bubble.hidden = true;
-    if (window.speechSynthesis) speechSynthesis.cancel();
     startStep();
   }
 
@@ -386,24 +417,68 @@
   function speak(text, onend) {
     say(text, true);
     if (learning) bubble.hidden = true;
+    actor.classList.add('talk');
     if (!window.speechSynthesis) return;
     var utter = new SpeechSynthesisUtterance(text);
     utter.lang = 'es-CL';
-    utter.rate = 0.96;
-    utter.pitch = 1.12;
-    if (onend) utter.onend = onend;
+    utter.rate = 0.95;
+    utter.pitch = 1.15;
     var voices = speechSynthesis.getVoices();
     var picked = null;
     for (var i = 0; i < voices.length; i++) {
-      if (/es[-_]CL/i.test(voices[i].lang)) { picked = voices[i]; break; }
-      if (!picked && /^es/i.test(voices[i].lang)) picked = voices[i];
+      var lang = voices[i].lang || '';
+      if (/es[-_]CL/i.test(lang)) { picked = voices[i]; break; }
+      if (!picked && /^es/i.test(lang)) picked = voices[i];
     }
-    if (picked) utter.voice = picked;
-    try {
+    if (picked) {
+      utter.voice = picked;
+      utter.lang = picked.lang;
+    }
+    utter.onend = function () {
+      if (!learning) actor.classList.remove('talk');
+      if (onend) onend();
+    };
+    utter.onerror = function () {
+      if (!learning) actor.classList.remove('talk');
+    };
+    heldUtterance = utter;
+    var start = function () {
+      try {
+        speechSynthesis.resume();
+        speechSynthesis.speak(heldUtterance);
+      } catch (error) {}
+    };
+    if (speechSynthesis.speaking || speechSynthesis.pending) {
       speechSynthesis.cancel();
-      speechSynthesis.resume();
-      speechSynthesis.speak(utter);
-    } catch (error) {}
+      window.setTimeout(start, 80);
+    } else {
+      start();
+    }
+  }
+
+  function openThought(text, graphic) {
+    document.getElementById('vicho-graphic').innerHTML = graphicSvg(graphic);
+    document.getElementById('vicho-line').textContent = text;
+    think.hidden = false;
+    placeThink();
+    window.clearTimeout(thinkTimer);
+    thinkTimer = window.setTimeout(function () {
+      if (!learning) think.hidden = true;
+    }, 4600);
+  }
+
+  function graphicForPage() {
+    var page = location.pathname.split('/').pop() || 'index.html';
+    var map = {
+      'index.html': 'piezas',
+      'matematica_guia.html': 'binomio',
+      'prueba_nivel_lenguaje_2.html': 'lectura',
+      'ingles_guia.html': 'agua',
+      'prueba_nivel_ciencias_naturales.html': 'seleccion',
+      'historia_guia.html': 'precio',
+      'juegos.html': 'piezas'
+    };
+    return map[page] || 'piezas';
   }
 
   function pointNear(el) {
@@ -492,15 +567,15 @@
   function graphicSvg(id) {
     var common = '<svg viewBox="0 0 180 96" aria-hidden="true">';
     var drawings = {
-      binomio: common + '<text class="g-pop" x="90" y="28" text-anchor="middle">(a+b)²</text><text class="g-pop d2" x="34" y="74" text-anchor="middle">a²</text><text class="g-pop d3" x="90" y="74" text-anchor="middle">2ab</text><text class="g-pop d4" x="146" y="74" text-anchor="middle">b²</text></svg>',
-      lectura: common + '<rect class="g-pop" x="28" y="16" width="56" height="66" rx="6" fill="#fff6ea" stroke="#241c3a" stroke-width="2"/><rect class="g-pop d2" x="96" y="16" width="56" height="66" rx="6" fill="#efe7ff" stroke="#241c3a" stroke-width="2"/><text class="g-pop d3" x="56" y="54" text-anchor="middle" font-size="11">escrito</text><text class="g-pop d4" x="124" y="54" text-anchor="middle" font-size="11">se deduce</text></svg>',
-      agua: common + '<ellipse cx="90" cy="70" rx="34" ry="12" fill="#9fd4ff"/><circle class="drop" cx="70" cy="18" r="6" fill="#3aa0ff"/><circle class="drop d2" cx="90" cy="12" r="5" fill="#67c3ff"/><circle class="drop d3" cx="110" cy="20" r="6" fill="#1d7ed8"/></svg>',
-      seleccion: common + '<circle class="bug" cx="40" cy="58" r="12" fill="#c4b5fd"/><circle class="bug keep" cx="90" cy="52" r="12" fill="#ff8a14"/><circle class="bug fade" cx="140" cy="58" r="12" fill="#9fd4ff"/></svg>',
-      precio: common + '<line x1="28" y1="16" x2="28" y2="80" stroke="#241c3a" stroke-width="3"/><line x1="28" y1="80" x2="160" y2="80" stroke="#241c3a" stroke-width="3"/><polyline points="40,68 86,48 150,22" fill="none" stroke="#ef6a12" stroke-width="4"/><circle class="price-dot" cx="86" cy="48" r="6" fill="#6d5efc"/></svg>',
-      piezas: common + '<rect class="tile a" x="18" y="28" width="40" height="40" rx="8" fill="#ffb15a"/><rect class="tile b" x="70" y="28" width="40" height="40" rx="8" fill="#ff8a14"/><rect class="tile c" x="122" y="28" width="40" height="40" rx="8" fill="#ef6a12"/></svg>',
-      cruce: common + '<line x1="24" y1="78" x2="150" y2="20" stroke="#6d5efc" stroke-width="4"/><line x1="24" y1="24" x2="156" y2="74" stroke="#ef6a12" stroke-width="4"/><circle class="g-pop d3" cx="92" cy="48" r="7" fill="#241c3a"/></svg>',
-      estacion: common + '<circle cx="90" cy="48" r="22" fill="#ffb15a"/><ellipse class="tilt" cx="90" cy="48" rx="22" ry="8" fill="none" stroke="#1d4ed8" stroke-width="3"/><circle cx="90" cy="48" r="4" fill="#241c3a"/></svg>',
-      atomos: common + '<circle class="atom a" cx="58" cy="48" r="14" fill="#67c3ff"/><circle class="atom b" cx="96" cy="36" r="10" fill="#ff8a14"/><circle class="atom c" cx="112" cy="62" r="12" fill="#c4b5fd"/></svg>'
+      binomio: common + '<text x="90" y="28" text-anchor="middle">(a+b)²<animate attributeName="opacity" values="0;1;1" dur="1.6s" repeatCount="indefinite"/></text><text x="34" y="74" text-anchor="middle" opacity="0">a²<animate attributeName="opacity" values="0;0;1;1" dur="1.6s" repeatCount="indefinite"/></text><text x="90" y="74" text-anchor="middle" opacity="0">2ab<animate attributeName="opacity" values="0;0;0;1;1" dur="1.6s" repeatCount="indefinite"/></text><text x="146" y="74" text-anchor="middle" opacity="0">b²<animate attributeName="opacity" values="0;0;0;0;1" dur="1.6s" repeatCount="indefinite"/></text></svg>',
+      lectura: common + '<rect x="28" y="16" width="56" height="66" rx="6" fill="#fff6ea" stroke="#241c3a" stroke-width="2"><animate attributeName="y" values="24;16;16" dur="1.2s" fill="freeze"/></rect><rect x="96" y="16" width="56" height="66" rx="6" fill="#efe7ff" stroke="#241c3a" stroke-width="2"><animate attributeName="y" values="24;16;16" dur="1.2s" begin="0.25s" fill="freeze"/></rect><text x="56" y="54" text-anchor="middle" font-size="11">escrito</text><text x="124" y="54" text-anchor="middle" font-size="11">se deduce</text></svg>',
+      agua: common + '<ellipse cx="90" cy="70" rx="34" ry="12" fill="#9fd4ff"/><circle cx="70" cy="18" r="6" fill="#3aa0ff"><animate attributeName="cy" values="10;68;10" dur="1.2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;0" dur="1.2s" repeatCount="indefinite"/></circle><circle cx="90" cy="12" r="5" fill="#67c3ff"><animate attributeName="cy" values="8;66;8" dur="1.2s" begin="0.3s" repeatCount="indefinite"/></circle><circle cx="110" cy="20" r="6" fill="#1d7ed8"><animate attributeName="cy" values="12;68;12" dur="1.2s" begin="0.55s" repeatCount="indefinite"/></circle></svg>',
+      seleccion: common + '<circle cx="40" cy="58" r="12" fill="#c4b5fd"><animate attributeName="opacity" values="1;0.25;1" dur="1.4s" repeatCount="indefinite"/></circle><circle cx="90" cy="52" r="12" fill="#ff8a14"><animate attributeName="r" values="12;20;12" dur="1.2s" repeatCount="indefinite"/></circle><circle cx="140" cy="58" r="12" fill="#9fd4ff"><animate attributeName="opacity" values="1;0.2;1" dur="1.4s" begin="0.4s" repeatCount="indefinite"/></circle></svg>',
+      precio: common + '<line x1="28" y1="16" x2="28" y2="80" stroke="#241c3a" stroke-width="3"/><line x1="28" y1="80" x2="160" y2="80" stroke="#241c3a" stroke-width="3"/><polyline points="40,68 86,48 150,22" fill="none" stroke="#ef6a12" stroke-width="4"/><circle cx="40" cy="68" r="6" fill="#6d5efc"><animate attributeName="cx" values="40;150;40" dur="1.8s" repeatCount="indefinite"/><animate attributeName="cy" values="68;22;68" dur="1.8s" repeatCount="indefinite"/></circle></svg>',
+      piezas: common + '<rect x="18" y="40" width="40" height="40" rx="8" fill="#ffb15a"><animate attributeName="y" values="70;28;28" dur="0.8s" fill="freeze"/></rect><rect x="70" y="40" width="40" height="40" rx="8" fill="#ff8a14"><animate attributeName="y" values="70;28;28" dur="0.8s" begin="0.15s" fill="freeze"/></rect><rect x="122" y="40" width="40" height="40" rx="8" fill="#ef6a12"><animate attributeName="y" values="70;28;28" dur="0.8s" begin="0.3s" fill="freeze"/></rect></svg>',
+      cruce: common + '<line x1="24" y1="78" x2="150" y2="20" stroke="#6d5efc" stroke-width="4"><animate attributeName="x2" values="24;150;150" dur="0.8s" fill="freeze"/><animate attributeName="y2" values="78;20;20" dur="0.8s" fill="freeze"/></line><line x1="24" y1="24" x2="156" y2="74" stroke="#ef6a12" stroke-width="4"><animate attributeName="x2" values="24;156;156" dur="0.8s" begin="0.2s" fill="freeze"/></line><circle cx="92" cy="48" r="7" fill="#241c3a"><animate attributeName="r" values="0;8;7" dur="0.8s" begin="0.45s" fill="freeze"/></circle></svg>',
+      estacion: common + '<circle cx="90" cy="48" r="22" fill="#ffb15a"/><ellipse cx="90" cy="48" rx="22" ry="8" fill="none" stroke="#1d4ed8" stroke-width="3"><animateTransform attributeName="transform" type="rotate" values="-24 90 48;24 90 48;-24 90 48" dur="2.4s" repeatCount="indefinite"/></ellipse><circle cx="90" cy="48" r="4" fill="#241c3a"/></svg>',
+      atomos: common + '<circle cx="78" cy="48" r="14" fill="#67c3ff"><animate attributeName="cx" values="58;96;58" dur="1.6s" repeatCount="indefinite"/></circle><circle cx="96" cy="36" r="10" fill="#ff8a14"><animate attributeName="cy" values="30;64;30" dur="1.4s" repeatCount="indefinite"/></circle><circle cx="112" cy="62" r="12" fill="#c4b5fd"><animate attributeName="cx" values="120;70;120" dur="1.8s" repeatCount="indefinite"/></circle></svg>'
     };
     return drawings[id] || drawings.piezas;
   }

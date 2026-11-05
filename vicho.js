@@ -44,6 +44,10 @@
   learn.textContent = 'Enseña';
   learn.setAttribute('aria-label', 'El Vicho enseña en voz alta y recorre la página');
   learn.setAttribute('aria-pressed', 'false');
+  var plate = document.createElement('div');
+  plate.id = 'vicho-plate';
+  plate.hidden = true;
+  document.body.appendChild(plate);
   document.body.appendChild(actor);
   document.body.appendChild(bubble);
   document.body.appendChild(think);
@@ -53,8 +57,8 @@
   var tipIndex = 0;
   var saidAt = 0;
   var hideTimer = 0;
-  var x = Math.max(16, window.innerWidth - (narrow() ? 88 : 150));
-  var y = narrow() ? window.innerHeight - 150 : Math.min(210, window.innerHeight * 0.34);
+  var x = 12;
+  var y = Math.max(8, window.innerHeight - 220);
   var dir = -1;
   var mode = 'rest';
   var last = performance.now();
@@ -151,22 +155,19 @@
     var maxX = Math.max(12, window.innerWidth - width - 8);
     var minX = 8;
 
-    var quietGame = pageName() === 'juegos.html';
     if (learning && document.body.classList.contains('foco-on')) stopLesson();
     var chasing = !fingerDown && learning && stepEl;
+    var point = dockPoint();
     if (chasing) {
-      var point = targetPoint(stepEl);
-      if (!point) {
-        var rect = stepEl.getBoundingClientRect();
-        point = {
-          x: rect.left < width ? minX : maxX,
-          y: rect.top < 120 ? 72 : floor
-        };
-        if (now - lastNudge > 1800) {
-          lastNudge = now;
-          stepEl.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
-        }
+      var beside = targetPoint(stepEl);
+      if (beside && clearLane(x, y, beside.x, beside.y)) point = beside;
+      if (!stepPressed && lesson[step]) tapControl(stepEl, lesson[step]);
+      if (now - lastNudge > 1600) {
+        lastNudge = now;
+        reveal(stepEl);
       }
+    }
+    if (!fingerDown) {
       var dx = point.x - x;
       var dy = point.y - y;
       var dist = Math.hypot(dx, dy) || 1;
@@ -180,16 +181,6 @@
         x = point.x;
         y = point.y;
         mode = 'rest';
-        if (!stepPressed && lesson[step]) tapControl(stepEl, lesson[step]);
-      }
-    } else {
-      mode = 'rest';
-      if (!fingerDown && document.body.classList.contains('foco-on')) {
-        x = 12;
-        y = floor;
-      } else if (!fingerDown && quietGame && !learning) {
-        x = Math.max(12, window.innerWidth - width - 8);
-        y = 72;
       }
     }
 
@@ -223,8 +214,11 @@
       var open = actor.classList.contains('talk') ? (2.2 + Math.abs(Math.sin(now / 80)) * 5.5) : 2.2;
       mouth.setAttribute('ry', String(open));
     }
-    if (!bubble.hidden) placeBubble();
-    if (!think.hidden) placeThink();
+    if (!think.hidden) bubble.hidden = true;
+    placeLearn();
+    if (!bubble.hidden) placeBox(bubble);
+    if (!think.hidden) placeBox(think);
+    placePlate();
     raf = window.requestAnimationFrame(frame);
   }
 
@@ -240,20 +234,18 @@
       startLesson();
       if (learning) return;
     }
-    var text = learning && lesson[step] ? lesson[step].say : nextTip();
-    if (!learning) openThought(text, graphicForPage());
-    speak(text);
+    speak(nextTip());
   }
 
   function floorY() {
-    var bar = document.getElementById('foco-root');
-    var top = bar ? bar.getBoundingClientRect().top : window.innerHeight - 80;
-    var height = actor.offsetHeight || 78;
-    var visible = Math.round(height * (narrow() ? 0.8 : 0.84));
-    return Math.max(48, top - visible);
+    var bar = document.getElementById('foco-bar') || document.getElementById('foco-root');
+    var top = bar ? bar.getBoundingClientRect().top : window.innerHeight - 64;
+    var height = actor.offsetHeight || 88;
+    return Math.max(8, Math.round(top - height - 10));
   }
 
   function say(text, force, pin) {
+    if (learning) return;
     var now = performance.now();
     if (!force && now - saidAt < 3500) return;
     saidAt = now;
@@ -269,52 +261,173 @@
     return window.innerWidth < 760;
   }
 
-  function placeBubble() {
-    var width = bubble.offsetWidth || 180;
-    var height = bubble.offsetHeight || 52;
-    var rect = actor.getBoundingClientRect();
-    var back = document.getElementById('back-btn');
-    var pocketTop = back ? Math.round(back.getBoundingClientRect().bottom + 8) : 72;
-    var spots = [];
-    if (!bubble.classList.contains('pinned')) {
-      spots.push([rect.right + 8, rect.top + 4, false]);
-      spots.push([rect.left - width - 8, rect.top + 4, true]);
-      spots.push([rect.left, rect.top - height - 10, false]);
-    }
-    if (!narrow() || bubble.classList.contains('pinned')) {
-      spots.push([12, pocketTop, false]);
-      spots.push([(window.innerWidth - width) / 2, pocketTop, false]);
-    }
-    var chosen = null;
-    for (var i = 0; i < spots.length; i++) {
-      var left = Math.max(8, Math.min(spots[i][0], window.innerWidth - width - 8));
-      var top = Math.max(8, Math.min(spots[i][1], window.innerHeight - height - 8));
-      if (!overlaps(left, top, width, height)) {
-        chosen = [left, top, spots[i][2]];
-        break;
-      }
-    }
-    if (!chosen) {
-      var fallbackLeft = Math.max(8, Math.min(rect.left, window.innerWidth - width - 8));
-      var fallbackTop = Math.max(8, rect.top - height - 10);
-      chosen = [fallbackLeft, fallbackTop, false];
-    }
-    bubble.classList.toggle('from-right', !!chosen[2]);
-    bubble.classList.toggle('docked', !chosen[2] && chosen[0] < 24);
-    bubble.style.left = Math.round(chosen[0]) + 'px';
-    bubble.style.top = Math.round(chosen[1]) + 'px';
+  function dockPoint() {
+    return { x: 12, y: floorY() };
   }
 
-  function overlaps(left, top, width, height) {
-    var box = { left: left, top: top, right: left + width, bottom: top + height };
-    var selectors = ['.hero-title', '.header-title', '.hero-logo', '.logo-name', '.hero-eyebrow', '.header-eyebrow', '.section-desc', '.game-board', '#foco-root', '#chat-fab', '.foco-go', '.cta-btn', '#theme-toggle', '#gs-trigger', '#back-btn', '#vicho-learn', '.quiz-opt', '.quiz-feedback'];
-    return selectors.some(function (selector) {
-      return Array.prototype.some.call(document.querySelectorAll(selector), function (el) {
-        var rect = el.getBoundingClientRect();
-        if (rect.width < 2 || rect.height < 2) return false;
-        return !(box.right < rect.left || box.left > rect.right || box.bottom < rect.top || box.top > rect.bottom);
-      });
-    });
+  function overlapArea(a, b) {
+    var width = Math.min(a.right, b.right) - Math.max(a.left, b.left);
+    var height = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top);
+    if (width <= 0 || height <= 0) return 0;
+    return width * height;
+  }
+
+  function hardRects(skip) {
+    var sel = '#back-btn, #theme-toggle, #gs-trigger, #chat-fab, #foco-bar, .nav-wrapper, .hero-title, .header-title, .hero-logo, .logo-name, .hero-eyebrow, .hero-desc, .header-eyebrow, .header-subtitle, .section-heading, .quiz-opt, .quiz-feedback, #vicho-actor, #vicho-learn, #vicho-say, #vicho-think, .game-board';
+    var list = [];
+    var nodes = document.querySelectorAll(sel);
+    for (var i = 0; i < nodes.length; i++) {
+      var el = nodes[i];
+      if (skip.indexOf(el) !== -1 || el.hidden) continue;
+      var style = window.getComputedStyle(el);
+      if (style.display === 'none' || style.visibility === 'hidden' || Number(style.opacity) === 0) continue;
+      var rect = el.getBoundingClientRect();
+      if (rect.width < 2 || rect.height < 2) continue;
+      list.push(rect);
+    }
+    return list;
+  }
+
+  function targetRect() {
+    if (!stepEl || !stepEl.isConnected) return null;
+    var card = stepEl.closest('.acc-item, .materia-card, .sala-card, .concept-card, .card') || stepEl;
+    var rect = card.getBoundingClientRect();
+    if (rect.width < 2 || rect.height < 2) return null;
+    return rect;
+  }
+
+  function pickSpot(spots, width, height, skip, allowSoft) {
+    var blocks = hardRects(skip);
+    var target = targetRect();
+    var fallback = null;
+    var fallbackHit = Infinity;
+    for (var i = 0; i < spots.length; i++) {
+      var left = Math.round(spots[i][0]);
+      var top = Math.round(spots[i][1]);
+      if (left < 8 || top < 8 || left + width > window.innerWidth - 8 || top + height > window.innerHeight - 8) continue;
+      var box = { left: left, top: top, right: left + width, bottom: top + height };
+      var hard = 0;
+      for (var b = 0; b < blocks.length; b++) hard += overlapArea(box, blocks[b]);
+      if (hard > 0) continue;
+      var soft = target ? overlapArea(box, target) : 0;
+      if (soft <= 0) return [left, top];
+      if (allowSoft && soft < fallbackHit) {
+        fallbackHit = soft;
+        fallback = [left, top];
+      }
+    }
+    return fallback;
+  }
+
+  function ceiling(below) {
+    var limit = 8;
+    var nodes = document.querySelectorAll('.nav-wrapper, .header-title, .hero-title, .header-eyebrow, .hero-eyebrow, #back-btn, #theme-toggle, #gs-trigger, .section-heading, .section-desc, .game-board');
+    for (var i = 0; i < nodes.length; i++) {
+      var rect = nodes[i].getBoundingClientRect();
+      if (rect.width < 2 || rect.height < 2 || rect.bottom < 0 || rect.top >= below) continue;
+      if (rect.bottom + 8 > limit) limit = rect.bottom + 8;
+    }
+    return Math.min(limit, below - 8);
+  }
+
+  function columnLeft() {
+    var main = document.querySelector('.content-area, .main');
+    if (!main) return 0;
+    return main.getBoundingClientRect().left;
+  }
+
+  function placeLearn() {
+    var dock = dockPoint();
+    var actorW = actor.offsetWidth || 88;
+    var h = learn.offsetHeight || 44;
+    var w = learn.offsetWidth || 78;
+    var chat = document.getElementById('chat-fab');
+    var chatLeft = chat ? chat.getBoundingClientRect().left : window.innerWidth;
+    var gutter = columnLeft();
+    var left = dock.x + actorW + 8;
+    var top = dock.y + (actor.offsetHeight || 88) - h;
+    if (gutter >= 150 || left + w > chatLeft - 8) {
+      left = dock.x;
+      top = dock.y - h - 8;
+    }
+    learn.style.left = Math.round(Math.max(8, left)) + 'px';
+    learn.style.top = Math.round(Math.max(8, top)) + 'px';
+  }
+
+  function placeBox(el) {
+    var dock = dockPoint();
+    var actorW = actor.offsetWidth || 88;
+    var actorH = actor.offsetHeight || 88;
+    var gutter = columnLeft();
+    var topLimit = ceiling(dock.y);
+    var chat = document.getElementById('chat-fab');
+    var chatLeft = chat ? chat.getBoundingClientRect().left : window.innerWidth;
+    el.classList.add('docked');
+    if (gutter >= 150) {
+      var width = Math.min(210, Math.max(120, gutter - 20));
+      var learnTop = learn.getBoundingClientRect().top || dock.y;
+      var bottom = Math.min(dock.y, learnTop) - 8;
+      var height = Math.max(88, Math.min(240, bottom - topLimit));
+      el.classList.remove('compact');
+      el.style.width = Math.round(width) + 'px';
+      el.style.maxHeight = Math.round(height) + 'px';
+      el.style.left = '8px';
+      el.style.top = Math.round(Math.max(topLimit, bottom - height)) + 'px';
+      return;
+    }
+    var sideLeft = Math.max(learn.getBoundingClientRect().right, dock.x + actorW) + 8;
+    var sideWidth = Math.min(220, chatLeft - sideLeft - 8);
+    el.classList.add('compact');
+    el.style.width = Math.round(Math.max(96, sideWidth)) + 'px';
+    el.style.maxHeight = actorH + 'px';
+    el.style.left = Math.round(sideLeft) + 'px';
+    el.style.top = Math.round(dock.y) + 'px';
+  }
+
+  function placePlate() {
+    var narrowDock = columnLeft() < 150;
+    if (!narrowDock) {
+      plate.hidden = true;
+      document.body.style.paddingBottom = '';
+      return;
+    }
+    var bar = document.getElementById('foco-bar');
+    var barTop = bar ? bar.getBoundingClientRect().top : window.innerHeight;
+    var top = actor.getBoundingClientRect().top;
+    if (!learn.hidden) top = Math.min(top, learn.getBoundingClientRect().top);
+    if (!think.hidden) top = Math.min(top, think.getBoundingClientRect().top);
+    if (!bubble.hidden) top = Math.min(top, bubble.getBoundingClientRect().top);
+    plate.hidden = false;
+    plate.style.top = Math.round(top - 8) + 'px';
+    plate.style.height = Math.round(Math.max(0, barTop - top + 8)) + 'px';
+    document.body.style.paddingBottom = Math.round(window.innerHeight - top + 28) + 'px';
+  }
+
+  function clearLane(x1, y1, x2, y2) {
+    var w = actor.offsetWidth || 88;
+    var h = actor.offsetHeight || 88;
+    var steps = 6;
+    for (var i = 0; i <= steps; i++) {
+      var left = x1 + (x2 - x1) * (i / steps);
+      var top = y1 + (y2 - y1) * (i / steps);
+      var spot = pickSpot([[left, top]], w, h, [actor], false);
+      if (!spot) return false;
+    }
+    return true;
+  }
+
+  function reveal(el) {
+    if (!el || !el.isConnected) return;
+    var rect = el.getBoundingClientRect();
+    var nav = document.querySelector('.nav-wrapper');
+    var topLimit = nav ? nav.getBoundingClientRect().bottom + 10 : 76;
+    var panelTop = !think.hidden ? think.getBoundingClientRect().top : floorY();
+    var bottomLimit = Math.min(panelTop, actor.getBoundingClientRect().top) - 12;
+    if (bottomLimit < topLimit + 48) bottomLimit = topLimit + 48;
+    var delta = 0;
+    if (rect.bottom > bottomLimit) delta = rect.bottom - bottomLimit;
+    if (rect.top - delta < topLimit) delta = rect.top - topLimit;
+    if (Math.abs(delta) > 8) window.scrollBy({ top: delta, behavior: 'smooth' });
   }
 
   function nextTip() {
@@ -401,7 +514,8 @@
     document.getElementById('vicho-graphic').innerHTML = graphicSvg(item.graphic);
     document.getElementById('vicho-line').textContent = item.say;
     think.hidden = false;
-    placeThink();
+    bubble.hidden = true;
+    placeBox(think);
     var limit = Math.max(6500, Math.min(20000, item.say.length * 70));
     var heard = false;
     function goNext() {
@@ -424,9 +538,7 @@
       heard = true;
       goNext();
     });
-    if (stepEl) {
-      stepEl.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
-    }
+    reveal(stepEl);
     window.setTimeout(function () {
       heard = true;
       goNext();
@@ -434,7 +546,8 @@
   }
 
   function speak(text, onend) {
-    say(text, true);
+    if (learning) bubble.hidden = true;
+    else say(text, true);
     actor.classList.add('talk');
     if (!window.speechSynthesis) return;
     var utter = new SpeechSynthesisUtterance(text);
@@ -478,7 +591,8 @@
     document.getElementById('vicho-graphic').innerHTML = graphicSvg(graphic);
     document.getElementById('vicho-line').textContent = text;
     think.hidden = false;
-    placeThink();
+    bubble.hidden = true;
+    placeBox(think);
     window.clearTimeout(thinkTimer);
     thinkTimer = window.setTimeout(function () {
       if (!learning) think.hidden = true;
@@ -547,47 +661,25 @@
   function targetPoint(el) {
     if (!el || !el.isConnected) return null;
     var rect = el.getBoundingClientRect();
-    var vw = document.documentElement.clientWidth;
     var vh = window.innerHeight;
-    var left = Math.max(rect.left, 4);
-    var top = Math.max(rect.top, 4);
-    var right = Math.min(rect.right, vw - 4);
-    var bottom = Math.min(rect.bottom, vh - 4);
-    if (right - left < 8 || bottom - top < 8) return null;
-    var cx = left + Math.min((right - left) / 2, 140);
-    var cy = top + Math.min((bottom - top) / 2, 28);
-    var width = actor.offsetWidth || 72;
-    var height = actor.offsetHeight || 80;
-    return {
-      x: Math.round(Math.max(4, Math.min(cx - width * 0.42, vw - width - 4))),
-      y: Math.round(Math.max(4, Math.min(cy - height * 0.2, floorY())))
-    };
-  }
-
-  function placeThink() {
-    var width = think.offsetWidth || 210;
-    var height = think.offsetHeight || 160;
-    var rect = actor.getBoundingClientRect();
-    var spot = spotted ? spotted.getBoundingClientRect() : null;
+    if (rect.width < 8 || rect.height < 8) return null;
+    if (rect.bottom < 72 || rect.top > vh - 72) return null;
+    var w = actor.offsetWidth || 90;
+    var h = actor.offsetHeight || 90;
+    var gap = 14;
     var spots = [
-      [rect.left + (rect.width - width) / 2, rect.top - height - 10],
-      [rect.right + 8, rect.top - height + 16],
-      [rect.left - width - 8, rect.top - height + 16],
-      [8, 64]
+      [rect.left - w - gap, rect.top],
+      [rect.right + gap, rect.top],
+      [rect.left - w - gap, rect.bottom - h],
+      [rect.right + gap, rect.bottom - h],
+      [rect.left, rect.top - h - gap],
+      [rect.right - w, rect.top - h - gap],
+      [rect.left, rect.bottom + gap],
+      [rect.right - w, rect.bottom + gap]
     ];
-    var chosen = null;
-    for (var i = 0; i < spots.length; i++) {
-      var left = Math.max(8, Math.min(spots[i][0], window.innerWidth - width - 8));
-      var top = Math.max(8, Math.min(spots[i][1], window.innerHeight - height - 8));
-      if (!spot || !hits(left, top, width, height, spot)) { chosen = [left, top]; break; }
-    }
-    if (!chosen) chosen = [8, 64];
-    think.style.left = Math.round(chosen[0]) + 'px';
-    think.style.top = Math.round(chosen[1]) + 'px';
-  }
-
-  function hits(left, top, width, height, rect) {
-    return !(left + width < rect.left || left > rect.right || top + height < rect.top || top > rect.bottom);
+    var chosen = pickSpot(spots, w, h, [actor, learn, bubble, think], false);
+    if (!chosen) return dockPoint();
+    return { x: chosen[0], y: Math.min(chosen[1], floorY()) };
   }
 
   function lessonForPage() {

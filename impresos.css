@@ -35,9 +35,11 @@ h1 { font-family: 'Fredoka', 'Nunito', sans-serif; font-size: clamp(1.8rem, 6vw,
 .mast p { margin: 0; font-family: 'Nunito', sans-serif; font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #6d6486; }
 .mast h2 { margin: 2px 0 0; font-family: 'Fredoka', 'Nunito', sans-serif; font-size: 1.45rem; line-height: 1.1; }
 .sheet.torpedo .cols { column-count: 2; column-gap: 16px; }
-.block, .guia section { break-inside: avoid; margin: 0 0 9px; }
+.block, .guia .item { break-inside: avoid; margin: 0 0 9px; }
 .block h3, .guia h3 { margin: 0 0 3px; font-family: 'Fredoka', 'Nunito', sans-serif; font-size: 13px; }
 .block p, .guia p, .guia li { margin: 0 0 3px; font-family: 'Nunito', sans-serif; font-size: 12px; line-height: 1.35; }
+.nombre { margin: 0 0 10px; font-size: 12px; }
+.regla { height: 18px; border-bottom: 1px solid #d9d0ea; }
 .formula {
   font-family: 'DM Mono', ui-monospace, monospace;
   font-size: 11.5px;
@@ -48,9 +50,8 @@ h1 { font-family: 'Fredoka', 'Nunito', sans-serif; font-size: clamp(1.8rem, 6vw,
 .guia h3 { font-size: 15px; margin-top: 8px; }
 .guia p, .guia li { font-size: 13.5px; line-height: 1.45; }
 .guia ul { margin: 0 0 6px 16px; padding: 0; }
-.ejemplo, .chequeo { border-radius: 10px; padding: 6px 8px; margin-top: 4px; }
-.ejemplo { background: #f4f7ff; }
-.chequeo { background: #fff6ea; }
+.pauta { margin-top: 14px; border-top: 2px dashed #d9d0ea; padding-top: 8px; }
+.pauta ol { margin: 0; padding-left: 18px; }
 .foot { margin: 8px 0 0; font-size: 10px; color: #6d6486; }
 
 @media (max-width: 640px) {
@@ -72,5 +73,6 @@ h1 { font-family: 'Fredoka', 'Nunito', sans-serif; font-size: clamp(1.8rem, 6vw,
   }
   .sheet:last-child { break-after: auto; }
   .sheet.torpedo .cols { column-count: 2; }
-  .formula, .ejemplo, .chequeo { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .pauta { break-before: page; border-top: none; margin-top: 0; padding-top: 0; }
+  .formula { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 }

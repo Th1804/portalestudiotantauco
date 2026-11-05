@@ -102,7 +102,8 @@
   .b-amber { border-color: rgba(124,63,0,0.4); color: var(--brown-bright); background: var(--brown-dim); }
   .b-yellow { border-color: rgba(234,179,8,0.4); color: var(--yellow-bright); background: var(--yellow-dim); }
   .b-rust { border-color: rgba(107,44,0,0.4); color: #c68642; background: rgba(107,44,0,0.13); }
-  .card-cta { display: flex; align-items: center; justify-content: space-between; margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--border); }
+  .card-cta { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--border); }
+  .cta-actions { display: flex; flex-wrap: wrap; gap: 8px; position: relative; z-index: 2; }
   .cta-text { font-size: 12px; color: var(--text-dim); font-family: var(--font-mono); letter-spacing: 0.06em; }
   .cta-btn { display: inline-flex; align-items: center; gap: 7px; padding: 12px 20px; border-radius: 10px; font-family: var(--font-body); font-size: 14px; font-weight: 500; border: 1px solid; cursor: pointer; text-decoration: none; transition: all 0.18s; min-height: 44px; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
   .btn-gold { background: var(--red-dim); border-color: rgba(220,38,38,0.4); color: var(--red-light); }
@@ -364,13 +365,13 @@
 </header>
 
 <main class="main">
+  <a class="sala-card" href="impresos.html">
+    <span class="sala-kicker">Para imprimir</span>
+    <strong>Torpedos y guías de desarrollo en PDF</strong>
+  </a>
   <a class="sala-card" href="juegos.html">
     <span class="sala-kicker">Sala de juegos</span>
     <strong>Rompecabezas, memoria y relámpago</strong>
-  </a>
-  <a class="sala-card" href="impresos.html">
-    <span class="sala-kicker">Para imprimir</span>
-    <strong>Torpedos y guías de repaso en PDF</strong>
   </a>
   <div class="section-label">Asignaturas disponibles</div>
   <h2 class="section-title">Guías de Estudio Activas</h2>
@@ -396,7 +397,10 @@
         </div>
         <div class="card-cta">
           <span class="cta-text">Prueba de Nivel → 09/11</span>
-          <a href="prueba_nivel_lenguaje_2.html" class="cta-btn btn-gold">Ver guía →</a>
+          <span class="cta-actions">
+            <a href="impresos.html#lengua-desarrollo" class="cta-btn btn-gold">Desarrollo</a>
+            <a href="prueba_nivel_lenguaje_2.html" class="cta-btn btn-gold">Ver guía →</a>
+          </span>
         </div>
         <div class="card-checklist">
           <div class="cl-label">Mi progreso</div>
@@ -430,7 +434,10 @@
         </div>
         <div class="card-cta">
           <span class="cta-text">Prueba de Nivel → 06/11</span>
-          <a href="matematica_guia.html" class="cta-btn btn-blue">Ver guía →</a>
+          <span class="cta-actions">
+            <a href="impresos.html#matematica-desarrollo" class="cta-btn btn-blue">Desarrollo</a>
+            <a href="matematica_guia.html" class="cta-btn btn-blue">Ver guía →</a>
+          </span>
         </div>
         <div class="card-checklist">
           <div class="cl-label">Mi progreso</div>
@@ -464,7 +471,10 @@
         </div>
         <div class="card-cta">
           <span class="cta-text">Prueba de Nivel → 16/11</span>
-          <a href="prueba_nivel_ciencias_naturales.html" class="cta-btn btn-green">Ver guía →</a>
+          <span class="cta-actions">
+            <a href="impresos.html#ciencias-desarrollo" class="cta-btn btn-green">Desarrollo</a>
+            <a href="prueba_nivel_ciencias_naturales.html" class="cta-btn btn-green">Ver guía →</a>
+          </span>
         </div>
         <div class="card-checklist">
           <div class="cl-label">Mi progreso</div>
@@ -498,7 +508,10 @@
         </div>
         <div class="card-cta">
           <span class="cta-text">Prueba de Nivel → 18/11</span>
-          <a href="historia_guia.html" class="cta-btn btn-amber">Ver guía →</a>
+          <span class="cta-actions">
+            <a href="impresos.html#historia-desarrollo" class="cta-btn btn-amber">Desarrollo</a>
+            <a href="historia_guia.html" class="cta-btn btn-amber">Ver guía →</a>
+          </span>
         </div>
         <div class="card-checklist">
           <div class="cl-label">Mi progreso</div>
@@ -532,7 +545,10 @@
         </div>
         <div class="card-cta">
           <span class="cta-text">Prueba de Nivel → 13/11</span>
-          <a href="ingles_guia.html" class="cta-btn btn-yellow">Ver guía →</a>
+          <span class="cta-actions">
+            <a href="impresos.html#ingles-desarrollo" class="cta-btn btn-yellow">Desarrollo</a>
+            <a href="ingles_guia.html" class="cta-btn btn-yellow">Ver guía →</a>
+          </span>
         </div>
         <div class="card-checklist">
           <div class="cl-label">Mi progreso</div>
@@ -826,6 +842,7 @@ FUNCIONALIDADES DEL PANEL ✨:
 - 🎵 Música: reproductor con links a streams de estudio en YouTube.
 - 🏆 Logros: se guardan en el celular. También se ganan en la sala de juegos (juegos.html): rompecabezas de conocimiento, memoria de pares y relámpago.
 - Buscador global: Ctrl+K busca en todos los contenidos del portal.
+- Impresos, en la portada y en cada tarjeta (botón Desarrollo): impresos.html. Torpedo de una página y guía de desarrollo para imprimir o guardar como PDF.
 - Checklist por tarjeta: barra de progreso para cada asignatura.
 - Modo oscuro: el botón de la luna, arriba a la derecha. La elección queda en este celular.
 - Barra de concentración, abajo en todas las guías: temporizador que sigue entre páginas, modo foco, sonido de lluvia, café o bosque, y el bloque de la PDN más cercana.
@@ -1226,7 +1243,8 @@ const SEARCH_INDEX = [
   { title: 'Expansión territorial', snippet: 'Colonización, ocupación de la Araucanía, Guerra del Pacífico, tratados y ciencia.', file: 'historia_guia.html', section: '#expansion', icon: '🗺️', materia: 'Historia' },
   { title: 'English Unit 3 — Water to your health', snippet: 'Waterborne diseases, sanitation, how germs spread, and myths about foreign aid.', file: 'ingles_guia.html', section: '#unit3', icon: '💧', materia: 'Inglés' },
   { title: 'English Unit 4 — Out of poverty', snippet: 'Basic needs, income, extreme poverty and why development matters.', file: 'ingles_guia.html', section: '#unit4', icon: '🇬🇧', materia: 'Inglés' },
-  { title: 'Torpedos y guías de repaso', snippet: 'Hojas imprimibles en PDF: un torpedo de una página y una guía de repaso por cada PDN.', file: 'impresos.html', section: '#matematica-torpedo', icon: '🖨️', materia: 'Impresos' },
+  { title: 'Guías de desarrollo', snippet: 'Preguntas para desarrollar en la hoja, con pauta en la página siguiente, e imprimir en PDF.', file: 'impresos.html', section: '#matematica-desarrollo', icon: '🖨️', materia: 'Impresos' },
+  { title: 'Torpedos para imprimir', snippet: 'Una hoja con las fórmulas y las ideas de cada PDN, para guardar como PDF.', file: 'impresos.html', section: '#matematica-torpedo', icon: '📄', materia: 'Impresos' },
   { title: 'Sala de juegos', snippet: 'Rompecabezas de conocimiento, memoria de pares y relámpago de las PDN.', file: 'juegos.html', section: '#rompecabezas', icon: '🎮', materia: 'Juegos' },
   { title: 'Rompecabezas de conocimiento', snippet: 'Arma en orden el cuadrado de binomio, la selección natural, el precio, el agua y la lectura.', file: 'juegos.html', section: '#rompecabezas', icon: '🧩', materia: 'Juegos' },
 ];

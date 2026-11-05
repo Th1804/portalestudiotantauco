@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Portal de Estudio — Colegio Tantauco</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="estudio.css">
@@ -331,8 +331,9 @@
   .ach-toast-label { font-family: var(--font-mono); font-size: 9px; color: #fbbf24; text-transform: uppercase; }
   .ach-toast-title { font-size: 13px; font-weight: 600; color: var(--text); }
 </style>
+<link rel="stylesheet" href="vicho.css">
 </head>
-<body>
+<body class="vicho-skin">
 
 <div id="read-progress"></div>
 <button id="theme-toggle" onclick="toggleTheme()" aria-label="Cambiar modo de color">🌙</button>
@@ -352,7 +353,7 @@
     </div>
   </div>
   <h1 class="hero-title">Bienvenido a tu <span class="hl-gold">Portal</span> de <span class="hl-blue">Estudio</span></h1>
-  <p class="hero-desc">Accede a las guías completas, cronologías de lectura, formularios y ejercitación interactiva optimizada para los OA de tus evaluaciones.</p>
+  <p class="hero-desc">Guías de las pruebas de nivel, con práctica para el celular. El Vicho naranja camina por la página y te recuerda el siguiente paso.</p>
   <div class="hero-stats">
     <div class="stat-pill"><span class="dot dot-gold"></span>5 Asignaturas</div>
     <div class="stat-pill"><span class="dot dot-blue"></span>Contenido Actualizado 2026</div>
@@ -556,7 +557,7 @@
     <div class="howto-card">
       <div class="howto-num">03</div>
       <h3 class="howto-title">Barra de concentración</h3>
-      <p class="howto-desc">El reloj de abajo te sigue entre guías. Activa modo foco, lluvia o café, y cierra el bloque con una idea dicha sin mirar.</p>
+      <p class="howto-desc">El reloj de abajo te sigue entre guías. Activa modo foco, lluvia o café, y cierra el bloque con una idea dicha sin mirar. El Vicho, el muñeco naranja, camina contigo: tócalo si quieres un empujón.</p>
     </div>
     <div class="howto-card">
       <div class="howto-num">04</div>
@@ -1350,5 +1351,6 @@ document.addEventListener('keydown', e => {
 });
 </script>
 <script src="estudio.js"></script>
+<script src="vicho.js"></script>
 </body>
 </html>

@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>PDN Matemática — 6 de noviembre · Colegio Tantauco</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="estudio.css">
@@ -112,8 +112,9 @@
   .footer { text-align:center; padding: 28px 16px 48px; font-family: var(--font-mono); font-size: 11px; color: var(--text-dim); letter-spacing: .06em; }
   sup { font-size: .72em; }
 </style>
+<link rel="stylesheet" href="vicho.css">
 </head>
-<body>
+<body class="vicho-skin">
 <a id="back-btn" href="index.html">← Portal</a>
 <button id="theme-toggle" type="button" aria-label="Cambiar tema">🌙</button>
 
@@ -517,5 +518,6 @@ document.getElementById('flash').addEventListener('click', event => {
 });
 </script>
 <script src="estudio.js"></script>
+<script src="vicho.js"></script>
 </body>
 </html>

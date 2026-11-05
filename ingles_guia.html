@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>PDN English — 13 November · Colegio Tantauco</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="estudio.css">
@@ -64,8 +64,9 @@
   .calc-btn, .btn { min-height:44px; padding:0 16px; border-radius:8px; border:1px solid rgba(234,179,8,.4); background:var(--accent-dim); color:var(--accent); cursor:pointer; font-family:var(--font-body); }
   .footer { text-align:center; font-family:var(--font-mono); font-size:11px; color:var(--text-dim); padding-bottom:40px; }
 </style>
+<link rel="stylesheet" href="vicho.css">
 </head>
-<body>
+<body class="vicho-skin">
 <a id="back-btn" href="index.html">← Portal</a>
 <button id="theme-toggle" type="button" aria-label="Cambiar tema">🌙</button>
 <header class="site-header">
@@ -188,5 +189,6 @@ quiz.innerHTML=quizData.map((item,i)=>`<article class="quiz-item"><div class="qu
 quiz.addEventListener('click',e=>{const btn=e.target.closest('.quiz-opt'); if(!btn)return; const qi=+btn.dataset.q; if(answered.has(qi))return; answered.add(qi); const item=quizData[qi]; const sel=+btn.dataset.o; const ok=sel===item.ans; if(ok)correct++; quiz.querySelectorAll(`[data-q="${qi}"]`).forEach(opt=>{opt.disabled=true; const idx=+opt.dataset.o; if(idx===item.ans)opt.classList.add('correct'); else if(idx===sel)opt.classList.add('wrong');}); const fb=document.getElementById('fb-'+qi); fb.className='quiz-feedback show '+(ok?'ok':'nok'); fb.textContent=(ok?'Correct. ':'Not quite. ')+item.exp; const score=document.getElementById('quiz-score'); score.style.display='block'; score.textContent=`${correct} / ${answered.size} correct · ${Math.round(correct/answered.size*100)}%`;});
 </script>
 <script src="estudio.js"></script>
+<script src="vicho.js"></script>
 </body>
 </html>

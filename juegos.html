@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Sala de juegos — Colegio Tantauco</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estudio.css">
+<style>
+  :root {
+    --bg:#0d0e12; --surface:#13151e; --surface2:#1a1d2a;
+    --border:rgba(255,255,255,.07); --border2:rgba(255,255,255,.13);
+    --text:#e2e8f0; --text-muted:#8b9bb0; --text-dim:#3d4f68;
+    --accent:#a78bfa; --accent-2:#c4b5fd; --teal:#14b8a6;
+    --font-display:'Playfair Display', Georgia, serif;
+    --font-body:'DM Sans', sans-serif; --font-mono:'DM Mono', monospace;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--bg); color:var(--text); font-family:var(--font-body); line-height:1.5; }
+  #back-btn { position:fixed; top:14px; left:14px; z-index:200; min-height:44px; border-radius:22px; border:1px solid var(--border2); background:var(--surface); color:var(--text-muted); display:flex; align-items:center; text-decoration:none; font-family:var(--font-mono); font-size:11px; padding:0 14px; }
+  .wrap { max-width:860px; margin:0 auto; padding:84px 16px 40px; }
+  h1 { font-family:var(--font-display); font-size:clamp(1.8rem, 7vw, 2.8rem); line-height:1.1; margin:8px 0; }
+  .lead { color:var(--text-muted); margin-bottom:18px; }
+  .switch { display:flex; gap:8px; overflow-x:auto; padding-bottom:8px; scrollbar-width:none; }
+  .switch button { flex:0 0 auto; min-height:44px; border:none; border-radius:999px; padding:0 16px; background:#fff; color:#241c3a; font-family:'Nunito', var(--font-body); font-weight:800; cursor:pointer; box-shadow:0 6px 16px rgba(80,50,140,.08); }
+  .switch button[aria-pressed="true"] { background:#241c3a; color:#fff; }
+  .stage { margin-top:16px; }
+  .game-head { display:flex; justify-content:space-between; gap:12px; align-items:flex-end; margin-bottom:12px; }
+  .game-head h2 { font-family:'Fredoka', var(--font-display), sans-serif; font-size:1.4rem; }
+  .game-head p { color:#534a68; font-size:14px; }
+  .row { display:flex; flex-wrap:wrap; gap:8px; margin:12px 0; }
+  .ghost, .solid { min-height:44px; border-radius:999px; padding:0 16px; font-family:'Nunito', sans-serif; font-weight:800; cursor:pointer; }
+  .ghost { background:#fff; color:#241c3a; border:none; box-shadow:0 6px 0 #e4d8ff; }
+  .solid { background:#241c3a; color:#fff; border:none; box-shadow:0 6px 0 #c8b8ee; }
+  .idea { background:#fff; border-radius:20px; padding:12px 14px; margin-bottom:12px; color:#3d335c; }
+  .pz-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; width:min(100%, 420px); margin:0 auto; }
+  @media (max-width: 700px) {
+    .wrap { padding-top: 68px; }
+    h1 { font-size: 1.7rem; }
+    .lead { margin-bottom: 8px; }
+    .pz-grid { width: min(100%, 250px); }
+  }
+  .pz-tile, .pz-hole { aspect-ratio:1; border-radius:18px; }
+  .pz-tile { border:none; background:#fff; color:#241c3a; font-family:'Fredoka', 'Nunito', sans-serif; font-size:clamp(13px, 3.2vw, 16px); line-height:1.15; padding:6px; cursor:pointer; box-shadow:0 8px 0 #e4d8ff; }
+  .pz-tile:active { transform:translateY(2px); box-shadow:0 4px 0 #e4d8ff; }
+  .pz-hole { background:rgba(255,255,255,.35); }
+  .won { background:#e8f8f1; color:#047857; border-radius:20px; padding:14px; margin-top:12px; }
+  .mem-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; }
+  @media (min-width:720px) { .mem-grid { grid-template-columns:repeat(4, 1fr); } }
+  .mem-card { min-height:84px; border:none; border-radius:16px; background:#241c3a; color:#fff; font-family:'Nunito', sans-serif; font-weight:800; font-size:13px; line-height:1.25; padding:8px; cursor:pointer; }
+  .mem-card.open, .mem-card.matched { background:#fff; color:#241c3a; box-shadow:0 6px 0 #e4d8ff; }
+  .mem-card.matched { background:#e8f8f1; color:#047857; box-shadow:none; }
+  .ray-q { font-family:'Fredoka', sans-serif; font-size:1.25rem; margin:8px 0 12px; }
+  .ray-opt { display:block; width:100%; min-height:48px; text-align:left; margin-top:8px; border-radius:16px; border:none; background:#fff; color:#241c3a; font-family:'Nunito', sans-serif; font-weight:700; font-size:16px; padding:10px 14px; cursor:pointer; box-shadow:0 6px 0 #e4d8ff; }
+  .ray-opt.good { background:#e8f8f1; color:#047857; }
+  .ray-opt.bad { background:#fde8ee; color:#be123c; }
+  .meter { height:8px; border-radius:999px; background:rgba(255,255,255,.7); overflow:hidden; margin:8px 0 12px; }
+  .meter span { display:block; height:100%; width:100%; background:linear-gradient(90deg,#ff8a1e,#7c6bff); }
+  .logros { margin-top:28px; }
+  .logros h2 { font-family:'Fredoka', sans-serif; margin-bottom:6px; }
+  #logro-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(140px, 1fr)); gap:10px; margin-top:12px; }
+  #game-status { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
+</style>
+<link rel="stylesheet" href="vicho.css">
+</head>
+<body class="vicho-skin">
+<a id="back-btn" href="index.html">← Portal</a>
+<main class="wrap">
+  <p class="header-eyebrow">Colegio Tantauco</p>
+  <h1>Sala de juegos</h1>
+  <p class="lead">Tres maneras de repasar la PDN. Los logros quedan guardados en este celular.</p>
+  <div class="switch" role="tablist">
+    <button type="button" id="tab-rompecabezas" aria-pressed="true">Rompecabezas</button>
+    <button type="button" id="tab-memoria" aria-pressed="false">Memoria</button>
+    <button type="button" id="tab-rayo" aria-pressed="false">Relámpago</button>
+  </div>
+  <div id="stage" class="stage game-board"></div>
+  <p id="game-status" aria-live="polite"></p>
+  <section class="logros" id="logros">
+    <h2>Logros</h2>
+    <p class="lead" id="logro-count"></p>
+    <div id="logro-grid"></div>
+  </section>
+</main>
+<script src="logros.js"></script>
+<script src="estudio.js"></script>
+<script src="vicho.js"></script>
+<script>
+(function () {
+  var PUZZLES = [
+    {
+      id: 'mate',
+      title: 'Cuadrado de binomio',
+      idea: '(a + b)² = a² + 2ab + b². El término del medio es el doble del producto de a y b.',
+      tiles: ['(a + b)²', '= a²', '+ 2ab', '+ b²', 'El medio', 'es el doble', 'del producto', 'de a y b']
+    },
+    {
+      id: 'bio',
+      title: 'Selección natural',
+      idea: 'Hay variación heredable, nacen más de los que caben y quienes dejan más crías vuelven frecuentes sus rasgos. Darwin y Wallace.',
+      tiles: ['Hay variación', 'heredable', 'Nacen más', 'de los que caben', 'Algunos dejan', 'más crías', 'Esos rasgos', 'se hacen frecuentes']
+    },
+    {
+      id: 'historia',
+      title: 'Oferta y demanda',
+      idea: 'Si sube la demanda y la oferta no alcanza, el precio sube. Si sobra producto, el precio baja.',
+      tiles: ['Sube la', 'demanda', 'La oferta', 'no alcanza', 'El precio', 'sube', 'Si sobra', 'el precio baja']
+    },
+    {
+      id: 'ingles',
+      title: 'Water and needs',
+      idea: 'Waterborne: viaja en el agua. Hygiene frena los gérmenes. Basic needs van primero.',
+      tiles: ['Waterborne', 'viaja en', 'el agua', 'Hygiene', 'frena', 'los gérmenes', 'Basic needs', 'van primero']
+    },
+    {
+      id: 'lengua',
+      title: 'Leer con cuidado',
+      idea: 'Lo explícito está escrito. Lo implícito se deduce. El hablante lírico no es siempre el autor.',
+      tiles: ['Explícito:', 'está escrito', 'Implícito:', 'se deduce', 'El hablante', 'lírico no', 'es siempre', 'el autor']
+    }
+  ];
+
+  var PAIRS = [
+    ['2ab', 'Término del medio'],
+    ['Hipocentro', 'Foco bajo tierra'],
+    ['Epicentro', 'Punto en la superficie'],
+    ['Waterborne', 'Viaja en el agua'],
+    ['Mutualismo', 'Ganan los dos'],
+    ['Parasitismo', 'Uno gana, otro no'],
+    ['Escasez', 'Más deseos que bienes'],
+    ['Un mol', '6,022 × 10²³']
+  ];
+
+  var QUESTIONS = [
+    { q: 'En (x + 5)², el término del medio es…', options: ['10x', '25', '5x', 'x²'], answer: 0 },
+    { q: 'Darwin y Wallace propusieron…', options: ['la selección natural', 'el uso y el desuso', 'la generación espontánea', 'que la Tierra no cambia'], answer: 0 },
+    { q: 'Las estaciones se deben sobre todo a…', options: ['la inclinación del eje', 'estar más cerca del Sol', 'las fases de la Luna', 'el hipocentro'], answer: 0 },
+    { q: 'Una enfermedad waterborne se transmite por…', options: ['agua contaminada', 'el aire frío', 'una tarjeta de crédito', 'un arancel'], answer: 0 },
+    { q: 'Si sube la demanda y la oferta no, el precio…', options: ['sube', 'baja siempre', 'desaparece', 'se vuelve un mol'], answer: 0 },
+    { q: 'Las cajas vecinas son…', options: ['ahorro del barrio', 'un banco del Estado', 'un monopolio', 'una onda sísmica'], answer: 0 },
+    { q: 'Una idea explícita del texto…', options: ['está escrita', 'hay que inventarla', 'es siempre una metáfora', 'no se puede citar'], answer: 0 },
+    { q: 'El hipocentro de un sismo es…', options: ['el origen bajo la superficie', 'el punto de la ciudad', 'la escala de Mercalli', 'el núcleo externo'], answer: 0 },
+    { q: 'En una reacción química, los átomos…', options: ['se conservan', 'desaparecen', 'se crean de la nada', 'pasan solo a ser luz'], answer: 0 },
+    { q: 'Las ondas S no cruzan el núcleo externo porque es…', options: ['líquido', 'un vacío', 'más frío que el Sol', 'de salitre'], answer: 0 }
+  ];
+
+  var stage = document.getElementById('stage');
+  var status = document.getElementById('game-status');
+  var current = 'rompecabezas';
+  var rayTimer = 0;
+  var memTimer = 0;
+  var puzzle = null;
+  var board = [];
+  var moves = 0;
+  var hintOn = false;
+
+  document.getElementById('tab-rompecabezas').addEventListener('click', function () { show('rompecabezas'); });
+  document.getElementById('tab-memoria').addEventListener('click', function () { show('memoria'); });
+  document.getElementById('tab-rayo').addEventListener('click', function () { show('rayo'); });
+  document.addEventListener('tantauco-logro', paintLogros);
+  window.TantaucoLogros.unlock('sala');
+  paintLogros();
+
+  var hash = (location.hash || '').replace('#', '');
+  if (hash === 'memoria' || hash === 'rayo' || hash === 'rompecabezas') show(hash);
+  else show('rompecabezas');
+
+  function show(id) {
+    window.clearInterval(rayTimer);
+    window.clearTimeout(memTimer);
+    current = id;
+    ['rompecabezas', 'memoria', 'rayo'].forEach(function (name) {
+      document.getElementById('tab-' + name).setAttribute('aria-pressed', name === id ? 'true' : 'false');
+    });
+    if (location.hash !== '#' + id) history.replaceState(null, '', '#' + id);
+    if (id === 'rompecabezas') openPuzzle(puzzleIndex());
+    else if (id === 'memoria') openMemory();
+    else openRay();
+  }
+
+  function puzzleIndex() {
+    var saved = readPuzzles();
+    for (var i = 0; i < PUZZLES.length; i++) if (saved.indexOf(PUZZLES[i].id) === -1) return i;
+    return 0;
+  }
+
+  function readPuzzles() {
+    try {
+      var list = JSON.parse(localStorage.getItem('tantauco-puzzles') || '[]');
+      return Array.isArray(list) ? list : [];
+    } catch (error) {
+      return [];
+    }
+  }
+
+  function openPuzzle(index) {
+    puzzle = PUZZLES[index];
+    hintOn = false;
+    board = [1, 2, 3, 4, 5, 6, 7, 8, 0];
+    var guard = 0;
+    do { scramble(36); guard += 1; } while (solved() && guard < 4);
+    moves = 0;
+    drawPuzzle(false);
+    status.textContent = 'Rompecabezas: ' + puzzle.title;
+  }
+
+  function scramble(times) {
+    var blank = board.indexOf(0);
+    for (var n = 0; n < times; n++) {
+      var options = neighbors(blank);
+      var next = options[Math.floor(Math.random() * options.length)];
+      board[blank] = board[next];
+      board[next] = 0;
+      blank = next;
+    }
+  }
+
+  function neighbors(blank) {
+    var row = Math.floor(blank / 3);
+    var col = blank % 3;
+    var list = [];
+    if (row > 0) list.push(blank - 3);
+    if (row < 2) list.push(blank + 3);
+    if (col > 0) list.push(blank - 1);
+    if (col < 2) list.push(blank + 1);
+    return list;
+  }
+
+  function solved() {
+    for (var i = 0; i < 8; i++) if (board[i] !== i + 1) return false;
+    return board[8] === 0;
+  }
+
+  function drawPuzzle(done) {
+    var keepFocus = stage.contains(document.activeElement);
+    stage.replaceChildren();
+    var head = document.createElement('div');
+    head.className = 'game-head';
+    head.innerHTML = '<div><h2>' + escapeHtml(puzzle.title) + '</h2><p>Toca una pieza junto al hueco. Movimientos: ' + moves + '</p></div>';
+    stage.appendChild(head);
+    var buttons = document.createElement('div');
+    buttons.className = 'row';
+    var hint = button('Pista', 'ghost', function () {
+      hintOn = true;
+      drawPuzzle(false);
+    });
+    var mix = button('Mezclar', 'ghost', function () { openPuzzle(PUZZLES.indexOf(puzzle)); });
+    var next = button('Otra idea', 'solid', function () {
+      openPuzzle((PUZZLES.indexOf(puzzle) + 1) % PUZZLES.length);
+    });
+    buttons.appendChild(hint);
+    buttons.appendChild(mix);
+    buttons.appendChild(next);
+    stage.appendChild(buttons);
+    if (done) {
+      var win = document.createElement('p');
+      win.className = 'won';
+      win.textContent = 'Quedó armado. ' + puzzle.idea;
+      stage.appendChild(win);
+    }
+    if (hintOn && !done) {
+      var idea = document.createElement('p');
+      idea.className = 'idea';
+      idea.textContent = puzzle.idea;
+      stage.appendChild(idea);
+    }
+    var grid = document.createElement('div');
+    grid.className = 'pz-grid';
+    grid.tabIndex = 0;
+    grid.setAttribute('aria-label', 'Rompecabezas de ' + puzzle.title);
+    board.forEach(function (value, index) {
+      if (value === 0) {
+        var hole = document.createElement('div');
+        hole.className = 'pz-hole';
+        hole.setAttribute('aria-hidden', 'true');
+        grid.appendChild(hole);
+        return;
+      }
+      var tile = document.createElement('button');
+      tile.type = 'button';
+      tile.className = 'pz-tile';
+      tile.textContent = puzzle.tiles[value - 1];
+      tile.disabled = done;
+      tile.addEventListener('click', function () { slide(index); });
+      grid.appendChild(tile);
+    });
+    grid.addEventListener('keydown', onPuzzleKey);
+    stage.appendChild(grid);
+    if (keepFocus) grid.focus({ preventScroll: true });
+  }
+
+  function slide(index) {
+    if (solved()) return;
+    var blank = board.indexOf(0);
+    if (neighbors(blank).indexOf(index) === -1) return;
+    board[blank] = board[index];
+    board[index] = 0;
+    moves += 1;
+    if (solved()) finishPuzzle();
+    else drawPuzzle(false);
+  }
+
+  function onPuzzleKey(event) {
+    var blank = board.indexOf(0);
+    var target = -1;
+    if (event.key === 'ArrowLeft') target = blank + 1;
+    else if (event.key === 'ArrowRight') target = blank - 1;
+    else if (event.key === 'ArrowUp') target = blank + 3;
+    else if (event.key === 'ArrowDown') target = blank - 3;
+    else return;
+    if (target < 0 || target > 8) return;
+    if (event.key === 'ArrowLeft' && blank % 3 === 2) return;
+    if (event.key === 'ArrowRight' && blank % 3 === 0) return;
+    event.preventDefault();
+    slide(target);
+  }
+
+  function finishPuzzle() {
+    drawPuzzle(true);
+    var saved = readPuzzles();
+    if (saved.indexOf(puzzle.id) === -1) {
+      saved.push(puzzle.id);
+      localStorage.setItem('tantauco-puzzles', JSON.stringify(saved));
+    }
+    window.TantaucoLogros.unlock('puzzle_one');
+    if (saved.length >= PUZZLES.length) window.TantaucoLogros.unlock('puzzle_all');
+    status.textContent = 'Rompecabezas armado: ' + puzzle.title;
+    paintLogros();
+  }
+
+  function openMemory() {
+    var deck = [];
+    PAIRS.forEach(function (pair, pairIndex) {
+      deck.push({ id: pairIndex, text: pair[0] });
+      deck.push({ id: pairIndex, text: pair[1] });
+    });
+    shuffle(deck);
+    var open = [];
+    var locked = false;
+    var found = 0;
+    stage.replaceChildren();
+    var head = document.createElement('div');
+    head.className = 'game-head';
+    head.innerHTML = '<div><h2>Memoria de la PDN</h2><p id="mem-left">Encuentra los 8 pares.</p></div>';
+    stage.appendChild(head);
+    var grid = document.createElement('div');
+    grid.className = 'mem-grid';
+    deck.forEach(function (card) {
+      var button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'mem-card';
+      button.textContent = '?';
+      button.addEventListener('click', function () {
+        if (locked || button.classList.contains('open') || button.classList.contains('matched')) return;
+        button.classList.add('open');
+        button.textContent = card.text;
+        open.push(button);
+        button.dataset.pair = String(card.id);
+        if (open.length < 2) return;
+        locked = true;
+        var same = open[0].dataset.pair === open[1].dataset.pair;
+        memTimer = window.setTimeout(function () {
+          if (same) {
+            open.forEach(function (el) { el.classList.remove('open'); el.classList.add('matched'); el.disabled = true; });
+            found += 1;
+            var left = document.getElementById('mem-left');
+            if (left) left.textContent = found === 8 ? 'Encontraste los 8 pares.' : 'Pares: ' + found + ' de 8.';
+            if (found === 8) {
+              window.TantaucoLogros.unlock('memoria');
+              status.textContent = 'Memoria completa.';
+              paintLogros();
+            }
+          } else {
+            open.forEach(function (el) { el.classList.remove('open'); el.textContent = '?'; });
+          }
+          open = [];
+          locked = false;
+        }, same ? 280 : 700);
+      });
+      grid.appendChild(button);
+    });
+    stage.appendChild(grid);
+    status.textContent = 'Memoria: 8 pares.';
+  }
+
+  function openRay() {
+    var pack = QUESTIONS.map(function (item) { return item; });
+    shuffle(pack);
+    var index = 0;
+    var score = 0;
+    var left = 12;
+    var answered = false;
+    draw();
+
+    function draw() {
+      window.clearInterval(rayTimer);
+      if (index >= pack.length) return finish();
+      answered = false;
+      left = 12;
+      var item = pack[index];
+      stage.replaceChildren();
+      var head = document.createElement('div');
+      head.className = 'game-head';
+      head.innerHTML = '<div><h2>Relámpago</h2><p>' + (index + 1) + ' de ' + pack.length + ' · ' + score + ' aciertos</p></div>';
+      stage.appendChild(head);
+      var meter = document.createElement('div');
+      meter.className = 'meter';
+      var bar = document.createElement('span');
+      meter.appendChild(bar);
+      stage.appendChild(meter);
+      var q = document.createElement('p');
+      q.className = 'ray-q';
+      q.textContent = item.q;
+      stage.appendChild(q);
+      var options = item.options.map(function (text, optionIndex) {
+        return { text: text, ok: optionIndex === item.answer };
+      });
+      shuffle(options);
+      options.forEach(function (option) {
+        var choice = document.createElement('button');
+        choice.type = 'button';
+        choice.className = 'ray-opt';
+        choice.textContent = option.text;
+        choice.dataset.ok = option.ok ? '1' : '0';
+        choice.addEventListener('click', function () { pick(option.ok, choice); });
+        stage.appendChild(choice);
+      });
+      var started = performance.now();
+      rayTimer = window.setInterval(function () {
+        var gone = (performance.now() - started) / 1000;
+        left = Math.max(0, 12 - gone);
+        bar.style.width = (left / 12 * 100) + '%';
+          if (left <= 0 && !answered) {
+          answered = true;
+          window.clearInterval(rayTimer);
+          mark();
+          goNext();
+        }
+      }, 80);
+    }
+
+    function pick(correct, choice) {
+      if (answered) return;
+      answered = true;
+      window.clearInterval(rayTimer);
+      if (correct) {
+        score += 1;
+        choice.classList.add('good');
+      } else {
+        choice.classList.add('bad');
+      }
+      mark();
+      goNext();
+    }
+
+    function mark() {
+      stage.querySelectorAll('.ray-opt').forEach(function (el) {
+        el.disabled = true;
+        if (el.dataset.ok === '1') el.classList.add('good');
+      });
+    }
+
+    function goNext() {
+      memTimer = window.setTimeout(function () {
+        if (current !== 'rayo') return;
+        index += 1;
+        draw();
+      }, 700);
+    }
+
+    function finish() {
+      stage.replaceChildren();
+      var head = document.createElement('div');
+      head.className = 'game-head';
+      head.innerHTML = '<div><h2>' + score + ' de ' + pack.length + '</h2><p>' + (score >= 8 ? 'Muy firme para la prueba.' : 'Revisa la guía de lo que fallaste y vuelve.') + '</p></div>';
+      stage.appendChild(head);
+      if (score >= 6) window.TantaucoLogros.unlock('rayo');
+      if (score === pack.length) window.TantaucoLogros.unlock('rayo_full');
+      var again = button('Otra ronda', 'solid', openRay);
+      var row = document.createElement('div');
+      row.className = 'row';
+      row.appendChild(again);
+      stage.appendChild(row);
+      status.textContent = 'Relámpago: ' + score + ' de ' + pack.length;
+      paintLogros();
+    }
+  }
+
+  function paintLogros() {
+    var box = document.getElementById('logro-grid');
+    window.TantaucoLogros.render(box);
+    var count = window.TantaucoLogros.read().length;
+    document.getElementById('logro-count').textContent = count + ' de ' + window.TantaucoLogros.defs.length + ' en este celular.';
+  }
+
+  function button(label, kind, action) {
+    var el = document.createElement('button');
+    el.type = 'button';
+    el.className = kind;
+    el.textContent = label;
+    el.addEventListener('click', action);
+    return el;
+  }
+
+  function shuffle(list) {
+    for (var i = list.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = list[i];
+      list[i] = list[j];
+      list[j] = tmp;
+    }
+    return list;
+  }
+
+  function escapeHtml(text) {
+    return String(text).replace(/[&<>"]/g, function (ch) {
+      return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[ch];
+    });
+  }
+})();
+</script>
+</body>
+</html>

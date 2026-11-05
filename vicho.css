@@ -390,6 +390,42 @@ body.vicho-skin #foco-root { bottom: calc(12px + env(safe-area-inset-bottom)); }
 body.vicho-skin #foco-toggle { border-radius: 999px; font-family: 'Fredoka', sans-serif; color: #241c3a; }
 body.vicho-skin .footer { color: #8a80a4; }
 
+body.vicho-skin .sala-card {
+  display: grid;
+  gap: 4px;
+  margin: 0 0 22px;
+  padding: 18px 20px;
+  border-radius: 28px;
+  text-decoration: none;
+  color: #241c3a;
+  background:
+    radial-gradient(circle at 92% 20%, rgba(255, 176, 90, .9), transparent 28%),
+    linear-gradient(135deg, #fff 0%, #fff6ea 46%, #efe7ff 100%);
+  box-shadow: 0 12px 32px rgba(80, 50, 140, .1);
+}
+body.vicho-skin .sala-card strong {
+  font-family: 'Fredoka', 'Nunito', sans-serif;
+  font-size: 1.45rem;
+  letter-spacing: -0.03em;
+}
+body.vicho-skin .sala-kicker {
+  font-family: 'Nunito', sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #ef6a12;
+}
+body.vicho-skin .ach-card {
+  background: #f7f3ff;
+  border: none;
+  border-radius: 18px;
+}
+body.vicho-skin .ach-card.unlocked { background: #fff6df; }
+body.vicho-skin .ach-card-name,
+body.vicho-skin .ach-card.unlocked .ach-card-name { color: #241c3a; }
+body.vicho-skin .ach-card-desc { color: #6d6486; }
+
 #vicho-actor {
   position: fixed;
   z-index: 30;

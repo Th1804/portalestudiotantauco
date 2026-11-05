@@ -363,6 +363,10 @@
 </header>
 
 <main class="main">
+  <a class="sala-card" href="juegos.html">
+    <span class="sala-kicker">Sala de juegos</span>
+    <strong>Rompecabezas, memoria y relámpago</strong>
+  </a>
   <div class="section-label">Asignaturas disponibles</div>
   <h2 class="section-title">Guías de Estudio Activas</h2>
   <p class="section-desc">Haz clic en cualquier tarjeta para abrir la guía detallada de la materia o lleva el control de tu progreso marcando las unidades estudiadas.</p>
@@ -562,7 +566,7 @@
     <div class="howto-card">
       <div class="howto-num">04</div>
       <h3 class="howto-title">Chat de Curso y Logros</h3>
-      <p class="howto-desc">Coordínate con tus compañeros en el chat grupal y desbloquea logros conforme avanzas en tus estudios.</p>
+      <p class="howto-desc">Coordínate en el chat y abre la sala de juegos: los logros del rompecabezas, la memoria y el relámpago quedan en este celular.</p>
     </div>
   </div>
 </main>
@@ -698,6 +702,7 @@
 
 <button id="chat-fab" onclick="toggleChatPanel()" aria-label="Abrir asistente">✨</button>
 
+<script src="logros.js"></script>
 <script>
 // ══════════════════════════════════════════════════
 //  CONFIGURACIÓN — Cloudflare Worker proxy
@@ -826,7 +831,7 @@ FUNCIONALIDADES DEL PANEL ✨:
 - 💬 Curso: chat grupal entre alumnos de la clase.
 - ⏱ Pomodoro: temporizador de estudio (25 min trabajo / descansos).
 - 🎵 Música: reproductor con links a streams de estudio en YouTube.
-- 🏆 Logros: sistema de logros gamificados + calendario de racha de estudio.
+- 🏆 Logros: se guardan en el celular. También se ganan en la sala de juegos (juegos.html): rompecabezas de conocimiento, memoria de pares y relámpago.
 - Buscador global: Ctrl+K busca en todos los contenidos del portal.
 - Checklist por tarjeta: barra de progreso para cada asignatura.
 - Modo claro/oscuro: botón arriba a la derecha.
@@ -1162,39 +1167,13 @@ musRenderTrackList();
 // ══════════════════════════════════════════════════
 //  LOGROS
 // ══════════════════════════════════════════════════
-const AC_DEFINITIONS = [
-  { id: 'first_step',   name: 'Primer Paso',         desc: 'Abre el portal por primera vez.',            icon: '🚀' },
-  { id: 'constancy_3',  name: 'Hábito Formado',       desc: 'Racha de 3 días consecutivos.',              icon: '🔥' },
-  { id: 'materia_master',name: 'Progreso Activo',     desc: 'Marca tu primer tema estudiado.',            icon: '⚡' },
-  { id: 'explorer',     name: 'Explorador',           desc: 'Usa el buscador global.',                    icon: '🔍' },
-  { id: 'pom_done',     name: 'Modo Foco',            desc: 'Completa una sesión Pomodoro.',              icon: '⏱' },
-  { id: 'chat_sent',    name: 'Compañerismo',         desc: 'Envía un mensaje en el chat de curso.',      icon: '💬' },
-];
-
 function renderAchievements() {
   const grid = document.getElementById('ach-grid');
-  grid.innerHTML = '';
-  const unlocked = JSON.parse(localStorage.getItem('tantauco-ach') || '[]');
-  AC_DEFINITIONS.forEach(ac => {
-    const isUnlocked = unlocked.includes(ac.id);
-    const card = document.createElement('div');
-    card.className = `ach-card${isUnlocked ? ' unlocked' : ''}`;
-    card.innerHTML = `<div class="ach-card-icon">${ac.icon}</div><div class="ach-card-name">${ac.name}</div><div class="ach-card-desc">${ac.desc}</div>`;
-    grid.appendChild(card);
-  });
+  if (grid && window.TantaucoLogros) window.TantaucoLogros.render(grid);
 }
 
 function triggerAchievement(id) {
-  let unlocked = JSON.parse(localStorage.getItem('tantauco-ach') || '[]');
-  if (unlocked.includes(id)) return;
-  unlocked.push(id);
-  localStorage.setItem('tantauco-ach', JSON.stringify(unlocked));
-  const def = AC_DEFINITIONS.find(a => a.id === id);
-  if (!def) return;
-  const toast = document.getElementById('achievement-toast');
-  document.getElementById('ach-toast-title').textContent = def.name;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 4000);
+  if (window.TantaucoLogros) window.TantaucoLogros.unlock(id);
 }
 
 function checkChecklistAchievements() {
@@ -1268,6 +1247,8 @@ const SEARCH_INDEX = [
   { title: 'Expansión territorial', snippet: 'Colonización, ocupación de la Araucanía, Guerra del Pacífico, tratados y ciencia.', file: 'historia_guia.html', section: '#expansion', icon: '🗺️', materia: 'Historia' },
   { title: 'English Unit 3 — Water to your health', snippet: 'Waterborne diseases, sanitation, how germs spread, and myths about foreign aid.', file: 'ingles_guia.html', section: '#unit3', icon: '💧', materia: 'Inglés' },
   { title: 'English Unit 4 — Out of poverty', snippet: 'Basic needs, income, extreme poverty and why development matters.', file: 'ingles_guia.html', section: '#unit4', icon: '🇬🇧', materia: 'Inglés' },
+  { title: 'Sala de juegos', snippet: 'Rompecabezas de conocimiento, memoria de pares y relámpago de las PDN.', file: 'juegos.html', section: '#rompecabezas', icon: '🎮', materia: 'Juegos' },
+  { title: 'Rompecabezas de conocimiento', snippet: 'Arma en orden el cuadrado de binomio, la selección natural, el precio, el agua y la lectura.', file: 'juegos.html', section: '#rompecabezas', icon: '🧩', materia: 'Juegos' },
 ];
 
 let gsActiveIdx = -1, gsFiltered = [], gsIsOpen = false;

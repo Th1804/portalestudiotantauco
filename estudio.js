@@ -18,6 +18,7 @@
     'matematica_guia.html': 'Matemática',
     'prueba_nivel_lenguaje_2.html': 'Lengua',
     'ingles_guia.html': 'Inglés',
+    'juegos.html': 'Juegos',
     'prueba_nivel_ciencias_naturales.html': 'Ciencias',
     'historia_guia.html': 'Historia'
   }[page] || 'Estudio';

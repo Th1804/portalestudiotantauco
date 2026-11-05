@@ -102,11 +102,17 @@
     var maxX = Math.max(12, window.innerWidth - width - 8);
     var minX = 8;
 
+    var quietGame = (location.pathname.split('/').pop() || '') === 'juegos.html';
     if (reduce || document.body.classList.contains('foco-on')) {
       mode = 'rest';
       x = 12;
       y = floor;
       dir = 1;
+    } else if (quietGame) {
+      mode = 'rest';
+      x = Math.max(12, window.innerWidth - width - 8);
+      y = 8;
+      dir = -1;
     } else if (now > modeUntil) {
       if (mode === 'visit' || narrow()) {
         mode = 'walk';
@@ -208,7 +214,7 @@
 
   function overlaps(left, top, width, height) {
     var box = { left: left, top: top, right: left + width, bottom: top + height };
-    var selectors = ['.hero-title', '.header-title', '.hero-logo', '.logo-name', '.hero-eyebrow', '.header-eyebrow', '.section-desc', '#foco-root', '#chat-fab', '.foco-go', '.cta-btn', '#theme-toggle', '#gs-trigger', '#back-btn', '.quiz-opt', '.quiz-feedback'];
+    var selectors = ['.hero-title', '.header-title', '.hero-logo', '.logo-name', '.hero-eyebrow', '.header-eyebrow', '.section-desc', '.game-board', '#foco-root', '#chat-fab', '.foco-go', '.cta-btn', '#theme-toggle', '#gs-trigger', '#back-btn', '.quiz-opt', '.quiz-feedback'];
     return selectors.some(function (selector) {
       return Array.prototype.some.call(document.querySelectorAll(selector), function (el) {
         var rect = el.getBoundingClientRect();
@@ -256,6 +262,11 @@
         'Escasez: queremos más de lo que hay.',
         'Si sube la demanda y la oferta no, el precio sube.',
         'Las cajas vecinas son ahorro del barrio, no un banco.'
+      ],
+      'juegos.html': [
+        'Arma la idea en orden. El hueco es tu mano.',
+        'En la memoria, el par es el concepto y su nombre.',
+        'En el relámpago, lee el verbo de la pregunta.'
       ]
     };
     return map[page] || map['index.html'];

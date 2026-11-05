@@ -111,7 +111,7 @@
     } else if (quietGame) {
       mode = 'rest';
       x = Math.max(12, window.innerWidth - width - 8);
-      y = 8;
+      y = 72;
       dir = -1;
     } else if (now > modeUntil) {
       if (mode === 'visit' || narrow()) {

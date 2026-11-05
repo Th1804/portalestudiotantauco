@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<script src="tema.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>PDN English — 13 November · Colegio Tantauco</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -169,7 +170,6 @@
 <script>
 function showTab(id){document.querySelectorAll('.section-panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.nav-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===id));const panel=document.getElementById('tab-'+id);if(panel)panel.classList.add('active');if(location.hash!=='#'+id)history.replaceState(null,'','#'+id);}
 document.querySelectorAll('.nav-tab').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
-document.getElementById('theme-toggle').addEventListener('click',()=>{const light=document.body.classList.toggle('light-mode');document.getElementById('theme-toggle').textContent=light?'☀️':'🌙';});
 const start=location.hash.replace('#',''); if(start&&document.getElementById('tab-'+start)) showTab(start);
 const vocab=[['waterborne','transmitida por el agua','Cholera is a waterborne disease.'],['sanitation','saneamiento','Poor sanitation pollutes wells.'],['sewage','aguas servidas','Sewage entered the river.'],['contaminated','contaminado','Do not drink contaminated water.'],['outbreak','brote','The outbreak started after the flood.'],['dehydration','deshidratación','Diarrhea can cause dehydration.'],['hygiene','higiene','Soap is basic hygiene.'],['prevention','prevención','Boiling water is prevention.'],['foreign aid','ayuda internacional','Foreign aid included filters.'],['myth','mito','That idea is a myth, not a fact.'],['basic needs','necesidades básicas','Water and shelter are basic needs.'],['income','ingreso','Her income pays for food.'],['savings','ahorros','Savings help in an emergency.'],['remittances','remesas','Remittances arrive from another city.'],['malnutrition','desnutrición','Malnutrition is an effect of extreme poverty.'],['development','desarrollo','Development is more than one donation.']];
 document.getElementById('vocab').innerHTML=vocab.map(([en,es,ex])=>`<article class="vocab-card"><div class="vc-en">${en}</div><div class="vc-es">${es}</div><div class="vc-example">${ex}</div></article>`).join('');

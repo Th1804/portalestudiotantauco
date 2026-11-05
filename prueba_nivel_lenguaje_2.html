@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<script src="tema.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>PDN Lengua y Literatura — 9 de noviembre · Colegio Tantauco</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -273,10 +274,6 @@ function showTab(id) {
 }
 document.querySelectorAll('.nav-tab').forEach(b => b.addEventListener('click', () => showTab(b.dataset.tab)));
 document.querySelectorAll('.acc-trigger').forEach(b => b.addEventListener('click', () => b.closest('.acc-item').classList.toggle('open')));
-document.getElementById('theme-toggle').addEventListener('click', () => {
-  const light = document.body.classList.toggle('light-mode');
-  document.getElementById('theme-toggle').textContent = light ? '☀️' : '🌙';
-});
 const start = location.hash.replace('#','');
 if (start && document.getElementById('tab-' + start)) showTab(start);
 

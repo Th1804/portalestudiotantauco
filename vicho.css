@@ -565,3 +565,148 @@ body.vicho-skin .ach-card-desc { color: #6d6486; }
   #vicho-actor,
   #vicho-say { display: none !important; }
 }
+
+html.dark-mode { background: #140e22; color-scheme: dark; }
+
+html.dark-mode body.vicho-skin {
+  --surface: #2a1d40;
+  --surface2: #221736;
+  --border: rgba(255, 255, 255, 0.08);
+  --border2: rgba(255, 255, 255, 0.14);
+  --text: #f6f1ff;
+  --text-muted: #c9bddf;
+  --text-dim: #9d91b8;
+  color: var(--text);
+}
+html.dark-mode body.vicho-skin::after {
+  background:
+    radial-gradient(circle at 12% 8%, rgba(120, 70, 180, 0.45) 0 90px, transparent 160px),
+    radial-gradient(circle at 90% 0%, rgba(40, 70, 140, 0.4) 0 120px, transparent 190px),
+    radial-gradient(circle at 70% 80%, rgba(180, 80, 40, 0.22) 0 100px, transparent 170px),
+    linear-gradient(180deg, #1a1228 0%, #14101f 48%, #1b1424 100%);
+}
+html.dark-mode body.vicho-skin .hero-eyebrow,
+html.dark-mode body.vicho-skin .header-eyebrow,
+html.dark-mode body.vicho-skin .section-label,
+html.dark-mode body.vicho-skin .logo-sub,
+html.dark-mode body.vicho-skin .hero-quote,
+html.dark-mode body.vicho-skin .footer { color: #b7a8db; }
+html.dark-mode body.vicho-skin .logo-icon,
+html.dark-mode body.vicho-skin .card-icon,
+html.dark-mode body.vicho-skin .stat-pill,
+html.dark-mode body.vicho-skin .badge,
+html.dark-mode body.vicho-skin .header-badges .badge,
+html.dark-mode body.vicho-skin .materia-card,
+html.dark-mode body.vicho-skin .howto-card,
+html.dark-mode body.vicho-skin .acc-item,
+html.dark-mode body.vicho-skin .quiz-item,
+html.dark-mode body.vicho-skin .oa-card,
+html.dark-mode body.vicho-skin .concept-card,
+html.dark-mode body.vicho-skin .vocab-card,
+html.dark-mode body.vicho-skin .passage,
+html.dark-mode body.vicho-skin .calc-panel,
+html.dark-mode body.vicho-skin .flash,
+html.dark-mode body.vicho-skin .card,
+html.dark-mode body.vicho-skin .foco-home,
+html.dark-mode body.vicho-skin .svg-wrap,
+html.dark-mode body.vicho-skin .example-box,
+html.dark-mode body.vicho-skin .tip,
+html.dark-mode body.vicho-skin .tip-box,
+html.dark-mode body.vicho-skin .warn-box,
+html.dark-mode body.vicho-skin .nav-tab,
+html.dark-mode body.vicho-skin #back-btn,
+html.dark-mode body.vicho-skin #theme-toggle,
+html.dark-mode body.vicho-skin #gs-trigger,
+html.dark-mode body.vicho-skin .switch button,
+html.dark-mode body.vicho-skin .ghost,
+html.dark-mode body.vicho-skin .idea,
+html.dark-mode body.vicho-skin .pz-tile,
+html.dark-mode body.vicho-skin .ray-opt {
+  background: #2a1d40;
+  color: #f6f1ff;
+  box-shadow: 0 8px 0 #120b1c;
+}
+html.dark-mode body.vicho-skin .nav-wrapper {
+  background: rgba(24, 16, 38, 0.88);
+  box-shadow: none;
+}
+html.dark-mode body.vicho-skin .nav-tab.active,
+html.dark-mode body.vicho-skin .switch button[aria-pressed="true"],
+html.dark-mode body.vicho-skin .solid,
+html.dark-mode body.vicho-skin .cta-btn,
+html.dark-mode body.vicho-skin .calc-btn,
+html.dark-mode body.vicho-skin .foco-go,
+html.dark-mode body.vicho-skin .panel-tab-btn.active {
+  background: #ffd7a8;
+  color: #241c3a;
+  box-shadow: 0 6px 0 #8a5a28;
+}
+html.dark-mode body.vicho-skin .cta-btn:hover,
+html.dark-mode body.vicho-skin .calc-btn:hover,
+html.dark-mode body.vicho-skin .foco-go:hover {
+  background: #ffe4c2;
+  color: #241c3a;
+}
+html.dark-mode body.vicho-skin .quiz-opt,
+html.dark-mode body.vicho-skin .calc-field input,
+html.dark-mode body.vicho-skin .calc-field select,
+html.dark-mode body.vicho-skin #tutor-input,
+html.dark-mode body.vicho-skin #ca-msg-input,
+html.dark-mode body.vicho-skin #ca-name-input,
+html.dark-mode body.vicho-skin #gs-input,
+html.dark-mode body.vicho-skin .formula,
+html.dark-mode body.vicho-skin .formula-box,
+html.dark-mode body.vicho-skin .calc-result {
+  background: #1b132c;
+  color: #f6f1ff;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+html.dark-mode body.vicho-skin #chat-panel,
+html.dark-mode body.vicho-skin #gs-modal,
+html.dark-mode body.vicho-skin #achievement-toast .ach-toast-inner,
+html.dark-mode body.vicho-skin #foco-bar,
+html.dark-mode body.vicho-skin #foco-panel,
+html.dark-mode body.vicho-skin #foco-toast,
+html.dark-mode body.vicho-skin .panel-content,
+html.dark-mode body.vicho-skin #tutor-messages {
+  background: #221736;
+  color: #f6f1ff;
+}
+html.dark-mode body.vicho-skin .panel-tabs,
+html.dark-mode body.vicho-skin .msg-bubble,
+html.dark-mode body.vicho-skin .ca-text,
+html.dark-mode body.vicho-skin .tutor-sq,
+html.dark-mode body.vicho-skin .mus-track,
+html.dark-mode body.vicho-skin .ach-card {
+  background: #1b132c;
+  color: #f6f1ff;
+}
+html.dark-mode body.vicho-skin .ach-card.unlocked { background: #3a2a18; }
+html.dark-mode body.vicho-skin .ach-card-name,
+html.dark-mode body.vicho-skin .ach-card.unlocked .ach-card-name { color: #f6f1ff; }
+html.dark-mode body.vicho-skin .ach-card-desc { color: #b7a8db; }
+html.dark-mode body.vicho-skin .panel-tab-btn { color: #c9bddf; }
+html.dark-mode body.vicho-skin #foco-toggle,
+html.dark-mode body.vicho-skin .sala-card { color: #f6f1ff; }
+html.dark-mode body.vicho-skin .sala-card {
+  background:
+    radial-gradient(circle at 92% 20%, rgba(255, 150, 70, 0.35), transparent 28%),
+    linear-gradient(135deg, #2a1d40 0%, #231832 100%);
+}
+html.dark-mode body.vicho-skin #chat-fab.open { background: #2a1d40; color: #f6f1ff; }
+html.dark-mode #vicho-say,
+html.dark-mode #vicho-say::after { background: #2a1d40; color: #f6f1ff; }
+html.dark-mode body.vicho-skin .mem-card { background: #3a2a58; color: #f6f1ff; }
+html.dark-mode body.vicho-skin .mem-card.open { background: #efe7ff; color: #241c3a; }
+html.dark-mode body.vicho-skin .mem-card.matched { background: #14352a; color: #b7f0d2; }
+html.dark-mode body.vicho-skin .pz-hole { background: rgba(255, 255, 255, 0.06); }
+html.dark-mode body.vicho-skin .ray-opt.good,
+html.dark-mode body.vicho-skin .quiz-opt.correct,
+html.dark-mode body.vicho-skin .quiz-feedback.ok { background: #14352a; color: #b7f0d2; }
+html.dark-mode body.vicho-skin .ray-opt.bad,
+html.dark-mode body.vicho-skin .quiz-opt.wrong,
+html.dark-mode body.vicho-skin .quiz-feedback.nok { background: #3d1522; color: #ffc2d0; }
+html.dark-mode body.vicho-skin .won { background: #14352a; color: #b7f0d2; }
+html.dark-mode body.vicho-skin .kicker,
+html.dark-mode body.vicho-skin .acc-label,
+html.dark-mode body.vicho-skin .vc-en { color: #c4b5fd; }

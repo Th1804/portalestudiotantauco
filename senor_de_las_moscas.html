@@ -1919,6 +1919,7 @@ window.addSticky = function() {
   </div>
 </div>
 
+<script src="tutor-api.js"></script>
 <script>
 (function() {
   const TUTOR_SYSTEM = `Eres un tutor experto en la novela "El Señor de las Moscas" de William Golding para estudiantes de enseñanza media del Colegio Tantauco, Chile.
@@ -1988,29 +1989,15 @@ Reglas:
     const thinkId = appendThinking();
 
     try {
-      const res = await fetch(location.hostname === 'th1804.github.io' ? 'https://portaltantauco.enzofuentes1804.workers.dev/api/tutor' : '/api/tutor', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-5',
-          max_tokens: 1000,
-          system: TUTOR_SYSTEM,
-          messages: tutorHistory
-        })
-      });
-      const data = await res.json();
+      const reply = await window.TantaucoTutor.reply(TUTOR_SYSTEM, tutorHistory);
       removeThinking(thinkId);
-
-      if (data.content && data.content[0]) {
-        const reply = data.content.map(b => b.text || '').join('');
-        tutorHistory.push({ role: 'assistant', content: reply });
-        appendMsg('ai', reply);
-      } else {
-        appendMsg('ai', 'Hubo un error al conectar con el tutor. Intenta de nuevo.');
-      }
-    } catch(e) {
+      tutorHistory.push({ role: 'assistant', content: reply });
+      appendMsg('ai', reply);
+    } catch (e) {
       removeThinking(thinkId);
-      appendMsg('ai', 'No pude conectarme. Revisa tu conexión e intenta de nuevo.');
+      appendMsg('ai', e && e.wait
+        ? 'El tutor gratuito está descansando unos segundos. Intenta otra vez en un momento.'
+        : 'No pude conectarme. Revisa tu conexión e intenta de nuevo.');
     }
 
     tutorBusy = false;

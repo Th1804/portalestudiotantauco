@@ -47,29 +47,43 @@ export default {
       }
     }
 
-    // ── Endpoint: Tutor IA (POST proxy a Anthropic) ──
+    // ── Endpoint: Tutor IA (API gratuita, sin clave) ──
     if (path === "/api/tutor" && request.method === "POST") {
       try {
         const body = await request.json();
-        
-        const anthropicResponse = await fetch("https://api.anthropic.com/v1/messages", {
+        const messages = [];
+        if (body.system) messages.push({ role: "system", content: body.system });
+        if (Array.isArray(body.messages)) {
+          for (const message of body.messages) messages.push(message);
+        }
+
+        const upstream = await fetch("https://text.pollinations.ai/openai", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-api-key": env.ANTHROPIC_API_KEY,
-            "anthropic-version": "2023-06-01"
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            model: body.model || "claude-3-5-sonnet-latest",
-            max_tokens: body.max_tokens || 600,
-            system: body.system,
-            messages: body.messages
+            model: "openai",
+            messages,
+            max_tokens: Math.min(body.max_tokens || 700, 800)
           })
         });
-        
-        const data = await anthropicResponse.json();
-        return new Response(JSON.stringify(data), { 
-          headers: { ...corsHeaders, "Content-Type": "application/json" } 
+        const raw = await upstream.text();
+        let text = "";
+        try {
+          const data = JSON.parse(raw);
+          text = data?.choices?.[0]?.message?.content || "";
+        } catch (error) {
+          text = raw;
+        }
+        if (!upstream.ok || !String(text).trim()) {
+          return new Response(JSON.stringify({ error: "tutor-unavailable" }), {
+            status: upstream.status || 502,
+            headers: { ...corsHeaders, "Content-Type": "application/json" }
+          });
+        }
+        return new Response(JSON.stringify({
+          content: [{ type: "text", text: String(text).trim() }]
+        }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" }
         });
       } catch (e) {
         return new Response(JSON.stringify({ error: e.message }), { status: 500, headers: corsHeaders });

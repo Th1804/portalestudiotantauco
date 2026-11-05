@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<script src="tema.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Sala de juegos — Colegio Tantauco</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -18,6 +19,7 @@
   * { box-sizing:border-box; margin:0; padding:0; }
   body { background:var(--bg); color:var(--text); font-family:var(--font-body); line-height:1.5; }
   #back-btn { position:fixed; top:14px; left:14px; z-index:200; min-height:44px; border-radius:22px; border:1px solid var(--border2); background:var(--surface); color:var(--text-muted); display:flex; align-items:center; text-decoration:none; font-family:var(--font-mono); font-size:11px; padding:0 14px; }
+  #theme-toggle { position:fixed; top:14px; right:14px; z-index:200; width:44px; height:44px; border:none; border-radius:22px; font-size:16px; cursor:pointer; }
   .wrap { max-width:860px; margin:0 auto; padding:84px 16px 40px; }
   h1 { font-family:var(--font-display); font-size:clamp(1.8rem, 7vw, 2.8rem); line-height:1.1; margin:8px 0; }
   .lead { color:var(--text-muted); margin-bottom:18px; }
@@ -65,6 +67,7 @@
 </head>
 <body class="vicho-skin">
 <a id="back-btn" href="index.html">← Portal</a>
+<button id="theme-toggle" type="button" aria-label="Cambiar modo de color">🌙</button>
 <main class="wrap">
   <p class="header-eyebrow">Colegio Tantauco</p>
   <h1>Sala de juegos</h1>

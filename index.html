@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<script src="tema.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Portal de Estudio — Colegio Tantauco</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -336,7 +337,7 @@
 <body class="vicho-skin">
 
 <div id="read-progress"></div>
-<button id="theme-toggle" onclick="toggleTheme()" aria-label="Cambiar modo de color">🌙</button>
+<button id="theme-toggle" type="button" aria-label="Cambiar modo de color">🌙</button>
 <button id="gs-trigger" onclick="gsOpen()" aria-label="Buscar en el sitio">
   <span class="gs-trig-icon">🔍</span>
   <span>BUSCAR</span>
@@ -703,6 +704,7 @@
 <button id="chat-fab" onclick="toggleChatPanel()" aria-label="Abrir asistente">✨</button>
 
 <script src="logros.js"></script>
+<script src="tutor-api.js"></script>
 <script>
 // ══════════════════════════════════════════════════
 //  CONFIGURACIÓN — Cloudflare Worker proxy
@@ -734,19 +736,6 @@ if (quoteEl) quoteEl.textContent = QUOTES[Math.floor(Math.random() * QUOTES.leng
   if (el) el.textContent = count;
   let history = JSON.parse(localStorage.getItem('study-calendar') || '[]');
   if (!history.includes(today)) { history.push(today); localStorage.setItem('study-calendar', JSON.stringify(history)); }
-})();
-
-// ── TEMA ──
-function toggleTheme() {
-  const light = document.body.classList.toggle('light-mode');
-  localStorage.setItem('tantauco-theme', light ? 'light' : 'dark');
-  document.getElementById('theme-toggle').textContent = light ? '☀️' : '🌙';
-}
-(function() {
-  if (localStorage.getItem('tantauco-theme') === 'light') {
-    document.body.classList.add('light-mode');
-    document.getElementById('theme-toggle').textContent = '☀️';
-  }
 })();
 
 // ── BARRA PROGRESO LECTURA ──
@@ -834,7 +823,7 @@ FUNCIONALIDADES DEL PANEL ✨:
 - 🏆 Logros: se guardan en el celular. También se ganan en la sala de juegos (juegos.html): rompecabezas de conocimiento, memoria de pares y relámpago.
 - Buscador global: Ctrl+K busca en todos los contenidos del portal.
 - Checklist por tarjeta: barra de progreso para cada asignatura.
-- Modo claro/oscuro: botón arriba a la derecha.
+- Modo oscuro: el botón de la luna, arriba a la derecha. La elección queda en este celular.
 - Barra de concentración, abajo en todas las guías: temporizador que sigue entre páginas, modo foco, sonido de lluvia, café o bosque, y el bloque de la PDN más cercana.
 
 INSTRUCCIONES:
@@ -894,29 +883,15 @@ async function tutorProcess(userText) {
   const typingBubble = appendTutorMsg('assistant', '...', true);
 
   try {
-    const res = await fetch(`${CF_WORKER_URL}/api/tutor`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-3-5-sonnet-latest',
-        max_tokens: 600,
-        system: TUTOR_SYSTEM,
-        messages: tutorHistory
-      })
-    });
-
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
-    const reply = data.content?.[0]?.text || 'No pude procesar la respuesta. Intenta de nuevo.';
-
+    const reply = await window.TantaucoTutor.reply(TUTOR_SYSTEM, tutorHistory);
     typingBubble.classList.remove('typing');
     typingBubble.textContent = reply;
     tutorHistory.push({ role: 'assistant', content: reply });
-
   } catch (err) {
     typingBubble.classList.remove('typing');
-    typingBubble.textContent = '⚠️ No se pudo conectar con la IA. Revisa tu conexión e intenta de nuevo.';
-    console.error('Tutor IA error:', err);
+    typingBubble.textContent = err && err.wait
+      ? 'El tutor gratuito está descansando unos segundos. Intenta otra vez en un momento.'
+      : 'No se pudo conectar con el tutor. Revisa tu conexión e intenta de nuevo.';
   }
 
   const box = document.getElementById('tutor-messages');

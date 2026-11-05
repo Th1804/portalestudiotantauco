@@ -74,6 +74,8 @@
   var blinkUntil = 0;
   var heldUtterance = null;
   var thinkTimer = 0;
+  var stepPressed = false;
+  var lastNudge = 0;
   if (window.speechSynthesis) {
     speechSynthesis.getVoices();
     speechSynthesis.addEventListener('voiceschanged', function () { speechSynthesis.getVoices(); });
@@ -82,6 +84,10 @@
   actor.addEventListener('click', function () {
     actor.classList.add('boop');
     window.setTimeout(function () { actor.classList.remove('boop'); }, 480);
+    if (!learning && teachesHere()) {
+      startLesson();
+      return;
+    }
     var text = learning && lesson[step] ? lesson[step].say : nextTip();
     if (!learning) openThought(text, graphicForPage());
     speak(text);
@@ -115,6 +121,10 @@
   });
 
   window.setTimeout(function () {
+    if (teachesHere()) {
+      say('Tócame: recorro las tarjetas de esta guía.', true);
+      return;
+    }
     if (!narrow()) say(nextTip(), true);
   }, 900);
   raf = window.requestAnimationFrame(frame);
@@ -142,18 +152,29 @@
     var quietGame = (location.pathname.split('/').pop() || '') === 'juegos.html';
     if (learning && document.body.classList.contains('foco-on')) stopLesson();
     if (learning && stepEl) {
-      var point = pointNear(stepEl);
-      var dx = point.x - x;
-      var dy = point.y - y;
-      var dist = Math.hypot(dx, dy) || 1;
-      dir = dx < 0 ? -1 : 1;
-      if (dist > 16) {
-        var pace = reduce ? dist : Math.min(dist, 0.22 * dt);
-        x += dx / dist * pace;
-        y += dy / dist * pace;
+      var point = targetPoint(stepEl);
+      if (!point) {
         mode = 'walk';
+        if (now - lastNudge > 500) {
+          lastNudge = now;
+          stepEl.scrollIntoView({ behavior: 'auto', block: 'center', inline: 'center' });
+        }
       } else {
-        mode = 'rest';
+        var dx = point.x - x;
+        var dy = point.y - y;
+        var dist = Math.hypot(dx, dy) || 1;
+        dir = Math.abs(dx) < 4 ? dir : (dx < 0 ? -1 : 1);
+        if (dist > 14) {
+          var pace = reduce ? dist : Math.min(dist, 0.34 * dt);
+          x += dx / dist * pace;
+          y += dy / dist * pace;
+          mode = 'walk';
+        } else {
+          x = point.x;
+          y = point.y;
+          mode = 'rest';
+          if (!stepPressed && lesson[step]) tapControl(stepEl, lesson[step]);
+        }
       }
     } else if (reduce || document.body.classList.contains('foco-on')) {
       mode = 'rest';
@@ -180,7 +201,7 @@
 
     if (learning) {
       x = Math.max(minX, Math.min(x, maxX));
-      y = Math.max(64, Math.min(y, floor));
+      y = Math.max(8, Math.min(y, floor));
     } else if (mode === 'walk') {
       x += dir * (window.innerWidth < 700 ? 0.055 : 0.085) * dt;
       if (x >= maxX) { x = maxX; dir = -1; }
@@ -206,6 +227,7 @@
     actor.classList.toggle('rest', mode === 'rest');
     var voiceOn = window.speechSynthesis && (speechSynthesis.speaking || speechSynthesis.pending);
     actor.classList.toggle('talk', !!voiceOn || (learning && !think.hidden));
+    actor.style.pointerEvents = learning ? 'none' : 'auto';
     actor.style.left = Math.round(x) + 'px';
     actor.style.top = Math.round(y) + 'px';
     actor.style.transform = 'translateY(' + (-lift).toFixed(1) + 'px) scaleX(' + dir + ') scaleY(' + squash.toFixed(3) + ')';
@@ -363,6 +385,7 @@
   function stopLesson() {
     learning = false;
     stepToken += 1;
+    stepPressed = false;
     stepEl = null;
     learn.textContent = 'Enseña';
     learn.setAttribute('aria-pressed', 'false');
@@ -379,21 +402,10 @@
     var token = ++stepToken;
     var shownAt = performance.now();
     var done = false;
-    if (item.tab) {
-      var tab = document.querySelector('.nav-tab[data-tab="' + item.tab + '"], #' + item.tab);
-      if (tab) tab.click();
-    }
-    stepEl = document.querySelector(item.go);
+    stepPressed = false;
+    stepEl = findVisible(item.tap);
     if (stepEl) {
-      var acc = stepEl.closest('.acc-item');
-      if (acc && !acc.classList.contains('open')) {
-        var trigger = acc.querySelector('.acc-trigger');
-        if (trigger) trigger.click();
-      }
-      if (spotted) spotted.classList.remove('vicho-spot');
-      spotted = stepEl;
-      stepEl.classList.add('vicho-spot');
-      stepEl.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center', inline: 'nearest' });
+      stepEl.scrollIntoView({ behavior: 'auto', block: 'center', inline: 'center' });
     }
     document.getElementById('vicho-graphic').innerHTML = graphicSvg(item.graphic);
     document.getElementById('vicho-line').textContent = item.say;
@@ -402,16 +414,20 @@
     function goNext() {
       if (done || token !== stepToken || !learning) return;
       var elapsed = performance.now() - shownAt;
-      if (elapsed < 5600) {
-        window.setTimeout(goNext, 5600 - elapsed);
+      if (elapsed < 3800) {
+        window.setTimeout(goNext, 3800 - elapsed);
         return;
+      }
+      if (!stepPressed) {
+        var late = stepEl && findVisible(item.tap) ? stepEl : findVisible(item.tap);
+        if (late) tapControl(late, item);
       }
       done = true;
       if (step + 1 >= lesson.length) stopLesson();
       else { step += 1; startStep(); }
     }
     speak(item.say, goNext);
-    window.setTimeout(goNext, 9200);
+    window.setTimeout(goNext, 7200);
   }
 
   function speak(text, onend) {
@@ -481,14 +497,66 @@
     return map[page] || 'piezas';
   }
 
-  function pointNear(el) {
+  function pageName() {
+    return location.pathname.split('/').pop() || 'index.html';
+  }
+
+  function teachesHere() {
+    var page = pageName();
+    return page === 'matematica_guia.html' ||
+      page === 'prueba_nivel_lenguaje_2.html' ||
+      page === 'ingles_guia.html' ||
+      page === 'prueba_nivel_ciencias_naturales.html' ||
+      page === 'historia_guia.html' ||
+      page === 'juegos.html';
+  }
+
+  function findVisible(selector) {
+    var list = document.querySelectorAll(selector);
+    for (var i = 0; i < list.length; i++) {
+      var el = list[i];
+      var rect = el.getBoundingClientRect();
+      if (rect.width < 2 || rect.height < 2) continue;
+      var style = window.getComputedStyle(el);
+      if (style.display === 'none' || style.visibility === 'hidden') continue;
+      if (Number(style.opacity) === 0) continue;
+      return el;
+    }
+    return null;
+  }
+
+  function tapControl(el, item) {
+    if (stepPressed || !el) return;
+    stepPressed = true;
+    if (spotted && spotted !== el) spotted.classList.remove('vicho-spot');
+    spotted = el;
+    el.classList.add('vicho-spot');
+    actor.classList.add('boop');
+    window.setTimeout(function () { actor.classList.remove('boop'); }, 480);
+    if (!item || item.press === false || el.tagName === 'A') return;
+    var acc = el.closest('.acc-item');
+    if (el.classList.contains('acc-trigger') && acc && acc.classList.contains('open')) return;
+    el.click();
+  }
+
+  function targetPoint(el) {
+    if (!el || !el.isConnected) return null;
     var rect = el.getBoundingClientRect();
+    var vw = document.documentElement.clientWidth;
+    var vh = window.innerHeight;
+    var left = Math.max(rect.left, 4);
+    var top = Math.max(rect.top, 4);
+    var right = Math.min(rect.right, vw - 4);
+    var bottom = Math.min(rect.bottom, vh - 4);
+    if (right - left < 8 || bottom - top < 8) return null;
+    var cx = left + Math.min((right - left) / 2, 140);
+    var cy = top + Math.min((bottom - top) / 2, 28);
     var width = actor.offsetWidth || 72;
-    var floor = floorY();
-    var left = rect.left - width - 14;
-    if (left < 8) left = Math.min(window.innerWidth - width - 8, Math.max(8, rect.right + 10));
-    var top = rect.top + Math.min(20, rect.height * 0.1);
-    return { x: left, y: Math.max(64, Math.min(top, floor)) };
+    var height = actor.offsetHeight || 80;
+    return {
+      x: Math.round(Math.max(4, Math.min(cx - width * 0.42, vw - width - 4))),
+      y: Math.round(Math.max(4, Math.min(cy - height * 0.2, floorY())))
+    };
   }
 
   function placeThink() {
@@ -518,49 +586,65 @@
   }
 
   function lessonForPage() {
-    var page = location.pathname.split('/').pop() || 'index.html';
+    var page = pageName();
     var map = {
       'index.html': [
-        { say: 'Si quieres practicar jugando, entra a la sala. Ahí se arman las ideas.', go: '.sala-card', graphic: 'piezas' },
-        { say: 'Matemática es el 6 de noviembre. En el cuadrado de binomio, el del medio es el doble del producto.', go: '.materia-card.matematicas', graphic: 'binomio' },
-        { say: 'Lengua es el 9. Lo explícito está escrito. Lo implícito se deduce.', go: '.materia-card.lenguaje', graphic: 'lectura' },
-        { say: 'Inglés es el 13. Waterborne viaja en el agua.', go: '.materia-card.ingles', graphic: 'agua' },
-        { say: 'Ciencias es el 16. Queda quien deja más descendencia.', go: '.materia-card.ciencias', graphic: 'seleccion' },
-        { say: 'Historia es el 18. Si sube la demanda y la oferta no, el precio sube.', go: '.materia-card.historia', graphic: 'precio' }
+        { say: 'La sala de juegos arma las ideas. Esta tarjeta te lleva ahí.', tap: '.sala-card', press: false, graphic: 'piezas' },
+        { say: 'Matemática es el 6 de noviembre. El término del medio es el doble del producto.', tap: '.materia-card.matematicas', press: false, graphic: 'binomio' },
+        { say: 'Lengua es el 9. Lo explícito está escrito. Lo implícito se deduce.', tap: '.materia-card.lenguaje', press: false, graphic: 'lectura' },
+        { say: 'Inglés es el 13. Waterborne viaja en el agua.', tap: '.materia-card.ingles', press: false, graphic: 'agua' },
+        { say: 'Ciencias es el 16. Queda quien deja más descendencia.', tap: '.materia-card.ciencias', press: false, graphic: 'seleccion' },
+        { say: 'Historia es el 18. Si sube la demanda y la oferta no, el precio sube.', tap: '.materia-card.historia', press: false, graphic: 'precio' }
       ],
       'matematica_guia.html': [
-        { say: 'Mira el cuadrado de binomio. El término del medio es 2ab, el doble del producto.', go: '#tab-notables .formula-box', tab: 'notables', graphic: 'binomio' },
-        { say: 'Factorizar es volver atrás: un factor que se repite se saca afuera.', go: '#tab-factorizacion .formula-box', tab: 'factorizacion', graphic: 'piezas' },
-        { say: 'En un sistema, deja una letra sola y sustitúyela en la otra ecuación.', go: '#tab-sistemas .formula-box', tab: 'sistemas', graphic: 'cruce' }
+        { say: 'Toca Productos notables. El término del medio es el doble del producto.', tap: '.nav-tab[data-tab="notables"]', graphic: 'binomio' },
+        { say: 'Abre esta tarjeta: binomios con un término común.', tap: '#tab-notables .acc-item:not(.open) .acc-trigger', graphic: 'binomio' },
+        { say: 'Ahora la suma por su diferencia.', tap: '#tab-notables .acc-item:not(.open) .acc-trigger', graphic: 'binomio' },
+        { say: 'Toca Factorización. Es el producto notable al revés.', tap: '.nav-tab[data-tab="factorizacion"]', graphic: 'piezas' },
+        { say: 'Abre la diferencia de cuadrados.', tap: '#tab-factorizacion .acc-item:not(.open) .acc-trigger', graphic: 'piezas' },
+        { say: 'Toca Sistemas. Deja una letra sola y sustitúyela.', tap: '.nav-tab[data-tab="sistemas"]', graphic: 'cruce' },
+        { say: 'Abre la tarjeta de sustitución.', tap: '#tab-sistemas .acc-item:not(.open) .acc-trigger', graphic: 'cruce' },
+        { say: 'Termina en Práctica, sin mirar la fórmula.', tap: '.nav-tab[data-tab="practica"]', graphic: 'binomio' }
       ],
       'prueba_nivel_lenguaje_2.html': [
-        { say: 'Lo explícito está escrito. Lo implícito se deduce del texto.', go: '#tab-comprension .acc-item, #tab-comprension h2', tab: 'comprension', graphic: 'lectura' },
-        { say: 'En el poema, mira quién habla y qué compara. El hablante no siempre es el autor.', go: '#tab-lirico .acc-item, #tab-lirico h2', tab: 'lirico', graphic: 'lectura' },
-        { say: 'En el drama, el conflicto avanza en el diálogo y en las acotaciones.', go: '#tab-dramatico .acc-item, #tab-dramatico h2', tab: 'dramatico', graphic: 'lectura' }
+        { say: 'Toca Comprensión. Lo explícito está escrito. Lo implícito se deduce.', tap: '.nav-tab[data-tab="comprension"]', graphic: 'lectura' },
+        { say: 'Abre la siguiente tarjeta de comprensión.', tap: '#tab-comprension .acc-item:not(.open) .acc-trigger', graphic: 'lectura' },
+        { say: 'Toca Lírico. El hablante no siempre es el autor.', tap: '.nav-tab[data-tab="lirico"]', graphic: 'lectura' },
+        { say: 'Toca Dramático. El conflicto avanza en el diálogo.', tap: '.nav-tab[data-tab="dramatico"]', graphic: 'lectura' },
+        { say: 'Cierra en Práctica.', tap: '.nav-tab[data-tab="practica"]', graphic: 'lectura' }
       ],
       'ingles_guia.html': [
-        { say: 'Waterborne: viaja en el agua. Hygiene y sanitation frenan los gérmenes.', go: '#tab-unit3 h2, #tab-unit3', tab: 'unit3', graphic: 'agua' },
-        { say: 'Primero las necesidades básicas. Después se piensa en salir de la pobreza.', go: '#tab-unit4 h2, #tab-unit4', tab: 'unit4', graphic: 'agua' },
-        { say: 'Lee el título y la primera oración antes de responder.', go: '#tab-reading h2, #tab-reading', tab: 'reading', graphic: 'lectura' }
+        { say: 'Toca Unit 3. Waterborne viaja en el agua.', tap: '.nav-tab[data-tab="unit3"]', graphic: 'agua' },
+        { say: 'Toca Unit 4. Primero las necesidades básicas.', tap: '.nav-tab[data-tab="unit4"]', graphic: 'agua' },
+        { say: 'Toca Vocabulary y tapa la traducción.', tap: '.nav-tab[data-tab="vocab"]', graphic: 'agua' },
+        { say: 'Toca Reading. Lee el título y la primera oración.', tap: '.nav-tab[data-tab="reading"]', graphic: 'lectura' },
+        { say: 'Termina en Practice.', tap: '.nav-tab[data-tab="practica"]', graphic: 'agua' }
       ],
       'prueba_nivel_ciencias_naturales.html': [
-        { say: 'Darwin y Wallace: hay variación heredable y queda quien deja más crías.', go: '#tab-bio .acc-item', tab: 'bio', graphic: 'seleccion' },
-        { say: 'Las estaciones son por la inclinación del eje, no por estar más cerca del Sol.', go: '#tab-fisica .acc-item', tab: 'fisica', graphic: 'estacion' },
-        { say: 'En la reacción, los átomos se conservan. Cuéntalos a los dos lados.', go: '#tab-quimica .acc-item', tab: 'quimica', graphic: 'atomos' }
+        { say: 'Toca Biología. Queda quien deja más descendencia.', tap: '.nav-tab[data-tab="bio"]', graphic: 'seleccion' },
+        { say: 'Abre la siguiente tarjeta de biología.', tap: '#tab-bio .acc-item:not(.open) .acc-trigger', graphic: 'seleccion' },
+        { say: 'Toca Física. Las estaciones son por la inclinación del eje.', tap: '.nav-tab[data-tab="fisica"]', graphic: 'estacion' },
+        { say: 'Abre la siguiente idea de física.', tap: '#tab-fisica .acc-item:not(.open) .acc-trigger', graphic: 'estacion' },
+        { say: 'Toca Química. Los átomos se conservan: cuéntalos.', tap: '.nav-tab[data-tab="quimica"]', graphic: 'atomos' },
+        { say: 'Abre la siguiente tarjeta de química.', tap: '#tab-quimica .acc-item:not(.open) .acc-trigger', graphic: 'atomos' },
+        { say: 'Termina en Práctica.', tap: '.nav-tab[data-tab="practica"]', graphic: 'atomos' }
       ],
       'historia_guia.html': [
-        { say: 'Escasez: queremos más de lo que hay.', go: '#tab-economia .acc-item, #tab-economia h2', tab: 'economia', graphic: 'precio' },
-        { say: 'Si sube la demanda y la oferta no alcanza, el precio sube.', go: '#tab-mercado .acc-item, #tab-mercado h2', tab: 'mercado', graphic: 'precio' },
-        { say: 'Las cajas vecinas son ahorro del barrio, no un banco.', go: '#tab-finanzas .acc-item, #tab-finanzas h2', tab: 'finanzas', graphic: 'precio' }
+        { say: 'Toca Escasez. Queremos más de lo que hay.', tap: '.nav-tab[data-tab="economia"]', graphic: 'precio' },
+        { say: 'Toca Mercado. Si sube la demanda y la oferta no, el precio sube.', tap: '.nav-tab[data-tab="mercado"]', graphic: 'precio' },
+        { say: 'Toca Finanzas. Compara para qué sirve y qué puede salir mal.', tap: '.nav-tab[data-tab="finanzas"]', graphic: 'precio' },
+        { say: 'Toca Expansión. El Estado usó cuatro vías.', tap: '.nav-tab[data-tab="expansion"]', graphic: 'precio' },
+        { say: 'Abre Ocupación. Nombra el objetivo del Estado y el efecto en quien ya vivía ahí.', tap: '#tab-expansion .acc-item:not(.open) .acc-trigger', graphic: 'precio' },
+        { say: 'Cierra en Práctica.', tap: '.nav-tab[data-tab="practica"]', graphic: 'precio' }
       ],
       'juegos.html': [
-        { say: 'En el rompecabezas, el hueco es tu mano. Arma la idea en orden.', go: '#stage', tab: 'tab-rompecabezas', graphic: 'piezas' },
-        { say: 'En la memoria, cada par es el concepto y su nombre.', go: '#stage', tab: 'tab-memoria', graphic: 'piezas' },
-        { say: 'En el relámpago, lee el verbo de la pregunta antes de tocar.', go: '#stage', tab: 'tab-rayo', graphic: 'lectura' }
+        { say: 'Toca el rompecabezas. El hueco es tu mano.', tap: '#tab-rompecabezas', graphic: 'piezas' },
+        { say: 'Toca Memoria. Cada par es el concepto y su nombre.', tap: '#tab-memoria', graphic: 'piezas' },
+        { say: 'Toca Relámpago. Lee el verbo de la pregunta.', tap: '#tab-rayo', graphic: 'lectura' }
       ]
     };
-    return (map[page] || map['index.html']).filter(function (item) {
-      return document.querySelector(item.go);
+    return (map[page] || []).filter(function (item) {
+      return document.querySelector(item.tap);
     });
   }
 

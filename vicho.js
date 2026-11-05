@@ -76,22 +76,22 @@
   var thinkTimer = 0;
   var stepPressed = false;
   var lastNudge = 0;
+  var fingerDown = false;
+  var reactedAt = 0;
+  var punchUntil = 0;
   if (window.speechSynthesis) {
     speechSynthesis.getVoices();
     speechSynthesis.addEventListener('voiceschanged', function () { speechSynthesis.getVoices(); });
   }
 
-  actor.addEventListener('click', function () {
-    actor.classList.add('boop');
-    window.setTimeout(function () { actor.classList.remove('boop'); }, 480);
-    if (!learning && teachesHere()) {
-      startLesson();
-      return;
-    }
-    var text = learning && lesson[step] ? lesson[step].say : nextTip();
-    if (!learning) openThought(text, graphicForPage());
-    speak(text);
+  actor.addEventListener('pointerdown', function (event) {
+    if (event.button && event.button !== 0) return;
+    fingerDown = true;
+    try { actor.setPointerCapture(event.pointerId); } catch (error) {}
   });
+  actor.addEventListener('pointerup', react);
+  actor.addEventListener('pointercancel', function () { fingerDown = false; });
+  actor.addEventListener('click', react);
   learn.addEventListener('click', function () {
     if (learning) stopLesson();
     else startLesson();
@@ -149,9 +149,11 @@
     var maxX = Math.max(12, window.innerWidth - width - 8);
     var minX = 8;
 
-    var quietGame = (location.pathname.split('/').pop() || '') === 'juegos.html';
+    var quietGame = pageName() === 'juegos.html';
     if (learning && document.body.classList.contains('foco-on')) stopLesson();
-    if (learning && stepEl) {
+    if (fingerDown) {
+      mode = 'rest';
+    } else if (learning && stepEl) {
       var point = targetPoint(stepEl);
       if (!point) {
         mode = 'walk';
@@ -165,7 +167,7 @@
         var dist = Math.hypot(dx, dy) || 1;
         dir = Math.abs(dx) < 4 ? dir : (dx < 0 ? -1 : 1);
         if (dist > 14) {
-          var pace = reduce ? dist : Math.min(dist, 0.34 * dt);
+          var pace = Math.min(dist, 0.34 * dt);
           x += dx / dist * pace;
           y += dy / dist * pace;
           mode = 'walk';
@@ -199,7 +201,10 @@
       }
     }
 
-    if (learning) {
+    if (fingerDown) {
+      x = Math.max(minX, Math.min(x, maxX));
+      y = Math.max(8, Math.min(y, floor));
+    } else if (learning) {
       x = Math.max(minX, Math.min(x, maxX));
       y = Math.max(8, Math.min(y, floor));
     } else if (mode === 'walk') {
@@ -219,18 +224,18 @@
       if (x <= minX) { x = minX; dir = 1; }
     }
 
-    var moving = mode === 'walk';
+    var moving = mode === 'walk' && !fingerDown;
     var wave = Math.sin(now / 140);
     var lift = reduce ? 0 : (moving ? Math.abs(wave) * 12 : Math.sin(now / 500) * 5);
     var squash = !moving || reduce ? 1 : (0.9 + (1 - Math.abs(wave)) * 0.12);
+    var punch = now < punchUntil ? 1 + Math.sin(((punchUntil - now) / 420) * Math.PI) * 0.22 : 1;
     actor.classList.toggle('walk', moving);
     actor.classList.toggle('rest', mode === 'rest');
     var voiceOn = window.speechSynthesis && (speechSynthesis.speaking || speechSynthesis.pending);
     actor.classList.toggle('talk', !!voiceOn || (learning && !think.hidden));
-    actor.style.pointerEvents = learning ? 'none' : 'auto';
     actor.style.left = Math.round(x) + 'px';
     actor.style.top = Math.round(y) + 'px';
-    actor.style.transform = 'translateY(' + (-lift).toFixed(1) + 'px) scaleX(' + dir + ') scaleY(' + squash.toFixed(3) + ')';
+    actor.style.transform = 'translateY(' + (-lift).toFixed(1) + 'px) scale(' + punch.toFixed(3) + ') scaleX(' + dir + ') scaleY(' + squash.toFixed(3) + ')';
     if (!reduce && feet.length === 2) {
       feet[0].setAttribute('cy', String(96 - (moving ? Math.max(0, wave) * 10 : 0)));
       feet[1].setAttribute('cy', String(96 - (moving ? Math.max(0, -wave) * 10 : 0)));
@@ -249,6 +254,23 @@
     if (!bubble.hidden) placeBubble();
     if (!think.hidden) placeThink();
     raf = window.requestAnimationFrame(frame);
+  }
+
+  function react() {
+    fingerDown = false;
+    var now = performance.now();
+    if (now - reactedAt < 500) return;
+    reactedAt = now;
+    punchUntil = now + 420;
+    actor.classList.add('boop');
+    window.setTimeout(function () { actor.classList.remove('boop'); }, 480);
+    if (!learning) {
+      startLesson();
+      if (learning) return;
+    }
+    var text = learning && lesson[step] ? lesson[step].say : nextTip();
+    if (!learning) openThought(text, graphicForPage());
+    speak(text);
   }
 
   function floorY() {
@@ -330,7 +352,7 @@
   }
 
   function tipsForPage() {
-    var page = location.pathname.split('/').pop() || 'index.html';
+    var page = pageName();
     var map = {
       'index.html': [
         'Hola, soy el Vicho. Te acompaño mientras estudias.',
@@ -404,13 +426,14 @@
     var done = false;
     stepPressed = false;
     stepEl = findVisible(item.tap);
-    if (stepEl) {
-      stepEl.scrollIntoView({ behavior: 'auto', block: 'center', inline: 'center' });
-    }
     document.getElementById('vicho-graphic').innerHTML = graphicSvg(item.graphic);
     document.getElementById('vicho-line').textContent = item.say;
     think.hidden = false;
     placeThink();
+    speak(item.say, goNext);
+    if (stepEl) {
+      stepEl.scrollIntoView({ behavior: 'auto', block: 'center', inline: 'center' });
+    }
     function goNext() {
       if (done || token !== stepToken || !learning) return;
       var elapsed = performance.now() - shownAt;
@@ -426,13 +449,11 @@
       if (step + 1 >= lesson.length) stopLesson();
       else { step += 1; startStep(); }
     }
-    speak(item.say, goNext);
     window.setTimeout(goNext, 7200);
   }
 
   function speak(text, onend) {
     say(text, true);
-    if (learning) bubble.hidden = true;
     actor.classList.add('talk');
     if (!window.speechSynthesis) return;
     var utter = new SpeechSynthesisUtterance(text);
@@ -484,7 +505,7 @@
   }
 
   function graphicForPage() {
-    var page = location.pathname.split('/').pop() || 'index.html';
+    var page = pageName();
     var map = {
       'index.html': 'piezas',
       'matematica_guia.html': 'binomio',
@@ -498,7 +519,10 @@
   }
 
   function pageName() {
-    return location.pathname.split('/').pop() || 'index.html';
+    var name = location.pathname.split('/').pop() || 'index.html';
+    if (!name || name === 'portalestudiotantauco') return 'index.html';
+    if (name.indexOf('.') === -1) name += '.html';
+    return name;
   }
 
   function teachesHere() {

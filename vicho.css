@@ -428,9 +428,9 @@ body.vicho-skin .ach-card-desc { color: #6d6486; }
 
 #vicho-actor {
   position: fixed;
-  z-index: 30;
-  width: 86px;
-  height: 86px;
+  z-index: 10020;
+  width: 96px;
+  height: 96px;
   padding: 0;
   border: 0;
   background: transparent;
@@ -455,7 +455,7 @@ body.vicho-skin .ach-card-desc { color: #6d6486; }
 #vicho-actor.talk .mouth { animation: vicho-mouth 0.24s ease-in-out infinite; }
 #vicho-learn {
   position: fixed;
-  z-index: 40;
+  z-index: 10021;
   right: 12px;
   bottom: calc(146px + env(safe-area-inset-bottom));
   height: 44px;
@@ -472,9 +472,10 @@ body.vicho-skin .ach-card-desc { color: #6d6486; }
 #vicho-learn[aria-pressed="true"] { background: #241c3a; color: #fff; box-shadow: 0 6px 0 #c8b8ee; }
 #vicho-think {
   position: fixed;
-  z-index: 32;
+  z-index: 10019;
   width: min(230px, calc(100vw - 16px));
   padding: 8px 8px 10px;
+  border: 3px solid #ff8a14;
   border-radius: 28px;
   background: #fff;
   color: #241c3a;
@@ -507,7 +508,7 @@ body.vicho-skin .ach-card-desc { color: #6d6486; }
 .vicho-spot { animation: vicho-spot 1.1s ease-in-out infinite; }
 #vicho-say {
   position: fixed;
-  z-index: 31;
+  z-index: 10018;
   max-width: min(220px, calc(100vw - 24px));
   margin: 0;
   padding: 10px 14px;
@@ -642,7 +643,7 @@ body.vicho-skin .ach-card-desc { color: #6d6486; }
   }
   body.vicho-skin #gs-results { max-height: 48dvh; }
   body.vicho-skin #achievement-toast { min-width: 0; width: calc(100vw - 24px); }
-  #vicho-actor { width: 64px; height: 64px; }
+  #vicho-actor { width: 88px; height: 88px; }
   #vicho-say { font-size: 13px; }
 }
 

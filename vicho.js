@@ -56,7 +56,7 @@
   var x = Math.max(16, window.innerWidth - (narrow() ? 88 : 150));
   var y = narrow() ? window.innerHeight - 150 : Math.min(210, window.innerHeight * 0.34);
   var dir = -1;
-  var mode = reduce ? 'rest' : (narrow() ? 'walk' : 'visit');
+  var mode = 'walk';
   var modeUntil = performance.now() + (narrow() ? 5000 : 2200);
   var last = performance.now();
   var raf = 0;
@@ -84,12 +84,18 @@
     speechSynthesis.addEventListener('voiceschanged', function () { speechSynthesis.getVoices(); });
   }
 
+  var fingerTimer = 0;
   actor.addEventListener('pointerdown', function (event) {
     if (event.button && event.button !== 0) return;
     fingerDown = true;
+    window.clearTimeout(fingerTimer);
+    fingerTimer = window.setTimeout(function () { fingerDown = false; }, 380);
     try { actor.setPointerCapture(event.pointerId); } catch (error) {}
   });
-  actor.addEventListener('pointerup', react);
+  actor.addEventListener('pointerup', function () {
+    fingerDown = false;
+    react();
+  });
   actor.addEventListener('pointercancel', function () { fingerDown = false; });
   actor.addEventListener('click', react);
   learn.addEventListener('click', function () {
@@ -121,11 +127,8 @@
   });
 
   window.setTimeout(function () {
-    if (teachesHere()) {
-      say('Tócame: recorro las tarjetas de esta guía.', true);
-      return;
-    }
-    if (!narrow()) say(nextTip(), true);
+    if (teachesHere()) say('Tócame: recorro las tarjetas de esta guía.', true);
+    else if (!narrow()) say(nextTip(), true);
   }, 900);
   raf = window.requestAnimationFrame(frame);
 
@@ -151,82 +154,63 @@
 
     var quietGame = pageName() === 'juegos.html';
     if (learning && document.body.classList.contains('foco-on')) stopLesson();
-    if (fingerDown) {
-      mode = 'rest';
-    } else if (learning && stepEl) {
+    var chasing = !fingerDown && learning && stepEl;
+    if (chasing) {
       var point = targetPoint(stepEl);
       if (!point) {
-        mode = 'walk';
+        var rect = stepEl.getBoundingClientRect();
+        point = {
+          x: rect.left < width ? minX : maxX,
+          y: rect.top < 120 ? 72 : floor
+        };
         if (now - lastNudge > 500) {
           lastNudge = now;
           stepEl.scrollIntoView({ behavior: 'auto', block: 'center', inline: 'center' });
         }
-      } else {
-        var dx = point.x - x;
-        var dy = point.y - y;
-        var dist = Math.hypot(dx, dy) || 1;
-        dir = Math.abs(dx) < 4 ? dir : (dx < 0 ? -1 : 1);
-        if (dist > 14) {
-          var pace = Math.min(dist, 0.34 * dt);
-          x += dx / dist * pace;
-          y += dy / dist * pace;
-          mode = 'walk';
-        } else {
-          x = point.x;
-          y = point.y;
-          mode = 'rest';
-          if (!stepPressed && lesson[step]) tapControl(stepEl, lesson[step]);
-        }
       }
-    } else if (reduce || document.body.classList.contains('foco-on')) {
+      var dx = point.x - x;
+      var dy = point.y - y;
+      var dist = Math.hypot(dx, dy) || 1;
+      dir = Math.abs(dx) < 6 ? dir : (dx < 0 ? -1 : 1);
+      if (dist > 18) {
+        var pace = Math.min(dist, 0.62 * dt);
+        x += dx / dist * pace;
+        y += dy / dist * pace;
+        mode = 'walk';
+      } else {
+        x = point.x;
+        y = point.y;
+        mode = 'rest';
+        if (!stepPressed && lesson[step]) tapControl(stepEl, lesson[step]);
+      }
+    } else if (!fingerDown && document.body.classList.contains('foco-on')) {
       mode = 'rest';
       x = 12;
       y = floor;
       dir = 1;
-    } else if (quietGame) {
+    } else if (!fingerDown && quietGame && !learning) {
       mode = 'rest';
       x = Math.max(12, window.innerWidth - width - 8);
       y = 72;
       dir = -1;
-    } else if (now > modeUntil) {
-      if (mode === 'visit' || narrow()) {
-        mode = 'walk';
-        modeUntil = now + 5200;
-      } else if (mode === 'walk' && Math.random() < 0.45) {
-        mode = 'visit';
-        modeUntil = now + 2000;
-      } else {
-        mode = 'walk';
-        modeUntil = now + 3200;
-      }
+    } else if (!fingerDown && now > modeUntil) {
+      mode = 'walk';
+      modeUntil = now + 4000;
     }
 
-    if (fingerDown) {
-      x = Math.max(minX, Math.min(x, maxX));
-      y = Math.max(8, Math.min(y, floor));
-    } else if (learning) {
-      x = Math.max(minX, Math.min(x, maxX));
-      y = Math.max(8, Math.min(y, floor));
-    } else if (mode === 'walk') {
-      x += dir * (window.innerWidth < 700 ? 0.055 : 0.085) * dt;
+    if (!fingerDown && !chasing && mode === 'walk' && !document.body.classList.contains('foco-on') && !(quietGame && !learning)) {
+      x += dir * (narrow() ? 0.2 : 0.14) * dt;
       if (x >= maxX) { x = maxX; dir = -1; }
       if (x <= minX) { x = minX; dir = 1; }
-      y += (floor - y) * 0.08;
-    } else if (mode === 'visit') {
-      var visitY = Math.max(78, Math.min(floor - 40, window.innerHeight * 0.28));
-      y += (visitY - y) * 0.06;
-      x += dir * 0.04 * dt;
-      if (y < 140) {
-        minX = 78;
-        maxX = Math.max(minX, window.innerWidth - width - 78);
-      }
-      if (x >= maxX) { x = maxX; dir = -1; }
-      if (x <= minX) { x = minX; dir = 1; }
+      y += (floor - y) * 0.12;
     }
+
+    x = Math.max(minX, Math.min(x, maxX));
+    y = Math.max(8, Math.min(y, Math.max(floor, 8)));
 
     var moving = mode === 'walk' && !fingerDown;
     var wave = Math.sin(now / 140);
-    var lift = reduce ? 0 : (moving ? Math.abs(wave) * 12 : Math.sin(now / 500) * 5);
+    var lift = moving ? Math.abs(wave) * (reduce ? 8 : 16) : Math.sin(now / 480) * (reduce ? 3 : 6);
     var squash = !moving || reduce ? 1 : (0.9 + (1 - Math.abs(wave)) * 0.12);
     var punch = now < punchUntil ? 1 + Math.sin(((punchUntil - now) / 420) * Math.PI) * 0.22 : 1;
     actor.classList.toggle('walk', moving);
@@ -235,7 +219,8 @@
     actor.classList.toggle('talk', !!voiceOn || (learning && !think.hidden));
     actor.style.left = Math.round(x) + 'px';
     actor.style.top = Math.round(y) + 'px';
-    actor.style.transform = 'translateY(' + (-lift).toFixed(1) + 'px) scale(' + punch.toFixed(3) + ') scaleX(' + dir + ') scaleY(' + squash.toFixed(3) + ')';
+    var sway = chasing && mode === 'rest' ? Math.sin(now / 180) * 12 : 0;
+    actor.style.transform = 'translate(' + sway.toFixed(1) + 'px, ' + (-lift).toFixed(1) + 'px) scale(' + punch.toFixed(3) + ') scaleX(' + dir + ') scaleY(' + squash.toFixed(3) + ')';
     if (!reduce && feet.length === 2) {
       feet[0].setAttribute('cy', String(96 - (moving ? Math.max(0, wave) * 10 : 0)));
       feet[1].setAttribute('cy', String(96 - (moving ? Math.max(0, -wave) * 10 : 0)));

@@ -78,7 +78,6 @@
   var heldUtterance = null;
   var thinkTimer = 0;
   var stepPressed = false;
-  var lastNudge = 0;
   var fingerDown = false;
   var reactedAt = 0;
   var punchUntil = 0;
@@ -156,40 +155,20 @@
     var minX = 8;
 
     if (learning && document.body.classList.contains('foco-on')) stopLesson();
-    var chasing = !fingerDown && learning && stepEl;
-    var point = dockPoint();
-    if (chasing) {
-      var beside = targetPoint(stepEl);
-      if (beside && clearLane(x, y, beside.x, beside.y)) point = beside;
-      if (!stepPressed && lesson[step]) tapControl(stepEl, lesson[step]);
-      if (now - lastNudge > 1600) {
-        lastNudge = now;
-        reveal(stepEl);
-      }
-    }
+    if (learning && stepEl && lesson[step] && !stepPressed) tapControl(stepEl, lesson[step]);
     if (!fingerDown) {
-      var dx = point.x - x;
-      var dy = point.y - y;
-      var dist = Math.hypot(dx, dy) || 1;
-      dir = Math.abs(dx) < 6 ? dir : (dx < 0 ? -1 : 1);
-      if (dist > 22) {
-        var pace = Math.min(dist, 0.12 * dt);
-        x += dx / dist * pace;
-        y += dy / dist * pace;
-        mode = 'walk';
-      } else {
-        x = point.x;
-        y = point.y;
-        mode = 'rest';
-      }
+      var dock = dockPoint();
+      x = dock.x;
+      y = dock.y;
+      mode = 'rest';
     }
 
     x = Math.max(minX, Math.min(x, maxX));
     y = Math.max(8, Math.min(y, Math.max(floor, 8)));
 
-    var moving = mode === 'walk' && !fingerDown;
-    var wave = Math.sin(now / 220);
-    var lift = moving ? Math.abs(wave) * 4 : Math.sin(now / 900) * 1.5;
+    var moving = false;
+    var wave = 0;
+    var lift = 0;
     var squash = 1;
     var punch = now < punchUntil ? 1 + Math.sin(((punchUntil - now) / 420) * Math.PI) * 0.22 : 1;
     actor.classList.toggle('walk', moving);
@@ -252,71 +231,12 @@
     bubble.textContent = text;
     bubble.hidden = false;
     bubble.classList.toggle('pinned', !!pin);
-    placeBubble();
     window.clearTimeout(hideTimer);
     hideTimer = window.setTimeout(function () { bubble.hidden = true; }, 3600);
   }
 
-  function narrow() {
-    return window.innerWidth < 760;
-  }
-
   function dockPoint() {
     return { x: 12, y: floorY() };
-  }
-
-  function overlapArea(a, b) {
-    var width = Math.min(a.right, b.right) - Math.max(a.left, b.left);
-    var height = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top);
-    if (width <= 0 || height <= 0) return 0;
-    return width * height;
-  }
-
-  function hardRects(skip) {
-    var sel = '#back-btn, #theme-toggle, #gs-trigger, #chat-fab, #foco-bar, .nav-wrapper, .hero-title, .header-title, .hero-logo, .logo-name, .hero-eyebrow, .hero-desc, .header-eyebrow, .header-subtitle, .section-heading, .quiz-opt, .quiz-feedback, #vicho-actor, #vicho-learn, #vicho-say, #vicho-think, .game-board';
-    var list = [];
-    var nodes = document.querySelectorAll(sel);
-    for (var i = 0; i < nodes.length; i++) {
-      var el = nodes[i];
-      if (skip.indexOf(el) !== -1 || el.hidden) continue;
-      var style = window.getComputedStyle(el);
-      if (style.display === 'none' || style.visibility === 'hidden' || Number(style.opacity) === 0) continue;
-      var rect = el.getBoundingClientRect();
-      if (rect.width < 2 || rect.height < 2) continue;
-      list.push(rect);
-    }
-    return list;
-  }
-
-  function targetRect() {
-    if (!stepEl || !stepEl.isConnected) return null;
-    var card = stepEl.closest('.acc-item, .materia-card, .sala-card, .concept-card, .card') || stepEl;
-    var rect = card.getBoundingClientRect();
-    if (rect.width < 2 || rect.height < 2) return null;
-    return rect;
-  }
-
-  function pickSpot(spots, width, height, skip, allowSoft) {
-    var blocks = hardRects(skip);
-    var target = targetRect();
-    var fallback = null;
-    var fallbackHit = Infinity;
-    for (var i = 0; i < spots.length; i++) {
-      var left = Math.round(spots[i][0]);
-      var top = Math.round(spots[i][1]);
-      if (left < 8 || top < 8 || left + width > window.innerWidth - 8 || top + height > window.innerHeight - 8) continue;
-      var box = { left: left, top: top, right: left + width, bottom: top + height };
-      var hard = 0;
-      for (var b = 0; b < blocks.length; b++) hard += overlapArea(box, blocks[b]);
-      if (hard > 0) continue;
-      var soft = target ? overlapArea(box, target) : 0;
-      if (soft <= 0) return [left, top];
-      if (allowSoft && soft < fallbackHit) {
-        fallbackHit = soft;
-        fallback = [left, top];
-      }
-    }
-    return fallback;
   }
 
   function ceiling(below) {
@@ -401,33 +321,6 @@
     plate.style.top = Math.round(top - 8) + 'px';
     plate.style.height = Math.round(Math.max(0, barTop - top + 8)) + 'px';
     document.body.style.paddingBottom = Math.round(window.innerHeight - top + 28) + 'px';
-  }
-
-  function clearLane(x1, y1, x2, y2) {
-    var w = actor.offsetWidth || 88;
-    var h = actor.offsetHeight || 88;
-    var steps = 6;
-    for (var i = 0; i <= steps; i++) {
-      var left = x1 + (x2 - x1) * (i / steps);
-      var top = y1 + (y2 - y1) * (i / steps);
-      var spot = pickSpot([[left, top]], w, h, [actor], false);
-      if (!spot) return false;
-    }
-    return true;
-  }
-
-  function reveal(el) {
-    if (!el || !el.isConnected) return;
-    var rect = el.getBoundingClientRect();
-    var nav = document.querySelector('.nav-wrapper');
-    var topLimit = nav ? nav.getBoundingClientRect().bottom + 10 : 76;
-    var panelTop = !think.hidden ? think.getBoundingClientRect().top : floorY();
-    var bottomLimit = Math.min(panelTop, actor.getBoundingClientRect().top) - 12;
-    if (bottomLimit < topLimit + 48) bottomLimit = topLimit + 48;
-    var delta = 0;
-    if (rect.bottom > bottomLimit) delta = rect.bottom - bottomLimit;
-    if (rect.top - delta < topLimit) delta = rect.top - topLimit;
-    if (Math.abs(delta) > 8) window.scrollBy({ top: delta, behavior: 'smooth' });
   }
 
   function nextTip() {
@@ -538,7 +431,6 @@
       heard = true;
       goNext();
     });
-    reveal(stepEl);
     window.setTimeout(function () {
       heard = true;
       goNext();
@@ -650,36 +542,10 @@
     if (spotted && spotted !== el) spotted.classList.remove('vicho-spot');
     spotted = el;
     el.classList.add('vicho-spot');
-    actor.classList.add('boop');
-    window.setTimeout(function () { actor.classList.remove('boop'); }, 480);
     if (!item || item.press === false || el.tagName === 'A') return;
     var acc = el.closest('.acc-item');
     if (el.classList.contains('acc-trigger') && acc && acc.classList.contains('open')) return;
     el.click();
-  }
-
-  function targetPoint(el) {
-    if (!el || !el.isConnected) return null;
-    var rect = el.getBoundingClientRect();
-    var vh = window.innerHeight;
-    if (rect.width < 8 || rect.height < 8) return null;
-    if (rect.bottom < 72 || rect.top > vh - 72) return null;
-    var w = actor.offsetWidth || 90;
-    var h = actor.offsetHeight || 90;
-    var gap = 14;
-    var spots = [
-      [rect.left - w - gap, rect.top],
-      [rect.right + gap, rect.top],
-      [rect.left - w - gap, rect.bottom - h],
-      [rect.right + gap, rect.bottom - h],
-      [rect.left, rect.top - h - gap],
-      [rect.right - w, rect.top - h - gap],
-      [rect.left, rect.bottom + gap],
-      [rect.right - w, rect.bottom + gap]
-    ];
-    var chosen = pickSpot(spots, w, h, [actor, learn, bubble, think], false);
-    if (!chosen) return dockPoint();
-    return { x: chosen[0], y: Math.min(chosen[1], floorY()) };
   }
 
   function lessonForPage() {

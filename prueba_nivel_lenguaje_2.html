@@ -305,6 +305,6 @@ document.getElementById('flash').innerHTML = cards.map(([f,b])=>`<button class="
 document.getElementById('flash').addEventListener('click', e => { const c = e.target.closest('.flash'); if (!c) return; const on = c.classList.toggle('on'); c.querySelector('p').textContent = on ? c.dataset.back : c.dataset.front; });
 </script>
 <script src="estudio.js"></script>
-<script src="vicho.js?v=12"></script>
+<script src="vicho.js?v=13"></script>
 </body>
 </html>

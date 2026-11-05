@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<script src="tema.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Torpedos y guías para imprimir — Colegio Tantauco</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estudio.css">
+<link rel="stylesheet" href="impresos.css">
+<link rel="stylesheet" href="vicho.css?v=10">
+</head>
+<body class="vicho-skin">
+<a id="back-btn" href="index.html">← Portal</a>
+<button id="theme-toggle" type="button" aria-label="Cambiar modo de color">🌙</button>
+<main class="wrap">
+  <p class="header-eyebrow">Colegio Tantauco</p>
+  <h1>Torpedos y guías de repaso</h1>
+  <p class="lead">Elige la PDN y el formato. El torpedo cabe en una hoja. La guía de repaso trae la idea, un ejemplo y qué comprobar antes de la prueba. En el cuadro de impresión, elige guardar como PDF.</p>
+  <div class="tools">
+    <div class="switch" id="materias" role="tablist" aria-label="Asignatura">
+      <button type="button" data-materia="matematica" aria-pressed="true">Matemática</button>
+      <button type="button" data-materia="lengua" aria-pressed="false">Lengua</button>
+      <button type="button" data-materia="ingles" aria-pressed="false">Inglés</button>
+      <button type="button" data-materia="ciencias" aria-pressed="false">Ciencias</button>
+      <button type="button" data-materia="historia" aria-pressed="false">Historia</button>
+    </div>
+    <div class="switch" role="tablist" aria-label="Formato">
+      <button type="button" id="tipo-torpedo" aria-pressed="true">Torpedo</button>
+      <button type="button" id="tipo-guia" aria-pressed="false">Guía de repaso</button>
+    </div>
+    <div class="actions">
+      <button type="button" id="pack" aria-pressed="false">Los 5 torpedos</button>
+      <button type="button" id="imprimir" class="solid">Guardar PDF</button>
+    </div>
+  </div>
+  <p class="hint">La hoja de abajo es la que se imprime. El resto de la página no sale en el PDF.</p>
+  <div id="hoja"></div>
+</main>
+<script src="estudio.js"></script>
+<script src="vicho.js?v=13"></script>
+<script src="impresos.js"></script>
+</body>
+</html>

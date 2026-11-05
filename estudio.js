@@ -19,6 +19,7 @@
     'prueba_nivel_lenguaje_2.html': 'Lengua',
     'ingles_guia.html': 'Inglés',
     'juegos.html': 'Juegos',
+    'impresos.html': 'Impresos',
     'prueba_nivel_ciencias_naturales.html': 'Ciencias',
     'historia_guia.html': 'Historia'
   }[page] || 'Estudio';

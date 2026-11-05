@@ -451,6 +451,59 @@ body.vicho-skin .ach-card-desc { color: #6d6486; }
 }
 #vicho-actor.walk .foot.r { animation-delay: -0.17s; }
 #vicho-actor.boop svg { animation: vicho-boop 0.48s ease; }
+#vicho-actor .mouth { transform-box: fill-box; transform-origin: center; }
+#vicho-actor.talk .mouth { animation: vicho-mouth 0.24s ease-in-out infinite; }
+#vicho-learn {
+  position: fixed;
+  z-index: 40;
+  right: 12px;
+  bottom: calc(146px + env(safe-area-inset-bottom));
+  height: 44px;
+  padding: 0 14px;
+  border: none;
+  border-radius: 999px;
+  background: #ff8a14;
+  color: #241c3a;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 6px 0 #c86a10;
+}
+#vicho-learn[aria-pressed="true"] { background: #241c3a; color: #fff; box-shadow: 0 6px 0 #c8b8ee; }
+#vicho-think {
+  position: fixed;
+  z-index: 32;
+  width: min(230px, calc(100vw - 16px));
+  padding: 8px 8px 10px;
+  border-radius: 28px;
+  background: #fff;
+  color: #241c3a;
+  box-shadow: 0 16px 36px rgba(60, 30, 110, 0.18);
+  pointer-events: none;
+}
+#vicho-think[hidden] { display: none; }
+#vicho-think p { margin: 0; padding: 0 8px 4px; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; line-height: 1.35; }
+#vicho-think svg { width: 100%; height: 92px; display: block; }
+#vicho-think text { fill: #241c3a; font-family: 'Fredoka', 'Nunito', sans-serif; font-size: 18px; font-weight: 700; }
+#vicho-think .g-pop { opacity: 0; animation: vicho-pop 0.55s ease forwards; }
+#vicho-think .d2 { animation-delay: 0.25s; }
+#vicho-think .d3 { animation-delay: 0.5s; }
+#vicho-think .d4 { animation-delay: 0.75s; }
+#vicho-think .drop { transform-box: fill-box; transform-origin: center; animation: vicho-drop 1.3s ease-in infinite; }
+#vicho-think .drop.d2 { animation-delay: 0.3s; }
+#vicho-think .drop.d3 { animation-delay: 0.55s; }
+#vicho-think .bug { transform-box: fill-box; transform-origin: center; }
+#vicho-think .bug.keep { animation: vicho-keep 1.2s ease-in-out infinite alternate; }
+#vicho-think .bug.fade { animation: vicho-fade 1.2s ease forwards 0.4s; }
+#vicho-think .price-dot { transform-box: fill-box; transform-origin: center; animation: vicho-price 1.5s ease-in-out infinite alternate; }
+#vicho-think .tile { transform-box: fill-box; transform-origin: center; animation: vicho-tile 0.7s ease both; }
+#vicho-think .tile.a { animation-delay: 0.05s; }
+#vicho-think .tile.c { animation-delay: 0.2s; }
+#vicho-think .tilt { transform-box: fill-box; transform-origin: center; animation: vicho-tilt 2s ease-in-out infinite alternate; }
+#vicho-think .atom { transform-box: fill-box; transform-origin: center; animation: vicho-atom 1.6s ease-in-out infinite alternate; }
+#vicho-think .atom.b { animation-delay: 0.2s; }
+#vicho-think .atom.c { animation-delay: 0.4s; }
+.vicho-spot { animation: vicho-spot 1.1s ease-in-out infinite; }
 #vicho-say {
   position: fixed;
   z-index: 31;
@@ -499,6 +552,46 @@ body.vicho-skin .ach-card-desc { color: #6d6486; }
   40% { transform: translateY(-18px) rotate(-8deg); }
   70% { transform: translateY(-4px) rotate(6deg); }
   100% { transform: none; }
+}
+@keyframes vicho-mouth {
+  0%, 100% { transform: scaleY(0.35); }
+  50% { transform: scaleY(1.3); }
+}
+@keyframes vicho-pop {
+  from { opacity: 0; transform: translateY(8px) scale(0.8); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes vicho-drop {
+  0% { transform: translateY(0); opacity: 0; }
+  25% { opacity: 1; }
+  100% { transform: translateY(46px); opacity: 0; }
+}
+@keyframes vicho-keep {
+  from { transform: scale(1); }
+  to { transform: scale(1.45); }
+}
+@keyframes vicho-fade {
+  to { opacity: 0.2; transform: scale(0.7); }
+}
+@keyframes vicho-price {
+  from { transform: translate(-24px, 16px); }
+  to { transform: translate(40px, -20px); }
+}
+@keyframes vicho-tile {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes vicho-tilt {
+  from { transform: rotate(-18deg); }
+  to { transform: rotate(18deg); }
+}
+@keyframes vicho-atom {
+  from { transform: translate(-6px, 4px); }
+  to { transform: translate(8px, -6px); }
+}
+@keyframes vicho-spot {
+  0%, 100% { box-shadow: 0 0 0 3px #ff8a14; }
+  50% { box-shadow: 0 0 0 7px rgba(255, 138, 20, 0.35); }
 }
 
 @media (max-width: 700px) {
@@ -556,7 +649,17 @@ body.vicho-skin .ach-card-desc { color: #6d6486; }
   #vicho-actor .eyes,
   #vicho-actor.walk .foot,
   #vicho-actor.rest svg,
-  #vicho-actor.boop svg { animation: none; }
+  #vicho-actor.boop svg,
+  #vicho-actor.talk .mouth,
+  #vicho-think .g-pop,
+  #vicho-think .drop,
+  #vicho-think .bug,
+  #vicho-think .price-dot,
+  #vicho-think .tile,
+  #vicho-think .tilt,
+  #vicho-think .atom,
+  .vicho-spot { animation: none; }
+  #vicho-think .g-pop { opacity: 1; }
   body.vicho-skin .materia-card:hover { transform: none; }
 }
 

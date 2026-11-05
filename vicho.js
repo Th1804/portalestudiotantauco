@@ -56,8 +56,7 @@
   var x = Math.max(16, window.innerWidth - (narrow() ? 88 : 150));
   var y = narrow() ? window.innerHeight - 150 : Math.min(210, window.innerHeight * 0.34);
   var dir = -1;
-  var mode = 'walk';
-  var modeUntil = performance.now() + (narrow() ? 5000 : 2200);
+  var mode = 'rest';
   var last = performance.now();
   var raf = 0;
   var running = true;
@@ -127,9 +126,9 @@
   });
 
   window.setTimeout(function () {
-    if (!learning && lessonForPage().length) startLesson();
-    else if (!narrow()) say(nextTip(), true);
-  }, 500);
+    if (learning) return;
+    say('Presióname y te explico la materia.', true);
+  }, 900);
   raf = window.requestAnimationFrame(frame);
 
   document.addEventListener('visibilitychange', function () {
@@ -163,17 +162,17 @@
           x: rect.left < width ? minX : maxX,
           y: rect.top < 120 ? 72 : floor
         };
-        if (now - lastNudge > 500) {
+        if (now - lastNudge > 1800) {
           lastNudge = now;
-          stepEl.scrollIntoView({ behavior: 'auto', block: 'center', inline: 'center' });
+          stepEl.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
         }
       }
       var dx = point.x - x;
       var dy = point.y - y;
       var dist = Math.hypot(dx, dy) || 1;
       dir = Math.abs(dx) < 6 ? dir : (dx < 0 ? -1 : 1);
-      if (dist > 18) {
-        var pace = Math.min(dist, (narrow() ? 0.62 : 0.95) * dt);
+      if (dist > 22) {
+        var pace = Math.min(dist, 0.12 * dt);
         x += dx / dist * pace;
         y += dy / dist * pace;
         mode = 'walk';
@@ -183,48 +182,35 @@
         mode = 'rest';
         if (!stepPressed && lesson[step]) tapControl(stepEl, lesson[step]);
       }
-    } else if (!fingerDown && document.body.classList.contains('foco-on')) {
+    } else {
       mode = 'rest';
-      x = 12;
-      y = floor;
-      dir = 1;
-    } else if (!fingerDown && quietGame && !learning) {
-      mode = 'rest';
-      x = Math.max(12, window.innerWidth - width - 8);
-      y = 72;
-      dir = -1;
-    } else if (!fingerDown && now > modeUntil) {
-      mode = 'walk';
-      modeUntil = now + 4000;
-    }
-
-    if (!fingerDown && !chasing && mode === 'walk' && !document.body.classList.contains('foco-on') && !(quietGame && !learning)) {
-      x += dir * (narrow() ? 0.22 : 0.32) * dt;
-      if (x >= maxX) { x = maxX; dir = -1; }
-      if (x <= minX) { x = minX; dir = 1; }
-      var roam = 120 + (Math.sin(now / 900) * 0.5 + 0.5) * Math.max(100, floor - 200);
-      y += (roam - y) * 0.1;
+      if (!fingerDown && document.body.classList.contains('foco-on')) {
+        x = 12;
+        y = floor;
+      } else if (!fingerDown && quietGame && !learning) {
+        x = Math.max(12, window.innerWidth - width - 8);
+        y = 72;
+      }
     }
 
     x = Math.max(minX, Math.min(x, maxX));
     y = Math.max(8, Math.min(y, Math.max(floor, 8)));
 
     var moving = mode === 'walk' && !fingerDown;
-    var wave = Math.sin(now / 140);
-    var lift = moving ? Math.abs(wave) * (reduce ? 8 : 16) : Math.sin(now / 480) * (reduce ? 3 : 6);
-    var squash = !moving || reduce ? 1 : (0.9 + (1 - Math.abs(wave)) * 0.12);
+    var wave = Math.sin(now / 220);
+    var lift = moving ? Math.abs(wave) * 4 : Math.sin(now / 900) * 1.5;
+    var squash = 1;
     var punch = now < punchUntil ? 1 + Math.sin(((punchUntil - now) / 420) * Math.PI) * 0.22 : 1;
     actor.classList.toggle('walk', moving);
-    actor.classList.toggle('rest', mode === 'rest');
+    actor.classList.remove('rest');
     var voiceOn = window.speechSynthesis && (speechSynthesis.speaking || speechSynthesis.pending);
     actor.classList.toggle('talk', !!voiceOn || (learning && !think.hidden));
     actor.style.left = Math.round(x) + 'px';
     actor.style.top = Math.round(y) + 'px';
-    var sway = chasing && mode === 'rest' ? Math.sin(now / 180) * 12 : 0;
-    actor.style.transform = 'translate(' + sway.toFixed(1) + 'px, ' + (-lift).toFixed(1) + 'px) scale(' + punch.toFixed(3) + ') scaleX(' + dir + ') scaleY(' + squash.toFixed(3) + ')';
+    actor.style.transform = 'translateY(' + (-lift).toFixed(1) + 'px) scale(' + punch.toFixed(3) + ') scaleX(' + dir + ') scaleY(' + squash.toFixed(3) + ')';
     if (!reduce && feet.length === 2) {
-      feet[0].setAttribute('cy', String(96 - (moving ? Math.max(0, wave) * 10 : 0)));
-      feet[1].setAttribute('cy', String(96 - (moving ? Math.max(0, -wave) * 10 : 0)));
+      feet[0].setAttribute('cy', String(96 - (moving ? Math.max(0, wave) * 4 : 0)));
+      feet[1].setAttribute('cy', String(96 - (moving ? Math.max(0, -wave) * 4 : 0)));
     }
     if (!blinkUntil && !reduce && Math.random() < 0.012) blinkUntil = now + 140;
     if (blinkUntil && now > blinkUntil) blinkUntil = 0;
@@ -416,15 +402,14 @@
     document.getElementById('vicho-line').textContent = item.say;
     think.hidden = false;
     placeThink();
-    speak(item.say, goNext);
-    if (stepEl) {
-      stepEl.scrollIntoView({ behavior: 'auto', block: 'center', inline: 'center' });
-    }
+    var limit = Math.max(6500, Math.min(20000, item.say.length * 70));
+    var heard = false;
     function goNext() {
       if (done || token !== stepToken || !learning) return;
       var elapsed = performance.now() - shownAt;
-      if (elapsed < 2200) {
-        window.setTimeout(goNext, 2200 - elapsed);
+      if (!heard && elapsed < limit) return;
+      if (elapsed < 1600) {
+        window.setTimeout(goNext, 1600 - elapsed);
         return;
       }
       if (!stepPressed) {
@@ -435,7 +420,17 @@
       if (step + 1 >= lesson.length) stopLesson();
       else { step += 1; startStep(); }
     }
-    window.setTimeout(goNext, 4600);
+    speak(item.say, function () {
+      heard = true;
+      goNext();
+    });
+    if (stepEl) {
+      stepEl.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+    }
+    window.setTimeout(function () {
+      heard = true;
+      goNext();
+    }, limit);
   }
 
   function speak(text, onend) {
@@ -444,7 +439,7 @@
     if (!window.speechSynthesis) return;
     var utter = new SpeechSynthesisUtterance(text);
     utter.lang = 'es-CL';
-    utter.rate = 0.95;
+    utter.rate = 0.92;
     utter.pitch = 1.15;
     var voices = speechSynthesis.getVoices();
     var picked = null;
@@ -599,58 +594,72 @@
     var page = pageName();
     var map = {
       'index.html': [
-        { say: 'La sala de juegos arma las ideas. Esta tarjeta te lleva ahí.', tap: '.sala-card', press: false, graphic: 'piezas' },
-        { say: 'Matemática es el 6 de noviembre. El término del medio es el doble del producto.', tap: '.materia-card.matematicas', press: false, graphic: 'binomio' },
-        { say: 'Lengua es el 9. Lo explícito está escrito. Lo implícito se deduce.', tap: '.materia-card.lenguaje', press: false, graphic: 'lectura' },
-        { say: 'Inglés es el 13. Waterborne viaja en el agua.', tap: '.materia-card.ingles', press: false, graphic: 'agua' },
-        { say: 'Ciencias es el 16. Queda quien deja más descendencia.', tap: '.materia-card.ciencias', press: false, graphic: 'seleccion' },
-        { say: 'Historia es el 18. Si sube la demanda y la oferta no, el precio sube.', tap: '.materia-card.historia', press: false, graphic: 'precio' }
+        { say: 'Matemática, el 6 de noviembre, es productos notables, factorización y sistemas de dos ecuaciones. En el cuadrado de binomio el término del medio es el doble del producto.', tap: '.materia-card.matematicas', press: false, graphic: 'binomio' },
+        { say: 'Lengua, el 9, pide leer: lo explícito está escrito, lo implícito se infiere, y hay que reconocer narrativo, lírico, dramático, texto expositivo e infografía.', tap: '.materia-card.lenguaje', press: false, graphic: 'lectura' },
+        { say: 'Inglés, el 13, une salud y agua con pobreza. Waterborne viaja en el agua. Las necesidades básicas son comida, agua, techo, salud y escuela.', tap: '.materia-card.ingles', press: false, graphic: 'agua' },
+        { say: 'Ciencias, el 16, junta evolución y ecosistemas, sonido y luz, sismos, el sistema solar, y las reacciones donde los átomos se conservan.', tap: '.materia-card.ciencias', press: false, graphic: 'seleccion' },
+        { say: 'Historia, el 18, es escasez y las tres preguntas económicas, cómo se forma el precio, el riesgo del ahorro y del crédito, y la expansión del Estado en el siglo XIX.', tap: '.materia-card.historia', press: false, graphic: 'precio' }
       ],
       'matematica_guia.html': [
-        { say: 'Toca Productos notables. El término del medio es el doble del producto.', tap: '.nav-tab[data-tab="notables"]', graphic: 'binomio' },
-        { say: 'Abre esta tarjeta: binomios con un término común.', tap: '#tab-notables .acc-item:not(.open) .acc-trigger', graphic: 'binomio' },
-        { say: 'Ahora la suma por su diferencia.', tap: '#tab-notables .acc-item:not(.open) .acc-trigger', graphic: 'binomio' },
-        { say: 'Toca Factorización. Es el producto notable al revés.', tap: '.nav-tab[data-tab="factorizacion"]', graphic: 'piezas' },
-        { say: 'Abre la diferencia de cuadrados.', tap: '#tab-factorizacion .acc-item:not(.open) .acc-trigger', graphic: 'piezas' },
-        { say: 'Toca Sistemas. Deja una letra sola y sustitúyela.', tap: '.nav-tab[data-tab="sistemas"]', graphic: 'cruce' },
-        { say: 'Abre la tarjeta de sustitución.', tap: '#tab-sistemas .acc-item:not(.open) .acc-trigger', graphic: 'cruce' },
-        { say: 'Termina en Práctica, sin mirar la fórmula.', tap: '.nav-tab[data-tab="practica"]', graphic: 'binomio' }
+        { say: 'El cuadrado de un binomio tiene tres términos: el cuadrado del primero, el doble producto y el cuadrado del segundo. (a más b) al cuadrado es a cuadrado más 2 a b más b cuadrado. (x más 4) al cuadrado es x cuadrado más 8 x más 16. No alcanza con sumar los cuadrados.', tap: '.nav-tab[data-tab="notables"]', graphic: 'binomio' },
+        { say: 'Si dos binomios comparten la x, (x más a) por (x más b) es x cuadrado más (a más b) x más a por b. En (x más 3) por (x más 5) el medio es 8 x y el independiente es 15. Si un número es negativo, el producto puede quedar negativo.', tap: '#acc-comun .acc-trigger', graphic: 'binomio' },
+        { say: 'Suma por diferencia: (a más b) por (a menos b) es a cuadrado menos b cuadrado. El doble producto se anula. (x más 6) por (x menos 6) es x cuadrado menos 36. Y 27 por 33 es 30 al cuadrado menos 3 al cuadrado, o sea 891.', tap: '#acc-dif .acc-trigger', graphic: 'binomio' },
+        { say: 'Factorizar es el camino inverso: el polinomio vuelve a ser una multiplicación. Busca en este orden: factor común, diferencia de cuadrados, trinomio cuadrado perfecto y, al final, x cuadrado más b x más c.', tap: '.nav-tab[data-tab="factorizacion"]', graphic: 'piezas' },
+        { say: 'El factor común es el número y la letra que se repiten en todos los términos, con el menor exponente. 6 x cuadrado más 9 x es 3 x por (2 x más 3). Al multiplicar de vuelta tienen que aparecer los dos términos.', tap: '#tab-factorizacion .acc-item:nth-child(1) .acc-trigger', graphic: 'piezas' },
+        { say: 'Diferencia de cuadrados: a cuadrado menos b cuadrado es (a más b) por (a menos b). x cuadrado menos 25 es (x más 5) por (x menos 5). Una suma de cuadrados, como x cuadrado más 25, no se factoriza de esta forma.', tap: '#tab-factorizacion .acc-item:nth-child(2) .acc-trigger', graphic: 'piezas' },
+        { say: 'Un trinomio cuadrado perfecto tiene cuadrados en los extremos y, en el medio, el doble producto de sus raíces. x cuadrado más 10 x más 25 es (x más 5) al cuadrado. Si el medio es negativo, el binomio resta: (2 x menos 3) al cuadrado.', tap: '#tab-factorizacion .acc-item:nth-child(3) .acc-trigger', graphic: 'piezas' },
+        { say: 'En x cuadrado más b x más c busca dos números que sumen b y multipliquen c. Para más 7 x más 12 sirven 3 y 4, así que es (x más 3) por (x más 4). Si el primer coeficiente no es 1, saca antes el factor común.', tap: '#tab-factorizacion .acc-item:nth-child(4) .acc-trigger', graphic: 'piezas' },
+        { say: 'Un sistema tiene dos ecuaciones y dos incógnitas. La solución es el par x, y que cumple las dos a la vez. Si las rectas se cortan, hay una solución. Si son paralelas, ninguna. Si son la misma recta, hay infinitas.', tap: '.nav-tab[data-tab="sistemas"]', graphic: 'cruce' },
+        { say: 'Igualación: despeja la misma letra en las dos ecuaciones e iguala esas expresiones. En x más y igual 5 y x menos y igual 1, queda 5 menos y igual 1 más y. Entonces y vale 2 y x vale 3. La solución es (3, 2).', tap: '#tab-sistemas .acc-item:nth-child(1) .acc-trigger', graphic: 'cruce' },
+        { say: 'Sustitución: despeja una letra y reemplázala en la otra ecuación. En x menos y igual 2, x es y más 2. Al poner eso en 2 x más y igual 7, y vale 1 y x vale 3. Comprueba que el par cumpla las dos ecuaciones.', tap: '#tab-sistemas .acc-item:nth-child(2) .acc-trigger', graphic: 'cruce' },
+        { say: 'Reducción: deja una letra con coeficientes opuestos y suma las ecuaciones para que desaparezca. En 3 x más 2 y igual 12 y 5 x menos 2 y igual 4, la y se anula, 8 x es 16 y x vale 2. Después y vale 3.', tap: '#tab-sistemas .acc-item:nth-child(3) .acc-trigger', graphic: 'cruce' },
+        { say: 'En el método gráfico cada ecuación es una recta. El punto donde se cruzan es la solución. x más y igual 4 se escribe y igual 4 menos x, y junto con y igual x se cortan en (2, 2). Si no se cruzan, el sistema no tiene solución.', tap: '#tab-sistemas .acc-item:nth-child(4) .acc-trigger', graphic: 'cruce' }
       ],
       'prueba_nivel_lenguaje_2.html': [
-        { say: 'Toca Comprensión. Lo explícito está escrito. Lo implícito se deduce.', tap: '.nav-tab[data-tab="comprension"]', graphic: 'lectura' },
-        { say: 'Abre la siguiente tarjeta de comprensión.', tap: '#tab-comprension .acc-item:not(.open) .acc-trigger', graphic: 'lectura' },
-        { say: 'Toca Lírico. El hablante no siempre es el autor.', tap: '.nav-tab[data-tab="lirico"]', graphic: 'lectura' },
-        { say: 'Toca Dramático. El conflicto avanza en el diálogo.', tap: '.nav-tab[data-tab="dramatico"]', graphic: 'lectura' },
-        { say: 'Cierra en Práctica.', tap: '.nav-tab[data-tab="practica"]', graphic: 'lectura' }
+        { say: 'Lo explícito está dicho con palabras: quién, dónde, qué cifra. Marca las palabras de la pregunta y búscalas, o un sinónimo, en el texto. No completes con lo que tú crees que pasó.', tap: '.nav-tab[data-tab="comprension"]', graphic: 'lectura' },
+        { say: 'Lo implícito se concluye con una pista del texto. Si alguien cierra el cuaderno, apaga la lámpara y el pasillo queda en silencio, puedes inferir que se va a dormir. Si no puedes señalar la pista, es una invención.', tap: '#tab-comprension .acc-item:nth-child(2) .acc-trigger', graphic: 'lectura' },
+        { say: 'Interpretar es decir el sentido con tus palabras. Relacionar conecta título, personajes o el texto con su época. Evaluar exige una cita o un dato: «me gustó» no fundamenta una respuesta.', tap: '#tab-comprension .acc-item:nth-child(3) .acc-trigger', graphic: 'lectura' },
+        { say: 'El texto narrativo cuenta hechos de personajes. El mundo narrativo junta narrador, personajes, acciones, espacio y tiempo. El tema no es el resumen: una huida puede tener por tema el miedo o la libertad.', tap: '.nav-tab[data-tab="narrativo"]', graphic: 'lectura' },
+        { say: 'En el poema, el hablante lírico no es siempre quien lo escribió. El motivo es de qué se habla y el temple es la emoción. La comparación usa «como». La metáfora identifica sin ese nexo. La personificación da acción humana a lo que no la tiene. La hipérbole exagera y la anáfora repite al inicio del verso.', tap: '.nav-tab[data-tab="lirico"]', graphic: 'lectura' },
+        { say: 'El texto dramático está escrito para representarse. El diálogo es entre personajes, el monólogo es a solas y el aparte no lo oyen los demás. Las acotaciones no las dice el personaje: indican gesto, tono o escena. El conflicto puede ser entre personas, con el entorno o dentro de alguien.', tap: '.nav-tab[data-tab="dramatico"]', graphic: 'lectura' },
+        { say: 'El texto expositivo explica un tema con idea principal y datos: ejemplos, cifras o definiciones. La infografía mezcla palabras e imágenes. El título da el tema, y el tamaño, el color o una flecha ordenan qué importa o marcan una causa.', tap: '.nav-tab[data-tab="nolit"]', graphic: 'lectura' },
+        { say: 'En la lectura crítica, el mensaje explícito es la frase que el texto defiende. El implícito es la valoración que se cuela: quién queda bien y qué se da por sabido. El contexto es época, lugar, autor y destinatario. La opinión va después de la evidencia.', tap: '.nav-tab[data-tab="critica"]', graphic: 'lectura' }
       ],
       'ingles_guia.html': [
-        { say: 'Toca Unit 3. Waterborne viaja en el agua.', tap: '.nav-tab[data-tab="unit3"]', graphic: 'agua' },
-        { say: 'Toca Unit 4. Primero las necesidades básicas.', tap: '.nav-tab[data-tab="unit4"]', graphic: 'agua' },
-        { say: 'Toca Vocabulary y tapa la traducción.', tap: '.nav-tab[data-tab="vocab"]', graphic: 'agua' },
-        { say: 'Toca Reading. Lee el título y la primera oración.', tap: '.nav-tab[data-tab="reading"]', graphic: 'lectura' },
-        { say: 'Termina en Practice.', tap: '.nav-tab[data-tab="practica"]', graphic: 'agua' }
+        { say: 'Waterborne means the disease travels in water. Cholera and typhoid spread by contaminated water and cause diarrhea, dehydration or high fever. The fecal-oral route carries germs from feces to the mouth by water, hands, flies or food. Boiling, filtering, sanitation and washing hands with soap prevent that.', tap: '.nav-tab[data-tab="unit3"]', graphic: 'agua' },
+        { say: 'Foreign aid does not always end poverty, and not all aid is wasted. Vaccines, oral rehydration salts and protected wells save lives. Aid can be money, training, medicine or engineers. Should gives advice, must is an obligation, and can shows a possibility.', tap: '.nav-tab[data-tab="unit3"]', graphic: 'agua' },
+        { say: 'Basic needs are food, safe water, shelter, health care and education. If one is missing, the others get harder. Extreme poverty means a family cannot cover that minimum, so children may leave school and work. Income, savings, credit and remittances are financial resources. Development is a long process of schools, clinics, jobs and services, not one donation.', tap: '.nav-tab[data-tab="unit4"]', graphic: 'agua' },
+        { say: 'Because, so and therefore show cause and effect. The well was contaminated, so children got sick. They left school because they had to work. For comparisons, than, more, fewer and less only work if you compare the same kind of thing.', tap: '.nav-tab[data-tab="unit4"]', graphic: 'lectura' },
+        { say: 'In the reading, the disease was waterborne: sewage reached the water people drank. The aid worked because the community also learned and worked. A machine without training is not a solution. Clean water was the first step, not the end of development.', tap: '.nav-tab[data-tab="reading"]', graphic: 'lectura' }
       ],
       'prueba_nivel_ciencias_naturales.html': [
-        { say: 'Toca Biología. Queda quien deja más descendencia.', tap: '.nav-tab[data-tab="bio"]', graphic: 'seleccion' },
-        { say: 'Abre la siguiente tarjeta de biología.', tap: '#tab-bio .acc-item:not(.open) .acc-trigger', graphic: 'seleccion' },
-        { say: 'Toca Física. Las estaciones son por la inclinación del eje.', tap: '.nav-tab[data-tab="fisica"]', graphic: 'estacion' },
-        { say: 'Abre la siguiente idea de física.', tap: '#tab-fisica .acc-item:not(.open) .acc-trigger', graphic: 'estacion' },
-        { say: 'Toca Química. Los átomos se conservan: cuéntalos.', tap: '.nav-tab[data-tab="quimica"]', graphic: 'atomos' },
-        { say: 'Abre la siguiente tarjeta de química.', tap: '#tab-quimica .acc-item:not(.open) .acc-trigger', graphic: 'atomos' },
-        { say: 'Termina en Práctica.', tap: '.nav-tab[data-tab="practica"]', graphic: 'atomos' }
+        { say: 'La generación espontánea decía que la vida aparecía de la materia no viva. Redi, Spallanzani y Pasteur mostraron lo contrario: la biogénesis. Todo ser vivo proviene de otro. En el matraz de cuello de cisne entra aire, pero el caldo sigue estéril porque el polvo queda en la curva.', tap: '#tab-bio .acc-item:nth-of-type(1) .acc-trigger', graphic: 'seleccion' },
+        { say: 'Lamarck pensó que lo que un cuerpo usa se hereda, como el cuello de la jirafa que se estira. Darwin y Wallace propusieron la selección natural: hay variación heredable, nacen más de los que caben, y quienes dejan más crías vuelven frecuentes sus rasgos. Eso, con el tiempo, es la adaptación.', tap: '#tab-bio .acc-item:nth-of-type(2) .acc-trigger', graphic: 'seleccion' },
+        { say: 'Clasificar ordena de lo general a lo particular: reino, filo, clase, orden, familia, género y especie. Los grupos cercanos comparten un ancestro más reciente. La especie se escribe con dos nombres, como Puma concolor. Hoy también se usa el ADN, así que una clasificación puede cambiar.', tap: '#tab-bio .acc-item:nth-of-type(3) .acc-trigger', graphic: 'seleccion' },
+        { say: 'Un organismo es un guanaco. La población son los guanacos de un valle. La comunidad suma las otras especies. El ecosistema agrega agua, suelo y clima. La población crece en forma exponencial si nada la frena, y en forma logística cerca de la capacidad de carga. Depredación y parasitismo son más y menos. La competencia perjudica a ambos. El mutualismo beneficia a los dos.', tap: '#tab-bio .acc-item:nth-of-type(4) .acc-trigger', graphic: 'seleccion' },
+        { say: 'El sonido es una onda mecánica. La frecuencia se oye como grave o agudo, y la amplitud como intensidad. El oído externo lleva la onda al tímpano, el medio la amplifica con martillo, yunque y estribo, y la cóclea la vuelve señal nerviosa. El oído humano capta, aproximadamente, de 20 a 20 mil hertz.', tap: '.nav-tab[data-tab="fisica"]', graphic: 'estacion' },
+        { say: 'La luz visible va, aproximadamente, del violeta al rojo, entre 400 y 700 nanómetros. El ojo no ve ultravioleta ni infrarrojo. Sin corrección, estudiar o ver una señal se dificulta. Lentes y audífonos cambian la participación de las personas.', tap: '#tab-fisica .acc-item:nth-of-type(2) .acc-trigger', graphic: 'estacion' },
+        { say: 'En Chile, la placa de Nazca se hunde bajo la Sudamericana. El hipocentro es la ruptura en profundidad y el epicentro es el punto de la superficie justo encima. La onda P llega primero y atraviesa sólidos y líquidos. La S no atraviesa el núcleo externo líquido. Las superficiales suelen dañar más las construcciones. La magnitud es la energía del sismo. La intensidad son los efectos, y cambian de un lugar a otro.', tap: '#tab-fisica .acc-item:nth-of-type(3) .acc-trigger', graphic: 'estacion' },
+        { say: 'El día y la noche vienen de la rotación de la Tierra. El año es su órbita. Las estaciones las produce la inclinación del eje, unos 23,5 grados, no la distancia al Sol. En diciembre el hemisferio sur queda más de frente al Sol y en Chile es verano. El eclipse solar es en luna nueva y el lunar en luna llena. No hay eclipse en cada fase porque la órbita de la Luna está inclinada.', tap: '#tab-fisica .acc-item:nth-of-type(4) .acc-trigger', graphic: 'estacion' },
+        { say: 'En un cambio físico la sustancia sigue siendo la misma: el hielo sigue siendo agua. En un cambio químico aparecen sustancias nuevas, a veces con gas, color, olor o calor. La fermentación produce etanol y dióxido de carbono. La combustión del metano produce dióxido de carbono y agua. El óxido de hierro es una sustancia nueva.', tap: '.nav-tab[data-tab="quimica"]', graphic: 'atomos' },
+        { say: 'Las partículas reaccionan si chocan con energía suficiente y buena orientación. Esa energía mínima es la de activación. Síntesis junta, descomposición separa, sustitución reemplaza. La combustión libera calor: es exotérmica. En la neutralización, ácido más base forman sal y agua. Quien pierde electrones se oxida y quien los gana se reduce.', tap: '#tab-quimica .acc-item:nth-of-type(2) .acc-trigger', graphic: 'atomos' },
+        { say: 'Los átomos no desaparecen: se reordenan. Por eso la masa se conserva. 12 gramos de carbono más 32 de oxígeno forman 44 de dióxido de carbono. Un mol tiene el número de Avogadro de partículas, y la masa molar es la masa de un mol. Los coeficientes equilibran la ecuación; no se cambian las fórmulas para hacerlas calzar.', tap: '#tab-quimica .acc-item:nth-of-type(3) .acc-trigger', graphic: 'atomos' }
       ],
       'historia_guia.html': [
-        { say: 'Toca Escasez. Queremos más de lo que hay.', tap: '.nav-tab[data-tab="economia"]', graphic: 'precio' },
-        { say: 'Toca Mercado. Si sube la demanda y la oferta no, el precio sube.', tap: '.nav-tab[data-tab="mercado"]', graphic: 'precio' },
-        { say: 'Toca Finanzas. Compara para qué sirve y qué puede salir mal.', tap: '.nav-tab[data-tab="finanzas"]', graphic: 'precio' },
-        { say: 'Toca Expansión. El Estado usó cuatro vías.', tap: '.nav-tab[data-tab="expansion"]', graphic: 'precio' },
-        { say: 'Abre Ocupación. Nombra el objetivo del Estado y el efecto en quien ya vivía ahí.', tap: '#tab-expansion .acc-item:not(.open) .acc-trigger', graphic: 'precio' },
-        { say: 'Cierra en Práctica.', tap: '.nav-tab[data-tab="practica"]', graphic: 'precio' }
+        { say: 'La escasez no es que un bien esté agotado hoy. Es que no alcanza para todos los usos que la gente quisiera. De ahí salen tres preguntas: qué producir, cómo producirlo y para quién. Elegir pan es dejar de producir otra cosa.', tap: '.nav-tab[data-tab="economia"]', graphic: 'precio' },
+        { say: 'Las familias consumen y ofrecen trabajo. Las empresas producen y contratan. El Estado cobra impuestos y entrega servicios. El resto del mundo entra por importaciones y exportaciones. Una familia compra pan, la panadería paga sueldo, el Estado cobra IVA y el trigo puede cruzar la frontera.', tap: '#tab-economia .acc-trigger', graphic: 'precio' },
+        { say: 'La demanda baja cuando el precio sube. La oferta sube cuando el precio sube. El equilibrio es el precio en que se ofrece y se pide la misma cantidad. Si sube la demanda y la oferta no alcanza, el precio sube.', tap: '.nav-tab[data-tab="mercado"]', graphic: 'precio' },
+        { say: 'Un monopolio es un solo vendedor y puede mantener el precio alto. La colusión es un acuerdo entre vendedores para actuar como uno. La inflación sube el nivel general de precios. Un precio máximo muy bajo puede generar escasez, y un arancel encarece lo importado.', tap: '#tab-mercado .acc-trigger', graphic: 'precio' },
+        { say: 'Cada instrumento financiero sirve para algo y tiene un riesgo. La libreta separa el ahorro, pero la inflación puede comerse el interés. El crédito y la tarjeta permiten pagar después, y la deuda crece si solo pagas el mínimo. La acción puede ganar o perder valor. La previsión protege el futuro solo si los aportes alcanzan.', tap: '.nav-tab[data-tab="finanzas"]', graphic: 'precio' },
+        { say: 'La colonización instaló población para afirmar al Estado. En el sur, desde 1845, Vicente Pérez Rosales impulsó la llegada de inmigrantes alemanes a Valdivia y Llanquihue. También cambió la vida de quienes ya vivían ahí.', tap: '.nav-tab[data-tab="expansion"]', graphic: 'precio' },
+        { say: 'La ocupación de la Araucanía avanzó con fuertes y después con radicación mapuche en tierras reducidas. Para el Estado era incorporar territorio. Para el pueblo mapuche fue pérdida de territorio, violencia y una reorganización forzada. En 1843, Fuerte Bulnes y luego Punta Arenas ocuparon el estrecho de Magallanes.', tap: '#tab-expansion .acc-item:nth-of-type(2) .acc-trigger', graphic: 'precio' },
+        { say: 'La diplomacia fija límites por tratados. El de 1881 con Argentina reparte la Patagonia. La Guerra del Pacífico, entre 1879 y 1884, incorporó territorios salitreros: Tarapacá y, después, Antofagasta. Bolivia perdió su salida soberana al mar. Hay que relacionar la guerra con el salitre y con la nueva frontera.', tap: '#tab-expansion .acc-item:nth-of-type(3) .acc-trigger', graphic: 'precio' },
+        { say: 'Expandir el territorio exigía conocerlo. Gay, Domeyko y Philippi lo recorrieron y lo describieron. Los censos contaron a la población para administrar. La Universidad de Chile, con Andrés Bello en 1842, formó profesionales. Mapas y estudios sirvieron para organizar provincias y defender límites.', tap: '#tab-expansion .acc-item:nth-of-type(4) .acc-trigger', graphic: 'precio' }
       ],
       'juegos.html': [
-        { say: 'Toca el rompecabezas. El hueco es tu mano.', tap: '#tab-rompecabezas', graphic: 'piezas' },
-        { say: 'Toca Memoria. Cada par es el concepto y su nombre.', tap: '#tab-memoria', graphic: 'piezas' },
-        { say: 'Toca Relámpago. Lee el verbo de la pregunta.', tap: '#tab-rayo', graphic: 'lectura' }
+        { say: 'En el rompecabezas, cada ficha es una parte de la idea. El cuadrado de binomio es a cuadrado, más el doble producto, más b cuadrado. El hueco es el espacio por donde deslizas la pieza que falta.', tap: '#tab-rompecabezas', graphic: 'piezas' },
+        { say: 'En la memoria, el par junta el concepto con su nombre. Por ejemplo, escasez con «no alcanza para todos los usos», o selección natural con «deja más descendencia».', tap: '#tab-memoria', graphic: 'piezas' },
+        { say: 'En el relámpago, la pregunta trae el contenido de la PDN. Lee el verbo: si dice «infiere», la respuesta no está copiada; si dice «calcula», aplica la fórmula y comprueba.', tap: '#tab-rayo', graphic: 'lectura' }
       ]
     };
     return (map[page] || []).filter(function (item) {

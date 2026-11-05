@@ -300,6 +300,6 @@ quiz.innerHTML=quizData.map((item,i)=>`<article class="quiz-item"><div>${i+1}. $
 quiz.addEventListener('click',e=>{const btn=e.target.closest('.quiz-opt'); if(!btn)return; const qi=+btn.dataset.q; if(answered.has(qi))return; answered.add(qi); const item=quizData[qi]; const sel=+btn.dataset.o; const ok=sel===item.ans; if(ok)correct++; quiz.querySelectorAll(`[data-q="${qi}"]`).forEach(opt=>{opt.disabled=true; const idx=+opt.dataset.o; if(idx===item.ans)opt.classList.add('correct'); else if(idx===sel)opt.classList.add('wrong');}); const fb=document.getElementById('fb-'+qi); fb.className='quiz-feedback show '+(ok?'ok':'nok'); fb.textContent=(ok?'Correcto. ':'Conviene repasar ese apartado. ')+item.exp; const score=document.getElementById('quiz-score'); score.style.display='block'; score.textContent=`${correct} correctas de ${answered.size} respondidas · ${Math.round(correct/answered.size*100)}%`;});
 </script>
 <script src="estudio.js"></script>
-<script src="vicho.js?v=10"></script>
+<script src="vicho.js?v=11"></script>
 </body>
 </html>

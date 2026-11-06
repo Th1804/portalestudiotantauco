@@ -7,7 +7,7 @@
 <title>Torpedos y guías de desarrollo — Colegio Tantauco</title>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="estudio.css">
-<link rel="stylesheet" href="impresos.css">
+<link rel="stylesheet" href="impresos.css?v=2">
 <link rel="stylesheet" href="vicho.css?v=10">
 </head>
 <body class="vicho-skin">
@@ -16,7 +16,7 @@
 <main class="wrap main">
   <p class="header-eyebrow">Colegio Tantauco</p>
   <h1>Torpedos y guías de desarrollo</h1>
-  <p class="lead">Elige la PDN y el formato. El torpedo cabe en una hoja. La guía de desarrollo trae preguntas para responder en las líneas y la pauta en la hoja siguiente. En el cuadro de impresión, elige guardar como PDF.</p>
+  <p class="lead">Elige la PDN. La guía de desarrollo trae las preguntas y la pauta. Guardar PDF baja el archivo a este aparato.</p>
   <div class="tools">
     <div class="switch" id="materias" role="tablist" aria-label="Asignatura">
       <button type="button" data-materia="matematica" aria-pressed="true">Matemática</button>
@@ -30,15 +30,15 @@
       <button type="button" id="tipo-desarrollo" aria-pressed="false">Guía de desarrollo</button>
     </div>
     <div class="actions">
-      <button type="button" id="pack" aria-pressed="false">Los 5 torpedos</button>
+      <button type="button" id="pack" aria-pressed="false">Ver las 5 guías</button>
       <button type="button" id="imprimir" class="solid">Guardar PDF</button>
     </div>
   </div>
-  <p class="hint">La hoja de abajo es la que se imprime. El resto de la página no sale en el PDF.</p>
+  <p class="hint" id="estado" aria-live="polite">La guía aparece debajo de estos botones.</p>
   <div id="hoja"></div>
 </main>
 <script src="estudio.js"></script>
 <script src="vicho.js?v=13"></script>
-<script src="impresos.js"></script>
+<script src="impresos.js?v=2"></script>
 </body>
 </html>

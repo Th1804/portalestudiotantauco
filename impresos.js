@@ -124,11 +124,12 @@
     }
   ];
 
-  var tipo = 'torpedo';
+  var tipo = 'desarrollo';
   var materiaId = 'matematica';
   var pack = false;
   var hoja = document.getElementById('hoja');
   var packBtn = document.getElementById('pack');
+  var estado = document.getElementById('estado');
 
   function porId(id) {
     for (var i = 0; i < materias.length; i++) {
@@ -168,7 +169,7 @@
     return '<article class="sheet ' + tipo + '"><header class="mast"><div><p>Colegio Tantauco · ' + etiqueta + '</p><h2>' + materia.nombre + '</h2></div><p>PDN · ' + materia.fecha + '</p></header>' + cuerpo + '</article>';
   }
 
-  function render() {
+  function render(scroll) {
     var lista = pack ? materias : [porId(materiaId)];
     hoja.innerHTML = lista.map(sheet).join('');
     var botones = document.querySelectorAll('[data-materia]');
@@ -178,9 +179,181 @@
     document.getElementById('tipo-torpedo').setAttribute('aria-pressed', String(tipo === 'torpedo'));
     document.getElementById('tipo-desarrollo').setAttribute('aria-pressed', String(tipo === 'desarrollo'));
     packBtn.setAttribute('aria-pressed', String(pack));
-    packBtn.textContent = tipo === 'torpedo' ? 'Los 5 torpedos' : 'Las 5 guías';
+    packBtn.textContent = pack ? 'Ver solo una' : 'Ver las 5 guías';
     var hash = pack ? 'todas-' + tipo : materiaId + '-' + tipo;
     if (location.hash !== '#' + hash) history.replaceState(null, '', '#' + hash);
+    var nombre = pack ? 'las 5 guías' : 'la guía de ' + porId(materiaId).nombre;
+    estado.textContent = tipo === 'torpedo'
+      ? 'Estás viendo ' + (pack ? 'los 5 torpedos' : 'el torpedo de ' + porId(materiaId).nombre) + '.'
+      : 'Estás viendo ' + nombre + ' de desarrollo.';
+    if (scroll) estado.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function ancho(texto, size) {
+    var total = 0;
+    for (var i = 0; i < texto.length; i++) {
+      var c = texto.charAt(i);
+      var u = 520;
+      if (' ijlIftr.,:;\'|'.indexOf(c) !== -1) u = 280;
+      else if ('mwMW@'.indexOf(c) !== -1) u = 820;
+      else if (c >= 'A' && c <= 'Z') u = 680;
+      total += u;
+    }
+    return total * size / 1000;
+  }
+
+  function octal(n) {
+    var s = n.toString(8);
+    while (s.length < 3) s = '0' + s;
+    return '\\' + s;
+  }
+
+  function pdfStr(texto) {
+    var mapa = {
+      160: 160, 161: 161, 171: 171, 176: 176, 178: 178, 183: 183, 187: 187, 191: 191, 215: 215,
+      193: 193, 201: 201, 205: 205, 211: 211, 218: 218, 209: 209, 220: 220,
+      225: 225, 233: 233, 237: 237, 243: 243, 250: 250, 241: 241, 252: 252,
+      8211: 150, 8212: 151, 8216: 145, 8217: 146, 8220: 147, 8221: 148, 8230: 133
+    };
+    var s = '(';
+    for (var i = 0; i < texto.length; i++) {
+      var c = texto.charCodeAt(i);
+      var b = c < 128 ? c : (mapa[c] || 63);
+      if (b === 40 || b === 41 || b === 92) s += '\\' + String.fromCharCode(b);
+      else if (b < 32 || b > 126) s += octal(b);
+      else s += String.fromCharCode(b);
+    }
+    return s + ')';
+  }
+
+  function Documento() {
+    this.paginas = [];
+    this.abrir();
+  }
+
+  Documento.prototype.abrir = function () {
+    this.actual = { ops: [], y: 800 };
+    this.paginas.push(this.actual);
+  };
+
+  Documento.prototype.espacio = function (n) {
+    if (this.actual.y - n < 48) this.abrir();
+  };
+
+  Documento.prototype.lineaTexto = function (texto, size, bold) {
+    this.espacio(size + 5);
+    var font = bold ? '/F2 ' : '/F1 ';
+    this.actual.ops.push('BT ' + font + size + ' Tf 1 0 0 1 40 ' + Math.round(this.actual.y) + ' Tm ' + pdfStr(texto) + ' Tj ET');
+    this.actual.y -= size + 5;
+  };
+
+  Documento.prototype.parrafo = function (texto, size, bold) {
+    var palabras = String(texto).split(' ');
+    var linea = '';
+    for (var i = 0; i < palabras.length; i++) {
+      var prueba = linea ? linea + ' ' + palabras[i] : palabras[i];
+      if (ancho(prueba, size) > 515 && linea) {
+        this.lineaTexto(linea, size, bold);
+        linea = palabras[i];
+      } else {
+        linea = prueba;
+      }
+    }
+    if (linea) this.lineaTexto(linea, size, bold);
+  };
+
+  Documento.prototype.regla = function () {
+    this.espacio(18);
+    var y = Math.round(this.actual.y);
+    this.actual.ops.push('0.6 w 0.72 0.68 0.82 RG 40 ' + y + ' m 555 ' + y + ' l S');
+    this.actual.y -= 16;
+  };
+
+  Documento.prototype.cuerpos = function () {
+    var lista = [];
+    for (var i = 0; i < this.paginas.length; i++) lista.push(this.paginas[i].ops.join('\n'));
+    return lista;
+  };
+
+  function documentoDe(lista, modo) {
+    var doc = new Documento();
+    for (var i = 0; i < lista.length; i++) {
+      if (i > 0) doc.abrir();
+      var materia = lista[i];
+      doc.lineaTexto('Colegio Tantauco · ' + (modo === 'torpedo' ? 'Torpedo de repaso' : 'Guía de desarrollo'), 10, true);
+      doc.lineaTexto(materia.nombre + '    PDN ' + materia.fecha, 16, true);
+      doc.actual.y -= 6;
+      if (modo === 'torpedo') {
+        for (var b = 0; b < materia.torpedo.length; b++) {
+          doc.parrafo(materia.torpedo[b].titulo, 12, true);
+          for (var n = 0; n < materia.torpedo[b].lineas.length; n++) doc.parrafo(materia.torpedo[b].lineas[n], 10, false);
+          doc.actual.y -= 6;
+        }
+      } else {
+        doc.parrafo('Nombre: ____________________    Curso: ________    Fecha: ________', 10, false);
+        doc.actual.y -= 6;
+        for (var q = 0; q < materia.desarrollo.length; q++) {
+          doc.parrafo((q + 1) + '. ' + materia.desarrollo[q].enunciado, 11, true);
+          for (var r = 0; r < materia.desarrollo[q].lineas; r++) doc.regla();
+          doc.actual.y -= 4;
+        }
+        doc.abrir();
+        doc.lineaTexto('Pauta · ' + materia.nombre, 14, true);
+        doc.actual.y -= 4;
+        for (var p = 0; p < materia.desarrollo.length; p++) doc.parrafo((p + 1) + '. ' + materia.desarrollo[p].pauta, 10, false);
+      }
+    }
+    return doc;
+  }
+
+  function armarPdf(paginas) {
+    var objetos = [];
+    objetos.push('<< /Type /Catalog /Pages 2 0 R >>');
+    objetos.push('');
+    objetos.push('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>');
+    objetos.push('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>');
+    var kids = [];
+    for (var i = 0; i < paginas.length; i++) {
+      var stream = paginas[i];
+      var contenido = objetos.length + 1;
+      objetos.push('<< /Length ' + stream.length + ' >>\nstream\n' + stream + '\nendstream');
+      kids.push((contenido + 1) + ' 0 R');
+      objetos.push('<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents ' + contenido + ' 0 R /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> >>');
+    }
+    objetos[1] = '<< /Type /Pages /Count ' + paginas.length + ' /Kids [' + kids.join(' ') + '] >>';
+    var cuerpo = '%PDF-1.4\n';
+    var offsets = [0];
+    for (var j = 0; j < objetos.length; j++) {
+      offsets.push(cuerpo.length);
+      cuerpo += (j + 1) + ' 0 obj\n' + objetos[j] + '\nendobj\n';
+    }
+    var xref = cuerpo.length;
+    var salida = cuerpo + 'xref\n0 ' + (objetos.length + 1) + '\n0000000000 65535 f \n';
+    for (var k = 1; k < offsets.length; k++) {
+      var off = String(offsets[k]);
+      while (off.length < 10) off = '0' + off;
+      salida += off + ' 00000 n \n';
+    }
+    salida += 'trailer\n<< /Size ' + (objetos.length + 1) + ' /Root 1 0 R >>\nstartxref\n' + xref + '\n%%EOF';
+    return salida;
+  }
+
+  function guardarPdf() {
+    var lista = pack ? materias : [porId(materiaId)];
+    var binario = armarPdf(documentoDe(lista, tipo).cuerpos());
+    var bytes = new Uint8Array(binario.length);
+    for (var i = 0; i < binario.length; i++) bytes[i] = binario.charCodeAt(i) & 255;
+    var blob = new Blob([bytes], { type: 'application/pdf' });
+    var nombre = (pack ? 'pdn-5-' : materiaId + '-') + (tipo === 'torpedo' ? 'torpedo' : 'guia-de-desarrollo') + '.pdf';
+    var url = URL.createObjectURL(blob);
+    var enlace = document.createElement('a');
+    enlace.href = url;
+    enlace.download = nombre;
+    document.body.appendChild(enlace);
+    enlace.click();
+    enlace.remove();
+    if (window.matchMedia('(pointer: coarse)').matches) window.open(url, '_blank');
+    estado.textContent = 'PDF listo: ' + nombre + '.';
   }
 
   function leerHash() {
@@ -203,13 +376,17 @@
     if (!boton) return;
     pack = false;
     materiaId = boton.dataset.materia;
-    render();
+    render(true);
   });
-  document.getElementById('tipo-torpedo').addEventListener('click', function () { tipo = 'torpedo'; render(); });
-  document.getElementById('tipo-desarrollo').addEventListener('click', function () { tipo = 'desarrollo'; render(); });
-  packBtn.addEventListener('click', function () { pack = !pack; render(); });
-  document.getElementById('imprimir').addEventListener('click', function () { window.print(); });
+  document.getElementById('tipo-torpedo').addEventListener('click', function () { tipo = 'torpedo'; render(true); });
+  document.getElementById('tipo-desarrollo').addEventListener('click', function () { tipo = 'desarrollo'; render(true); });
+  packBtn.addEventListener('click', function () {
+    pack = !pack;
+    if (pack) tipo = 'desarrollo';
+    render(true);
+  });
+  document.getElementById('imprimir').addEventListener('click', guardarPdf);
 
   leerHash();
-  render();
+  render(false);
 })();

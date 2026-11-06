@@ -1,8 +1,18 @@
 .wrap { max-width: 920px; margin: 0 auto; padding: 84px 16px 48px; }
 h1 { font-family: 'Fredoka', 'Nunito', sans-serif; font-size: clamp(1.8rem, 6vw, 2.6rem); line-height: 1.1; margin: 6px 0 8px; }
 .lead { color: #534a68; margin-bottom: 16px; max-width: 62ch; }
-.tools { display: grid; gap: 10px; margin-bottom: 14px; }
-.switch, .actions { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+.tools {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 14px;
+  position: sticky;
+  top: 8px;
+  z-index: 40;
+  padding: 8px 0;
+  background: #efe8ff;
+}
+html.dark-mode .tools { background: #140e22; }
+.switch, .actions { display: flex; gap: 8px; flex-wrap: wrap; padding-bottom: 4px; }
 .switch button, .actions button {
   flex: 0 0 auto;
   min-height: 44px;
@@ -14,6 +24,7 @@ h1 { font-family: 'Fredoka', 'Nunito', sans-serif; font-size: clamp(1.8rem, 6vw,
   font-family: 'Nunito', sans-serif;
   font-weight: 800;
   cursor: pointer;
+  touch-action: manipulation;
   box-shadow: 0 6px 0 #e4d8ff;
 }
 .switch button[aria-pressed="true"], .actions button.solid {

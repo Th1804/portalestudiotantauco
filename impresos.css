@@ -59,6 +59,7 @@ html.dark-mode .tools { background: #140e22; }
   padding: 4px 6px;
 }
 .guia h3 { font-size: 15px; margin-top: 8px; }
+.guia h3.bloque { margin: 14px 0 6px; font-size: 16px; border-bottom: 1px solid #241c3a; }
 .guia p, .guia li { font-size: 13.5px; line-height: 1.45; }
 .guia ul { margin: 0 0 6px 16px; padding: 0; }
 .pauta { margin-top: 14px; border-top: 2px dashed #d9d0ea; padding-top: 8px; }

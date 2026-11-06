@@ -129,7 +129,7 @@
   });
 
   window.setTimeout(function () {
-    if (learning) return;
+    if (learning || columnLeft() < 150) return;
     say('Presióname y te explico la materia.', true);
   }, 900);
   raf = window.requestAnimationFrame(frame);
@@ -218,9 +218,11 @@
 
   function floorY() {
     var bar = document.getElementById('foco-bar') || document.getElementById('foco-root');
-    var top = bar ? bar.getBoundingClientRect().top : window.innerHeight - 64;
     var height = actor.offsetHeight || 88;
-    return Math.max(8, Math.round(top - height - 10));
+    if (!bar) return Math.max(8, window.innerHeight - height - 12);
+    var rect = bar.getBoundingClientRect();
+    if (columnLeft() < 150) return Math.max(8, Math.round(rect.bottom - height));
+    return Math.max(8, Math.round(rect.top - height - 10));
   }
 
   function say(text, force, pin) {
@@ -266,12 +268,16 @@
     var gutter = columnLeft();
     var left = dock.x + actorW + 8;
     var top = dock.y + (actor.offsetHeight || 88) - h;
-    if (gutter >= 150 || left + w > chatLeft - 8) {
+    if (gutter >= 150) {
       left = dock.x;
       top = dock.y - h - 8;
+    } else if (left + w > chatLeft - 8) {
+      left = Math.max(8, chatLeft - w - 8);
     }
     learn.style.left = Math.round(Math.max(8, left)) + 'px';
     learn.style.top = Math.round(Math.max(8, top)) + 'px';
+    var root = document.getElementById('foco-root');
+    if (root) root.style.left = gutter >= 150 ? '' : Math.round(learn.getBoundingClientRect().right + 8) + 'px';
   }
 
   function safeBottom() {
@@ -306,11 +312,7 @@
 
   function placeBox(el) {
     var dock = dockPoint();
-    var actorW = actor.offsetWidth || 88;
-    var actorH = actor.offsetHeight || 88;
     var gutter = columnLeft();
-    var chat = document.getElementById('chat-fab');
-    var chatLeft = chat ? chat.getBoundingClientRect().left : window.innerWidth;
     var floor = safeBottom();
     el.classList.add('docked');
     if (gutter >= 150) {
@@ -333,47 +335,23 @@
       avoidControls(el);
       return;
     }
-    var sideLeft = Math.max(learn.getBoundingClientRect().right, dock.x + actorW) + 8;
-    var sideWidth = Math.min(220, chatLeft - sideLeft - 8);
     el.classList.add('compact');
-    if (sideWidth < 96) {
-      el.style.width = Math.round(Math.min(220, Math.max(120, chatLeft - 16))) + 'px';
-      el.style.maxHeight = '72px';
-      el.style.left = '8px';
-      var stacked = el.offsetHeight || 56;
-      var above = Math.min(learn.getBoundingClientRect().top || dock.y, dock.y, floor) - 8;
-      el.style.top = Math.round(Math.max(8, above - stacked)) + 'px';
-      avoidControls(el);
-      return;
-    }
-    var maxH = Math.max(44, Math.min(actorH, floor - dock.y));
-    el.style.width = Math.round(sideWidth) + 'px';
-    el.style.maxHeight = Math.round(maxH) + 'px';
-    el.style.left = Math.round(sideLeft) + 'px';
-    el.style.top = Math.round(dock.y) + 'px';
-    if (el.getBoundingClientRect().bottom > floor) {
-      el.style.maxHeight = Math.max(44, floor - dock.y) + 'px';
-    }
-    avoidControls(el);
+    el.style.width = Math.round(Math.min(240, window.innerWidth - 16)) + 'px';
+    el.style.maxHeight = '72px';
+    el.style.left = '8px';
+    var stacked = el.offsetHeight || 52;
+    var above = Math.min(dock.y, floor) - 6;
+    el.style.top = Math.round(Math.max(8, above - stacked)) + 'px';
   }
 
   function placePlate() {
-    var narrowDock = columnLeft() < 150;
-    if (!narrowDock) {
-      plate.hidden = true;
+    plate.hidden = true;
+    if (columnLeft() >= 150) {
       document.body.style.paddingBottom = '';
       return;
     }
-    var bar = document.getElementById('foco-bar');
-    var barTop = bar ? bar.getBoundingClientRect().top : window.innerHeight;
     var top = actor.getBoundingClientRect().top;
-    if (!learn.hidden) top = Math.min(top, learn.getBoundingClientRect().top);
-    if (!think.hidden) top = Math.min(top, think.getBoundingClientRect().top);
-    if (!bubble.hidden) top = Math.min(top, bubble.getBoundingClientRect().top);
-    plate.hidden = false;
-    plate.style.top = Math.round(top - 8) + 'px';
-    plate.style.height = Math.round(Math.max(0, barTop - top + 8)) + 'px';
-    document.body.style.paddingBottom = Math.round(window.innerHeight - top + 28) + 'px';
+    document.body.style.paddingBottom = Math.round(window.innerHeight - top + 16) + 'px';
   }
 
   function nextTip() {

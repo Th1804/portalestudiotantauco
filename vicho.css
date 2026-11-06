@@ -615,6 +615,7 @@ html.dark-mode #vicho-plate { background: #140e22; }
 }
 
 @media (max-width: 700px) {
+  html { scroll-padding-bottom: 150px; }
   body.vicho-skin .hero,
   body.vicho-skin .site-header { padding: 78px 16px 22px; }
   body.vicho-skin .hero-title,
@@ -647,9 +648,19 @@ html.dark-mode #vicho-plate { background: #140e22; }
     height: min(74dvh, 640px);
     bottom: calc(78px + env(safe-area-inset-bottom));
   }
+  body.vicho-skin #foco-root,
   body.vicho-skin:has(#chat-fab) #foco-root {
-    right: 12px;
-    bottom: calc(78px + env(safe-area-inset-bottom));
+    bottom: env(safe-area-inset-bottom);
+  }
+  body.vicho-skin:has(#chat-fab) #foco-root {
+    left: 8px;
+    right: 64px;
+  }
+  body.vicho-skin #chat-fab {
+    right: 8px;
+    bottom: env(safe-area-inset-bottom);
+    width: 48px;
+    height: 48px;
   }
   body.vicho-skin #gs-modal {
     top: 8px;
@@ -657,7 +668,14 @@ html.dark-mode #vicho-plate { background: #140e22; }
   }
   body.vicho-skin #gs-results { max-height: 48dvh; }
   body.vicho-skin #achievement-toast { min-width: 0; width: calc(100vw - 24px); }
-  #vicho-actor { width: 88px; height: 88px; }
+  #vicho-actor { width: 48px; height: 48px; }
+  #vicho-learn { height: 36px; padding: 0 12px; font-size: 14px; box-shadow: 0 4px 0 #c86a10; }
+  body.vicho-skin #foco-bar { padding: 4px; gap: 2px; }
+  body.vicho-skin #foco-toggle { min-height: 40px; font-size: 13px; }
+  body.vicho-skin #foco-sound,
+  body.vicho-skin #foco-focus,
+  body.vicho-skin #foco-more { width: 32px; height: 32px; }
+  #vicho-plate { display: none; }
   #vicho-say { font-size: 13px; }
 }
 

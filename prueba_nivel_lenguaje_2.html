@@ -74,7 +74,7 @@
   .flash.on { background:var(--accent-dim); } .flash small { font-family:var(--font-mono); font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); }
   .footer { text-align:center; font-family:var(--font-mono); font-size:11px; color:var(--text-dim); padding:10px 16px 40px; }
 </style>
-<link rel="stylesheet" href="vicho.css?v=13">
+<link rel="stylesheet" href="vicho.css?v=14">
 </head>
 <body class="vicho-skin">
 <a id="back-btn" href="index.html">← Portal</a>
@@ -305,6 +305,6 @@ document.getElementById('flash').innerHTML = cards.map(([f,b])=>`<button class="
 document.getElementById('flash').addEventListener('click', e => { const c = e.target.closest('.flash'); if (!c) return; const on = c.classList.toggle('on'); c.querySelector('p').textContent = on ? c.dataset.back : c.dataset.front; });
 </script>
 <script src="estudio.js"></script>
-<script src="vicho.js?v=16"></script>
+<script src="vicho.js?v=17"></script>
 </body>
 </html>

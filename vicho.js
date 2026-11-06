@@ -149,13 +149,13 @@
     if (!running) return;
     var dt = Math.min(34, now - last);
     last = now;
+    if (learning && document.body.classList.contains('foco-on')) stopLesson();
+    if (learning && stepEl && lesson[step] && !stepPressed) tapControl(stepEl, lesson[step]);
+    placeChrome();
     var floor = floorY();
     var width = actor.offsetWidth || 90;
     var maxX = Math.max(12, window.innerWidth - width - 8);
     var minX = 8;
-
-    if (learning && document.body.classList.contains('foco-on')) stopLesson();
-    if (learning && stepEl && lesson[step] && !stepPressed) tapControl(stepEl, lesson[step]);
     if (!fingerDown) {
       var dock = dockPoint();
       x = dock.x;
@@ -168,13 +168,21 @@
 
     var moving = false;
     var wave = 0;
+    var voiceOn = window.speechSynthesis && (speechSynthesis.speaking || speechSynthesis.pending);
+    var line = document.getElementById('vicho-line');
+    var talking = !!voiceOn || bubble.classList.contains('typing') || (line && line.classList.contains('typing')) || (learning && !think.hidden);
     var lift = 0;
     var squash = 1;
+    if (!reduce && talking) {
+      lift = Math.abs(Math.sin(now / 90)) * 7;
+      squash = 0.94 + Math.abs(Math.sin(now / 90)) * 0.1;
+    } else if (!reduce) {
+      lift = (Math.sin(now / 500) + 1) * 2;
+    }
     var punch = now < punchUntil ? 1 + Math.sin(((punchUntil - now) / 420) * Math.PI) * 0.22 : 1;
     actor.classList.toggle('walk', moving);
-    var voiceOn = window.speechSynthesis && (speechSynthesis.speaking || speechSynthesis.pending);
-    actor.classList.toggle('talk', !!voiceOn || (learning && !think.hidden));
-    actor.classList.toggle('rest', !actor.classList.contains('talk'));
+    actor.classList.toggle('talk', talking);
+    actor.classList.remove('rest');
     actor.style.left = Math.round(x) + 'px';
     actor.style.top = Math.round(y) + 'px';
     actor.style.transform = 'translateY(' + (-lift).toFixed(1) + 'px) scale(' + punch.toFixed(3) + ') scaleX(' + dir + ') scaleY(' + squash.toFixed(3) + ')';
@@ -190,8 +198,8 @@
       eyes.style.transform = blinkUntil ? 'scaleY(0.1)' : 'scaleY(1)';
     }
     if (mouth) {
-      var open = actor.classList.contains('talk') ? (2.2 + Math.abs(Math.sin(now / 80)) * 5.5) : 2.2;
-      mouth.setAttribute('ry', String(open));
+      var open = talking && !reduce ? 3 + Math.abs(Math.sin(now / 90)) * 10 : 2.6;
+      mouth.setAttribute('ry', open.toFixed(1));
     }
     if (!think.hidden) bubble.hidden = true;
     placeLearn();
@@ -214,6 +222,25 @@
       if (learning) return;
     }
     speak(nextTip());
+  }
+
+  function browserInset() {
+    var vv = window.visualViewport;
+    if (!vv) return 0;
+    return Math.max(0, Math.round(window.innerHeight - vv.offsetTop - vv.height));
+  }
+
+  function placeChrome() {
+    var root = document.getElementById('foco-root');
+    var fab = document.getElementById('chat-fab');
+    if (columnLeft() >= 150) {
+      if (root) root.style.bottom = '';
+      if (fab) fab.style.bottom = '';
+      return;
+    }
+    var bottom = 'calc(' + browserInset() + 'px + env(safe-area-inset-bottom))';
+    if (root) root.style.bottom = bottom;
+    if (fab) fab.style.bottom = bottom;
   }
 
   function floorY() {

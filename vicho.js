@@ -129,7 +129,7 @@
   });
 
   window.setTimeout(function () {
-    if (learning || columnLeft() < 150) return;
+    if (learning) return;
     say('Presióname y te explico la materia.', true);
   }, 900);
   raf = window.requestAnimationFrame(frame);
@@ -172,9 +172,9 @@
     var squash = 1;
     var punch = now < punchUntil ? 1 + Math.sin(((punchUntil - now) / 420) * Math.PI) * 0.22 : 1;
     actor.classList.toggle('walk', moving);
-    actor.classList.remove('rest');
     var voiceOn = window.speechSynthesis && (speechSynthesis.speaking || speechSynthesis.pending);
     actor.classList.toggle('talk', !!voiceOn || (learning && !think.hidden));
+    actor.classList.toggle('rest', !actor.classList.contains('talk'));
     actor.style.left = Math.round(x) + 'px';
     actor.style.top = Math.round(y) + 'px';
     actor.style.transform = 'translateY(' + (-lift).toFixed(1) + 'px) scale(' + punch.toFixed(3) + ') scaleX(' + dir + ') scaleY(' + squash.toFixed(3) + ')';
@@ -225,16 +225,41 @@
     return Math.max(8, Math.round(rect.top - height - 10));
   }
 
+  var typeTimer = 0;
+
+  function typeInto(node, text) {
+    window.clearInterval(typeTimer);
+    node.classList.remove('typing');
+    if (!text || reduce) {
+      node.textContent = text || '';
+      return;
+    }
+    var i = 0;
+    node.textContent = '';
+    node.classList.add('typing');
+    typeTimer = window.setInterval(function () {
+      i += 1;
+      node.textContent = text.slice(0, i);
+      if (i >= text.length) {
+        window.clearInterval(typeTimer);
+        node.classList.remove('typing');
+      }
+    }, 34);
+  }
+
   function say(text, force, pin) {
     if (learning) return;
     var now = performance.now();
     if (!force && now - saidAt < 3500) return;
     saidAt = now;
-    bubble.textContent = text;
     bubble.hidden = false;
     bubble.classList.toggle('pinned', !!pin);
+    typeInto(bubble, text);
     window.clearTimeout(hideTimer);
-    hideTimer = window.setTimeout(function () { bubble.hidden = true; }, 3600);
+    hideTimer = window.setTimeout(function () {
+      bubble.hidden = true;
+      bubble.classList.remove('typing');
+    }, Math.max(3200, text.length * 34 + 1600));
   }
 
   function dockPoint() {
@@ -337,7 +362,7 @@
     }
     el.classList.add('compact');
     el.style.width = Math.round(Math.min(240, window.innerWidth - 16)) + 'px';
-    el.style.maxHeight = '72px';
+    el.style.maxHeight = el.id === 'vicho-think' ? '148px' : '84px';
     el.style.left = '8px';
     var stacked = el.offsetHeight || 52;
     var above = Math.min(dock.y, floor) - 6;
@@ -436,7 +461,7 @@
     stepPressed = false;
     stepEl = findVisible(item.tap);
     document.getElementById('vicho-graphic').innerHTML = graphicSvg(item.graphic);
-    document.getElementById('vicho-line').textContent = item.say;
+    typeInto(document.getElementById('vicho-line'), item.say);
     think.hidden = false;
     bubble.hidden = true;
     placeBox(think);
@@ -512,7 +537,7 @@
 
   function openThought(text, graphic) {
     document.getElementById('vicho-graphic').innerHTML = graphicSvg(graphic);
-    document.getElementById('vicho-line').textContent = text;
+    typeInto(document.getElementById('vicho-line'), text);
     think.hidden = false;
     bubble.hidden = true;
     placeBox(think);

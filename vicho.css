@@ -498,7 +498,24 @@ html.dark-mode #vicho-plate { background: #140e22; }
 #vicho-think[hidden] { display: none; }
 #vicho-think p { margin: 0; padding: 0 8px 4px; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; line-height: 1.35; }
 #vicho-think svg { width: 100%; height: 72px; display: block; }
-#vicho-think.compact svg { display: none; }
+#vicho-think.compact svg { height: 52px; display: block; }
+#vicho-line.typing::after,
+#vicho-say.typing.docked::after {
+  content: '';
+  display: inline-block;
+  position: static;
+  width: 2px;
+  height: 0.9em;
+  margin-left: 2px;
+  background: currentColor;
+  vertical-align: text-bottom;
+  transform: none;
+  animation: vicho-caret 0.75s steps(1) infinite;
+}
+@keyframes vicho-caret {
+  0%, 45% { opacity: 1; }
+  46%, 100% { opacity: 0; }
+}
 #vicho-think text { fill: #241c3a; font-family: 'Fredoka', 'Nunito', sans-serif; font-size: 18px; font-weight: 700; }
 #vicho-think .g-pop { opacity: 0; animation: vicho-pop 0.55s ease forwards; }
 #vicho-think .d2 { animation-delay: 0.25s; }

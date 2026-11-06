@@ -483,8 +483,9 @@ html.dark-mode #vicho-plate { background: #140e22; }
 #vicho-think {
   position: fixed;
   z-index: 10019;
+  box-sizing: border-box;
   width: min(230px, calc(100vw - 16px));
-  max-height: min(38vh, 280px);
+  max-height: min(38vh, 200px);
   overflow: auto;
   padding: 8px 8px 10px;
   border: 3px solid #ff8a14;
@@ -521,6 +522,7 @@ html.dark-mode #vicho-plate { background: #140e22; }
 #vicho-say {
   position: fixed;
   z-index: 10018;
+  box-sizing: border-box;
   max-width: min(220px, calc(100vw - 24px));
   margin: 0;
   padding: 10px 14px;

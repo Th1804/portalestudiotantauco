@@ -274,34 +274,87 @@
     learn.style.top = Math.round(Math.max(8, top)) + 'px';
   }
 
+  function safeBottom() {
+    var bar = document.getElementById('foco-bar') || document.getElementById('foco-root');
+    if (!bar) return window.innerHeight - 8;
+    return bar.getBoundingClientRect().top - 8;
+  }
+
+  function hitsBox(el, node) {
+    if (!node || node === el || node.closest('#vicho-think, #vicho-say, #vicho-plate')) return false;
+    var a = el.getBoundingClientRect();
+    var b = node.getBoundingClientRect();
+    if (b.width < 2 || b.height < 2) return false;
+    return a.left < b.right - 2 && a.right > b.left + 2 && a.top < b.bottom - 2 && a.bottom > b.top + 2;
+  }
+
+  function avoidControls(el) {
+    var nodes = document.querySelectorAll('#foco-bar, #foco-root, #chat-fab, #back-btn, #theme-toggle, #gs-trigger, a, button, h1, h2, .section-heading, .nav-tab');
+    for (var pass = 0; pass < 5; pass++) {
+      var blocked = false;
+      for (var i = 0; i < nodes.length; i++) {
+        var node = nodes[i];
+        if (node.id === 'vicho-actor' || node.id === 'vicho-learn') continue;
+        if (hitsBox(el, node)) { blocked = true; break; }
+      }
+      if (!blocked && !hitsBox(el, actor) && !hitsBox(el, learn)) return;
+      var next = el.offsetHeight - 14;
+      if (next >= 48) el.style.maxHeight = next + 'px';
+      else el.style.top = Math.round(el.getBoundingClientRect().top - 12) + 'px';
+    }
+  }
+
   function placeBox(el) {
     var dock = dockPoint();
     var actorW = actor.offsetWidth || 88;
     var actorH = actor.offsetHeight || 88;
     var gutter = columnLeft();
-    var topLimit = ceiling(dock.y);
     var chat = document.getElementById('chat-fab');
     var chatLeft = chat ? chat.getBoundingClientRect().left : window.innerWidth;
+    var floor = safeBottom();
     el.classList.add('docked');
     if (gutter >= 150) {
-      var width = Math.min(210, Math.max(120, gutter - 20));
-      var learnTop = learn.getBoundingClientRect().top || dock.y;
-      var bottom = Math.min(dock.y, learnTop) - 8;
-      var height = Math.max(88, Math.min(240, bottom - topLimit));
+      var width = Math.min(210, Math.max(120, gutter - 28));
       el.classList.remove('compact');
       el.style.width = Math.round(width) + 'px';
-      el.style.maxHeight = Math.round(height) + 'px';
+      el.style.maxHeight = '180px';
       el.style.left = '8px';
-      el.style.top = Math.round(Math.max(topLimit, bottom - height)) + 'px';
+      var learnTop = learn.getBoundingClientRect().top || dock.y;
+      var bottom = Math.min(learnTop, dock.y, floor) - 8;
+      var h = el.offsetHeight || 56;
+      var top = bottom - h;
+      var topLimit = ceiling(bottom);
+      if (top < topLimit) {
+        el.style.maxHeight = Math.max(48, bottom - topLimit) + 'px';
+        h = el.offsetHeight || 48;
+        top = bottom - h;
+      }
+      el.style.top = Math.round(Math.max(8, top)) + 'px';
+      avoidControls(el);
       return;
     }
     var sideLeft = Math.max(learn.getBoundingClientRect().right, dock.x + actorW) + 8;
     var sideWidth = Math.min(220, chatLeft - sideLeft - 8);
     el.classList.add('compact');
-    el.style.width = Math.round(Math.max(96, sideWidth)) + 'px';
-    el.style.maxHeight = actorH + 'px';
+    if (sideWidth < 96) {
+      el.style.width = Math.round(Math.min(220, Math.max(120, chatLeft - 16))) + 'px';
+      el.style.maxHeight = '72px';
+      el.style.left = '8px';
+      var stacked = el.offsetHeight || 56;
+      var above = Math.min(learn.getBoundingClientRect().top || dock.y, dock.y, floor) - 8;
+      el.style.top = Math.round(Math.max(8, above - stacked)) + 'px';
+      avoidControls(el);
+      return;
+    }
+    var maxH = Math.max(44, Math.min(actorH, floor - dock.y));
+    el.style.width = Math.round(sideWidth) + 'px';
+    el.style.maxHeight = Math.round(maxH) + 'px';
     el.style.left = Math.round(sideLeft) + 'px';
     el.style.top = Math.round(dock.y) + 'px';
+    if (el.getBoundingClientRect().bottom > floor) {
+      el.style.maxHeight = Math.max(44, floor - dock.y) + 'px';
+    }
+    avoidControls(el);
   }
 
   function placePlate() {

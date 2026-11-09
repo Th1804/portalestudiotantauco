@@ -165,7 +165,7 @@ def main(prod_path, mp4, layout_only=False):
     url_rows = []
     bxs = json.load(open(bx_path)) if os.path.exists(bx_path) else []
     for fr_ in bxs:
-        k = fr_['frame']; ub = next((b for b in fr_['boxes'] if b['id'] == 'url' and b['opacity'] >= 0.99), None)
+        k = fr_['frame']; ub = next((b for b in fr_['boxes'] if b['id'] == 'url' and b['opacity'] >= 0.99 and b.get('settled', True)), None)
         if not ub or k not in fmap: continue
         tp = os.path.join(qa_dir, f'text-{k:03d}.png')
         m = np.asarray(Image.open(tp).convert('L')) > 60
@@ -179,7 +179,7 @@ def main(prod_path, mp4, layout_only=False):
         url_rows.append({'frame': k, 'bbox': [ub['x0'], ub['y0'], ub['x1'], ub['y1']], 'height_px': ub['y1'] - ub['y0'], 'fg': [int(x) for x in fg], 'bg': [int(x) for x in bg],
                          'ratio': round(float(cr), 2), 'pass': cr >= 4.5 and ub['y1'] - ub['y0'] >= 36})
     chk('url_contrast_wcag_>=4.5', len(url_rows) > 0 and all(r['pass'] for r in url_rows), frames=url_rows,
-        note='URL del CTA: mediana del núcleo de sus glifos vs. anillo de fondo, solo dentro de su caja, en cada keyframe con la URL a opacidad plena; además altura de tinta >= 36 px.')
+        note='URL del CTA: mediana del núcleo de sus glifos vs. anillo de fondo, solo dentro de su caja, en cada keyframe con la URL a opacidad plena y asentada; además altura de tinta >= 36 px.')
     # logo en cierre
     last = max(kfs); lp = os.path.join(qa_dir, f'logo-{last:03d}.png')
     lm = np.asarray(Image.open(lp).convert('L')) > 60

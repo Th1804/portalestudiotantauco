@@ -115,8 +115,39 @@ def white_to_alpha(img):
     return Image.fromarray(np.dstack([rgb, alpha * 255]).round().astype(np.uint8), "RGBA")
 
 
+def cutout_on_white(img, thr=40, feather=1.1, decontam=3):
+    """Recorte opaco de un producto sólido (p. ej. un balón de cuero) sobre fondo blanco de estudio, sin IA.
+    A diferencia de white_to_alpha (que vuelve translúcido todo color claro), el interior queda 100 % opaco y con sus
+    píxeles originales intactos: máscara por distancia al blanco, solo el componente mayor, huecos rellenos, borde con
+    feather y descontaminación del halo blanco en una banda de `decontam` px (mezcla hacia el color interior extendido).
+    Devuelve la imagen recortada a su caja y la caja en la foto original."""
+    a = np.asarray(img.convert("RGB")).astype(np.float32)
+    d = (255.0 - a).max(-1)
+    m = Image.fromarray(((d > thr) * 255).astype(np.uint8)).filter(ImageFilter.MinFilter(3)).filter(ImageFilter.MaxFilter(3))
+    sx, sy = _largest_component_seed(np.asarray(m) > 0)
+    comp = m.copy(); ImageDraw.floodfill(comp, (sx, sy), 128)
+    m = Image.fromarray(((np.asarray(comp) == 128) * 255).astype(np.uint8))
+    pad = Image.new("L", (m.width + 2, m.height + 2), 0); pad.paste(m, (1, 1))
+    ImageDraw.floodfill(pad, (0, 0), 128)
+    filled = Image.fromarray(((np.asarray(pad)[1:-1, 1:-1] != 128) * 255).astype(np.uint8))
+    cover = float((np.asarray(filled) > 0).mean())
+    if cover < 0.1 or cover > 0.95:
+        raise SystemExit(f"Recorte falló (cobertura {cover:.1%})")
+    A = np.asarray(filled.filter(ImageFilter.MinFilter(3)).filter(ImageFilter.GaussianBlur(feather))).astype(np.float32) / 255.0
+    inner = filled.filter(ImageFilter.MinFilter(2 * decontam + 1))
+    im_ = np.asarray(inner).astype(np.float32)[..., None] / 255.0
+    r = decontam * 2 + 2
+    numb = np.asarray(Image.fromarray(np.clip(a * im_, 0, 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(r))).astype(np.float32)
+    denb = np.asarray(inner.filter(ImageFilter.GaussianBlur(r))).astype(np.float32)[..., None] / 255.0
+    ext = numb / np.maximum(denb, 1e-3)
+    rgb = a * im_ + ext * (1 - im_)
+    out = Image.fromarray(np.dstack([np.clip(rgb, 0, 255), A * 255]).round().astype(np.uint8), "RGBA")
+    bbox = out.getchannel("A").point(lambda x: 255 if x > 8 else 0).getbbox()
+    return out.crop(bbox), bbox, cover
+
+
 def prep_photos(prod, pub, rp):
-    """Modo 'photo': fotos reales de la ficha, verificadas por sha256, sin recorte ni retoque (solo white_to_alpha)."""
+    """Modo 'photo': fotos reales de la ficha, verificadas por sha256, sin retoque (white_to_alpha o recorte opaco)."""
     out = {}
     for ph in prod["product"]["assets"]["photos"]:
         src = rp(ph["file"])
@@ -125,8 +156,17 @@ def prep_photos(prod, pub, rp):
             raise SystemExit(f"{src}: sha256 {sha} no coincide con la ficha ({ph['sha256']})")
         img = Image.open(src)
         dst = os.path.join(pub, ph["public_name"])
-        (white_to_alpha(img) if ph.get("white_to_alpha") else img.convert("RGBA")).save(dst)
-        out[ph["public_name"]] = {"source": src, "url": ph["url"], "sha256": sha, "size": img.size}
+        info = {"source": src, "url": ph["url"], "sha256": sha, "size": img.size}
+        if ph.get("cutout_on_white"):
+            cut, bbox, cover = cutout_on_white(img, **ph["cutout_on_white"])
+            exp = ph.get("cutout_size")
+            if exp and list(cut.size) != list(exp):
+                raise SystemExit(f"{src}: recorte {cut.size} != cutout_size {exp} del JSON (la geometría del template depende de él)")
+            cut.save(dst)
+            info.update({"cutout_bbox": bbox, "cutout_size": cut.size, "cover": round(cover, 4)})
+        else:
+            (white_to_alpha(img) if ph.get("white_to_alpha") else img.convert("RGBA")).save(dst)
+        out[ph["public_name"]] = info
     return out
 
 

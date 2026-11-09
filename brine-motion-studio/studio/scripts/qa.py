@@ -204,7 +204,9 @@ def main(prod_path, mp4, layout_only=False):
     gold = np.array([205, 167, 31], float); gr = []
     allf = os.path.join(build, 'frames-all'); os.makedirs(allf, exist_ok=True)
     for f_ in glob.glob(os.path.join(allf, '*.png')): os.remove(f_)
-    run(['ffmpeg', '-y', '-v', 'error', '-i', mp4, '-vf', 'fps=2,scale=540:960', os.path.join(allf, 's-%03d.png')])
+    # 2 muestras por segundo en frames exactos (n múltiplo de fps/2), alineadas con las cajas de text-boxes.json
+    half = max(1, int(round(F['fps'] / 2)))
+    run(['ffmpeg', '-y', '-v', 'error', '-i', mp4, '-vf', f"select='not(mod(n\\,{half}))',scale=540:960", '-vsync', '0', os.path.join(allf, 's-%03d.png')])
     # el producto puede ser amarillo/dorado (balón Crack): sus cajas se excluyen, el dorado de marca se mide en el resto
     obj_boxes = {}
     for fr_ in (json.load(open(bx_path)) if QC.get('gold_exclude_objects') and os.path.exists(bx_path) else []):

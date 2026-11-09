@@ -87,11 +87,11 @@ export const LOGO_HIT = 560;
 
 // Ventanas de visibilidad (entrada, salida) de cada panel; la entrada empieza cuando el balón ya dejó esa mitad.
 export const WIN = {
-  official: {a: 172, b: 220},
-  panelsSub: {a: 262, b: 298},
-  maker: {a: 332, b: 380},
-  chips: [{a: 494, b: 536}, {a: 500, b: 538}, {a: 506, b: 540}],
-  url: {a: 584, b: 1e9},
+  official: {a: 162, b: 224},
+  panelsSub: {a: 254, b: 302},
+  maker: {a: 322, b: 384},
+  chips: [{a: 484, b: 536}, {a: 490, b: 538}, {a: 496, b: 540}],
+  url: {a: 572, b: 1e9},
 };
 // opacidad de un panel: entra en 18 frames (ease-out quart) y sale en 9 (ease-in), como pide el skill
 export const panelIn = (f: number, a: number) => interpolate(f, [a, a + 18], [0, 1], {...clamp, easing: EASE.outQuart});

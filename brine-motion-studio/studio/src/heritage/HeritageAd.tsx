@@ -61,27 +61,27 @@ const Scenes: React.FC<{p: HeritageProduction}> = ({p}) => {
 
       {/* 160-240 · balón oficial (panel de vidrio abajo) */}
       <Glass r={PANEL_LOW} a={WIN.official.a} b={WIN.official.b} seed={1} />
-      <Line id="off-1" text={o.official[0]} top={1130} size={60} {...serif} weight={700} color={C.bone} start={168} exit={216} />
-      <Line id="off-2" text={o.official[1]} top={1210} size={60} {...serif} weight={700} color={C.bone} start={173} exit={217} />
-      <Line id="off-3" text={o.official[2]} top={1290} size={60} {...serif} weight={700} color={C.celeste} start={178} exit={218} />
+      <Line id="off-1" text={o.official[0]} top={1130} size={60} {...serif} weight={700} color={C.bone} start={174} exit={216} />
+      <Line id="off-2" text={o.official[1]} top={1210} size={60} {...serif} weight={700} color={C.bone} start={179} exit={217} />
+      <Line id="off-3" text={o.official[2]} top={1290} size={60} {...serif} weight={700} color={C.celeste} start={184} exit={218} />
       <Rule y={1414} w={90} a={196} b={214} color={C.gold} />
 
       {/* 240-320 · 18 paneles (balón grande abajo, barrido lento sobre las costuras) */}
-      <Line id="pan-num" text={o.panels.num} top={262} size={230} {...serif} weight={900} color={C.bone} start={244} exit={298} align="right" x={424} stagger={3} rise={34} lineHeight={1.0} />
-      <Line id="pan-1" text={o.panels.lines[0]} top={318} size={54} {...serif} weight={600} color={C.bone} start={250} exit={299} align="left" x={452} />
-      <Line id="pan-2" text={o.panels.lines[1]} top={390} size={54} {...serif} weight={600} color={C.celeste} start={255} exit={300} align="left" x={452} />
+      <Line id="pan-num" text={o.panels.num} top={262} size={230} {...serif} weight={900} color={C.bone} start={244} exit={294} align="right" x={424} stagger={3} rise={34} lineHeight={1.0} />
+      <Line id="pan-1" text={o.panels.lines[0]} top={318} size={54} {...serif} weight={600} color={C.bone} start={250} exit={295} align="left" x={452} />
+      <Line id="pan-2" text={o.panels.lines[1]} top={390} size={54} {...serif} weight={600} color={C.celeste} start={255} exit={296} align="left" x={452} />
       <Glass r={SUB_PILL} a={WIN.panelsSub.a} b={WIN.panelsSub.b} radius={52} seed={2} tint={0.9} />
-      <Line id="pan-sub-1" text={o.panels.sub[0]} top={558} size={27} {...sans} weight={600} color={C.celeste_light} start={260} exit={300} tracking={0.14} stagger={0.35} rise={10} upper />
-      <Line id="pan-sub-2" text={o.panels.sub[1]} top={598} size={27} {...sans} weight={600} color={C.celeste_light} start={264} exit={301} tracking={0.14} stagger={0.35} rise={10} upper />
+      <Line id="pan-sub-1" text={o.panels.sub[0]} top={558} size={27} {...sans} weight={600} color={C.celeste_light} start={260} exit={296} tracking={0.14} stagger={0.35} rise={10} upper />
+      <Line id="pan-sub-2" text={o.panels.sub[1]} top={598} size={27} {...sans} weight={600} color={C.celeste_light} start={264} exit={297} tracking={0.14} stagger={0.35} rise={10} upper />
 
       {/* 320-400 · Custodio Zamora (panel de vidrio abajo) */}
       <Glass r={PANEL_LOW} a={WIN.maker.a} b={WIN.maker.b} seed={3} />
-      <Line id="maker-eyebrow" text={o.maker.eyebrow} top={1122} size={26} {...sans} weight={700} color={C.celeste} start={328} exit={376} tracking={0.42} trackFrom={0.7} stagger={0.4} rise={10} />
-      <Line id="maker-name" text={o.maker.name} top={1160} size={78} {...serif} weight={800} color={C.bone} start={332} exit={377} stagger={1.0} />
-      <Line id="maker-place" text={o.maker.place} top={1258} size={44} {...serif} weight={500} color={C.bone} start={338} exit={378} stagger={0.6} />
+      <Line id="maker-eyebrow" text={o.maker.eyebrow} top={1122} size={26} {...sans} weight={700} color={C.celeste} start={336} exit={376} tracking={0.42} trackFrom={0.7} stagger={0.4} rise={10} />
+      <Line id="maker-name" text={o.maker.name} top={1160} size={78} {...serif} weight={800} color={C.bone} start={340} exit={377} stagger={1.0} />
+      <Line id="maker-place" text={o.maker.place} top={1258} size={44} {...serif} weight={500} color={C.bone} start={346} exit={378} stagger={0.6} />
       <Rule y={1336} w={80} a={352} b={374} color={C.gold} />
-      <Line id="maker-note-1" text={o.maker.note[0]} top={1352} size={30} {...sans} weight={500} color={C.celeste_light} start={346} exit={379} stagger={0.4} rise={12} />
-      <Line id="maker-note-2" text={o.maker.note[1]} top={1394} size={30} {...sans} weight={500} color={C.celeste_light} start={350} exit={380} stagger={0.4} rise={12} />
+      <Line id="maker-note-1" text={o.maker.note[0]} top={1352} size={30} {...sans} weight={500} color={C.celeste_light} start={354} exit={379} stagger={0.4} rise={12} />
+      <Line id="maker-note-2" text={o.maker.note[1]} top={1394} size={30} {...sans} weight={500} color={C.celeste_light} start={358} exit={380} stagger={0.4} rise={12} />
 
       {/* 400-480 · relanzado en 2018 */}
       <Line id="rel-1" text={o.relaunch[0]} top={296} size={88} {...serif} weight={800} color={C.bone} start={404} exit={460} tracking={-0.005} trackFrom={0.04} stagger={1.0} />

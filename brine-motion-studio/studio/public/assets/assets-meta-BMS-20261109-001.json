@@ -1,0 +1,29 @@
+{
+ "photos": {
+  "balon-crack-cutout.png": {
+   "source": "/agent/repos/portalestudiotantauco/brine-motion-studio/studio/brand-assets/balon-crack-1962-web.jpg",
+   "url": "https://cdnx.jumpseller.com/brine/image/65053545/crack_2062.jpg",
+   "sha256": "b143a587c7fc9f9ebfeecbfbd7a827b3a8dfc57cc189b26ac7d59286a11bd4cf",
+   "size": [
+    1600,
+    1600
+   ],
+   "cutout_bbox": [
+    138,
+    98,
+    1475,
+    1474
+   ],
+   "cutout_size": [
+    1337,
+    1376
+   ],
+   "cover": 0.5588
+  }
+ },
+ "logo_sha256": "742b87dfe6c3ae551b28dc3e0bc43afab3fdfdeb2be73b0afd87c6bbb394bb53",
+ "logo_size": [
+  3483,
+  1391
+ ]
+}

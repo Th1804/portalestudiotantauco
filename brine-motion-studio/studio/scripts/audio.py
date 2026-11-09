@@ -157,7 +157,8 @@ def shaker(gain=1.0):
 # y cada SFX normalizado a un pico fijo, para que la ganancia del JSON sea el nivel real.
 SFX_PEAK = {'whoosh': 0.42, 'whoosh_soft': 0.3, 'whoosh_big': 0.5, 'impact': 0.55, 'subboom': 0.6, 'riser': 0.32,
             'pop': 0.32, 'tick': 0.18, 'ping': 0.28, 'shimmer': 0.28, 'split': 0.4,
-            'glass_ting': 0.3, 'prism': 0.26, 'sparkle': 0.2, 'laser': 0.16, 'laser_on': 0.2, 'case_thud': 0.45, 'swish': 0.3}
+            'glass_ting': 0.3, 'prism': 0.26, 'sparkle': 0.2, 'laser': 0.16, 'laser_on': 0.2, 'case_thud': 0.45, 'swish': 0.3,
+            'leather_thump': 0.5, 'air_sweep': 0.26, 'glass_panel': 0.22}
 def pink(n):
     return signal.lfilter([0.049922035, -0.095993537, 0.050612699, -0.004408786], [1, -2.494956002, 2.017265875, -0.522189400], RNG.standard_normal(n))
 def polish(x, attack=0.004):
@@ -269,6 +270,31 @@ def _sfx(kind, len_s):
         e = np.sin(np.pi * u) ** 2
         x = svf_sweep(pink(n) * 5, 600 + 2400 * e, 0.7, 'lp') * e
         return np.stack([x * (1 - 0.5 * u), x * (0.5 + 0.5 * u)], 1)
+    # ---- BMS-20261109-001 (balón de cuero): golpe de cuero, aire de luz y vidrio de panel
+    if kind == 'leather_thump':
+        # balón de cuero que asienta: cuerpo grave con caída de tono, palmada de cuero amortiguada y aire de la cámara de butilo
+        n = int(0.9 * SR); tt = t_arr(n)
+        body = np.sin(2 * np.pi * np.cumsum(62 + 58 * np.exp(-tt * 34)) / SR) * np.exp(-tt * 11)
+        slap = bq(bq(pink(n) * 5, 'bp', 820, 0.9), 'lp', 2200) * np.exp(-tt * 48) * np.minimum(1, tt / 0.003)
+        air = bq(pink(n) * 2, 'bp', 300, 0.7) * np.exp(-tt * 20)
+        x = np.tanh((body * 1.1 + slap * 0.55 + air * 0.25) * 1.2)
+        return convolve(stereo(x), reverb_ir(0.9, 6.5), 0.16)
+    if kind == 'air_sweep':
+        # la luz que recorre el cuero: aire filtrado que sube y baja con un brillo cálido de tres parciales
+        L = 1.3; n = int(L * SR); tt = t_arr(n); u = tt / L
+        e = np.sin(np.pi * u) ** 2
+        chans = []
+        for ch in range(2):
+            chans.append(bq(svf_sweep(pink(n) * 4, 1800 + 3400 * e * (1 + 0.08 * ch), 0.9, 'bp'), 'hp', 900) * e)
+        st = np.stack(chans, 1) * np.stack([1 - 0.4 * u, 0.6 + 0.4 * u], 1)
+        glow = sum(a * np.sin(2 * np.pi * midi_hz(m) * tt) for m, a in ((82, 0.5), (86, 0.35), (89, 0.25))) * e ** 1.5 * 0.12
+        return convolve(st + stereo(glow), reverb_ir(1.8, 3.0), 0.4)
+    if kind == 'glass_panel':
+        # panel de vidrio que aparece: toque de vidrio suave (pocos parciales, ataque redondo) con un roce de aire
+        n = int(1.4 * SR); tt = t_arr(n); f0 = midi_hz(93)
+        x = sum(a * np.sin(2 * np.pi * f0 * r * tt + RNG.uniform(0, 6)) * np.exp(-tt * d) for r, a, d in ((1, 1, 4.5), (2.41, 0.22, 8), (3.9, 0.07, 12)))
+        x = x * np.minimum(1, tt / 0.006) + bq(pink(n), 'bp', 5000, 1.2) * np.exp(-tt * 40) * 0.15
+        return convolve(stereo(bq(x, 'lp', 6500), RNG.uniform(-0.3, 0.3)), reverb_ir(1.6, 3.4), 0.42)
     raise ValueError(kind)
 
 # ---------------------------------------------------------------- música
@@ -443,6 +469,125 @@ def music_crystal(prod, dur):
     tail = np.clip((dur - tt) / 0.25, 0, 1); bus = bus * (np.sin(tail * np.pi / 2) ** 2)[:, None]
     return bus, {'drums': drums, 'bass': bass, 'keys': keys, 'glass': glass, 'air': air}
 
+# ---------------------------------------------------------------- música "heritage" (BMS-20261109-001)
+# 90 BPM (beat = 20 frames, compás = 80). Jazz de cámara de los 60 con producción limpia: piano de fieltro arpegiado,
+# piano eléctrico FM con wow de cinta, cuerdas cálidas, contrabajo, escobillas con swing y crujido de vinilo muy bajo.
+# Un compás por escena; Cm9 -> F13 con redoble de escobillas, respiro y golpe en B♭6/9 en el frame 560 (logo).
+HR_CHORDS = {'Ebmaj9': (39, [55, 58, 62, 65]), 'Dm9': (38, [53, 57, 60, 64]), 'Cm9': (36, [51, 55, 58, 62]),
+             'Eb/F': (41, [51, 55, 58, 60]), 'Bbmaj9': (34, [57, 60, 62, 65]), 'Gm9': (43, [53, 57, 58, 62]),
+             'F13': (41, [51, 57, 60, 62]), 'Bb69': (34, [50, 55, 60, 62, 65, 70])}
+HR_BASS = {'Ebmaj9': (39, 46), 'Dm9': (38, 45), 'Cm9': (36, 43), 'Eb/F': (41, 48), 'Bbmaj9': (34, 41), 'Gm9': (43, 38), 'F13': (41, 36)}
+HR_MELODY = [(0, 3, 72, .5), (0, 3.5, 74, .5),
+             (1, 0, 77, 1.5), (1, 1.5, 76, .5), (1, 2, 74, 1), (1, 3, 72, 1),
+             (2, 0, 70, 1.5), (2, 1.5, 72, .5), (2, 2, 74, 2),
+             (3, 2, 79, 1), (3, 3, 77, 1),
+             (4, 0, 81, 1.5), (4, 1.5, 79, .5), (4, 2, 77, 1), (4, 3, 74, 1),
+             (5, 0, 74, 1.5), (5, 1.5, 72, .5), (5, 2, 70, 1), (5, 3, 69, 1),
+             (6, 0, 70, 1), (6, 1, 72, 1), (6, 2, 74, 1)]
+def ep_note(m, dur, gain=1.0, wow=0.0015):
+    """Piano eléctrico FM (1:1 con índice que cae + 'tine' 14:1), con wow de cinta lento."""
+    n = int(dur * SR); tt = t_arr(n); f = midi_hz(m)
+    fw = f * (1 + wow * np.sin(2 * np.pi * 0.55 * tt + RNG.uniform(0, 6)))
+    ph = 2 * np.pi * np.cumsum(fw) / SR
+    idx = 1.5 * np.exp(-tt * 5.5) + 0.25
+    x = np.sin(ph + idx * np.sin(ph)) * np.exp(-tt * 1.5)
+    x += 0.05 * np.sin(14 * ph) * np.exp(-tt * 28)
+    env = np.minimum(1, tt / 0.003) * np.minimum(1, np.maximum(0, dur - tt) / 0.12)
+    return bq(x * env, 'lp', 3800) * gain * 0.32
+def upright(m, dur, gain=1.0):
+    """Contrabajo pulsado: fundamental + armónicos que se apagan antes, golpe de dedo y caída natural."""
+    n = int(dur * SR); tt = t_arr(n); f = midi_hz(m)
+    x = np.sin(2 * np.pi * f * tt) + 0.45 * np.sin(4 * np.pi * f * tt) * np.exp(-tt * 4) + 0.15 * np.sin(6 * np.pi * f * tt) * np.exp(-tt * 9)
+    x += bq(pink(n), 'lp', 400) * np.exp(-tt * 120) * 0.6
+    env = np.minimum(1, tt / 0.006) * np.exp(-tt * 1.9) * np.minimum(1, np.maximum(0, dur - tt) / 0.06)
+    return bq(np.tanh(x * env * 1.3), 'lp', 900) * gain * 0.6
+def brush_swish(gain=1.0, L=0.24):
+    n = int(L * SR); tt = t_arr(n); u = tt / L
+    e = np.sin(np.pi * np.clip(u * 1.3, 0, 1)) ** 1.5 * (1 - 0.4 * u)
+    return bq(bq(pink(n) * 3, 'bp', 2600, 0.6), 'hs', 6000, 0.7, -4) * e * gain * 0.5
+def brush_tap(gain=1.0):
+    n = int(0.08 * SR); tt = t_arr(n)
+    return bq(pink(n) * 3, 'hp', 2800) * np.exp(-tt * 70) * np.minimum(1, tt / 0.002) * gain * 0.35
+def vinyl(n):
+    """Crujido de vinilo sintetizado: chasquidos esporádicos filtrados + soplido muy bajo."""
+    clicks = (RNG.random(n) < 0.00035) * RNG.uniform(0.2, 1.0, n) * np.sign(RNG.standard_normal(n))
+    c = bq(signal.lfilter([1], [1, -0.6], clicks), 'bp', 2600, 0.6)
+    hiss = bq(pink(n), 'lp', 5000) * 0.05
+    return stereo(c * 0.5 + hiss)
+def music_heritage(prod, dur):
+    md = prod['music_direction']; spb = 60 / md['bpm']; bar = 4 * spb
+    n = int(dur * SR); tt = t_arr(n)
+    keys = np.zeros((n, 2)); ep = np.zeros((n, 2)); strings = np.zeros((n, 2)); bass = np.zeros((n, 2)); drums = np.zeros((n, 2))
+    HIT = 7 * bar
+    sw = lambda b: np.floor(b) + (2 / 3 if abs(b - np.floor(b) - 0.5) < 1e-6 else b - np.floor(b))  # swing de corcheas
+    def roll(buf, notes, s, d, g, spread=0.03, bright=2600):
+        for j, m in enumerate(notes):
+            place(buf, stereo(felt_keys([m], d, g, bright), (j - len(notes) / 2) * 0.12), s + j * spread)
+    prog = ['Ebmaj9', 'Dm9', 'Cm9', 'Eb/F', 'Bbmaj9', 'Gm9', 'Cm9']
+    for i, ch in enumerate(prog):
+        s0 = i * bar; root, notes = HR_CHORDS[ch]
+        if i == 0:
+            roll(keys, notes, 0.03, bar + 0.4, 1.0, 0.045)
+            place(strings, stereo(pad_chord(notes, bar + 0.6, 0.12, 1300, 1.4, 0.6)), 0)
+            place(bass, stereo(upright(HR_BASS[ch][0], 2 * spb, 0.7)), 2 * spb)
+            continue
+        inten = 0.6 if i == 1 else 0.85
+        half = i == 6
+        # cuerdas: un acorde por compás (en el último compás, Cm9 media barra y F13 la otra media)
+        place(strings, stereo(pad_chord(notes, (2 * spb if half else bar) + 0.5, 0.1 + 0.06 * inten, 1200 + 600 * inten, 0.5, 0.5)), s0)
+        # piano: acorde arpegiado en el 1 y anticipación sincopada en el "y" del 2
+        roll(keys, notes, s0, 1.6 * spb, 0.8)
+        if not half: roll(keys, notes[1:], s0 + sw(1.5) * spb, 0.8 * spb, 0.42, 0.012, 3000)
+        # contrabajo: raíz en 1, quinta en 3 y nota de paso a contratiempo hacia el siguiente compás
+        r, fifth = HR_BASS[ch]
+        place(bass, stereo(upright(r, 1.9 * spb, 0.8)), s0)
+        if not half:
+            place(bass, stereo(upright(fifth, 1.4 * spb, 0.7)), s0 + 2 * spb)
+            place(bass, stereo(upright(r + (2 if i % 2 else -1), 0.45 * spb, 0.5)), s0 + sw(3.5) * spb)
+        # escobillas con swing, bombo suave en 1 y 3
+        beats = 2 if half else 4
+        for b_ in range(beats):
+            sb = s0 + b_ * spb
+            if b_ in (0, 2): place(drums, stereo(bq(kick(0.42), 'lp', 180)), sb)
+            if b_ in (1, 3): place(drums, stereo(brush_swish(0.75 * inten), 0.2), sb)
+            place(drums, stereo(brush_tap(0.5 * inten), -0.25), sb + sw(0.5) * spb)
+            place(drums, stereo(brush_tap(0.3 * inten), 0.25), sb)
+    # build: F13 en el 3 del último compás, redoble de escobillas en crescendo y respiro antes del golpe
+    s_f = 6 * bar + 2 * spb; root, notes = HR_CHORDS['F13']
+    swell = pad_chord(notes, 2 * spb - 0.1, 0.2, 2000, 0.08, 0.05)
+    place(strings, stereo(swell * np.linspace(0.7, 1.2, len(swell))), s_f)
+    roll(keys, notes, s_f, 1.6 * spb, 0.85, 0.02)
+    place(bass, stereo(upright(HR_BASS['F13'][0], 1.6 * spb, 0.85)), s_f)
+    place(bass, stereo(upright(HR_BASS['F13'][1], 0.45 * spb, 0.6)), s_f + sw(1.5) * spb)
+    stop = HIT - 0.17
+    for j, s_ in enumerate(np.arange(s_f, stop - 1e-6, spb / 4)):
+        place(drums, stereo(brush_tap(0.25 + 0.9 * (j / 7) ** 1.4), (-0.3, 0.3)[j % 2]), s_)
+    # melodía (piano eléctrico)
+    for b_i, beat, m, d in HR_MELODY:
+        st = b_i * bar + sw(beat) * spb
+        dd = d * spb * (0.67 if abs(beat - np.floor(beat) - 0.5) < 1e-6 else 1.0)
+        place(ep, stereo(ep_note(m, dd + 0.6, 0.8), 0.18), st)
+    # golpe final en B♭6/9 y arpegio descendente que se apaga hasta el final
+    root, notes = HR_CHORDS['Bb69']; tail = dur - HIT
+    roll(keys, notes, HIT, tail, 1.1, 0.025, 3200)
+    place(strings, stereo(pad_chord(notes[1:], tail, 0.2, 1700, 0.05, 0.8) * np.exp(-t_arr(int(tail * SR)) * 0.45)), HIT)
+    place(bass, stereo(upright(root, tail, 1.0)), HIT)
+    place(drums, stereo(bq(kick(0.7), 'lp', 200)), HIT)
+    cn = int(2.4 * SR); ct = t_arr(cn)
+    cym = bq(bq(RNG.standard_normal(cn), 'hp', 5200), 'lp', 11000) * np.exp(-ct * 1.6) * np.minimum(1, ct / 0.004) * 0.12
+    place(drums, np.stack([cym, np.roll(cym, 300)], 1), HIT)
+    for j, m in enumerate((82, 77, 74, 70, 67, 62)):
+        s_ = HIT + spb + j * spb / 2 * (1 + 0.08 * j)
+        if s_ < dur - 0.4: place(ep, stereo(ep_note(m, 1.8, 0.7 * (1 - j / 9)), (-0.3, 0.3)[j % 2]), s_)
+    bus = keys * 0.95 + convolve(keys, IR_HALL, 0.3) * 0.3 + convolve(ep, IR_HALL, 0.38) * 0.75 + convolve(strings, IR_HALL, 0.5) * 0.85 \
+        + convolve(bass, IR_ROOM, 0.12) * 0.95 + convolve(drums, IR_ROOM, 0.22) * 0.8
+    # calidez de cinta: saturación suave y agudos redondeados; vinilo muy bajo por encima
+    bus = np.tanh(bus * 1.15) / 1.15
+    bus = bq(bus, 'hs', 9000, 0.7, -2.5)
+    bus = bus + vinyl(n) * 0.018 * (1 - 0.35 * np.clip((tt - 2.4) / 1.0, 0, 1))[:, None]
+    fade = np.clip((dur - tt) / 0.25, 0, 1); bus = bus * (np.sin(fade * np.pi / 2) ** 2)[:, None]
+    return bus, {'keys': keys, 'ep': ep, 'strings': strings, 'bass': bass, 'drums': drums}
+
 # ---------------------------------------------------------------- voz (Piper)
 def read_wav(p):
     with wave.open(p) as w:
@@ -584,7 +729,8 @@ def main(prod_path):
     fps = prod['format']['fps']; dur = prod['format']['durationInFrames'] / fps
     IR_ROOM = reverb_ir(0.6, 9.0, 0.004); IR_HALL = reverb_ir(2.4, 2.6, 0.02)
     n = int(dur * SR)
-    mus, stems = (music_crystal if prod['music_direction'].get('engine') == 'crystal' else music)(prod, dur)
+    engines = {'crystal': music_crystal, 'heritage': music_heritage}
+    mus, stems = engines.get(prod['music_direction'].get('engine'), music)(prod, dur)
     vox, vrep = voice(prod, dur, build)
     fx = np.zeros((n, 2)); frep = []
     for ev in prod['beats']['events']:

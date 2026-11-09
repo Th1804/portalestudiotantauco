@@ -52,6 +52,7 @@ npm run produce -- productions/BMS-20261009-001-v3.json                       # 
 npm run produce -- productions/BMS-20261009-001-v3-voz.json --layout-only     # opcional con voz: solo QA de layout/conectores
 npm run produce -- productions/BMS-20261009-001-v2.json                       # v2 (histórico)
 npm run produce -- productions/BMS-20261012-001.json                          # galvano cristal CTA 15 «Circular» (plantilla crystal, sin voz)
+npm run produce -- productions/BMS-20261109-001.json                          # Balón Crack Mundial 1962, YouTube Short 22 s (plantilla heritage, sin voz)
 ```
 En el box Linux, si Chrome no está en `/usr/bin/google-chrome`, define `BMS_CHROME` (p. ej. `/usr/local/bin/google-chrome`).
 El pipeline: assets → audio (música, SFX, 3 tomas de voz) → render 1080x1920 30 fps → mux H.264/AAC → stills de QA → QA.
@@ -82,6 +83,12 @@ Otros comandos:
   cámara virtual sobre la foto de la ficha (`crystal/geometry.ts`, compartida con el QA), luz/dispersión/destellos enmascarados al disco,
   grabado láser de ejemplo, iris de 12 facetas y cierre navy. Música `music_direction.engine = "crystal"` (100 BPM, F mayor) en `scripts/audio.py`.
   `product.assets.mode = "photo"`: `prep_assets.py` verifica el sha256 de cada foto y solo aplica `white_to_alpha` (sin llave, sin IA).
+- `"heritage"`: Balón Crack Mundial 1962 (BMS-20261109-001, `src/heritage/`). Navy con profundidad (haces de luz, tipografía como
+  textura desenfocada, bokeh y polvo), Playfair serif revelada por glifo, paneles de vidrio líquido (`Glass.tsx`) y el recorte real del
+  balón siempre nítido, que alterna entre una posición baja (texto arriba) y una alta (paneles abajo) en cada compás (`geometry.ts`,
+  compartida con la QA). La luz solo se suma con barridos `screen` enmascarados a la silueta del recorte. Música
+  `music_direction.engine = "heritage"` (90 BPM, B♭ mayor) y SFX `leather_thump`, `air_sweep` y `glass_panel` en `scripts/audio.py`.
+  Fotos con `cutout_on_white`: recorte opaco por distancia al blanco (el interior queda con sus píxeles originales), verificado contra `cutout_size`.
 
 ## Nueva producción
 Copia un JSON de `studio/productions/` con un nuevo `id` y cambia:
@@ -109,6 +116,8 @@ Mide:
 - opcionales por producción (`qa`): `connectors` (puntería de conectores, por defecto activo), `closing_required` + `closing_from_f`
   (CTA y URL visibles y asentados hasta el último frame), `voice_must_be_absent` (stem de voz en silencio digital y una sola pista de audio),
   `forbidden_on_screen` (regex sobre todo el texto medido en pantalla y los metadatos), y `exports.whatsapp` (perfil, yuv420p, AAC, faststart, tamaño)
+- `product_object` (+ `product_clear_px`): el producto nunca queda cubierto (ningún texto, panel `kind: "panel"` ni logo a menos de N px de su caja)
+  y queda entero en cuadro; `gold_exclude_objects`: cajas excluidas del conteo de dorado (un producto amarillo no es acento de marca)
 
 ## Documentos
 - `docs/A-CREATIVE-REFERENCE-ANALYSIS-V1.md`
@@ -122,6 +131,8 @@ Mide:
 - Galvano cristal CTA 15 «Circular» (BMS-20261012-001): **foto real** de la ficha, https://cdnx.jumpseller.com/brine/image/81490724/GALVANOCTA15CRISTALMEJORADO.png
   (`studio/brand-assets/galvano-cta15-circular-81490724.png`, sha256 af80b2d1…). La segunda foto de la ficha no se usa: lleva el grabado de un cliente real.
   El texto grabado que escribe el láser es un ejemplo dibujado por código.
+- Balón Crack Mundial 1962 (BMS-20261109-001): **foto real** del catálogo entregada en el brief (`studio/brand-assets/balon-crack-1962-web.jpg`,
+  1600x1600, sha256 b143a587…; la ficha publica la misma foto a 500x500). Solo se recorta el fondo blanco; la impresión no se toca.
 - Medalla: raw de Brine Creative para CNT-20261009-01, generado por IA con logo y texto de muestra ficticios. Aprobado por Enzo el 2026-10-09. **No es una foto real.**
 - Logo oficial: `studio/brand-assets/logo-brine-crop.png`, copiado sin modificar (sha256 742b87df…).
 - Música y SFX: originales, generados por `scripts/audio.py`.

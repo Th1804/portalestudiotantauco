@@ -25,7 +25,7 @@ export const useInk = (c: string) => (useQa() === 'text' ? '#FFFFFF' : c);
 // ---- v2: sonda de bounding boxes de texto (QA de colisiones).
 // En modo 'text' mide cada elemento [data-qa] con el DOM real (incluye transformaciones y máscaras overflow:hidden),
 // ajusta la caja vertical a la tinta real con métricas de canvas.measureText y la emite por consola: produce.mjs la recoge.
-export type QaObject = {id: string; kind: 'object'; text: string; opacity: number; x0: number; y0: number; x1: number; y1: number};
+export type QaObject = {id: string; kind: 'object' | 'panel'; text: string; opacity: number; x0: number; y0: number; x1: number; y1: number};
 // obstáculos por defecto: disco y cinta de la medalla (geometría analítica de lib/medal), salvo en entradas/salidas con desenfoque
 const medalObstacles = (f: number): QaObject[] => {
   const st = medalState(f);

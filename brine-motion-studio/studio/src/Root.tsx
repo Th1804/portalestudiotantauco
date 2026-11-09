@@ -3,14 +3,19 @@ import {Composition} from 'remotion';
 import {Main} from './Main';
 import {CrystalAd} from './crystal/CrystalAd';
 import type {CrystalProduction} from './crystal/types';
+import {HeritageAd} from './heritage/HeritageAd';
+import type {HeritageProduction} from './heritage/types';
 import type {Props} from './types';
 import sample from '../productions/BMS-20261009-001.json';
 
-// production.template elige la plantilla: 'crystal' (galvano de cristal, BMS-20261012-001) o la medalla (por defecto).
-const Production: React.FC<Props> = (props) =>
-  (props.production as {template?: string}).template === 'crystal'
-    ? <CrystalAd production={props.production as unknown as CrystalProduction} qaLayer={props.qaLayer} />
-    : <Main {...props} />;
+// production.template elige la plantilla: 'crystal' (galvano de cristal, BMS-20261012-001), 'heritage' (balón Crack,
+// BMS-20261109-001) o la medalla (por defecto).
+const Production: React.FC<Props> = (props) => {
+  const template = (props.production as {template?: string}).template;
+  if (template === 'crystal') return <CrystalAd production={props.production as unknown as CrystalProduction} qaLayer={props.qaLayer} />;
+  if (template === 'heritage') return <HeritageAd production={props.production as unknown as HeritageProduction} qaLayer={props.qaLayer} />;
+  return <Main {...props} />;
+};
 
 export const RemotionRoot: React.FC = () => (
   <Composition

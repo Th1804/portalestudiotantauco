@@ -1,0 +1,173 @@
+{
+ "id": "BMS-20261109-001",
+ "version": 1,
+ "template": "heritage",
+ "created": "2026-11-09T09:30:00-03:00",
+ "status": "draft_internal",
+ "publish": false,
+ "objective": {
+  "type": "ALCANCE_CONSIDERACION",
+  "description": "YouTube Short 9:16 del Balón Crack Mundial 1962: historia y oficio del balón con la foto real de la ficha, tono herencia 1962 pero premium y moderno.",
+  "hook": "0-2,7 s: '1962' en serif monumental sobre navy con profundidad; el balón real sube desde abajo y asienta con un golpe de cuero suave."
+ },
+ "product": {
+  "name": "Balón Crack Mundial 1962",
+  "url": "https://www.brinechile.cl/balon-crack",
+  "ficha_read": "2026-11-09 12:32 UTC (brand-assets/ficha-balon-crack-2026-11-09.txt)",
+  "assets": {
+   "mode": "photo",
+   "photos": [
+    {
+     "file": "brand-assets/balon-crack-1962-web.jpg",
+     "url": "https://cdnx.jumpseller.com/brine/image/65053545/crack_2062.jpg",
+     "origin": "Foto real del catálogo entregada en el brief como product-web.jpg (1600x1600; la ficha publica la misma foto a 500x500). Sin IA, sin retoque: solo recorte del fondo blanco.",
+     "sha256": "b143a587c7fc9f9ebfeecbfbd7a827b3a8dfc57cc189b26ac7d59286a11bd4cf",
+     "size": [1600, 1600],
+     "public_name": "balon-crack-cutout.png",
+     "cutout_on_white": {"thr": 40, "feather": 1.1, "decontam": 3},
+     "cutout_size": [1337, 1376]
+    }
+   ]
+  },
+  "verified_claims": [
+   "Balón Crack · Mundial 1962",
+   "Fue el balón oficial de la Copa Mundial de 1962 en Chile",
+   "18 paneles de cuero amarillo de cromo (12 hexagonales y 6 rectangulares) con detalles en negro",
+   "Fabricado por Custodio Zamora en San Miguel, Santiago; balón oficial del fútbol chileno durante dos décadas",
+   "Relanzado en 2018 · Pieza de colección",
+   "100% capellada de cuero · bladder de butilo · confeccionado a mano"
+  ],
+  "forbidden": ["precio", "stock", "plazos", "descuentos", "afirmaciones inventadas", "nombres de jugadores", "resultados", "logos FIFA", "nombre de quien lo relanzó (no está en la lista aprobada)"]
+ },
+ "brand": {
+  "logo": "brand-assets/logo-brine-crop.png",
+  "logo_rules": "Versión negativa sobre azul oscuro; sin recolor, sin deformar, sin rotar, sin sombra ni glow. Solo al final y pequeño, nunca detrás del producto.",
+  "logo_bg": "#21254B",
+  "palette": {
+   "navy": "#21254B",
+   "navy_deep": "#14173A",
+   "celeste": "#ADBED4",
+   "celeste_light": "#C9D5E4",
+   "bone": "#F4F6F9",
+   "gold": "#CDA71F"
+  },
+  "gold_max_ratio": 0.03,
+  "fonts": {
+   "display": {"family": "Playfair Display", "file": "assets/PlayfairDisplay.ttf", "license": "OFL-1.1", "use": "titulares serif 500-900 (sustituta de Sonttak)"},
+   "text": {"family": "Manrope", "file": "assets/Manrope.ttf", "license": "OFL-1.1", "use": "versalitas con tracking y chips (sustituta de STRONG)"}
+  }
+ },
+ "format": {
+  "width": 1080,
+  "height": 1920,
+  "fps": 30,
+  "duration_s": 22,
+  "durationInFrames": 660,
+  "safe_zone": {"top": 0.14, "bottom": 0.2, "left_px": 90, "right_px": 130}
+ },
+ "visual_direction": {
+  "concept": "Herencia 1962 en clave premium: navy profundo con luz de estadio antiguo filtrada, tipografía como textura desenfocada al fondo, el balón real siempre nítido flotando entre dos posiciones y paneles de vidrio líquido en la mitad libre del cuadro.",
+  "product_rules": "El recorte del balón nunca recibe blur, máscara, deformación ni texto encima; solo traslación, escala uniforme, rotación suave del recorte completo y luz (barridos 'screen' enmascarados a su silueta).",
+  "motion": "motion-design skill: entradas ease-out (quart/expo, 500-900 ms), movimientos en pantalla ease-in-out cubic (800 ms), salidas más rápidas que las entradas (300 ms, ease-in), sin rebotes, sin cortes; la cámara no corta nunca.",
+  "grid": "90 BPM: beat = 20 frames, compás = 80 frames. Cada escena dura un compás; el balón se mueve de -12 a +12 frames alrededor de la barra de compás y el texto entra al asentarse."
+ },
+ "script": {
+  "on_screen": {
+   "hook": ["MUNDIAL", "1962"],
+   "title": ["Balón Crack", "Mundial 1962"],
+   "official": ["Fue el balón oficial", "de la Copa Mundial", "de 1962 en Chile"],
+   "panels": {"num": "18", "lines": ["paneles de cuero", "amarillo de cromo"], "sub": ["12 hexagonales y 6 rectangulares", "con detalles en negro"]},
+   "maker": {"eyebrow": "FABRICADO POR", "name": "Custodio Zamora", "place": "en San Miguel, Santiago", "note": ["Balón oficial del fútbol chileno", "durante dos décadas"]},
+   "relaunch": ["Relanzado en 2018", "Pieza de colección"],
+   "craft": ["100% capellada de cuero", "Bladder de butilo", "Confeccionado a mano"],
+   "closing_name": "Balón Crack · Mundial 1962",
+   "url": "brinechile.cl"
+  },
+  "voiceover": []
+ },
+ "storyboard": [
+  {"scene": "hook_1962_ball_rises", "from": 0, "to": 80},
+  {"scene": "title_light_sweep", "from": 80, "to": 160},
+  {"scene": "official_1962_glass_panel", "from": 160, "to": 240},
+  {"scene": "18_panels_closeup_sweep", "from": 240, "to": 320},
+  {"scene": "maker_glass_panel", "from": 320, "to": 400},
+  {"scene": "relaunch_collection", "from": 400, "to": 480},
+  {"scene": "craft_glass_chips", "from": 480, "to": 560},
+  {"scene": "end_logo_url", "from": 560, "to": 660}
+ ],
+ "music_direction": {
+  "engine": "heritage",
+  "bpm": 90,
+  "key": "B♭ mayor",
+  "progression": ["E♭maj9", "Dm9", "Cm9", "E♭/F", "B♭maj9", "Gm9", "Cm9 | F13", "B♭6/9 (golpe en f560)"],
+  "instruments": "piano de fieltro con acordes arpegiados, piano eléctrico FM con wow de cinta, cuerdas cálidas, contrabajo pulsado, escobillas con swing, bombo suave y crujido de vinilo muy bajo (todo sintetizado)",
+  "mood": "Elegante y nostálgico: jazz de cámara de los 60 con producción limpia actual.",
+  "sections": [
+   {"name": "hook", "from_s": 0, "to_s": 2.667, "intensity": 0.4},
+   {"name": "title", "from_s": 2.667, "to_s": 5.333, "intensity": 0.6},
+   {"name": "story", "from_s": 5.333, "to_s": 16.0, "intensity": 0.85},
+   {"name": "build", "from_s": 16.0, "to_s": 18.667, "intensity": 0.95},
+   {"name": "end", "from_s": 18.667, "to_s": 22.0, "intensity": 0.6}
+  ],
+  "ending": "Cm9 -> F13 con redoble de escobillas, respiro de un beat y golpe en B♭6/9 en 18,667 s = frame 560 (aparece el logo); arpegio descendente que se apaga hasta el frame 660."
+ },
+ "voice_direction": {
+  "enabled": false,
+  "lines": [],
+  "note": "Sin voz por diseño: música original, SFX sincronizados y tipografía."
+ },
+ "beats": {
+  "bpm": 90,
+  "events": [
+   {"f": 0, "type": "air_sweep", "gain": 0.35},
+   {"f": 24, "type": "whoosh_soft", "gain": 0.42},
+   {"f": 56, "type": "leather_thump", "gain": 0.55},
+   {"f": 62, "type": "air_sweep", "gain": 0.3},
+   {"f": 76, "type": "swish", "gain": 0.26},
+   {"f": 92, "type": "air_sweep", "gain": 0.3},
+   {"f": 158, "type": "whoosh_soft", "gain": 0.4},
+   {"f": 171, "type": "leather_thump", "gain": 0.4},
+   {"f": 172, "type": "glass_panel", "gain": 0.32},
+   {"f": 238, "type": "whoosh_soft", "gain": 0.4},
+   {"f": 251, "type": "leather_thump", "gain": 0.45},
+   {"f": 254, "type": "air_sweep", "gain": 0.34},
+   {"f": 318, "type": "whoosh_soft", "gain": 0.4},
+   {"f": 331, "type": "leather_thump", "gain": 0.4},
+   {"f": 334, "type": "glass_panel", "gain": 0.32},
+   {"f": 398, "type": "whoosh_soft", "gain": 0.4},
+   {"f": 411, "type": "leather_thump", "gain": 0.45},
+   {"f": 410, "type": "air_sweep", "gain": 0.3},
+   {"f": 478, "type": "whoosh_soft", "gain": 0.4},
+   {"f": 491, "type": "leather_thump", "gain": 0.4},
+   {"f": 492, "type": "glass_panel", "gain": 0.26},
+   {"f": 498, "type": "glass_panel", "gain": 0.24},
+   {"f": 504, "type": "glass_panel", "gain": 0.24},
+   {"f": 536, "type": "riser", "gain": 0.3, "len_f": 22},
+   {"f": 556, "type": "whoosh_big", "gain": 0.4},
+   {"f": 560, "type": "subboom", "gain": 0.42},
+   {"f": 560, "type": "leather_thump", "gain": 0.4},
+   {"f": 566, "type": "air_sweep", "gain": 0.32},
+   {"f": 576, "type": "glass_panel", "gain": 0.26}
+  ]
+ },
+ "mix": {"music_db": -1.0, "sfx_db": -6.0},
+ "qa": {
+  "connectors": false,
+  "gold_exclude_logo_from_s": 18.6,
+  "gold_exclude_objects": ["ball"],
+  "product_object": "ball",
+  "product_clear_px": 6,
+  "closing_required": ["url", "closing-name"],
+  "closing_from_f": 600,
+  "voice_must_be_absent": true,
+  "forbidden_on_screen": ["precio", "\\$", "clp", "descuento", "dcto", "oferta", "promo", "gratis", "stock", "plazo", "despacho", "env[ií]o", "whats ?app", "fifa", "mej[ií]as", "\\b\\d+ ?% ?(dcto|off|desc)"]
+ },
+ "qa_layout_step": 5,
+ "qa_keyframes": [0, 10, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300, 320, 340, 360, 380, 400, 420, 440, 460, 480, 500, 520, 540, 560, 580, 600, 620, 640, 659],
+ "approvals": {"creative": null, "human_publish": null},
+ "notes": [
+  "Borrador para revisión humana. No publicar.",
+  "Solo los datos aprobados del brief (verificados contra la ficha el 2026-11-09). Sin precios, stock, plazos, descuentos, jugadores, resultados ni logos FIFA.",
+  "El logo de Brine aparece solo en el cierre, pequeño y nunca detrás del balón."
+ ]
+}

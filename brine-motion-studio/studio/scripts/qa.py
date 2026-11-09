@@ -133,6 +133,7 @@ def main(prod_path, mp4, layout_only=False):
                     a_, b_ = bs[i], bs[j]
                     dx_ = max(a_['x0'], b_['x0']) - min(a_['x1'], b_['x1']); dy_ = max(a_['y0'], b_['y0']) - min(a_['y1'], b_['y1'])
                     if a_.get('kind') == 'object' and b_.get('kind') == 'object': continue
+                    if 'panel' in (a_.get('kind'), b_.get('kind')): continue  # el texto vive dentro de su panel; panel vs producto se mide aparte
                     if dx_ < gap_min and dy_ < gap_min:
                         col_rows.append({'frame': fr_['frame'], 'a': a_['id'], 'b': b_['id'], 'gap_x': dx_, 'gap_y': dy_})
         nfr = len(json.load(open(bx_path)))
@@ -140,12 +141,31 @@ def main(prod_path, mp4, layout_only=False):
             note='Cajas de tinta por elemento [data-qa] (DOM + canvas.measureText, con transformaciones y máscaras) y el producto como obstáculo (medalla: lib/medal; cristal: crystal/geometry), cada qa_layout_step frames; falla si dos cajas visibles quedan a < 8 px.')
     else:
         chk('text_no_overlap', False, note='faltan text-boxes.json')
+    # producto nunca cubierto: ningún texto, panel de vidrio ni logo a menos de product_clear_px de la caja del producto
+    # (caja girada del recorte, emitida por la plantilla con la misma geometría del render) y producto entero en cuadro
+    pid_obj = QC.get('product_object')
+    if pid_obj and os.path.exists(bx_path):
+        gap = QC.get('product_clear_px', 6); hits_, outside, seen_ = [], [], 0
+        for fr_ in json.load(open(bx_path)):
+            pb = next((b for b in fr_['boxes'] if b['id'] == pid_obj), None)
+            if not pb: continue
+            seen_ += 1
+            if fr_['frame'] >= QC.get('product_in_frame_from_f', 64) and (pb['x0'] < 0 or pb['x1'] > W or pb['y0'] < 0 or pb['y1'] > H):
+                outside.append({'frame': fr_['frame'], 'box': [pb['x0'], pb['y0'], pb['x1'], pb['y1']]})
+            for b in fr_['boxes']:
+                if b is pb or b.get('opacity', 1) < 0.05: continue
+                dx_ = max(pb['x0'], b['x0']) - min(pb['x1'], b['x1']); dy_ = max(pb['y0'], b['y0']) - min(pb['y1'], b['y1'])
+                if dx_ < gap and dy_ < gap:
+                    hits_.append({'frame': fr_['frame'], 'id': b['id'], 'kind': b.get('kind', 'text'), 'gap_x': dx_, 'gap_y': dy_, 'opacity': b.get('opacity')})
+        chk('product_never_covered', seen_ > 0 and not hits_, frames_checked=seen_, min_gap_px=gap, intrusions=hits_[:40],
+            note='Caja del recorte (con su rotación) contra cada caja de texto visible, cada panel de vidrio y el logo, cada qa_layout_step frames.')
+        chk('product_fully_in_frame', seen_ > 0 and not outside, frames_outside=outside[:20])
     connectors_chk()
     # v3: contraste específico de la URL del CTA (texto chico: umbral 4,5:1), medido en el MP4 solo dentro de su caja
     url_rows = []
     bxs = json.load(open(bx_path)) if os.path.exists(bx_path) else []
     for fr_ in bxs:
-        k = fr_['frame']; ub = next((b for b in fr_['boxes'] if b['id'] == 'url' and b['opacity'] >= 0.99), None)
+        k = fr_['frame']; ub = next((b for b in fr_['boxes'] if b['id'] == 'url' and b['opacity'] >= 0.99 and b.get('settled', True)), None)
         if not ub or k not in fmap: continue
         tp = os.path.join(qa_dir, f'text-{k:03d}.png')
         m = np.asarray(Image.open(tp).convert('L')) > 60
@@ -159,7 +179,7 @@ def main(prod_path, mp4, layout_only=False):
         url_rows.append({'frame': k, 'bbox': [ub['x0'], ub['y0'], ub['x1'], ub['y1']], 'height_px': ub['y1'] - ub['y0'], 'fg': [int(x) for x in fg], 'bg': [int(x) for x in bg],
                          'ratio': round(float(cr), 2), 'pass': cr >= 4.5 and ub['y1'] - ub['y0'] >= 36})
     chk('url_contrast_wcag_>=4.5', len(url_rows) > 0 and all(r['pass'] for r in url_rows), frames=url_rows,
-        note='URL del CTA: mediana del núcleo de sus glifos vs. anillo de fondo, solo dentro de su caja, en cada keyframe con la URL a opacidad plena; además altura de tinta >= 36 px.')
+        note='URL del CTA: mediana del núcleo de sus glifos vs. anillo de fondo, solo dentro de su caja, en cada keyframe con la URL a opacidad plena y asentada; además altura de tinta >= 36 px.')
     # logo en cierre
     last = max(kfs); lp = os.path.join(qa_dir, f'logo-{last:03d}.png')
     lm = np.asarray(Image.open(lp).convert('L')) > 60
@@ -184,15 +204,24 @@ def main(prod_path, mp4, layout_only=False):
     gold = np.array([205, 167, 31], float); gr = []
     allf = os.path.join(build, 'frames-all'); os.makedirs(allf, exist_ok=True)
     for f_ in glob.glob(os.path.join(allf, '*.png')): os.remove(f_)
-    run(['ffmpeg', '-y', '-v', 'error', '-i', mp4, '-vf', 'fps=2,scale=540:960', os.path.join(allf, 's-%03d.png')])
+    # 2 muestras por segundo en frames exactos (n múltiplo de fps/2), alineadas con las cajas de text-boxes.json
+    half = max(1, int(round(F['fps'] / 2)))
+    run(['ffmpeg', '-y', '-v', 'error', '-i', mp4, '-vf', f"select='not(mod(n\\,{half}))',scale=540:960", '-vsync', '0', os.path.join(allf, 's-%03d.png')])
+    # el producto puede ser amarillo/dorado (balón Crack): sus cajas se excluyen, el dorado de marca se mide en el resto
+    obj_boxes = {}
+    for fr_ in (json.load(open(bx_path)) if QC.get('gold_exclude_objects') and os.path.exists(bx_path) else []):
+        obj_boxes[fr_['frame']] = [b for b in fr_['boxes'] if b['id'] in QC['gold_exclude_objects']]
     for i, pth in enumerate(sorted(glob.glob(os.path.join(allf, 's-*.png')))):
         fr = np.asarray(Image.open(pth).convert('RGB'), float)
         msk = np.sqrt(((fr - gold) ** 2).sum(2)) < 45
         t = i / 2
         if t >= QC.get('gold_exclude_logo_from_s', 12.6) and info.get('bbox'):
             b = [v // 2 for v in info['bbox']]; msk[b[1]:b[3], b[0]:b[2]] = False
+        for ob in obj_boxes.get(int(round(t * F['fps'])), []):
+            msk[max(0, ob['y0'] // 2 - 4):ob['y1'] // 2 + 4, max(0, ob['x0'] // 2 - 4):ob['x1'] // 2 + 4] = False
         gr.append(round(float(msk.mean()), 4))
-    chk('gold_accent_<3%', max(gr) < prod['brand'].get('gold_max_ratio', 0.03), max_ratio=max(gr), mean_ratio=round(float(np.mean(gr)), 4))
+    chk('gold_accent_<3%', max(gr) < prod['brand'].get('gold_max_ratio', 0.03), max_ratio=max(gr), mean_ratio=round(float(np.mean(gr)), 4),
+        excluded_objects=QC.get('gold_exclude_objects', []))
     # v4: cierre legible hasta el último frame (CTA y URL a opacidad plena y asentados en cada still de layout desde closing_from_f)
     if QC.get('closing_required'):
         need = QC['closing_required']; from_f = QC.get('closing_from_f', F['durationInFrames'] - 30)
@@ -215,7 +244,7 @@ def main(prod_path, mp4, layout_only=False):
             audio_streams=len(a), voice_stem_peak=vpk, voice_enabled=prod['voice_direction'].get('enabled', False))
     # v4: copy en pantalla sin términos prohibidos (precios, stock, plazos, promociones, WhatsApp)
     if QC.get('forbidden_on_screen'):
-        txt = sorted({b['text'] for fr_ in (json.load(open(bx_path)) if os.path.exists(bx_path) else []) for b in fr_['boxes'] if b.get('kind') != 'object'})
+        txt = sorted({b['text'] for fr_ in (json.load(open(bx_path)) if os.path.exists(bx_path) else []) for b in fr_['boxes'] if b.get('kind') not in ('object', 'panel')})
         txt += [t_ for t_ in prod['script']['on_screen'].get('engraving_sample', [])]
         hits = [(t_, w_) for t_ in txt for w_ in QC['forbidden_on_screen'] if re.search(w_, t_, re.I)]
         meta = run(['ffprobe', '-v', 'error', '-show_entries', 'format_tags', '-of', 'json', mp4]).stdout

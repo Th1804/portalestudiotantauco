@@ -914,7 +914,7 @@ async function tutorProcess(userText) {
   } catch (err) {
     typingBubble.classList.remove('typing');
     typingBubble.textContent = err && err.wait
-      ? 'El tutor gratuito está descansando unos segundos. Intenta otra vez en un momento.'
+      ? 'El tutor está ocupado. Intenta otra vez en un momento.'
       : 'No se pudo conectar con el tutor. Revisa tu conexión e intenta de nuevo.';
   }
 

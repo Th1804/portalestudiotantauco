@@ -2,6 +2,9 @@ name = "portaltantauco"
 main = "worker.js"
 compatibility_date = "2025-01-01"
 
+# La clave de OpenRouter no va en este archivo:
+# wrangler secret put OPENROUTER_API_KEY
+
 [assets]
 directory = "."
 binding = "ASSETS"
